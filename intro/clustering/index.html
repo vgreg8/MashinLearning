@@ -1,0 +1,1110 @@
+<!DOCTYPE html>
+
+<html class="no-js" lang="ru-RU">
+
+	<head>
+
+		<meta http-equiv="content-type" content="text/html" charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" >
+
+		<link rel="profile" href="http://gmpg.org/xfn/11">
+
+		<meta name='robots' content='index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' />
+	<style>img:is([sizes="auto" i], [sizes^="auto," i]) { contain-intrinsic-size: 3000px 1500px }</style>
+	
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$','$'],['\\(','\\)']], 
+    processEscapes: true
+  },
+  options: {
+    ignoreHtmlClass: 'tex2jax_ignore|editor-rich-text'
+  }
+};
+
+</script>
+
+	<!-- This site is optimized with the Yoast SEO plugin v24.4 - https://yoast.com/wordpress/plugins/seo/ -->
+	<title>Кластерный анализ | Вводный курс</title>
+	<meta name="description" content="Кластерный анализ позволяет сегментировать потребителей, выявлять аномалии и в целом структурировать объекты." />
+	<link rel="canonical" href="index.html" />
+	<meta property="og:locale" content="ru_RU" />
+	<meta property="og:type" content="article" />
+	<meta property="og:title" content="Кластерный анализ | Вводный курс" />
+	<meta property="og:description" content="Кластерный анализ позволяет сегментировать потребителей, выявлять аномалии и в целом структурировать объекты." />
+	<meta property="og:url" content="https://www.dmitrymakarov.ru/intro/clustering/" />
+	<meta property="og:site_name" content="Машинное обучение" />
+	<meta property="article:modified_time" content="2024-12-28T09:19:38+00:00" />
+	<meta property="og:image" content="https://www.dmitrymakarov.ru/wp-content/uploads/2021/07/cluster-analysis.jpg" />
+	<meta property="og:image:width" content="1795" />
+	<meta property="og:image:height" content="1222" />
+	<meta property="og:image:type" content="image/jpeg" />
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:label1" content="Примерное время для чтения" />
+	<meta name="twitter:data1" content="17 минут" />
+	<script type="application/ld+json" class="yoast-schema-graph">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.dmitrymakarov.ru/intro/clustering/","url":"https://www.dmitrymakarov.ru/intro/clustering/","name":"Кластерный анализ | Вводный курс","isPartOf":{"@id":"https://www.dmitrymakarov.ru/#website"},"primaryImageOfPage":{"@id":"https://www.dmitrymakarov.ru/intro/clustering/#primaryimage"},"image":{"@id":"https://www.dmitrymakarov.ru/intro/clustering/#primaryimage"},"thumbnailUrl":"https://www.dmitrymakarov.ru/wp-content/uploads/2021/07/cluster-analysis-1024x697.jpg","datePublished":"2021-07-23T14:07:12+00:00","dateModified":"2024-12-28T09:19:38+00:00","description":"Кластерный анализ позволяет сегментировать потребителей, выявлять аномалии и в целом структурировать объекты.","breadcrumb":{"@id":"https://www.dmitrymakarov.ru/intro/clustering/#breadcrumb"},"inLanguage":"ru-RU","potentialAction":[{"@type":"ReadAction","target":["https://www.dmitrymakarov.ru/intro/clustering/"]}]},{"@type":"ImageObject","inLanguage":"ru-RU","@id":"https://www.dmitrymakarov.ru/intro/clustering/#primaryimage","url":"https://www.dmitrymakarov.ru/wp-content/uploads/2021/07/cluster-analysis.jpg","contentUrl":"https://www.dmitrymakarov.ru/wp-content/uploads/2021/07/cluster-analysis.jpg","width":1795,"height":1222},{"@type":"BreadcrumbList","@id":"https://www.dmitrymakarov.ru/intro/clustering/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная страница","item":"https://www.dmitrymakarov.ru/"},{"@type":"ListItem","position":2,"name":"Вводный курс","item":"https://www.dmitrymakarov.ru/intro/"},{"@type":"ListItem","position":3,"name":"Кластерный анализ"}]},{"@type":"WebSite","@id":"https://www.dmitrymakarov.ru/#website","url":"https://www.dmitrymakarov.ru/","name":"Машинное обучение","description":"","publisher":{"@id":"https://www.dmitrymakarov.ru/#/schema/person/3fc221e2d391cc5cfd9d31c9c251c2a4"},"potentialAction":[{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://www.dmitrymakarov.ru/?s={search_term_string}"},"query-input":{"@type":"PropertyValueSpecification","valueRequired":true,"valueName":"search_term_string"}}],"inLanguage":"ru-RU"},{"@type":["Person","Organization"],"@id":"https://www.dmitrymakarov.ru/#/schema/person/3fc221e2d391cc5cfd9d31c9c251c2a4","name":"DmitryMakarov","image":{"@type":"ImageObject","inLanguage":"ru-RU","@id":"https://www.dmitrymakarov.ru/#/schema/person/image/","url":"https://secure.gravatar.com/avatar/2c5f922d990c667feffc00f99517cc0e?s=96&d=mm&r=g","contentUrl":"https://secure.gravatar.com/avatar/2c5f922d990c667feffc00f99517cc0e?s=96&d=mm&r=g","caption":"DmitryMakarov"},"logo":{"@id":"https://www.dmitrymakarov.ru/#/schema/person/image/"}}]}</script>
+	<!-- / Yoast SEO plugin. -->
+
+
+<link rel='dns-prefetch' href='https://cdn.jsdelivr.net/' />
+<link rel="alternate" type="application/rss+xml" title="Машинное обучение &raquo; Лента" href="../../feed/index.html" />
+<link rel="alternate" type="application/rss+xml" title="Машинное обучение &raquo; Лента комментариев" href="../../comments/feed/index.html" />
+<script type="text/javascript">
+/* <![CDATA[ */
+window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15.0.3\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15.0.3\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/www.dmitrymakarov.ru\/wp-includes\/js\/wp-emoji-release.min.js?ver=6.7.1"}};
+/*! This file is auto-generated */
+!function(i,n){var o,s,e;function c(e){try{var t={supportTests:e,timestamp:(new Date).valueOf()};sessionStorage.setItem(o,JSON.stringify(t))}catch(e){}}function p(e,t,n){e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(t,0,0);var t=new Uint32Array(e.getImageData(0,0,e.canvas.width,e.canvas.height).data),r=(e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(n,0,0),new Uint32Array(e.getImageData(0,0,e.canvas.width,e.canvas.height).data));return t.every(function(e,t){return e===r[t]})}function u(e,t,n){switch(t){case"flag":return n(e,"\ud83c\udff3\ufe0f\u200d\u26a7\ufe0f","\ud83c\udff3\ufe0f\u200b\u26a7\ufe0f")?!1:!n(e,"\ud83c\uddfa\ud83c\uddf3","\ud83c\uddfa\u200b\ud83c\uddf3")&&!n(e,"\ud83c\udff4\udb40\udc67\udb40\udc62\udb40\udc65\udb40\udc6e\udb40\udc67\udb40\udc7f","\ud83c\udff4\u200b\udb40\udc67\u200b\udb40\udc62\u200b\udb40\udc65\u200b\udb40\udc6e\u200b\udb40\udc67\u200b\udb40\udc7f");case"emoji":return!n(e,"\ud83d\udc26\u200d\u2b1b","\ud83d\udc26\u200b\u2b1b")}return!1}function f(e,t,n){var r="undefined"!=typeof WorkerGlobalScope&&self instanceof WorkerGlobalScope?new OffscreenCanvas(300,150):i.createElement("canvas"),a=r.getContext("2d",{willReadFrequently:!0}),o=(a.textBaseline="top",a.font="600 32px Arial",{});return e.forEach(function(e){o[e]=t(a,e,n)}),o}function t(e){var t=i.createElement("script");t.src=e,t.defer=!0,i.head.appendChild(t)}"undefined"!=typeof Promise&&(o="wpEmojiSettingsSupports",s=["flag","emoji"],n.supports={everything:!0,everythingExceptFlag:!0},e=new Promise(function(e){i.addEventListener("DOMContentLoaded",e,{once:!0})}),new Promise(function(t){var n=function(){try{var e=JSON.parse(sessionStorage.getItem(o));if("object"==typeof e&&"number"==typeof e.timestamp&&(new Date).valueOf()<e.timestamp+604800&&"object"==typeof e.supportTests)return e.supportTests}catch(e){}return null}();if(!n){if("undefined"!=typeof Worker&&"undefined"!=typeof OffscreenCanvas&&"undefined"!=typeof URL&&URL.createObjectURL&&"undefined"!=typeof Blob)try{var e="postMessage("+f.toString()+"("+[JSON.stringify(s),u.toString(),p.toString()].join(",")+"));",r=new Blob([e],{type:"text/javascript"}),a=new Worker(URL.createObjectURL(r),{name:"wpTestEmojiSupports"});return void(a.onmessage=function(e){c(n=e.data),a.terminate(),t(n)})}catch(e){}c(n=f(s,u,p))}t(n)}).then(function(e){for(var t in e)n.supports[t]=e[t],n.supports.everything=n.supports.everything&&n.supports[t],"flag"!==t&&(n.supports.everythingExceptFlag=n.supports.everythingExceptFlag&&n.supports[t]);n.supports.everythingExceptFlag=n.supports.everythingExceptFlag&&!n.supports.flag,n.DOMReady=!1,n.readyCallback=function(){n.DOMReady=!0}}).then(function(){return e}).then(function(){var e;n.supports.everything||(n.readyCallback(),(e=n.source||{}).concatemoji?t(e.concatemoji):e.wpemoji&&e.twemoji&&(t(e.twemoji),t(e.wpemoji)))}))}((window,document),window._wpemojiSettings);
+/* ]]> */
+</script>
+<link rel='stylesheet' id='urvanov_syntax_highlighter-css' href='../../wp-content/plugins/urvanov-syntax-highlighter/css/min/urvanov_syntax_highlighter.min.css@ver=2.8.38.css' type='text/css' media='all' />
+<link rel='stylesheet' id='crayon-theme-familiar-my-copy-css' href='../../wp-content/uploads/urvanov-syntax-highlighter/themes/familiar-my-copy/familiar-my-copy.css@ver=2.8.38.css' type='text/css' media='all' />
+<link rel='stylesheet' id='crayon-font-consolas-css' href='../../wp-content/plugins/urvanov-syntax-highlighter/fonts/consolas.css@ver=2.8.38.css' type='text/css' media='all' />
+<style id='wp-emoji-styles-inline-css' type='text/css'>
+
+	img.wp-smiley, img.emoji {
+		display: inline !important;
+		border: none !important;
+		box-shadow: none !important;
+		height: 1em !important;
+		width: 1em !important;
+		margin: 0 0.07em !important;
+		vertical-align: -0.1em !important;
+		background: none !important;
+		padding: 0 !important;
+	}
+</style>
+<link rel='stylesheet' id='wp-block-library-css' href='../../wp-includes/css/dist/block-library/style.min.css@ver=6.7.1.css' type='text/css' media='all' />
+<style id='filebird-block-filebird-gallery-style-inline-css' type='text/css'>
+ul.filebird-block-filebird-gallery{margin:auto!important;padding:0!important;width:100%}ul.filebird-block-filebird-gallery.layout-grid{display:grid;grid-gap:20px;align-items:stretch;grid-template-columns:repeat(var(--columns),1fr);justify-items:stretch}ul.filebird-block-filebird-gallery.layout-grid li img{border:1px solid #ccc;box-shadow:2px 2px 6px 0 rgba(0,0,0,.3);height:100%;max-width:100%;-o-object-fit:cover;object-fit:cover;width:100%}ul.filebird-block-filebird-gallery.layout-masonry{-moz-column-count:var(--columns);-moz-column-gap:var(--space);column-gap:var(--space);-moz-column-width:var(--min-width);columns:var(--min-width) var(--columns);display:block;overflow:auto}ul.filebird-block-filebird-gallery.layout-masonry li{margin-bottom:var(--space)}ul.filebird-block-filebird-gallery li{list-style:none}ul.filebird-block-filebird-gallery li figure{height:100%;margin:0;padding:0;position:relative;width:100%}ul.filebird-block-filebird-gallery li figure figcaption{background:linear-gradient(0deg,rgba(0,0,0,.7),rgba(0,0,0,.3) 70%,transparent);bottom:0;box-sizing:border-box;color:#fff;font-size:.8em;margin:0;max-height:100%;overflow:auto;padding:3em .77em .7em;position:absolute;text-align:center;width:100%;z-index:2}ul.filebird-block-filebird-gallery li figure figcaption a{color:inherit}
+
+</style>
+<style id='classic-theme-styles-inline-css' type='text/css'>
+/*! This file is auto-generated */
+.wp-block-button__link{color:#fff;background-color:#32373c;border-radius:9999px;box-shadow:none;text-decoration:none;padding:calc(.667em + 2px) calc(1.333em + 2px);font-size:1.125em}.wp-block-file__button{background:#32373c;color:#fff;text-decoration:none}
+</style>
+<style id='global-styles-inline-css' type='text/css'>
+:root{--wp--preset--aspect-ratio--square: 1;--wp--preset--aspect-ratio--4-3: 4/3;--wp--preset--aspect-ratio--3-4: 3/4;--wp--preset--aspect-ratio--3-2: 3/2;--wp--preset--aspect-ratio--2-3: 2/3;--wp--preset--aspect-ratio--16-9: 16/9;--wp--preset--aspect-ratio--9-16: 9/16;--wp--preset--color--black: #121212;--wp--preset--color--cyan-bluish-gray: #abb8c3;--wp--preset--color--white: #fff;--wp--preset--color--pale-pink: #f78da7;--wp--preset--color--vivid-red: #cf2e2e;--wp--preset--color--luminous-vivid-orange: #ff6900;--wp--preset--color--luminous-vivid-amber: #fcb900;--wp--preset--color--light-green-cyan: #7bdcb5;--wp--preset--color--vivid-green-cyan: #00d084;--wp--preset--color--pale-cyan-blue: #8ed1fc;--wp--preset--color--vivid-cyan-blue: #0693e3;--wp--preset--color--vivid-purple: #9b51e0;--wp--preset--color--dark-gray: #333;--wp--preset--color--medium-gray: #555;--wp--preset--color--light-gray: #777;--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg,rgba(6,147,227,1) 0%,rgb(155,81,224) 100%);--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg,rgb(122,220,180) 0%,rgb(0,208,130) 100%);--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg,rgba(252,185,0,1) 0%,rgba(255,105,0,1) 100%);--wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg,rgba(255,105,0,1) 0%,rgb(207,46,46) 100%);--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg,rgb(238,238,238) 0%,rgb(169,184,195) 100%);--wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg,rgb(74,234,220) 0%,rgb(151,120,209) 20%,rgb(207,42,186) 40%,rgb(238,44,130) 60%,rgb(251,105,98) 80%,rgb(254,248,76) 100%);--wp--preset--gradient--blush-light-purple: linear-gradient(135deg,rgb(255,206,236) 0%,rgb(152,150,240) 100%);--wp--preset--gradient--blush-bordeaux: linear-gradient(135deg,rgb(254,205,165) 0%,rgb(254,45,45) 50%,rgb(107,0,62) 100%);--wp--preset--gradient--luminous-dusk: linear-gradient(135deg,rgb(255,203,112) 0%,rgb(199,81,192) 50%,rgb(65,88,208) 100%);--wp--preset--gradient--pale-ocean: linear-gradient(135deg,rgb(255,245,203) 0%,rgb(182,227,212) 50%,rgb(51,167,181) 100%);--wp--preset--gradient--electric-grass: linear-gradient(135deg,rgb(202,248,128) 0%,rgb(113,206,126) 100%);--wp--preset--gradient--midnight: linear-gradient(135deg,rgb(2,3,129) 0%,rgb(40,116,252) 100%);--wp--preset--font-size--small: 16px;--wp--preset--font-size--medium: 20px;--wp--preset--font-size--large: 24px;--wp--preset--font-size--x-large: 42px;--wp--preset--font-size--normal: 18px;--wp--preset--font-size--larger: 28px;--wp--preset--spacing--20: 0.44rem;--wp--preset--spacing--30: 0.67rem;--wp--preset--spacing--40: 1rem;--wp--preset--spacing--50: 1.5rem;--wp--preset--spacing--60: 2.25rem;--wp--preset--spacing--70: 3.38rem;--wp--preset--spacing--80: 5.06rem;--wp--preset--shadow--natural: 6px 6px 9px rgba(0, 0, 0, 0.2);--wp--preset--shadow--deep: 12px 12px 50px rgba(0, 0, 0, 0.4);--wp--preset--shadow--sharp: 6px 6px 0px rgba(0, 0, 0, 0.2);--wp--preset--shadow--outlined: 6px 6px 0px -3px rgba(255, 255, 255, 1), 6px 6px rgba(0, 0, 0, 1);--wp--preset--shadow--crisp: 6px 6px 0px rgba(0, 0, 0, 1);}:where(.is-layout-flex){gap: 0.5em;}:where(.is-layout-grid){gap: 0.5em;}body .is-layout-flex{display: flex;}.is-layout-flex{flex-wrap: wrap;align-items: center;}.is-layout-flex > :is(*, div){margin: 0;}body .is-layout-grid{display: grid;}.is-layout-grid > :is(*, div){margin: 0;}:where(.wp-block-columns.is-layout-flex){gap: 2em;}:where(.wp-block-columns.is-layout-grid){gap: 2em;}:where(.wp-block-post-template.is-layout-flex){gap: 1.25em;}:where(.wp-block-post-template.is-layout-grid){gap: 1.25em;}.has-black-color{color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-color{color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-color{color: var(--wp--preset--color--white) !important;}.has-pale-pink-color{color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-color{color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-color{color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-color{color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-color{color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-color{color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-color{color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-color{color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-color{color: var(--wp--preset--color--vivid-purple) !important;}.has-black-background-color{background-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-background-color{background-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-background-color{background-color: var(--wp--preset--color--white) !important;}.has-pale-pink-background-color{background-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-background-color{background-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-background-color{background-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-background-color{background-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-background-color{background-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-background-color{background-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-background-color{background-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-background-color{background-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-background-color{background-color: var(--wp--preset--color--vivid-purple) !important;}.has-black-border-color{border-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-border-color{border-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-border-color{border-color: var(--wp--preset--color--white) !important;}.has-pale-pink-border-color{border-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-border-color{border-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-border-color{border-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-border-color{border-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-border-color{border-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-border-color{border-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-border-color{border-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-border-color{border-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-border-color{border-color: var(--wp--preset--color--vivid-purple) !important;}.has-vivid-cyan-blue-to-vivid-purple-gradient-background{background: var(--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple) !important;}.has-light-green-cyan-to-vivid-green-cyan-gradient-background{background: var(--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan) !important;}.has-luminous-vivid-amber-to-luminous-vivid-orange-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange) !important;}.has-luminous-vivid-orange-to-vivid-red-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-orange-to-vivid-red) !important;}.has-very-light-gray-to-cyan-bluish-gray-gradient-background{background: var(--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray) !important;}.has-cool-to-warm-spectrum-gradient-background{background: var(--wp--preset--gradient--cool-to-warm-spectrum) !important;}.has-blush-light-purple-gradient-background{background: var(--wp--preset--gradient--blush-light-purple) !important;}.has-blush-bordeaux-gradient-background{background: var(--wp--preset--gradient--blush-bordeaux) !important;}.has-luminous-dusk-gradient-background{background: var(--wp--preset--gradient--luminous-dusk) !important;}.has-pale-ocean-gradient-background{background: var(--wp--preset--gradient--pale-ocean) !important;}.has-electric-grass-gradient-background{background: var(--wp--preset--gradient--electric-grass) !important;}.has-midnight-gradient-background{background: var(--wp--preset--gradient--midnight) !important;}.has-small-font-size{font-size: var(--wp--preset--font-size--small) !important;}.has-medium-font-size{font-size: var(--wp--preset--font-size--medium) !important;}.has-large-font-size{font-size: var(--wp--preset--font-size--large) !important;}.has-x-large-font-size{font-size: var(--wp--preset--font-size--x-large) !important;}
+:where(.wp-block-post-template.is-layout-flex){gap: 1.25em;}:where(.wp-block-post-template.is-layout-grid){gap: 1.25em;}
+:where(.wp-block-columns.is-layout-flex){gap: 2em;}:where(.wp-block-columns.is-layout-grid){gap: 2em;}
+:root :where(.wp-block-pullquote){font-size: 1.5em;line-height: 1.6;}
+</style>
+<link rel='stylesheet' id='mcluhan-fonts-css' href='../../wp-content/themes/mcluhan/assets/css/fonts.css@ver=6.7.1.css' type='text/css' media='all' />
+<link rel='stylesheet' id='fontawesome-css' href='../../wp-content/themes/mcluhan/assets/css/font-awesome.css@ver=6.7.1.css' type='text/css' media='all' />
+<link rel='stylesheet' id='mcluhan-style-css' href='../../wp-content/themes/mcluhan/style.css@ver=2.1.1.css' type='text/css' media='all' />
+<script type="text/javascript" src="../../wp-includes/js/jquery/jquery.min.js@ver=3.7.1" id="jquery-core-js"></script>
+<script type="text/javascript" src="../../wp-includes/js/jquery/jquery-migrate.min.js@ver=3.4.1" id="jquery-migrate-js"></script>
+<script type="text/javascript" id="urvanov_syntax_highlighter_js-js-extra">
+/* <![CDATA[ */
+var UrvanovSyntaxHighlighterSyntaxSettings = {"version":"2.8.38","is_admin":"0","ajaxurl":"https:\/\/www.dmitrymakarov.ru\/wp-admin\/admin-ajax.php","prefix":"urvanov-syntax-highlighter-","setting":"urvanov-syntax-highlighter-setting","selected":"urvanov-syntax-highlighter-setting-selected","changed":"urvanov-syntax-highlighter-setting-changed","special":"urvanov-syntax-highlighter-setting-special","orig_value":"data-orig-value","debug":""};
+var UrvanovSyntaxHighlighterSyntaxStrings = {"copy":"Copied to the clipboard","minimize":"Click To Expand Code"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="../../wp-content/plugins/urvanov-syntax-highlighter/js/min/urvanov_syntax_highlighter.min.js@ver=2.8.38" id="urvanov_syntax_highlighter_js-js"></script>
+
+			<!-- Customizer CSS -->
+
+			<style type="text/css">
+
+				body .site-header { background-color:#004235; }.social-menu.desktop { background-color:#004235; }.social-menu a:hover { color:#004235; }.social-menu a.active { color:#004235; }.mobile-menu-wrapper { background-color:#004235; }.social-menu.mobile { background-color:#004235; }.mobile-search.active { background-color:#004235; }
+			</style>
+
+			<!-- /Customizer CSS -->
+
+					<script>jQuery( 'html' ).removeClass( 'no-js' ).addClass( 'js' );</script>
+		<style type="text/css">.broken_link, a.broken_link {
+	text-decoration: line-through;
+}</style><style type="text/css" id="custom-background-css">
+body.custom-background { background-color: #fff9ef; }
+</style>
+	<link rel="icon" href="../../wp-content/uploads/2021/08/cropped-wp-favicon-512-32x32.png" sizes="32x32" />
+<link rel="icon" href="../../wp-content/uploads/2021/08/cropped-wp-favicon-512-192x192.png" sizes="192x192" />
+<link rel="apple-touch-icon" href="../../wp-content/uploads/2021/08/cropped-wp-favicon-512-180x180.png" />
+<meta name="msapplication-TileImage" content="https://www.dmitrymakarov.ru/wp-content/uploads/2021/08/cropped-wp-favicon-512-270x270.png" />
+
+	</head>
+
+	<body class="page-template page-template-full-width-page-template page-template-full-width-page-template-php page page-id-3825 page-child parent-pageid-202 custom-background full-width-template">
+
+		
+		<a class="skip-link button" href="index.html#site-content">Перейти к содержимому</a>
+
+		<header class="site-header group">
+
+			
+			<p class="site-title"><a href="../../index.html" class="site-name">Машинное обучение</a></p>
+
+			
+			<div class="nav-toggle">
+				<div class="bar"></div>
+				<div class="bar"></div>
+			</div>
+
+			<div class="menu-wrapper">
+
+				<ul class="main-menu desktop">
+
+									</ul>
+
+			</div><!-- .menu-wrapper -->
+
+			
+				<div class="social-menu desktop">
+
+					<ul class="social-menu-inner">
+
+						<li class="social-search-wrapper"><a href="../../index.html@s=.html"></a></li>
+
+						
+					</ul><!-- .social-menu-inner -->
+
+				</div><!-- .social-menu -->
+
+			
+		</header><!-- header -->
+
+		<div class="mobile-menu-wrapper">
+
+			<ul class="main-menu mobile">
+									<li class="toggle-mobile-search-wrapper"><a href="index.html#" class="toggle-mobile-search">Поиск</a></li>
+							</ul><!-- .main-menu.mobile -->
+
+			
+		</div><!-- .mobile-menu-wrapper -->
+
+		
+			<div class="mobile-search">
+
+				<div class="untoggle-mobile-search"></div>
+
+				
+<form role="search" method="get" class="search-form" action="../../index.html">
+	<label class="screen-reader-text" for="search-form-67aa623cbb16d">Поиск:</label>
+	<input type="search" id="search-form-67aa623cbb16d" class="search-field" placeholder="Введите запрос" value="" name="s" autocomplete="off" />
+	</button>
+</form>
+
+				<div class="mobile-results">
+
+					<div class="results-wrapper"></div>
+
+				</div>
+
+			</div><!-- .mobile-search -->
+
+			<div class="search-overlay">
+
+				
+<form role="search" method="get" class="search-form" action="../../index.html">
+	<label class="screen-reader-text" for="search-form-67aa623cbb1e8">Поиск:</label>
+	<input type="search" id="search-form-67aa623cbb1e8" class="search-field" placeholder="Введите запрос" value="" name="s" autocomplete="off" />
+	</button>
+</form>
+
+			</div><!-- .search-overlay -->
+
+		
+		<main class="site-content" id="site-content">
+		<article class="post-3825 page type-page status-publish hentry missing-thumbnail">
+
+			
+			<header class="entry-header section-inner">
+
+				<h1 class="entry-title">Кластерный анализ</h1>
+			</header><!-- .entry-header -->
+
+			<div class="entry-content section-inner">
+
+				
+<p class="has-light-gray-color has-text-color"><a href="../../index.html">Материалы</a> > <a href="../index.html">Вводный курс</a></p>
+
+
+
+<p>Основная идея кластерного анализа (clustering, cluster analysis) заключается в разбиении объектов на группы или кластеры таким образом, чтобы внутри группы наблюдения были более похожи друг на друга, чем на объекты другого кластера.</p>
+
+
+<div class="wp-block-image">
+<figure class="aligncenter size-large is-resized"><img fetchpriority="high" decoding="async" width="1024" height="697" src="../../wp-content/uploads/2021/07/cluster-analysis-1024x697.jpg" alt="кластерный анализ" class="wp-image-3837" style="width:588px;height:399px" srcset="../../wp-content/uploads/2021/07/cluster-analysis-1024x697.jpg 1024w, ../../wp-content/uploads/2021/07/cluster-analysis-300x204.jpg 300w, ../../wp-content/uploads/2021/07/cluster-analysis-768x523.jpg 768w, ../../wp-content/uploads/2021/07/cluster-analysis-1536x1046.jpg 1536w, ../../wp-content/uploads/2021/07/cluster-analysis-1200x817.jpg 1200w, ../../wp-content/uploads/2021/07/cluster-analysis-600x408.jpg 600w, ../../wp-content/uploads/2021/07/cluster-analysis.jpg 1795w" sizes="(max-width: 1024px) 100vw, 1024px" /></figure></div>
+
+
+<p>При этом мы заранее не знаем, на какие кластеры необходимо разбить данные. Это связано с тем, что мы обучаем модель на неразмеченных данных. Именно поэтому в данном случае говорят по <strong>машинное обучение без учителя</strong> (Unsupervised Learning).</p>
+
+
+
+<p>Кластерный анализ может применяться для сегментации потребителей, обнаружения аномальных наблюдений (например, при выявлении мошенничества) и в целом для структурирования данных, о содержании которых мало что известно заранее.</p>
+
+
+
+<h3 class="wp-block-heading" id="0-kak-zhe-razbit-dannye-na-klastery">Как же разбить данные на кластеры?</h3>
+
+
+
+<p>Изучая <a href="../vectors/index.html">векторы и матрицы</a>, мы узнали, что векторы данных можно сравнивать между собой (оценивать их схожесть), измеряя расстояние между ними. Кластерный анализ использует именно этот подход. Мы измеряем расстояние между точками и на основе этого измерения принимаем решение к какому кластеру отнести то или иное наблюдение.</p>
+
+
+
+<p>В рамках этого занятия мы поговорим про алгоритм, который называется <strong>методом k-средних</strong> (k-means clustering method).</p>
+
+
+
+<h4 class="wp-block-heading" id="1-metod-k-srednikh">Метод k-средних</h4>
+
+
+
+<p>Давайте пошагово разберемся в том, как работает этот алгоритм.</p>
+
+
+
+<p><strong>Шаг 1</strong>. Вначале возьмем данные и самостоятельно выберем желаемое количество кластеров и обозначим их буквой k (отсюда название метода). Пусть в данном случае их будет три.</p>
+
+
+
+<figure class="wp-block-image size-large is-resized"><img decoding="async" width="1024" height="860" src="../../wp-content/uploads/2021/07/k-means-step-1-1024x860.jpg" alt="метод к-средних, шаг 1, выбор количества кластеров" class="wp-image-3849" style="width:470px;height:395px" srcset="../../wp-content/uploads/2021/07/k-means-step-1-1024x860.jpg 1024w, ../../wp-content/uploads/2021/07/k-means-step-1-300x252.jpg 300w, ../../wp-content/uploads/2021/07/k-means-step-1-768x645.jpg 768w, ../../wp-content/uploads/2021/07/k-means-step-1-1200x1008.jpg 1200w, ../../wp-content/uploads/2021/07/k-means-step-1-600x504.jpg 600w, ../../wp-content/uploads/2021/07/k-means-step-1.jpg 1404w" sizes="(max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+<p><strong>Шаг 2</strong>. Расположим несколько точек. Их количество будет равно количеству кластеров. Эти точки называются <strong>центроидами</strong>. Посчитаем расстояние от данных до каждого из центроидов. Логично отнести наблюдение к тому центроиду, который находится ближе.</p>
+
+
+
+<figure class="wp-block-image size-large is-resized"><img decoding="async" width="1024" height="862" src="../../wp-content/uploads/2021/07/k-means-step-2-1024x862.jpg" alt="метод к-средних, шаг 2, выбор центроидов" class="wp-image-3850" style="width:462px;height:389px" srcset="../../wp-content/uploads/2021/07/k-means-step-2-1024x862.jpg 1024w, ../../wp-content/uploads/2021/07/k-means-step-2-300x253.jpg 300w, ../../wp-content/uploads/2021/07/k-means-step-2-768x647.jpg 768w, ../../wp-content/uploads/2021/07/k-means-step-2-1200x1011.jpg 1200w, ../../wp-content/uploads/2021/07/k-means-step-2-600x505.jpg 600w, ../../wp-content/uploads/2021/07/k-means-step-2.jpg 1387w" sizes="(max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+<p>В частности, T1 будет отнесена к C2.  </p>
+
+
+
+<p><strong>Шаг 3</strong>. Таким образом, каждая точка будет отнесена к определенному центроиду (кластеру).</p>
+
+
+
+<figure class="wp-block-image size-large is-resized"><img loading="lazy" decoding="async" width="1024" height="756" src="../../wp-content/uploads/2021/07/k-means-step-3-1024x756.jpg" alt="метод к-средних, шаг 3, распределение точек между центроидами" class="wp-image-3851" style="width:520px;height:383px" srcset="../../wp-content/uploads/2021/07/k-means-step-3-1024x756.jpg 1024w, ../../wp-content/uploads/2021/07/k-means-step-3-300x222.jpg 300w, ../../wp-content/uploads/2021/07/k-means-step-3-768x567.jpg 768w, ../../wp-content/uploads/2021/07/k-means-step-3-1536x1135.jpg 1536w, ../../wp-content/uploads/2021/07/k-means-step-3-1200x886.jpg 1200w, ../../wp-content/uploads/2021/07/k-means-step-3-600x443.jpg 600w, ../../wp-content/uploads/2021/07/k-means-step-3.jpg 1577w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+<p><strong>Шаг 4</strong>. Сместим центроиды в центр получившихся кластеров.</p>
+
+
+
+<figure class="wp-block-image size-large is-resized"><img loading="lazy" decoding="async" width="1024" height="866" src="../../wp-content/uploads/2021/07/k-means-step-4-1024x866.jpg" alt="метод к-средних, шаг 4, смещение центроидов в центр получившихся кластеров" class="wp-image-3852" style="width:451px;height:381px" srcset="../../wp-content/uploads/2021/07/k-means-step-4-1024x866.jpg 1024w, ../../wp-content/uploads/2021/07/k-means-step-4-300x254.jpg 300w, ../../wp-content/uploads/2021/07/k-means-step-4-768x649.jpg 768w, ../../wp-content/uploads/2021/07/k-means-step-4-1200x1015.jpg 1200w, ../../wp-content/uploads/2021/07/k-means-step-4-600x507.jpg 600w, ../../wp-content/uploads/2021/07/k-means-step-4.jpg 1378w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+<p><strong>Шаг 5</strong>. Вновь отнесем точки к каждому из центроидов. Некоторые наблюдения &#171;переметнутся&#187; к другому центроиду.</p>
+
+
+
+<figure class="wp-block-image size-large is-resized"><img loading="lazy" decoding="async" width="1024" height="772" src="../../wp-content/uploads/2021/07/k-means-step-5-1024x772.jpg" alt="метод к-средних, шаг 5, повторное распределение точек между центроидами" class="wp-image-3853" style="width:506px;height:381px" srcset="../../wp-content/uploads/2021/07/k-means-step-5-1024x772.jpg 1024w, ../../wp-content/uploads/2021/07/k-means-step-5-300x226.jpg 300w, ../../wp-content/uploads/2021/07/k-means-step-5-768x579.jpg 768w, ../../wp-content/uploads/2021/07/k-means-step-5-1536x1157.jpg 1536w, ../../wp-content/uploads/2021/07/k-means-step-5-1200x904.jpg 1200w, ../../wp-content/uploads/2021/07/k-means-step-5-600x452.jpg 600w, ../../wp-content/uploads/2021/07/k-means-step-5.jpg 1615w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+<p>Мы будем повторять шаги 4 и 5 до тех пор, пока алгоритм не стабилизируется, то есть до тех пор, пока наблюдения не перестанут переходить от одного центроида (кластера) к другому.</p>
+
+
+
+<p class="has-background" style="background-color:#ffe8c4">Говоря более формально, цель алгоритма &#8212; минимизировать <strong>сумму квадратов внутрикластерных расстояний</strong> до центра кластера (within-cluster sum of squares, WCSS, применяемая в данном случае функция потерь):</p>
+
+
+<div class="wp-block-image">
+<figure class="aligncenter size-large is-resized"><img loading="lazy" decoding="async" width="1024" height="557" src="../../wp-content/uploads/2021/07/wcss-3-1-1024x557.jpg" alt="формула суммы квадратов внутрикластерных расстояний (WCSS)" class="wp-image-3905" style="width:637px;height:346px" srcset="../../wp-content/uploads/2021/07/wcss-3-1-1024x557.jpg 1024w, ../../wp-content/uploads/2021/07/wcss-3-1-300x163.jpg 300w, ../../wp-content/uploads/2021/07/wcss-3-1-768x418.jpg 768w, ../../wp-content/uploads/2021/07/wcss-3-1-1536x836.jpg 1536w, ../../wp-content/uploads/2021/07/wcss-3-1-2048x1114.jpg 2048w, ../../wp-content/uploads/2021/07/wcss-3-1-1200x653.jpg 1200w, ../../wp-content/uploads/2021/07/wcss-3-1-600x326.jpg 600w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure></div>
+
+
+<p>Остается нерешенным важный вопрос.</p>
+
+
+
+<h4 class="wp-block-heading" id="2-skolko-klasterov-vybrat">Сколько кластеров выбрать?</h4>
+
+
+
+<p>Есть два способа выбора количества кластеров.</p>
+
+
+
+<ol class="wp-block-list">
+<li><strong>Экспертный метод</strong>. Выбор количества кластеров будет зависеть от знания о предметной области (domain knowledge).</li>
+
+
+
+<li><strong>Метод локтя</strong> (elbow method). Мы также можем (1) обучить модель используя <em>несколько вариантов</em> количества кластеров, (2) измерить сумму квадратов внутрикластерных расстояний и (3) выбрать тот вариант, при котором данное расстояние перестанет существенно уменьшаться.</li>
+</ol>
+
+
+
+<p>На графике метод локтя выглядит следующим образом.</p>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" decoding="async" width="1024" height="705" src="../../wp-content/uploads/2021/08/elbow-1024x705.jpg" alt="метод локтя для минимизации суммы квадратов внутрикластерных расстояний (WCSS)" class="wp-image-4011" srcset="../../wp-content/uploads/2021/08/elbow-1024x705.jpg 1024w, ../../wp-content/uploads/2021/08/elbow-300x206.jpg 300w, ../../wp-content/uploads/2021/08/elbow-768x529.jpg 768w, ../../wp-content/uploads/2021/08/elbow-1536x1057.jpg 1536w, ../../wp-content/uploads/2021/08/elbow-2048x1410.jpg 2048w, ../../wp-content/uploads/2021/08/elbow-1200x826.jpg 1200w, ../../wp-content/uploads/2021/08/elbow-600x413.jpg 600w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+<p>Как мы видим, после того как количество кластеров достигает трех, сумма квадратов внутрикластерных расстояний перестает существенно уменьшаться. Значит в данном случае три кластера и будет оптимальным значением.</p>
+
+
+
+<h4 class="wp-block-heading" id="3-o-vazhnosti-normalizatsii-dannykh">О важности нормализации данных</h4>
+
+
+
+<p>Алгоритм очень чувствителен к масштабу признаков. В связи с этим нормализация данных (feature scaling) приобретает особое значение. Так как при формировании кластеров мы измеряем расстояние (в частности, евклидово расстояние), то признаки с бо́льшим масштабом будут иметь больший вес. Приведу пример.</p>
+
+
+
+<p>Предположим у вас есть данные о возрасте и ежемесячных тратах людей по кредитным картам.</p>
+
+
+<div class="wp-block-image">
+<figure class="aligncenter size-large is-resized"><img loading="lazy" decoding="async" width="1024" height="418" src="../../wp-content/uploads/2021/08/why-scale-1024x418.jpg" alt="датасет до нормализации данных" class="wp-image-4015" style="width:560px;height:228px" srcset="../../wp-content/uploads/2021/08/why-scale-1024x418.jpg 1024w, ../../wp-content/uploads/2021/08/why-scale-300x123.jpg 300w, ../../wp-content/uploads/2021/08/why-scale-768x314.jpg 768w, ../../wp-content/uploads/2021/08/why-scale-1200x490.jpg 1200w, ../../wp-content/uploads/2021/08/why-scale-600x245.jpg 600w, ../../wp-content/uploads/2021/08/why-scale.jpg 1462w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure></div>
+
+
+<p>Нам нужно определить насколько человек 1 отличается (насколько велико расстояние) от человека 2 и 3. В зависимости от этого мы будем формировать кластеры.</p>
+
+
+
+<p>Вначале давайте обратимся к <strong>здравому смыслу</strong>. Мы видим, что респонденты 1 и 2 схожи, потому что им обоим около 20-ти и расходы у них примерно одинаковы. Респондент 3, имея схожие расходы, сильно отличается из-за своего возраста. Он в два раза старше. Это особенно легко увидеть на графике ниже:</p>
+
+
+<div class="wp-block-image">
+<figure class="aligncenter size-large"><img loading="lazy" decoding="async" width="1024" height="686" src="../../wp-content/uploads/2021/08/age-expenses-chart-1024x686.jpg" alt="график векторов данных до нормализации" class="wp-image-4198" srcset="../../wp-content/uploads/2021/08/age-expenses-chart-1024x686.jpg 1024w, ../../wp-content/uploads/2021/08/age-expenses-chart-300x201.jpg 300w, ../../wp-content/uploads/2021/08/age-expenses-chart-768x514.jpg 768w, ../../wp-content/uploads/2021/08/age-expenses-chart-1536x1029.jpg 1536w, ../../wp-content/uploads/2021/08/age-expenses-chart-2048x1371.jpg 2048w, ../../wp-content/uploads/2021/08/age-expenses-chart-1200x804.jpg 1200w, ../../wp-content/uploads/2021/08/age-expenses-chart-600x402.jpg 600w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure></div>
+
+
+<p>Теперь посмотрим, что скажет математика, если мы оставим масштаб признаков без изменений.</p>
+
+
+
+<h4 class="wp-block-heading" id="4-evklidovo-rasstoyanie">Евклидово расстояние</h4>
+
+
+
+<p>Ранее мы рассмотрели возможность измерения близости двух векторов с помощью <a href="../vectors/index.html">косинусного сходства</a>. Еще одним способом измерения близости векторов является так называемое <strong>евклидово расстояние</strong> (Eucledean distance).</p>
+
+
+
+<p>Приведем сравнительную иллюстрацию.</p>
+
+
+
+<figure class="wp-block-image size-large is-resized"><img loading="lazy" decoding="async" width="1024" height="622" src="../../wp-content/uploads/2024/02/image-16-1024x622.png" alt="косинусное сходство и евклидово расстояние" class="wp-image-24997" style="width:718px;height:auto" srcset="../../wp-content/uploads/2024/02/image-16-1024x622.png 1024w, ../../wp-content/uploads/2024/02/image-16-300x182.png 300w, ../../wp-content/uploads/2024/02/image-16-768x466.png 768w, ../../wp-content/uploads/2024/02/image-16-1536x933.png 1536w, ../../wp-content/uploads/2024/02/image-16-1200x729.png 1200w, ../../wp-content/uploads/2024/02/image-16-600x364.png 600w, ../../wp-content/uploads/2024/02/image-16.png 1988w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+<p>Косинусное сходство предполагает нахождение угла $\theta$ между векторами, а в случае евклидового расстояния мы вычисляем длину вектора $D$, соединяющего концы исходных векторов.</p>
+
+
+
+<p>Для двумерных векторов евклидово расстояние рассчитывается по следующей формуле</p>
+
+
+
+<p>$$ D = \sqrt {\left( {x_1-x_2 } \right)^2 + \left( {y_1-y_2 } \right)^2} $$</p>
+
+
+
+<p>В примере выше $x_1$ и $x_2$ &#8212; это возраст двух сравниваемых нами людей, а $y_1$ и $y_2$ &#8212; их расходы. Подставим значения в формулу.</p>
+
+
+
+<p>$$ D_1 =  \sqrt {\left( {23-20 } \right)^2 + \left( {55000-50000 } \right)^2 } \approx 5000 $$</p>
+
+
+
+<p> $$ D_2 =  \sqrt {\left( {40-20 } \right)^2 + \left( {50500-50000 } \right)^2 } \approx 500 $$</p>
+
+
+
+<p>Как мы видим, расстояние от человека 1 до человека 2 целых 5000 единиц (лет и рублей), в то время как до человека 3 только 500. Результат обратный тому, на который мы рассчитывали исходя из здравого смысла.</p>
+
+
+
+<p>Это связано с тем, что масштаб второго признака (расходов) намного больше масштаба первого (возраст). И даже небольшое изменение в расходах вызывает существенное изменение расстояния, в то время как значительное изменение возраста не оказывает на него практически никакого влияния. </p>
+
+
+
+<h3 class="wp-block-heading" id="5-prakticheskiy-primer-tsvety-irisa">Практический пример &#8212; цветы ириса</h3>
+
+
+
+<p>Для иллюстрации работы алгоритма кластеризации мы возьмем еще один классический датасет из библиотеки sklearn, а именно данные о цветах ириса.</p>
+
+
+
+<p class="has-text-align-center has-white-color has-text-color has-background" style="background-color:#004235"><a href="https://colab.research.google.com/drive/1OxV-Hc7kQ_FGIt_0dXBXwQdYsJNyKU9X?usp=sharing" target="_blank" rel="noreferrer noopener">Вначале откроем блокнот к этому занятию</a>⧉</p>
+
+
+
+<h4 class="wp-block-heading" id="6-etap-1-zagruzka-dannykh">Этап 1. Загрузка данных</h4>
+
+
+
+<p>Загрузим данные и преобразуем их в формат датафрейма из библиотеки Pandas.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623cb30c7601277224" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623cb30c7601277224-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623cb30c7601277224-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623cb30c7601277224-3">3</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623cb30c7601277224-4">4</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623cb30c7601277224-5">5</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623cb30c7601277224-6">6</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623cb30c7601277224-7">7</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623cb30c7601277224-8">8</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623cb30c7601277224-9">9</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623cb30c7601277224-1"><span class="crayon-c"># импортируем набор данных из модуля datasets библиотеки sklearn</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623cb30c7601277224-2"><span class="crayon-st">from</span><span class="crayon-h"> </span><span class="crayon-v">sklearn</span><span class="crayon-sy">.</span><span class="crayon-e">datasets </span><span class="crayon-r">import</span><span class="crayon-h"> </span><span class="crayon-e">load_iris</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623cb30c7601277224-3"><span class="crayon-v">iris</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-e">load_iris</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623cb30c7601277224-4">&nbsp;</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623cb30c7601277224-5"><span class="crayon-c"># создаем датафрейм, берем данные из iris.data и название столбцов из iris.feature_names</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623cb30c7601277224-6"><span class="crayon-v">iris_df</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">pd</span><span class="crayon-sy">.</span><span class="crayon-e">DataFrame</span><span class="crayon-sy">(</span><span class="crayon-v">iris</span><span class="crayon-sy">.</span><span class="crayon-v">data</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">columns</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">iris</span><span class="crayon-sy">.</span><span class="crayon-v">feature_names</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623cb30c7601277224-7">&nbsp;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623cb30c7601277224-8"><span class="crayon-c"># смотрим первые пять значений</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623cb30c7601277224-9"><span class="crayon-v">iris_df</span><span class="crayon-sy">.</span><span class="crayon-e">head</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0004 seconds] -->
+</div>
+
+
+
+<figure class="wp-block-image size-full is-resized"><img loading="lazy" decoding="async" width="985" height="320" src="../../wp-content/uploads/2021/07/iris-df.jpg" alt="первые пять строк датасета о цветах ириса" class="wp-image-3967" style="width:762px;height:235px" srcset="../../wp-content/uploads/2021/07/iris-df.jpg 985w, ../../wp-content/uploads/2021/07/iris-df-300x97.jpg 300w, ../../wp-content/uploads/2021/07/iris-df-768x250.jpg 768w, ../../wp-content/uploads/2021/07/iris-df-600x195.jpg 600w" sizes="auto, (max-width: 985px) 100vw, 985px" /></figure>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623cb30d1250427343" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623cb30d1250427343-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623cb30d1250427343-2">2</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623cb30d1250427343-1"><span class="crayon-c"># посмотрим на размерность</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623cb30d1250427343-2"><span class="crayon-v">iris_df</span><span class="crayon-sy">.</span><span class="crayon-v">shape</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0001 seconds] -->
+</div>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623cb30d3251037537" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623cb30d3251037537-1">1</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623cb30d3251037537-1">(150, 4)</div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0000 seconds] -->
+</div>
+
+
+
+<p>В данном случае речь идет о наборе данных, который состоит из 150 образцов цветов ириса, разделенных на три вида (Iris setosa, Iris virginica и Iris versicolor) по 50 растений в каждом. Каждый образец описан четырьмя атрибутами (длиной и шириной чашелистика и длиной и шириной лепестка).</p>
+
+
+
+<p class="has-background" style="background-color:#ffe8c4">Обратите внимание, мы сознательно не стали использовать целевую переменную, потому что решаем задачу <em>кластеризации</em> и предполагается, что мы не знаем заранее, на какие группы или кластеры удастся разбить данные.</p>
+
+
+
+<p>С другой стороны, тот факт, что нам заранее известно, что видов здесь три, поможет оценить качество кластерного анализа (об этом ниже).</p>
+
+
+
+<h4 class="wp-block-heading" id="7-etap-2-predvaritelnaya-obrabotka-dannykh">Этап 2. Предварительная обработка данных</h4>
+
+
+
+<p>Для начала посмотрим, присутствуют ли <strong>пропущенные значения</strong>.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623cb30d4505436025" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623cb30d4505436025-1">1</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623cb30d4505436025-1"><span class="crayon-v">iris_df</span><span class="crayon-sy">.</span><span class="crayon-e">isnull</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span><span class="crayon-sy">.</span><span class="crayon-k ">sum</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0001 seconds] -->
+</div>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623cb30d6095676132" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623cb30d6095676132-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623cb30d6095676132-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623cb30d6095676132-3">3</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623cb30d6095676132-4">4</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623cb30d6095676132-5">5</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623cb30d6095676132-1">sepal length (cm)&nbsp;&nbsp;&nbsp;&nbsp;0</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623cb30d6095676132-2">sepal width (cm)&nbsp;&nbsp;&nbsp;&nbsp; 0</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623cb30d6095676132-3">petal length (cm)&nbsp;&nbsp;&nbsp;&nbsp;0</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623cb30d6095676132-4">petal width (cm)&nbsp;&nbsp;&nbsp;&nbsp; 0</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623cb30d6095676132-5">dtype: int64</div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0000 seconds] -->
+</div>
+
+
+
+<p>Мы видим, что пропущенных значений нет. Датасет был предварительно обработан.</p>
+
+
+
+<p><strong>Категориальных переменных</strong> также нет. Это становится понятно из вывода функции <strong>head()</strong>.</p>
+
+
+
+<p>Остается разобраться с <strong>масштабом</strong> признаков.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623cb30d7812732281" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623cb30d7812732281-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623cb30d7812732281-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623cb30d7812732281-3">3</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623cb30d7812732281-4">4</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623cb30d7812732281-5">5</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623cb30d7812732281-6">6</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623cb30d7812732281-7">7</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623cb30d7812732281-8">8</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623cb30d7812732281-9">9</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623cb30d7812732281-10">10</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623cb30d7812732281-11">11</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623cb30d7812732281-12">12</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623cb30d7812732281-13">13</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623cb30d7812732281-14">14</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623cb30d7812732281-1"><span class="crayon-c"># импортируем необходимый класс из модуля preprocessing библиотеки sklearn</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623cb30d7812732281-2"><span class="crayon-st">from</span><span class="crayon-h"> </span><span class="crayon-v">sklearn</span><span class="crayon-sy">.</span><span class="crayon-e">preprocessing </span><span class="crayon-r">import</span><span class="crayon-h"> </span><span class="crayon-i">StandardScaler</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623cb30d7812732281-3"><span class="crayon-h"> </span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623cb30d7812732281-4"><span class="crayon-c"># создадим объект этого класса</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623cb30d7812732281-5"><span class="crayon-v">scaler</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-e">StandardScaler</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623cb30d7812732281-6"><span class="crayon-h"> </span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623cb30d7812732281-7"><span class="crayon-c"># приведем данные к единому масштабу </span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623cb30d7812732281-8"><span class="crayon-v">iris_scaled</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">scaler</span><span class="crayon-sy">.</span><span class="crayon-e">fit_transform</span><span class="crayon-sy">(</span><span class="crayon-v">iris_df</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623cb30d7812732281-9">&nbsp;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623cb30d7812732281-10"><span class="crayon-c"># заново создадим датафрейм с нормализованными значениями</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623cb30d7812732281-11"><span class="crayon-v">iris_df_scaled</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">pd</span><span class="crayon-sy">.</span><span class="crayon-e">DataFrame</span><span class="crayon-sy">(</span><span class="crayon-v">iris_scaled</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">columns</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">iris</span><span class="crayon-sy">.</span><span class="crayon-v">feature_names</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623cb30d7812732281-12">&nbsp;</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623cb30d7812732281-13"><span class="crayon-c"># посмотрим на первые пять строк</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623cb30d7812732281-14"><span class="crayon-v">iris_df_scaled</span><span class="crayon-sy">.</span><span class="crayon-k ">round</span><span class="crayon-sy">(</span><span class="crayon-cn">2</span><span class="crayon-sy">)</span><span class="crayon-sy">.</span><span class="crayon-e">head</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0004 seconds] -->
+</div>
+
+
+
+<figure class="wp-block-image size-full"><img loading="lazy" decoding="async" width="992" height="312" src="../../wp-content/uploads/2021/08/scaled-iris.jpg" alt="датасет о цветах ириса после нормализации" class="wp-image-4034" srcset="../../wp-content/uploads/2021/08/scaled-iris.jpg 992w, ../../wp-content/uploads/2021/08/scaled-iris-300x94.jpg 300w, ../../wp-content/uploads/2021/08/scaled-iris-768x242.jpg 768w, ../../wp-content/uploads/2021/08/scaled-iris-600x189.jpg 600w" sizes="auto, (max-width: 992px) 100vw, 992px" /></figure>
+
+
+
+<h4 class="wp-block-heading" id="8-etap-3-i-4-eda-i-otbor-priznakov">Этап 3 и 4. EDA и отбор признаков</h4>
+
+
+
+<p>Для целей кластерного анализа мы возьмем все имеющиеся данные.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623cb30d8575294247" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623cb30d8575294247-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623cb30d8575294247-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623cb30d8575294247-3">3</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623cb30d8575294247-1"><span class="crayon-c"># оставим все признаки и для наглядности поместим данные в переменную Х</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623cb30d8575294247-2"><span class="crayon-c"># целевой переменной разумеется нет</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623cb30d8575294247-3"><span class="crayon-v">X</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">iris_df_scaled</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0001 seconds] -->
+</div>
+
+
+
+<h4 class="wp-block-heading" id="9-etap-51-obuchenie-modeli">Этап 5.1. Обучение модели</h4>
+
+
+
+<p>Самый главный вопрос, который предстоит решить на этапе обучения модели заключается в <strong>выборе количества кластеров</strong>.</p>
+
+
+
+<p class="has-background" style="background-color:#ffe8c4">Количество кластеров в методе k-средних являтся так называемым <strong>гиперпараметром</strong>, то есть параметром, который нужно задать до обучения модели.</p>
+
+
+
+<p>Усложним решаемую задачу и сделаем вид, что не обладаем экспертными знаниями о количестве видов ириса (на самом деле напомню, мы знаем, что их три). Значит нужно использовать метод локтя.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623cb30da028331907" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623cb30da028331907-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623cb30da028331907-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623cb30da028331907-3">3</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623cb30da028331907-4">4</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623cb30da028331907-5">5</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623cb30da028331907-6">6</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623cb30da028331907-7">7</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623cb30da028331907-8">8</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623cb30da028331907-9">9</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623cb30da028331907-10">10</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623cb30da028331907-11">11</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623cb30da028331907-12">12</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623cb30da028331907-13">13</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623cb30da028331907-14">14</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623cb30da028331907-15">15</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623cb30da028331907-16">16</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623cb30da028331907-17">17</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623cb30da028331907-18">18</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623cb30da028331907-19">19</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623cb30da028331907-20">20</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623cb30da028331907-21">21</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623cb30da028331907-22">22</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623cb30da028331907-23">23</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623cb30da028331907-24">24</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623cb30da028331907-25">25</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623cb30da028331907-26">26</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623cb30da028331907-27">27</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623cb30da028331907-1"><span class="crayon-c"># импортируем нужный класс</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623cb30da028331907-2"><span class="crayon-st">from</span><span class="crayon-h"> </span><span class="crayon-v">sklearn</span><span class="crayon-sy">.</span><span class="crayon-e">cluster </span><span class="crayon-r">import</span><span class="crayon-h"> </span><span class="crayon-i">KMeans</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623cb30da028331907-3">&nbsp;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623cb30da028331907-4"><span class="crayon-c"># создадим пустой список для записи показателя WCSS (ошибки)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623cb30da028331907-5"><span class="crayon-v">wcss</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-sy">[</span><span class="crayon-sy">]</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623cb30da028331907-6">&nbsp;</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623cb30da028331907-7"><span class="crayon-c"># воспользуемся новой для нас функцией range(), она возвращает последовательность чисел</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623cb30da028331907-8"><span class="crayon-c"># в данном случае числа от 1 до 10</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623cb30da028331907-9"><span class="crayon-st">for</span><span class="crayon-h"> </span><span class="crayon-i">i</span><span class="crayon-h"> </span><span class="crayon-st">in</span><span class="crayon-h"> </span><span class="crayon-k ">range</span><span class="crayon-sy">(</span><span class="crayon-cn">1</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">11</span><span class="crayon-sy">)</span><span class="crayon-o">:</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623cb30da028331907-10"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623cb30da028331907-11"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-c"># настроим параметры модели (подробнее об этом расскажу чуть дальше)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623cb30da028331907-12"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">kmeans</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-e">KMeans</span><span class="crayon-sy">(</span><span class="crayon-v">n_clusters</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">i</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">init</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-s">'k-means++'</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">max_iter</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">300</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">n_init</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">10</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">random_state</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">42</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623cb30da028331907-13">&nbsp;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623cb30da028331907-14"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-c"># обучим модель на данных с разным количеством кластеров</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623cb30da028331907-15"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">kmeans</span><span class="crayon-sy">.</span><span class="crayon-e">fit</span><span class="crayon-sy">(</span><span class="crayon-v">X</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623cb30da028331907-16">&nbsp;</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623cb30da028331907-17"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-c"># для каждого кластера рассчитаем ошибку (атрибут inertia_) и поместим в список</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623cb30da028331907-18"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">wcss</span><span class="crayon-sy">.</span><span class="crayon-e">append</span><span class="crayon-sy">(</span><span class="crayon-v">kmeans</span><span class="crayon-sy">.</span><span class="crayon-v">inertia_</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623cb30da028331907-19">&nbsp;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623cb30da028331907-20"><span class="crayon-c"># зададим размер график</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623cb30da028331907-21"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">figure</span><span class="crayon-sy">(</span><span class="crayon-v">figsize</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-cn">10</span><span class="crayon-sy">,</span><span class="crayon-cn">6</span><span class="crayon-sy">)</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623cb30da028331907-22"><span class="crayon-c"># передадим функции plot() последовательность кластеров и ошибку WCSS</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623cb30da028331907-23"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">plot</span><span class="crayon-sy">(</span><span class="crayon-k ">range</span><span class="crayon-sy">(</span><span class="crayon-cn">1</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">11</span><span class="crayon-sy">)</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">wcss</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623cb30da028331907-24"><span class="crayon-c"># и добавим подписи</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623cb30da028331907-25"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">title</span><span class="crayon-sy">(</span><span class="crayon-s">'Выбор количества кластеров методом локтя'</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623cb30da028331907-26"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">xlabel</span><span class="crayon-sy">(</span><span class="crayon-s">'Количество кластеров'</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623cb30da028331907-27"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">ylabel</span><span class="crayon-sy">(</span><span class="crayon-s">'WCSS'</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0009 seconds] -->
+</div>
+
+
+
+<figure class="wp-block-image size-full"><img loading="lazy" decoding="async" width="612" height="387" src="../../wp-content/uploads/2021/08/elbow-our-model.png" alt="метод локтя в алгоритме k-средних на примере датасета о цветах ириса" class="wp-image-4161" srcset="../../wp-content/uploads/2021/08/elbow-our-model.png 612w, ../../wp-content/uploads/2021/08/elbow-our-model-300x190.png 300w, ../../wp-content/uploads/2021/08/elbow-our-model-600x379.png 600w" sizes="auto, (max-width: 612px) 100vw, 612px" /></figure>
+
+
+
+<p>Как видно на графике, когда мы перешли от трех к четырем кластерам, ошибка перестала существенно уменьшаться (это согласуется с тем, что видов действительно три).</p>
+
+
+
+<p>Давайте создадим объект класса модели, используя <em>три кластера</em> в качестве гипепараметра модели.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623cb30db143605645" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623cb30db143605645-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623cb30db143605645-2">2</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623cb30db143605645-1"><span class="crayon-c"># заново обучим модель с тремя кластерами</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623cb30db143605645-2"><span class="crayon-v">kmeans</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-e">KMeans</span><span class="crayon-sy">(</span><span class="crayon-v">n_clusters</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">3</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">init</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-s">'k-means++'</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">max_iter</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">300</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">n_init</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">10</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">random_state</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">42</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0003 seconds] -->
+</div>
+
+
+
+<p>Подробнее рассмотрим параметры модели:</p>
+
+
+
+<ul class="wp-block-list">
+<li><strong>n_clusters</strong>: это количество кластеров, на которые мы хотим разбить наблюдения;</li>
+
+
+
+<li><strong>init</strong>: выбор первоначального расположения (инициализация) центроидов; есть два варианта, (1) выбрать центроиды случайно 
+			<span id="urvanov-syntax-highlighter-67aa623cb30dd353858490" class="urvanov-syntax-highlighter-syntax urvanov-syntax-highlighter-syntax-inline  crayon-theme-familiar-my-copy crayon-theme-familiar-my-copy-inline urvanov-syntax-highlighter-font-consolas" style="font-size: 16px !important; line-height: 22px !important;font-size: 16px !important;"><span class="crayon-pre urvanov-syntax-highlighter-code" style="font-size: 16px !important; line-height: 22px !important;font-size: 16px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><span class="crayon-v">init</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-s">'random'</span></span></span> или (2) выбрать их так, чтобы центроиды с самого начала располагались максимально далеко друг от друга 
+			<span id="urvanov-syntax-highlighter-67aa623cb30de885099295" class="urvanov-syntax-highlighter-syntax urvanov-syntax-highlighter-syntax-inline  crayon-theme-familiar-my-copy crayon-theme-familiar-my-copy-inline urvanov-syntax-highlighter-font-consolas" style="font-size: 16px !important; line-height: 22px !important;font-size: 16px !important;"><span class="crayon-pre urvanov-syntax-highlighter-code" style="font-size: 16px !important; line-height: 22px !important;font-size: 16px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><span class="crayon-v">init</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-s">'k-means++'</span></span></span>; второй вариант оптимальнее;</li>
+
+
+
+<li><strong>n_init</strong>: сколько раз алгоритм будет инициализирован, т.е. сколько раз будут выбраны центроиды до начала оптимизации; на выходе будет выбран тот вариант, где ошибка была минимальна;</li>
+
+
+
+<li><strong>max_iter</strong>: максимальное количество итераций алгоритма после первоначального выбора центроидов;</li>
+
+
+
+<li><strong>random_state</strong>: воспроизводимость результата.</li>
+</ul>
+
+
+
+<p>Обучим модель и сделаем прогноз:</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623cb30df575529027" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623cb30df575529027-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623cb30df575529027-2">2</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623cb30df575529027-1"><span class="crayon-c"># обучение и прогноз в данном случае можно сделать одним методом .fit_predict()</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623cb30df575529027-2"><span class="crayon-v">y_pred</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">kmeans</span><span class="crayon-sy">.</span><span class="crayon-e">fit_predict</span><span class="crayon-sy">(</span><span class="crayon-v">X</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0002 seconds] -->
+</div>
+
+
+
+<h4 class="wp-block-heading" id="10-etap-52-otsenka-kachestva-modeli">Этап 5.2. Оценка качества модели</h4>
+
+
+
+<p>Остается проверить качество модели, и здесь возникает сложность. Ведь если при обучении с учителем у нас был критерий (целевая переменная), то здесь такого критерия нет.</p>
+
+
+
+<p>Впрочем, так как датасет учебный, и мы заранее знаем, к какому виду относится каждый цветок, то можем сравнить результат модели с целевой переменной.</p>
+
+
+
+<p class="has-background" style="background-color:#ffe8c4">На настоящих данных такое конечно невозможно.</p>
+
+
+
+<p>Вначале преобразуем целевую переменную (iris.target) и разметку (y_pred) в датафрейм (предварительно слегка их изменив, подробности в <a href="https://colab.research.google.com/drive/1OxV-Hc7kQ_FGIt_0dXBXwQdYsJNyKU9X?usp=sharing" target="_blank" rel="noreferrer noopener">блокноте</a>⧉).</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623cb30e0930393215" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623cb30e0930393215-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623cb30e0930393215-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623cb30e0930393215-3">3</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623cb30e0930393215-4">4</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623cb30e0930393215-5">5</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623cb30e0930393215-1"><span class="crayon-c"># поместим переменные в словарь</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623cb30e0930393215-2"><span class="crayon-v">d</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-sy">{</span><span class="crayon-s">'Target'</span><span class="crayon-h"> </span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-v">iris</span><span class="crayon-sy">.</span><span class="crayon-v">target</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-s">'Prediction'</span><span class="crayon-h"> </span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-v">y_pred</span><span class="crayon-sy">}</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623cb30e0930393215-3">&nbsp;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623cb30e0930393215-4"><span class="crayon-c"># превратим словарь в датафрейм с соответствующими названиями столбцов</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623cb30e0930393215-5"><span class="crayon-v">df</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">pd</span><span class="crayon-sy">.</span><span class="crayon-e">DataFrame</span><span class="crayon-sy">(</span><span class="crayon-v">d</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">columns</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-sy">[</span><span class="crayon-s">'Target'</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-s">'Prediction'</span><span class="crayon-sy">]</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0003 seconds] -->
+</div>
+
+
+
+<figure class="wp-block-image size-full is-resized"><img loading="lazy" decoding="async" width="310" height="153" src="../../wp-content/uploads/2021/08/result-df.jpg" alt="оценка качества модели кластеризации" class="wp-image-4170" style="width:215px;height:106px" srcset="../../wp-content/uploads/2021/08/result-df.jpg 310w, ../../wp-content/uploads/2021/08/result-df-300x148.jpg 300w" sizes="auto, (max-width: 310px) 100vw, 310px" /></figure>
+
+
+
+<p>С помощью функции <strong>where()</strong> создадим массив Numpy, в котором сравним каждую строчку датафрейма, и если целевая переменная и прогноз совпадут, зададим значение True, в противном случае &#8212; False.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623cb30e2965029823" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623cb30e2965029823-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623cb30e2965029823-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623cb30e2965029823-3">3</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623cb30e2965029823-1"><span class="crayon-v">comparison</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-e">where</span><span class="crayon-sy">(</span><span class="crayon-v">df</span><span class="crayon-sy">[</span><span class="crayon-s">'Target'</span><span class="crayon-sy">]</span><span class="crayon-h"> </span><span class="crayon-o">==</span><span class="crayon-h"> </span><span class="crayon-v">df</span><span class="crayon-sy">[</span><span class="crayon-s">'Prediction'</span><span class="crayon-sy">]</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-t">True</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-t">False</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623cb30e2965029823-2"><span class="crayon-k ">print</span><span class="crayon-sy">(</span><span class="crayon-k ">type</span><span class="crayon-sy">(</span><span class="crayon-v">comparison</span><span class="crayon-sy">)</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623cb30e2965029823-3"><span class="crayon-k ">print</span><span class="crayon-sy">(</span><span class="crayon-v">comparison</span><span class="crayon-sy">[</span><span class="crayon-o">:</span><span class="crayon-cn">5</span><span class="crayon-sy">]</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0003 seconds] -->
+</div>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623cb30e3690163978" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623cb30e3690163978-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623cb30e3690163978-2">2</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623cb30e3690163978-1">&lt;class 'numpy.ndarray'&gt;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623cb30e3690163978-2">[ True&nbsp;&nbsp;True&nbsp;&nbsp;True&nbsp;&nbsp;True&nbsp;&nbsp;True]</div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0000 seconds] -->
+</div>
+
+
+
+<p>Добавим этот массив в качестве столбца в датафрейм.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623cb30e4645852783" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623cb30e4645852783-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623cb30e4645852783-2">2</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623cb30e4645852783-1"><span class="crayon-v">result</span><span class="crayon-sy">[</span><span class="crayon-s">'Comparison'</span><span class="crayon-sy">]</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-e">comparison</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623cb30e4645852783-2"><span class="crayon-v">result</span><span class="crayon-sy">.</span><span class="crayon-e">head</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0001 seconds] -->
+</div>
+
+
+
+<figure class="wp-block-image size-full is-resized"><img loading="lazy" decoding="async" width="462" height="319" src="../../wp-content/uploads/2021/08/result-df-comp.jpg" alt="оценка качества модели кластеризации 2" class="wp-image-4172" style="width:335px;height:231px" srcset="../../wp-content/uploads/2021/08/result-df-comp.jpg 462w, ../../wp-content/uploads/2021/08/result-df-comp-300x207.jpg 300w" sizes="auto, (max-width: 462px) 100vw, 462px" /></figure>
+
+
+
+<p>Выведем&nbsp;долю&nbsp;совпавших&nbsp;(True)&nbsp;и&nbsp;не&nbsp;совпавших&nbsp;(False)&nbsp;значений. Для этого используем функцию <strong>value_counts()</strong>, которая подсчитает, сколько раз встречается каждое значение. Параметр 
+			<span id="urvanov-syntax-highlighter-67aa623cb30e5986105590" class="urvanov-syntax-highlighter-syntax urvanov-syntax-highlighter-syntax-inline  crayon-theme-familiar-my-copy crayon-theme-familiar-my-copy-inline urvanov-syntax-highlighter-font-consolas" style="font-size: 16px !important; line-height: 22px !important;font-size: 16px !important;"><span class="crayon-pre urvanov-syntax-highlighter-code" style="font-size: 16px !important; line-height: 22px !important;font-size: 16px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><span class="crayon-v">normalize</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-t">True</span></span></span> вернет относительное значение или процент. Ровно это нам и нужно.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623cb30e7402424250" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623cb30e7402424250-1">1</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623cb30e7402424250-1"><span class="crayon-v">df</span><span class="crayon-sy">[</span><span class="crayon-s">'Comparison'</span><span class="crayon-sy">]</span><span class="crayon-sy">.</span><span class="crayon-e">value_counts</span><span class="crayon-sy">(</span><span class="crayon-v">normalize</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-t">True</span><span class="crayon-sy">)</span><span class="crayon-sy">.</span><span class="crayon-k ">round</span><span class="crayon-sy">(</span><span class="crayon-cn">2</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0003 seconds] -->
+</div>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623cb30e8481862871" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623cb30e8481862871-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623cb30e8481862871-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623cb30e8481862871-3">3</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623cb30e8481862871-1">True&nbsp;&nbsp;&nbsp;&nbsp; 0.83</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623cb30e8481862871-2">False&nbsp;&nbsp;&nbsp;&nbsp;0.17</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623cb30e8481862871-3">Name: Comparison, dtype: float64</div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0000 seconds] -->
+</div>
+
+
+
+<p>Как мы видим, модель была права в 83% случаев. Теперь давайте <strong>визуально</strong> оценим результат.</p>
+
+
+
+<p>В исходном датафрейме четыре признака, а значит четыре измерения, столько мы представить графически не можем. Давайте возьмем первый (sepal length) и второй (sepal width) столбец исходного датафрейма.</p>
+
+
+
+<p>Вначале построим точечную диаграмму целевой переменной.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623cb30e9328877568" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623cb30e9328877568-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623cb30e9328877568-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623cb30e9328877568-3">3</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623cb30e9328877568-4">4</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623cb30e9328877568-5">5</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623cb30e9328877568-6">6</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623cb30e9328877568-7">7</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623cb30e9328877568-1"><span class="crayon-c"># зададим размер</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623cb30e9328877568-2"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">figure</span><span class="crayon-sy">(</span><span class="crayon-v">figsize</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-cn">10</span><span class="crayon-sy">,</span><span class="crayon-cn">6</span><span class="crayon-sy">)</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623cb30e9328877568-3">&nbsp;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623cb30e9328877568-4"><span class="crayon-c"># возьмем первый и второй столбцы с помощью функции iloc()</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623cb30e9328877568-5"><span class="crayon-c"># параметр с задаст каждой точке определенный код (0, 1, 2), а</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623cb30e9328877568-6"><span class="crayon-c"># camp определит цвет каждой из точек</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623cb30e9328877568-7"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">scatter</span><span class="crayon-sy">(</span><span class="crayon-v">X</span><span class="crayon-sy">.</span><span class="crayon-v">iloc</span><span class="crayon-sy">[</span><span class="crayon-o">:</span><span class="crayon-sy">,</span><span class="crayon-cn">0</span><span class="crayon-sy">]</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">X</span><span class="crayon-sy">.</span><span class="crayon-v">iloc</span><span class="crayon-sy">[</span><span class="crayon-o">:</span><span class="crayon-sy">,</span><span class="crayon-cn">1</span><span class="crayon-sy">]</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">c</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">iris</span><span class="crayon-sy">.</span><span class="crayon-v">target</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">cmap</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-s">'Paired'</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0008 seconds] -->
+</div>
+
+
+
+<figure class="wp-block-image size-full"><img loading="lazy" decoding="async" width="594" height="357" src="../../wp-content/uploads/2021/08/target-scatter.png" alt="разделение на три вида цветов ириса: исходный датафрейм" class="wp-image-4174" srcset="../../wp-content/uploads/2021/08/target-scatter.png 594w, ../../wp-content/uploads/2021/08/target-scatter-300x180.png 300w" sizes="auto, (max-width: 594px) 100vw, 594px" /></figure>
+
+
+
+<p>Теперь посмотим на результат алгоритма&nbsp;кластеризации.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623cb30ed486230440" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623cb30ed486230440-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623cb30ed486230440-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623cb30ed486230440-3">3</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623cb30ed486230440-4">4</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623cb30ed486230440-5">5</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623cb30ed486230440-6">6</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623cb30ed486230440-7">7</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623cb30ed486230440-8">8</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623cb30ed486230440-9">9</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623cb30ed486230440-10">10</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623cb30ed486230440-11">11</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623cb30ed486230440-1"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">figure</span><span class="crayon-sy">(</span><span class="crayon-v">figsize</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-cn">10</span><span class="crayon-sy">,</span><span class="crayon-cn">6</span><span class="crayon-sy">)</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623cb30ed486230440-2">&nbsp;</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623cb30ed486230440-3"><span class="crayon-c"># снова построим точечную диаграмму, но коды точек возьмем из y_pred</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623cb30ed486230440-4"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">scatter</span><span class="crayon-sy">(</span><span class="crayon-v">X</span><span class="crayon-sy">.</span><span class="crayon-v">iloc</span><span class="crayon-sy">[</span><span class="crayon-o">:</span><span class="crayon-sy">,</span><span class="crayon-cn">0</span><span class="crayon-sy">]</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">X</span><span class="crayon-sy">.</span><span class="crayon-v">iloc</span><span class="crayon-sy">[</span><span class="crayon-o">:</span><span class="crayon-sy">,</span><span class="crayon-cn">1</span><span class="crayon-sy">]</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">c</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">y_pred</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">cmap</span><span class="crayon-o">=</span><span class="crayon-s">'Paired'</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623cb30ed486230440-5">&nbsp;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623cb30ed486230440-6"><span class="crayon-c"># кроме того выведем центроиды с помощью атрибута cluster_centers_</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623cb30ed486230440-7"><span class="crayon-c"># зададим размер s = 150, красный цвет c = 'red', тип маркера - треугольник, и подпись</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623cb30ed486230440-8"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">scatter</span><span class="crayon-sy">(</span><span class="crayon-v">kmeans</span><span class="crayon-sy">.</span><span class="crayon-v">cluster_centers_</span><span class="crayon-sy">[</span><span class="crayon-o">:</span><span class="crayon-sy">,</span><span class="crayon-cn">0</span><span class="crayon-sy">]</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">kmeans</span><span class="crayon-sy">.</span><span class="crayon-v">cluster_centers_</span><span class="crayon-sy">[</span><span class="crayon-o">:</span><span class="crayon-sy">,</span><span class="crayon-cn">1</span><span class="crayon-sy">]</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">s</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">150</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">c</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-s">'red'</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">marker</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-s">'^'</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">label</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-s">'Centroids'</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623cb30ed486230440-9">&nbsp;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623cb30ed486230440-10"><span class="crayon-c"># укажем, где разместить легенду</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623cb30ed486230440-11"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">legend</span><span class="crayon-sy">(</span><span class="crayon-v">loc</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-s">'upper right'</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0014 seconds] -->
+</div>
+
+
+
+<figure class="wp-block-image size-full"><img loading="lazy" decoding="async" width="594" height="357" src="../../wp-content/uploads/2021/08/scatter-pred.png" alt="разделение на три вида цветов ириса: результат кластеризации" class="wp-image-4175" srcset="../../wp-content/uploads/2021/08/scatter-pred.png 594w, ../../wp-content/uploads/2021/08/scatter-pred-300x180.png 300w" sizes="auto, (max-width: 594px) 100vw, 594px" /></figure>
+
+
+
+<p><strong>Выводы</strong>. Как мы видим, алгоритм идеально справился с кластером 0 (светлоголубой), однако допустил ошибки при разделении кластеров 1 и 2 (желтый и коричневый цвета). Почему?</p>
+
+
+
+<p>На самом деле все дело в самом алгоритме. Как мы сказали выше, алгоритм группирует данные вокруг центроидов, а это значит, что он хорошо работает с <strong>выпуклыми</strong> и <strong>далеко расположенными</strong> друг от друга кластерами. Как только данные &#171;проникают друг в друга&#187; и расположены слишком близко, алгоритм теряется.</p>
+
+
+
+<p>Иллюстрация ниже примерно показывает, что сделал алгоритм с исходными видами и почему он ошибочно группировал некоторые точки.</p>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" decoding="async" width="1024" height="657" src="../../wp-content/uploads/2021/08/cluster-clouds-1024x657.jpg" alt="пример важности выпуклости и отдаленности кластеров друг от друга для модели k-средних" class="wp-image-4178" srcset="../../wp-content/uploads/2021/08/cluster-clouds-1024x657.jpg 1024w, ../../wp-content/uploads/2021/08/cluster-clouds-300x192.jpg 300w, ../../wp-content/uploads/2021/08/cluster-clouds-768x493.jpg 768w, ../../wp-content/uploads/2021/08/cluster-clouds-1536x985.jpg 1536w, ../../wp-content/uploads/2021/08/cluster-clouds-2048x1314.jpg 2048w, ../../wp-content/uploads/2021/08/cluster-clouds-1200x770.jpg 1200w, ../../wp-content/uploads/2021/08/cluster-clouds-600x385.jpg 600w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+<h3 class="wp-block-heading" id="11-podvedem-itog">Подведем итог</h3>
+
+
+
+<p>При решении задач кластеризации мы берем данные, обязательно их масштабируем и выбираем количество кластеров (с помощью экспертной оценки или метода локтя)<span style="color: initial;">.</span> К сожалению, дать точную оценку качества кластеризации бывает очень сложно из-за отсутствия разметки.</p>
+
+
+
+<p>Дополнительные <a href="https://colab.research.google.com/drive/1OxV-Hc7kQ_FGIt_0dXBXwQdYsJNyKU9X#scrollTo=_AlUvfqkZnSl" target="_blank" rel="noreferrer noopener">упражнения</a>⧉ вы найдете в конце блокнота.</p>
+
+
+
+<p>Мы закончили третий раздел классических алгоритмов машинного обучения. Пора переходить к более продвинутым задачам. Начнем с <a href="../recommender/index.html">рекомендательных систем</a>.</p>
+
+
+
+<h4 class="wp-block-heading" id="13-otvety-na-voprosy">Ответы на вопросы</h4>
+
+
+
+<p><strong>Вопрос</strong>. Скажите, а чем init = &#8216;k-means++&#8217; лучше, чем init = &#8216;random&#8217;?</p>
+
+
+
+<p><strong>Ответ</strong>. Давайте разбираться. В первую очередь, посмотрим на <strong>случайную инициализацию центроидов</strong> (
+			<span id="urvanov-syntax-highlighter-67aa623cb30ef590291512" class="urvanov-syntax-highlighter-syntax urvanov-syntax-highlighter-syntax-inline  crayon-theme-familiar-my-copy crayon-theme-familiar-my-copy-inline urvanov-syntax-highlighter-font-consolas" style="font-size: 16px !important; line-height: 22px !important;font-size: 16px !important;"><span class="crayon-pre urvanov-syntax-highlighter-code" style="font-size: 16px !important; line-height: 22px !important;font-size: 16px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><span class="crayon-v">init</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-s">'random'</span></span></span>). Как следует из самой формулировки, мы случайным образом выбираем центры кластеров, и затем алгоритм, как описано в лекции, старается минимизировать функцию потерь (WCSS в данном случае).</p>
+
+
+
+<p>У такого подхода есть один недостаток. Если центры кластеров выбираются слишком близко друг к другу, то алгоритм может &#171;разделить&#187; то, что должно быть единым кластером, и &#171;объединить&#187; два разных. Пример ошибочной кластеризации на рисунке ниже.</p>
+
+
+
+<figure class="wp-block-image is-resized"><img decoding="async" src="../../wp-content/uploads/2021/08/init-random.jpg" alt="инициализация центроидов случайным образом (init = 'random')" style="aspect-ratio:1.1728395061728396;width:450px;height:auto"/></figure>
+
+
+
+<p>Как мы видим, алгоритм действительно минимизировал WCSS, однако лишь в пределах того, что ему позволил изначальный выбор положения центроидов. Это так называемый <em>локальный минимум</em> функции потерь. Глобальный же найден не был. Схематически <em>глобальный минимум</em> мог бы выглядеться как на графике ниже.</p>
+
+
+
+<figure class="wp-block-image is-resized"><img decoding="async" src="../../wp-content/uploads/2021/08/init-kmeans.jpg" alt="инициализация центроидов методом k-means++ (init = 'k-means++')" style="aspect-ratio:1.1967509025270757;width:452px;height:auto"/></figure>
+
+
+
+<p>В данном случае глобальный оптимум был бы достигнут за счет <em>максимизации изначального расстояния между центроидами</em>. На этом и основан <strong>метод k-means++</strong> (
+			<span id="urvanov-syntax-highlighter-67aa623cb30f1522885962" class="urvanov-syntax-highlighter-syntax urvanov-syntax-highlighter-syntax-inline  crayon-theme-familiar-my-copy crayon-theme-familiar-my-copy-inline urvanov-syntax-highlighter-font-consolas" style="font-size: 16px !important; line-height: 22px !important;font-size: 16px !important;"><span class="crayon-pre urvanov-syntax-highlighter-code" style="font-size: 16px !important; line-height: 22px !important;font-size: 16px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><span class="crayon-v">init</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-s">'k-means++'</span></span></span>).</p>
+
+
+
+<p>Сам по себе алгоритм k-means++ очень прост:</p>
+
+
+
+<ol class="wp-block-list">
+<li>первый центроид выбирается случайно;</li>
+
+
+
+<li>далее рассчитывается евклидово расстояние между этим центроидом и всеми остальными точками датасета, наиболее удаленная точка станет следующим центроидом;</li>
+
+
+
+<li>каждая точка относится к ближайшему выбранному центроиду;</li>
+
+
+
+<li>точка, наиболее удаленная от &#171;своего&#187; центроида, становится следующим центром кластера;</li>
+
+
+
+<li>повторяем шаги 3 и 4 до тех пор, пока не выявим k центроидов.</li>
+</ol>
+
+			</div> <!-- .content -->
+
+			
+		</div> <!-- .post -->
+
+					<footer class="site-footer section-inner">
+
+				<p class="copyright">&copy; 2025 <a href="../../index.html" class="site-name"><!--Машинное обучение--></a></p>
+
+			</footer> <!-- footer -->
+
+		</main>
+		
+		<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js?ver=6.7.1" id="mathjax-js"></script>
+<script type="text/javascript" src="../../wp-includes/js/imagesloaded.min.js@ver=5.0.0" id="imagesloaded-js"></script>
+<script type="text/javascript" src="../../wp-includes/js/masonry.min.js@ver=4.2.2" id="masonry-js"></script>
+<script type="text/javascript" id="mcluhan_global-js-extra">
+/* <![CDATA[ */
+var mcluhan_ajaxpagination = {"ajaxurl":"https:\/\/www.dmitrymakarov.ru\/wp-admin\/admin-ajax.php","query_vars":"{\"page\":\"\",\"pagename\":\"intro\\\/clustering\"}"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="../../wp-content/themes/mcluhan/assets/js/global.js@ver=2.1.1" id="mcluhan_global-js"></script>
+			
+	</body>
+</html>

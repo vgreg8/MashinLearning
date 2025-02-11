@@ -1,0 +1,1335 @@
+<!DOCTYPE html>
+
+<html class="no-js" lang="ru-RU">
+
+	<head>
+
+		<meta http-equiv="content-type" content="text/html" charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" >
+
+		<link rel="profile" href="http://gmpg.org/xfn/11">
+
+		<meta name='robots' content='index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' />
+	<style>img:is([sizes="auto" i], [sizes^="auto," i]) { contain-intrinsic-size: 3000px 1500px }</style>
+	
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$','$'],['\\(','\\)']], 
+    processEscapes: true
+  },
+  options: {
+    ignoreHtmlClass: 'tex2jax_ignore|editor-rich-text'
+  }
+};
+
+</script>
+
+	<!-- This site is optimized with the Yoast SEO plugin v24.4 - https://yoast.com/wordpress/plugins/seo/ -->
+	<title>Функция потерь и производная | Обучение модели</title>
+	<meta name="description" content="Оптимизация функции потерь позволяет найти ее минимум. Как следствие, мы можем подобрать идеальные веса исходной модели машинного обучения." />
+	<link rel="canonical" href="index.html" />
+	<meta property="og:locale" content="ru_RU" />
+	<meta property="og:type" content="article" />
+	<meta property="og:title" content="Функция потерь и производная | Обучение модели" />
+	<meta property="og:description" content="Оптимизация функции потерь позволяет найти ее минимум. Как следствие, мы можем подобрать идеальные веса исходной модели машинного обучения." />
+	<meta property="og:url" content="https://www.dmitrymakarov.ru/learning/derivative/" />
+	<meta property="og:site_name" content="Машинное обучение" />
+	<meta property="article:modified_time" content="2025-01-01T05:42:14+00:00" />
+	<meta property="og:image" content="https://www.dmitrymakarov.ru/wp-content/uploads/2021/12/reg-loss.png" />
+	<meta property="og:image:width" content="1178" />
+	<meta property="og:image:height" content="689" />
+	<meta property="og:image:type" content="image/png" />
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:label1" content="Примерное время для чтения" />
+	<meta name="twitter:data1" content="19 минут" />
+	<script type="application/ld+json" class="yoast-schema-graph">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.dmitrymakarov.ru/learning/derivative/","url":"https://www.dmitrymakarov.ru/learning/derivative/","name":"Функция потерь и производная | Обучение модели","isPartOf":{"@id":"https://www.dmitrymakarov.ru/#website"},"primaryImageOfPage":{"@id":"https://www.dmitrymakarov.ru/learning/derivative/#primaryimage"},"image":{"@id":"https://www.dmitrymakarov.ru/learning/derivative/#primaryimage"},"thumbnailUrl":"https://www.dmitrymakarov.ru/wp-content/uploads/2021/12/reg-loss-1024x599.png","datePublished":"2021-12-03T13:08:19+00:00","dateModified":"2025-01-01T05:42:14+00:00","description":"Оптимизация функции потерь позволяет найти ее минимум. Как следствие, мы можем подобрать идеальные веса исходной модели машинного обучения.","breadcrumb":{"@id":"https://www.dmitrymakarov.ru/learning/derivative/#breadcrumb"},"inLanguage":"ru-RU","potentialAction":[{"@type":"ReadAction","target":["https://www.dmitrymakarov.ru/learning/derivative/"]}]},{"@type":"ImageObject","inLanguage":"ru-RU","@id":"https://www.dmitrymakarov.ru/learning/derivative/#primaryimage","url":"https://www.dmitrymakarov.ru/wp-content/uploads/2021/12/reg-loss.png","contentUrl":"https://www.dmitrymakarov.ru/wp-content/uploads/2021/12/reg-loss.png","width":1178,"height":689},{"@type":"BreadcrumbList","@id":"https://www.dmitrymakarov.ru/learning/derivative/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная страница","item":"https://www.dmitrymakarov.ru/"},{"@type":"ListItem","position":2,"name":"Обучение модели","item":"https://www.dmitrymakarov.ru/learning/"},{"@type":"ListItem","position":3,"name":"Функция потерь и производная"}]},{"@type":"WebSite","@id":"https://www.dmitrymakarov.ru/#website","url":"https://www.dmitrymakarov.ru/","name":"Машинное обучение","description":"","publisher":{"@id":"https://www.dmitrymakarov.ru/#/schema/person/3fc221e2d391cc5cfd9d31c9c251c2a4"},"potentialAction":[{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://www.dmitrymakarov.ru/?s={search_term_string}"},"query-input":{"@type":"PropertyValueSpecification","valueRequired":true,"valueName":"search_term_string"}}],"inLanguage":"ru-RU"},{"@type":["Person","Organization"],"@id":"https://www.dmitrymakarov.ru/#/schema/person/3fc221e2d391cc5cfd9d31c9c251c2a4","name":"DmitryMakarov","image":{"@type":"ImageObject","inLanguage":"ru-RU","@id":"https://www.dmitrymakarov.ru/#/schema/person/image/","url":"https://secure.gravatar.com/avatar/2c5f922d990c667feffc00f99517cc0e?s=96&d=mm&r=g","contentUrl":"https://secure.gravatar.com/avatar/2c5f922d990c667feffc00f99517cc0e?s=96&d=mm&r=g","caption":"DmitryMakarov"},"logo":{"@id":"https://www.dmitrymakarov.ru/#/schema/person/image/"}}]}</script>
+	<!-- / Yoast SEO plugin. -->
+
+
+<link rel='dns-prefetch' href='https://cdn.jsdelivr.net/' />
+<link rel="alternate" type="application/rss+xml" title="Машинное обучение &raquo; Лента" href="../../feed/index.html" />
+<link rel="alternate" type="application/rss+xml" title="Машинное обучение &raquo; Лента комментариев" href="../../comments/feed/index.html" />
+<script type="text/javascript">
+/* <![CDATA[ */
+window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15.0.3\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15.0.3\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/www.dmitrymakarov.ru\/wp-includes\/js\/wp-emoji-release.min.js?ver=6.7.1"}};
+/*! This file is auto-generated */
+!function(i,n){var o,s,e;function c(e){try{var t={supportTests:e,timestamp:(new Date).valueOf()};sessionStorage.setItem(o,JSON.stringify(t))}catch(e){}}function p(e,t,n){e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(t,0,0);var t=new Uint32Array(e.getImageData(0,0,e.canvas.width,e.canvas.height).data),r=(e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(n,0,0),new Uint32Array(e.getImageData(0,0,e.canvas.width,e.canvas.height).data));return t.every(function(e,t){return e===r[t]})}function u(e,t,n){switch(t){case"flag":return n(e,"\ud83c\udff3\ufe0f\u200d\u26a7\ufe0f","\ud83c\udff3\ufe0f\u200b\u26a7\ufe0f")?!1:!n(e,"\ud83c\uddfa\ud83c\uddf3","\ud83c\uddfa\u200b\ud83c\uddf3")&&!n(e,"\ud83c\udff4\udb40\udc67\udb40\udc62\udb40\udc65\udb40\udc6e\udb40\udc67\udb40\udc7f","\ud83c\udff4\u200b\udb40\udc67\u200b\udb40\udc62\u200b\udb40\udc65\u200b\udb40\udc6e\u200b\udb40\udc67\u200b\udb40\udc7f");case"emoji":return!n(e,"\ud83d\udc26\u200d\u2b1b","\ud83d\udc26\u200b\u2b1b")}return!1}function f(e,t,n){var r="undefined"!=typeof WorkerGlobalScope&&self instanceof WorkerGlobalScope?new OffscreenCanvas(300,150):i.createElement("canvas"),a=r.getContext("2d",{willReadFrequently:!0}),o=(a.textBaseline="top",a.font="600 32px Arial",{});return e.forEach(function(e){o[e]=t(a,e,n)}),o}function t(e){var t=i.createElement("script");t.src=e,t.defer=!0,i.head.appendChild(t)}"undefined"!=typeof Promise&&(o="wpEmojiSettingsSupports",s=["flag","emoji"],n.supports={everything:!0,everythingExceptFlag:!0},e=new Promise(function(e){i.addEventListener("DOMContentLoaded",e,{once:!0})}),new Promise(function(t){var n=function(){try{var e=JSON.parse(sessionStorage.getItem(o));if("object"==typeof e&&"number"==typeof e.timestamp&&(new Date).valueOf()<e.timestamp+604800&&"object"==typeof e.supportTests)return e.supportTests}catch(e){}return null}();if(!n){if("undefined"!=typeof Worker&&"undefined"!=typeof OffscreenCanvas&&"undefined"!=typeof URL&&URL.createObjectURL&&"undefined"!=typeof Blob)try{var e="postMessage("+f.toString()+"("+[JSON.stringify(s),u.toString(),p.toString()].join(",")+"));",r=new Blob([e],{type:"text/javascript"}),a=new Worker(URL.createObjectURL(r),{name:"wpTestEmojiSupports"});return void(a.onmessage=function(e){c(n=e.data),a.terminate(),t(n)})}catch(e){}c(n=f(s,u,p))}t(n)}).then(function(e){for(var t in e)n.supports[t]=e[t],n.supports.everything=n.supports.everything&&n.supports[t],"flag"!==t&&(n.supports.everythingExceptFlag=n.supports.everythingExceptFlag&&n.supports[t]);n.supports.everythingExceptFlag=n.supports.everythingExceptFlag&&!n.supports.flag,n.DOMReady=!1,n.readyCallback=function(){n.DOMReady=!0}}).then(function(){return e}).then(function(){var e;n.supports.everything||(n.readyCallback(),(e=n.source||{}).concatemoji?t(e.concatemoji):e.wpemoji&&e.twemoji&&(t(e.twemoji),t(e.wpemoji)))}))}((window,document),window._wpemojiSettings);
+/* ]]> */
+</script>
+<link rel='stylesheet' id='urvanov_syntax_highlighter-css' href='../../wp-content/plugins/urvanov-syntax-highlighter/css/min/urvanov_syntax_highlighter.min.css@ver=2.8.38.css' type='text/css' media='all' />
+<link rel='stylesheet' id='crayon-theme-familiar-my-copy-css' href='../../wp-content/uploads/urvanov-syntax-highlighter/themes/familiar-my-copy/familiar-my-copy.css@ver=2.8.38.css' type='text/css' media='all' />
+<link rel='stylesheet' id='crayon-font-consolas-css' href='../../wp-content/plugins/urvanov-syntax-highlighter/fonts/consolas.css@ver=2.8.38.css' type='text/css' media='all' />
+<style id='wp-emoji-styles-inline-css' type='text/css'>
+
+	img.wp-smiley, img.emoji {
+		display: inline !important;
+		border: none !important;
+		box-shadow: none !important;
+		height: 1em !important;
+		width: 1em !important;
+		margin: 0 0.07em !important;
+		vertical-align: -0.1em !important;
+		background: none !important;
+		padding: 0 !important;
+	}
+</style>
+<link rel='stylesheet' id='wp-block-library-css' href='../../wp-includes/css/dist/block-library/style.min.css@ver=6.7.1.css' type='text/css' media='all' />
+<style id='filebird-block-filebird-gallery-style-inline-css' type='text/css'>
+ul.filebird-block-filebird-gallery{margin:auto!important;padding:0!important;width:100%}ul.filebird-block-filebird-gallery.layout-grid{display:grid;grid-gap:20px;align-items:stretch;grid-template-columns:repeat(var(--columns),1fr);justify-items:stretch}ul.filebird-block-filebird-gallery.layout-grid li img{border:1px solid #ccc;box-shadow:2px 2px 6px 0 rgba(0,0,0,.3);height:100%;max-width:100%;-o-object-fit:cover;object-fit:cover;width:100%}ul.filebird-block-filebird-gallery.layout-masonry{-moz-column-count:var(--columns);-moz-column-gap:var(--space);column-gap:var(--space);-moz-column-width:var(--min-width);columns:var(--min-width) var(--columns);display:block;overflow:auto}ul.filebird-block-filebird-gallery.layout-masonry li{margin-bottom:var(--space)}ul.filebird-block-filebird-gallery li{list-style:none}ul.filebird-block-filebird-gallery li figure{height:100%;margin:0;padding:0;position:relative;width:100%}ul.filebird-block-filebird-gallery li figure figcaption{background:linear-gradient(0deg,rgba(0,0,0,.7),rgba(0,0,0,.3) 70%,transparent);bottom:0;box-sizing:border-box;color:#fff;font-size:.8em;margin:0;max-height:100%;overflow:auto;padding:3em .77em .7em;position:absolute;text-align:center;width:100%;z-index:2}ul.filebird-block-filebird-gallery li figure figcaption a{color:inherit}
+
+</style>
+<style id='classic-theme-styles-inline-css' type='text/css'>
+/*! This file is auto-generated */
+.wp-block-button__link{color:#fff;background-color:#32373c;border-radius:9999px;box-shadow:none;text-decoration:none;padding:calc(.667em + 2px) calc(1.333em + 2px);font-size:1.125em}.wp-block-file__button{background:#32373c;color:#fff;text-decoration:none}
+</style>
+<style id='global-styles-inline-css' type='text/css'>
+:root{--wp--preset--aspect-ratio--square: 1;--wp--preset--aspect-ratio--4-3: 4/3;--wp--preset--aspect-ratio--3-4: 3/4;--wp--preset--aspect-ratio--3-2: 3/2;--wp--preset--aspect-ratio--2-3: 2/3;--wp--preset--aspect-ratio--16-9: 16/9;--wp--preset--aspect-ratio--9-16: 9/16;--wp--preset--color--black: #121212;--wp--preset--color--cyan-bluish-gray: #abb8c3;--wp--preset--color--white: #fff;--wp--preset--color--pale-pink: #f78da7;--wp--preset--color--vivid-red: #cf2e2e;--wp--preset--color--luminous-vivid-orange: #ff6900;--wp--preset--color--luminous-vivid-amber: #fcb900;--wp--preset--color--light-green-cyan: #7bdcb5;--wp--preset--color--vivid-green-cyan: #00d084;--wp--preset--color--pale-cyan-blue: #8ed1fc;--wp--preset--color--vivid-cyan-blue: #0693e3;--wp--preset--color--vivid-purple: #9b51e0;--wp--preset--color--dark-gray: #333;--wp--preset--color--medium-gray: #555;--wp--preset--color--light-gray: #777;--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg,rgba(6,147,227,1) 0%,rgb(155,81,224) 100%);--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg,rgb(122,220,180) 0%,rgb(0,208,130) 100%);--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg,rgba(252,185,0,1) 0%,rgba(255,105,0,1) 100%);--wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg,rgba(255,105,0,1) 0%,rgb(207,46,46) 100%);--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg,rgb(238,238,238) 0%,rgb(169,184,195) 100%);--wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg,rgb(74,234,220) 0%,rgb(151,120,209) 20%,rgb(207,42,186) 40%,rgb(238,44,130) 60%,rgb(251,105,98) 80%,rgb(254,248,76) 100%);--wp--preset--gradient--blush-light-purple: linear-gradient(135deg,rgb(255,206,236) 0%,rgb(152,150,240) 100%);--wp--preset--gradient--blush-bordeaux: linear-gradient(135deg,rgb(254,205,165) 0%,rgb(254,45,45) 50%,rgb(107,0,62) 100%);--wp--preset--gradient--luminous-dusk: linear-gradient(135deg,rgb(255,203,112) 0%,rgb(199,81,192) 50%,rgb(65,88,208) 100%);--wp--preset--gradient--pale-ocean: linear-gradient(135deg,rgb(255,245,203) 0%,rgb(182,227,212) 50%,rgb(51,167,181) 100%);--wp--preset--gradient--electric-grass: linear-gradient(135deg,rgb(202,248,128) 0%,rgb(113,206,126) 100%);--wp--preset--gradient--midnight: linear-gradient(135deg,rgb(2,3,129) 0%,rgb(40,116,252) 100%);--wp--preset--font-size--small: 16px;--wp--preset--font-size--medium: 20px;--wp--preset--font-size--large: 24px;--wp--preset--font-size--x-large: 42px;--wp--preset--font-size--normal: 18px;--wp--preset--font-size--larger: 28px;--wp--preset--spacing--20: 0.44rem;--wp--preset--spacing--30: 0.67rem;--wp--preset--spacing--40: 1rem;--wp--preset--spacing--50: 1.5rem;--wp--preset--spacing--60: 2.25rem;--wp--preset--spacing--70: 3.38rem;--wp--preset--spacing--80: 5.06rem;--wp--preset--shadow--natural: 6px 6px 9px rgba(0, 0, 0, 0.2);--wp--preset--shadow--deep: 12px 12px 50px rgba(0, 0, 0, 0.4);--wp--preset--shadow--sharp: 6px 6px 0px rgba(0, 0, 0, 0.2);--wp--preset--shadow--outlined: 6px 6px 0px -3px rgba(255, 255, 255, 1), 6px 6px rgba(0, 0, 0, 1);--wp--preset--shadow--crisp: 6px 6px 0px rgba(0, 0, 0, 1);}:where(.is-layout-flex){gap: 0.5em;}:where(.is-layout-grid){gap: 0.5em;}body .is-layout-flex{display: flex;}.is-layout-flex{flex-wrap: wrap;align-items: center;}.is-layout-flex > :is(*, div){margin: 0;}body .is-layout-grid{display: grid;}.is-layout-grid > :is(*, div){margin: 0;}:where(.wp-block-columns.is-layout-flex){gap: 2em;}:where(.wp-block-columns.is-layout-grid){gap: 2em;}:where(.wp-block-post-template.is-layout-flex){gap: 1.25em;}:where(.wp-block-post-template.is-layout-grid){gap: 1.25em;}.has-black-color{color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-color{color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-color{color: var(--wp--preset--color--white) !important;}.has-pale-pink-color{color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-color{color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-color{color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-color{color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-color{color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-color{color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-color{color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-color{color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-color{color: var(--wp--preset--color--vivid-purple) !important;}.has-black-background-color{background-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-background-color{background-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-background-color{background-color: var(--wp--preset--color--white) !important;}.has-pale-pink-background-color{background-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-background-color{background-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-background-color{background-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-background-color{background-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-background-color{background-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-background-color{background-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-background-color{background-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-background-color{background-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-background-color{background-color: var(--wp--preset--color--vivid-purple) !important;}.has-black-border-color{border-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-border-color{border-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-border-color{border-color: var(--wp--preset--color--white) !important;}.has-pale-pink-border-color{border-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-border-color{border-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-border-color{border-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-border-color{border-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-border-color{border-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-border-color{border-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-border-color{border-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-border-color{border-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-border-color{border-color: var(--wp--preset--color--vivid-purple) !important;}.has-vivid-cyan-blue-to-vivid-purple-gradient-background{background: var(--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple) !important;}.has-light-green-cyan-to-vivid-green-cyan-gradient-background{background: var(--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan) !important;}.has-luminous-vivid-amber-to-luminous-vivid-orange-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange) !important;}.has-luminous-vivid-orange-to-vivid-red-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-orange-to-vivid-red) !important;}.has-very-light-gray-to-cyan-bluish-gray-gradient-background{background: var(--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray) !important;}.has-cool-to-warm-spectrum-gradient-background{background: var(--wp--preset--gradient--cool-to-warm-spectrum) !important;}.has-blush-light-purple-gradient-background{background: var(--wp--preset--gradient--blush-light-purple) !important;}.has-blush-bordeaux-gradient-background{background: var(--wp--preset--gradient--blush-bordeaux) !important;}.has-luminous-dusk-gradient-background{background: var(--wp--preset--gradient--luminous-dusk) !important;}.has-pale-ocean-gradient-background{background: var(--wp--preset--gradient--pale-ocean) !important;}.has-electric-grass-gradient-background{background: var(--wp--preset--gradient--electric-grass) !important;}.has-midnight-gradient-background{background: var(--wp--preset--gradient--midnight) !important;}.has-small-font-size{font-size: var(--wp--preset--font-size--small) !important;}.has-medium-font-size{font-size: var(--wp--preset--font-size--medium) !important;}.has-large-font-size{font-size: var(--wp--preset--font-size--large) !important;}.has-x-large-font-size{font-size: var(--wp--preset--font-size--x-large) !important;}
+:where(.wp-block-post-template.is-layout-flex){gap: 1.25em;}:where(.wp-block-post-template.is-layout-grid){gap: 1.25em;}
+:where(.wp-block-columns.is-layout-flex){gap: 2em;}:where(.wp-block-columns.is-layout-grid){gap: 2em;}
+:root :where(.wp-block-pullquote){font-size: 1.5em;line-height: 1.6;}
+</style>
+<link rel='stylesheet' id='mcluhan-fonts-css' href='../../wp-content/themes/mcluhan/assets/css/fonts.css@ver=6.7.1.css' type='text/css' media='all' />
+<link rel='stylesheet' id='fontawesome-css' href='../../wp-content/themes/mcluhan/assets/css/font-awesome.css@ver=6.7.1.css' type='text/css' media='all' />
+<link rel='stylesheet' id='mcluhan-style-css' href='../../wp-content/themes/mcluhan/style.css@ver=2.1.1.css' type='text/css' media='all' />
+<script type="text/javascript" src="../../wp-includes/js/jquery/jquery.min.js@ver=3.7.1" id="jquery-core-js"></script>
+<script type="text/javascript" src="../../wp-includes/js/jquery/jquery-migrate.min.js@ver=3.4.1" id="jquery-migrate-js"></script>
+<script type="text/javascript" id="urvanov_syntax_highlighter_js-js-extra">
+/* <![CDATA[ */
+var UrvanovSyntaxHighlighterSyntaxSettings = {"version":"2.8.38","is_admin":"0","ajaxurl":"https:\/\/www.dmitrymakarov.ru\/wp-admin\/admin-ajax.php","prefix":"urvanov-syntax-highlighter-","setting":"urvanov-syntax-highlighter-setting","selected":"urvanov-syntax-highlighter-setting-selected","changed":"urvanov-syntax-highlighter-setting-changed","special":"urvanov-syntax-highlighter-setting-special","orig_value":"data-orig-value","debug":""};
+var UrvanovSyntaxHighlighterSyntaxStrings = {"copy":"Copied to the clipboard","minimize":"Click To Expand Code"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="../../wp-content/plugins/urvanov-syntax-highlighter/js/min/urvanov_syntax_highlighter.min.js@ver=2.8.38" id="urvanov_syntax_highlighter_js-js"></script>
+
+			<!-- Customizer CSS -->
+
+			<style type="text/css">
+
+				body .site-header { background-color:#004235; }.social-menu.desktop { background-color:#004235; }.social-menu a:hover { color:#004235; }.social-menu a.active { color:#004235; }.mobile-menu-wrapper { background-color:#004235; }.social-menu.mobile { background-color:#004235; }.mobile-search.active { background-color:#004235; }
+			</style>
+
+			<!-- /Customizer CSS -->
+
+					<script>jQuery( 'html' ).removeClass( 'no-js' ).addClass( 'js' );</script>
+		<style type="text/css">.broken_link, a.broken_link {
+	text-decoration: line-through;
+}</style><style type="text/css" id="custom-background-css">
+body.custom-background { background-color: #fff9ef; }
+</style>
+	<link rel="icon" href="../../wp-content/uploads/2021/08/cropped-wp-favicon-512-32x32.png" sizes="32x32" />
+<link rel="icon" href="../../wp-content/uploads/2021/08/cropped-wp-favicon-512-192x192.png" sizes="192x192" />
+<link rel="apple-touch-icon" href="../../wp-content/uploads/2021/08/cropped-wp-favicon-512-180x180.png" />
+<meta name="msapplication-TileImage" content="https://www.dmitrymakarov.ru/wp-content/uploads/2021/08/cropped-wp-favicon-512-270x270.png" />
+
+	</head>
+
+	<body class="page-template page-template-full-width-page-template page-template-full-width-page-template-php page page-id-7283 page-child parent-pageid-5658 custom-background full-width-template">
+
+		
+		<a class="skip-link button" href="index.html#site-content">Перейти к содержимому</a>
+
+		<header class="site-header group">
+
+			
+			<p class="site-title"><a href="../../index.html" class="site-name">Машинное обучение</a></p>
+
+			
+			<div class="nav-toggle">
+				<div class="bar"></div>
+				<div class="bar"></div>
+			</div>
+
+			<div class="menu-wrapper">
+
+				<ul class="main-menu desktop">
+
+									</ul>
+
+			</div><!-- .menu-wrapper -->
+
+			
+				<div class="social-menu desktop">
+
+					<ul class="social-menu-inner">
+
+						<li class="social-search-wrapper"><a href="../../index.html@s=.html"></a></li>
+
+						
+					</ul><!-- .social-menu-inner -->
+
+				</div><!-- .social-menu -->
+
+			
+		</header><!-- header -->
+
+		<div class="mobile-menu-wrapper">
+
+			<ul class="main-menu mobile">
+									<li class="toggle-mobile-search-wrapper"><a href="index.html#" class="toggle-mobile-search">Поиск</a></li>
+							</ul><!-- .main-menu.mobile -->
+
+			
+		</div><!-- .mobile-menu-wrapper -->
+
+		
+			<div class="mobile-search">
+
+				<div class="untoggle-mobile-search"></div>
+
+				
+<form role="search" method="get" class="search-form" action="../../index.html">
+	<label class="screen-reader-text" for="search-form-67aa6265b2517">Поиск:</label>
+	<input type="search" id="search-form-67aa6265b2517" class="search-field" placeholder="Введите запрос" value="" name="s" autocomplete="off" />
+	</button>
+</form>
+
+				<div class="mobile-results">
+
+					<div class="results-wrapper"></div>
+
+				</div>
+
+			</div><!-- .mobile-search -->
+
+			<div class="search-overlay">
+
+				
+<form role="search" method="get" class="search-form" action="../../index.html">
+	<label class="screen-reader-text" for="search-form-67aa6265b258e">Поиск:</label>
+	<input type="search" id="search-form-67aa6265b258e" class="search-field" placeholder="Введите запрос" value="" name="s" autocomplete="off" />
+	</button>
+</form>
+
+			</div><!-- .search-overlay -->
+
+		
+		<main class="site-content" id="site-content">
+		<article class="post-7283 page type-page status-publish hentry missing-thumbnail">
+
+			
+			<header class="entry-header section-inner">
+
+				<h1 class="entry-title">Функция потерь и производная</h1>
+			</header><!-- .entry-header -->
+
+			<div class="entry-content section-inner">
+
+				
+<p class="has-light-gray-color has-text-color"><a href="../../index.html">Материалы</a> &gt; <a href="../index.html">Обучение модели</a></p>
+
+
+
+<h2 class="wp-block-heading" id="0-model-i-funktsiya-poter">Модель и функция потерь</h2>
+
+
+
+<p>При обучении любой модели мы подбирали идеальные веса. Если это <strong>модель</strong> линейной регрессии (linear regression model) с одним признаком (одной независимой переменной), то наше уравнение может выглядеть следующим образом (постоянный коэффициент или сдвиг мы пока опустим для простоты).</p>
+
+
+
+<p>$$ y = w \times x $$</p>
+
+
+
+<p>Для того чтобы подобрать вес $w$, у нас есть ещё одна функция, называемая <strong>функцией потерь</strong> (loss function). Это наш критерий качества первой, основной функции модели.</p>
+
+
+
+<p> $$ MSE =  \frac {1}{n} \sum^{n}_{i=1} (y_i-\hat{y}_i) ^2 $$</p>
+
+
+
+<p>Напомню, в данном случае мы находим <a href="../../intro/optimization/index.html">среднеквадратическую ошибку</a> или MSE, которая показывает среднее расстояние всех точек до линии регрессии.</p>
+
+
+
+<p>Для того чтобы сделать более очевидной связь функции потерь с исходной моделью, мы можем переписать ее следующим образом.</p>
+
+
+
+<p>$$ MSE =  \frac {1}{n} \sum^{n}_{i=1} (y_i-(w \times x_i))^2 $$</p>
+
+
+
+<p>Подставляя наши данные $x_i$ и веса $w$ и сравнивая результат с целевым значением $y_i$, мы будем на каждой итерации получать определенный уровень ошибки.</p>
+
+
+
+<p>Графически, модель регрессии &#8212; это прямая, функция потерь &#8212; парабола. Представим, что в упрощенном виде, эти функции выглядят следующим образом.</p>
+
+
+
+<figure class="wp-block-image size-large"><img fetchpriority="high" decoding="async" width="1024" height="599" src="../../wp-content/uploads/2021/12/reg-loss-1024x599.png" alt="модель машинного обучения и оптимизация функции потерь" class="wp-image-7670" srcset="../../wp-content/uploads/2021/12/reg-loss-1024x599.png 1024w, ../../wp-content/uploads/2021/12/reg-loss-300x175.png 300w, ../../wp-content/uploads/2021/12/reg-loss-768x449.png 768w, ../../wp-content/uploads/2021/12/reg-loss-600x351.png 600w, ../../wp-content/uploads/2021/12/reg-loss.png 1178w" sizes="(max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+<p>Как они связаны? Там где при определенном весе $w$ значение функции потерь (т.е. ошибка) минимально, вес (а значит и наклон прямой) основной функции оптимален. Из графика очевидно, что идеальным весом с минимальной ошибкой, а значит и наклоном линии регрессии будет $w = 2.$</p>
+
+
+
+<p>Как же найти эту точку? Ведь графики &#8212; это просто иллюстрация, и никакого надежного метода мы пока не придумали.</p>
+
+
+
+<h2 class="wp-block-heading" id="1-naklon-kasatelnoy-k-funktsii-poter">Наклон касательной к функции потерь</h2>
+
+
+
+<p>Давайте возьмем несколько точек на горизонтальной оси $w$, на уровне этих точек проведем касательные линии (tangent lines) к нашей параболе и рассчитаем их наклон.</p>
+
+
+<div class="wp-block-image">
+<figure class="aligncenter size-full is-resized"><img decoding="async" width="856" height="728" src="../../wp-content/uploads/2021/12/tangent-lines.png" alt="наклон касательной к функции" class="wp-image-7694" style="width:732px;height:623px" srcset="../../wp-content/uploads/2021/12/tangent-lines.png 856w, ../../wp-content/uploads/2021/12/tangent-lines-300x255.png 300w, ../../wp-content/uploads/2021/12/tangent-lines-768x653.png 768w, ../../wp-content/uploads/2021/12/tangent-lines-600x510.png 600w" sizes="(max-width: 856px) 100vw, 856px" /></figure></div>
+
+
+<p>Становится очевидно, что в точке $b$, где наклон касательной равен нулю, наша функция имеет минимальную ошибку, а вес модели идеален. Остаётся выяснить, как рассчитать наклон в каждой из точек.</p>
+
+
+
+<h2 class="wp-block-heading" id="2-proizvodnaya-funktsii">Производная функции</h2>
+
+
+
+<p>Оказывается, для многих функций можно найти производную от них функцию или просто <strong>производную</strong> (derivative).</p>
+
+
+
+<p class="has-background" style="background-color:#ffe8c4">Значение производной показывает <strong>наклон</strong> касательной к исходной функции в определенной точке.</p>
+
+
+
+<p>Давайте разберем это <em>первое</em> важное для нас утверждение пошагово:</p>
+
+
+
+<p><strong>Шаг 1</strong>. Берем функцию, например, параболу и находим еще одну функцию, производную от нее.</p>
+
+
+
+<p>$$ f(w) = (2-w)^2$$</p>
+
+
+
+<p>$$ f'(w) = 2w-4 $$</p>
+
+
+
+<p>Обозначение производной $f'(w)$ читается как &#171;эф штрих от далб ю&#187;.</p>
+
+
+
+<p><strong>Шаг 2</strong>. Берем любое значение $w$, например, $w = 3$, и подставляем в уравнение производной.</p>
+
+
+
+<p>$$ f'(3) = 2 \times 3-4 = 2 $$</p>
+
+
+
+<p>Число два характеризует наклон касательной к параболе в точке $w = 3.$</p>
+
+
+
+<h3 class="wp-block-heading" id="3-nakhozhdenie-proizvodnoy">Нахождение производной</h3>
+
+
+
+<p>Остается выяснить, как мы пришли от функции к ее производной?</p>
+
+
+
+<p>$$ f(w) = (2-w)^2 \rightarrow f'(w) = 2w-4 $$</p>
+
+
+
+<p>Давайте проведем линию (она называется секущей, secant line) через нашу параболу в точке $(w; f(w))$ и в точке $((w + \Delta w)$; $f(w + \Delta w))$. Здесь $\Delta$ &#8212; это заглавная греческая буква &#171;дельта&#187;, которой часто обозначают разницу или изменение чего-либо.</p>
+
+
+
+<figure class="wp-block-image size-large"><img decoding="async" width="1024" height="709" src="../../wp-content/uploads/2021/12/secant-line2-1024x709.png" alt="отношение приращения функции к приращению аргумента" class="wp-image-7684" srcset="../../wp-content/uploads/2021/12/secant-line2-1024x709.png 1024w, ../../wp-content/uploads/2021/12/secant-line2-300x208.png 300w, ../../wp-content/uploads/2021/12/secant-line2-768x532.png 768w, ../../wp-content/uploads/2021/12/secant-line2-600x416.png 600w, ../../wp-content/uploads/2021/12/secant-line2.png 1038w" sizes="(max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+<p class="has-background" style="background-color:#ffe8c4">Наклон секущей линии будет равен <strong>отношению приращения функции к приращению аргумента</strong> (difference quotient).</p>
+
+
+
+<p>Другими словами, мы посмотрим насколько изменится расстояние по вертикали $f(w+\Delta w)-f(w)$ при заданном изменении по горизонтали $(w + \Delta w)-w$ или просто $ \Delta w.$</p>
+
+
+
+<p>$$ \frac {f(w+\Delta w)-f(w)}{\Delta w} $$</p>
+
+
+
+<h3 class="wp-block-heading" id="4-graficheskoe-reshenie">Графическое решение</h3>
+
+
+
+<p>Для того чтобы графически перейти от секущей к касательной, мы можем представить, что бесконечно уменьшаем приращение аргумента $ \Delta w$. Ещё говорят, что $ \Delta w$ стремится к нулю, $ \Delta w \rightarrow 0.$</p>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" decoding="async" width="1024" height="545" src="../../wp-content/uploads/2021/12/secant-tangent-1024x545.png" alt="переход от секущей к касательной линии" class="wp-image-7687" srcset="../../wp-content/uploads/2021/12/secant-tangent-1024x545.png 1024w, ../../wp-content/uploads/2021/12/secant-tangent-300x160.png 300w, ../../wp-content/uploads/2021/12/secant-tangent-768x409.png 768w, ../../wp-content/uploads/2021/12/secant-tangent-1200x639.png 1200w, ../../wp-content/uploads/2021/12/secant-tangent-600x319.png 600w, ../../wp-content/uploads/2021/12/secant-tangent.png 1251w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+<p>Так вот по мере того, как $ \Delta w$ стремится к нулю, секущая линия будет стремиться к касательной в точке $w$. Именно это нам и нужно.</p>
+
+
+
+<h3 class="wp-block-heading" id="5-algebraicheskoe-reshenie">Алгебраическое решение</h3>
+
+
+
+<p>Теперь давайте найдем производную параболы алгебраически. Для этого подставим в формулу выше нашу параболу, раскроем скобки и упростим выражение.</p>
+
+
+
+<p>$$ f'(w) = \frac {(2-(w + \Delta w))^2-(2-w)^2}{\Delta w} = $$</p>
+
+
+
+<p>$$ \frac {(w^2+2w \Delta w + \Delta w^2-4w-4 \Delta w +4)-(w^2-4w+4)}{\Delta w} = $$</p>
+
+
+
+<p>$$ \frac {\cancel{w^2}+2w \Delta w + \Delta w^2-\cancel{4w}-4 \Delta w + \cancel{4} -\cancel{w^2}+\cancel{4w}-\cancel{4} }{\Delta w} = $$</p>
+
+
+
+<p>$$ \frac {\Delta w^2+2w\Delta w-4 \Delta w}{\Delta w} = $$</p>
+
+
+
+<p>$$ \frac {\cancel{\Delta w} (\Delta w+2w-4)}{\cancel {\Delta w}} = $$</p>
+
+
+
+<p>$$ 2w-4 + \Delta w $$</p>
+
+
+
+<p>Вспомните, мы допустили превращение секущей в касательную при стремлении $ \Delta w$ к нулю. Так как это бесконечно малая величина, мы можем ей пренебречь, и у нас остаётся уравнение производной.</p>
+
+
+
+<p>$$ f'(w) = 2w-4 + \cancel{\Delta w} = 2w-4 $$</p>
+
+
+
+<h3 class="wp-block-heading" id="6-pravila-nakhozhdeniya-proizvodnoy">Правила нахождения производной</h3>
+
+
+
+<p>Если у функции есть производная (а так бывает не всегда), то с помощью отношения приращений ее можно найти. Однако, по мере усложнения функции, такой способ нахождения производной становится очень долгим.</p>
+
+
+
+<p>К счастью, из формулы отношения приращений можно вывести несколько несложных правил, которые упрощают и ускоряют процесс <strong>дифференцирования функции</strong> (т.е. нахождения ее производной).</p>
+
+
+
+<h4 class="wp-block-heading" id="7-proizvodnaya-konstanty">Производная константы</h4>
+
+
+
+<p>График константы $(C)$ &#8212; это всегда горизонтальная прямая, а значит наклон касательной в любой точке и производная равны нулю.</p>
+
+
+
+<p>$$ f(w) = C \rightarrow f'(w) = 0 $$</p>
+
+
+
+<p>Проиллюстрируем на графике.</p>
+
+
+
+<figure class="wp-block-image size-full is-resized"><img loading="lazy" decoding="async" width="622" height="431" src="../../wp-content/uploads/2021/12/constant.png" alt="производная константы" class="wp-image-7701" style="width:470px;height:326px" srcset="../../wp-content/uploads/2021/12/constant.png 622w, ../../wp-content/uploads/2021/12/constant-300x208.png 300w, ../../wp-content/uploads/2021/12/constant-600x416.png 600w" sizes="auto, (max-width: 622px) 100vw, 622px" /></figure>
+
+
+
+<h4 class="wp-block-heading" id="8-proizvodnaya-stepennoy-funktsii">Производная степенной функции</h4>
+
+
+
+<p>К степенной функции относится уже встречавшаяся нам квадратичная функция $w^2$. Ее можно дифференцировать по следующей формуле.</p>
+
+
+
+<p>$$ f(w) = w^n \rightarrow f'(w) = nw^{n-1} $$</p>
+
+
+
+<p>Подставим число 2 вместо $n.$</p>
+
+
+
+<p>$$ f(w) = w^2 \rightarrow f'(w) = 2w^{2-1} = 2w $$</p>
+
+
+
+<h4 class="wp-block-heading" id="9-umnozhenie-na-chislo">Умножение на число</h4>
+
+
+
+<p>Если функция умножена на число, то при дифференцировании, мы можем умножить производную функции на это число.</p>
+
+
+
+<p>$$ f(w) = Cg(w) \rightarrow f'(w) = Cg'(w) $$</p>
+
+
+
+<p>Приведем пример.</p>
+
+
+
+<p>$$ f(w) = 2w^3 \rightarrow f'(w) = 2 \cdot 3w^{3-1} = 6w^2$$</p>
+
+
+
+<h4 class="wp-block-heading" id="10-proizvodnaya-summy-i-raznosti">Производная суммы и разности</h4>
+
+
+
+<p>Производная суммы двух функций равна сумме производных каждой из этих функций. То же самое с разностью.</p>
+
+
+
+<p>$$ (f(w) \pm g(w))&#8217; = f'(w) \pm g'(w) $$</p>
+
+
+
+<p>Приведем несложный пример.</p>
+
+
+
+<p>$$ f(w) = w^4+3w  \rightarrow $$</p>
+
+
+
+<p>$$ f'(w) = (w^4+3w)&#8217; = (w^4)&#8217; + (3w)&#8217; = $$</p>
+
+
+
+<p>$$ 4w^{4-1}+3w^{1-1} = 4w^3+3w^0 = 4w^3 + 3$$ </p>
+
+
+
+<p>Производная разности находится аналогично.</p>
+
+
+
+<h4 class="wp-block-heading" id="11-proizvodnaya-proizvedeniya-i-chastnogo">Производная произведения и частного</h4>
+
+
+
+<p>Производные произведения и частного требуют несколько более сложных вычислений, но в целом находятся аналогично производным суммы и разности двух функций. </p>
+
+
+
+<p>$$ (f(w) \cdot g(w))&#8217; = f'(w) \cdot g(w) + f(w) \cdot g'(w) $$</p>
+
+
+
+<p>$$ \left( \frac{f(w)}{g(w)} \right)&#8217; = \frac {f'(w) \cdot g(w)-f(w) \cdot g'(w)}{(g(w))^2} $$</p>
+
+
+
+<p>Приведем примеры для каждой из формул. Начнем с произведения константы на степенную функцию.</p>
+
+
+
+<p>$$ f(w) = 5w^3 $$</p>
+
+
+
+<p>$$ f'(w) = 0 \cdot w^3 + 5 \cdot 3w^2 = 15w^2 $$</p>
+
+
+
+<p>Замечу, что в данном случае мы пришли к тому же результату, как если бы использовали формулу умножения функции на число.</p>
+
+
+
+<p>$$ f'(w) = 5 \cdot 3w^{3-1} = 15w^2 $$</p>
+
+
+
+<p>Теперь посмотрим на производную частного двух функций.</p>
+
+
+
+<p>$$ f(w) = \frac {3}{2x} $$</p>
+
+
+
+<p>$$ f'(w) = \frac {0 \cdot 2w-3 \cdot 2}{(2w)^2} = \frac {0-6}{4w^2} = -\frac {3}{2w^2} $$</p>
+
+
+
+<h4 class="wp-block-heading" id="12-proizvodnaya-kompozitsii-funktsiy">Производная композиции функций</h4>
+
+
+
+<p>Прежде чем мы перейдем к нахождению производной композиции функций (composite function) или производной сложной функции, давайте в принципе вспомним, что это такое. Пусть даны две функции.</p>
+
+
+
+<p>$$ f(w) = w^3 $$</p>
+
+
+
+<p>$$ g(w) = w-1 $$</p>
+
+
+
+<p>Тогда композицией этих функций $f(g(x))$ будет</p>
+
+
+
+<p>$$ f(g(w)) = f(w-1) = (w-1)^3 $$</p>
+
+
+
+<p>На схеме это можно представить следующим образом:</p>
+
+
+<div class="wp-block-image">
+<figure class="aligncenter size-full is-resized"><img loading="lazy" decoding="async" width="904" height="522" src="../../wp-content/uploads/2022/01/composite.png" alt="композиция функций" class="wp-image-8980" style="width:654px;height:378px" srcset="../../wp-content/uploads/2022/01/composite.png 904w, ../../wp-content/uploads/2022/01/composite-300x173.png 300w, ../../wp-content/uploads/2022/01/composite-768x443.png 768w, ../../wp-content/uploads/2022/01/composite-600x346.png 600w" sizes="auto, (max-width: 904px) 100vw, 904px" /></figure></div>
+
+
+<p>Если подставить значение в такую функцию (например, $x = 3$), то расчет будет выглядеть так.</p>
+
+
+
+<p>$$ f(g(3)) = f(3-1) = 2^3 = 8 $$</p>
+
+
+
+<p>Теперь про то, как дифференцировать такую функцию. Приведем правило.</p>
+
+
+
+<p>$$ (h(w))&#8217; = (f(g(w)))&#8217; = f'(g(w)) \cdot g'(w) $$</p>
+
+
+
+<p>Давайте словами опишем каждое действие:</p>
+
+
+
+<ol class="wp-block-list">
+<li>вначале дифференцируем внешнюю функцию $f(w);$</li>
+
+
+
+<li>затем вместо $w$ подставляем внутреннюю функцию $g(w)$; получается сложная функция из производной внешней функции и внутренней функции $f'(g(w));$</li>
+
+
+
+<li>наконец мы умножаем сложную функцию на производную внутренней функции $g(w).$</li>
+</ol>
+
+
+
+<p class="has-background" style="background-color:#ffe8c4">Эту формулу называют цепным правилом или <strong>chain rule</strong>.</p>
+
+
+
+<p>Теперь найдем производную композиции функций, приведенных выше. Вначале для удобства вычислим производные каждой из функций.</p>
+
+
+
+<p>$$ f'(w) = 3w^2 $$</p>
+
+
+
+<p>$$ g'(w) = 1w^{1-1}+0 = w^0 = 1 $$</p>
+
+
+
+<p>Применим chain rule.</p>
+
+
+
+<p>$$ (f(g(w)))&#8217; = 3(w-1)^2 \cdot 1 =  3(w-1)^2 $$</p>
+
+
+
+<h3 class="wp-block-heading" id="13-onlayn-kalkulyatory-i-biblioteka-simpy">Онлайн-калькуляторы и библиотека SimPy</h3>
+
+
+
+<p>После того как вы поняли суть производной и принцип ее нахождения, в целях экономии времени удобно воспользоваться любым <a href="https://www.derivative-calculator.net/" target="_blank" rel="noreferrer noopener">онлайн-калькулятором</a>⧉ или Питоном.</p>
+
+
+
+<p class="has-text-align-center has-white-color has-text-color has-background" style="background-color:#004235"><a href="https://colab.research.google.com/drive/1t7qWBP21SUhi-8wiktfFDQ-FV4aGBEAb?usp=sharing" target="_blank" rel="noreferrer noopener">Откроем блокнот к этому занятию</a>⧉</p>
+
+
+
+<p>В Питоне можно использовать <strong>библиотеку SymPy</strong> (Symbolic Mathematics in Python). Библиотека SimPy &#8212; это система компьютерной алгебры (Computer Algebra System, CAS), которая позволяет работать с математическими выражениями, как если бы мы производили вычисления на бумаге.</p>
+
+
+
+<p>Приведем распространенный пример с функцией квадратного корня. Если использовать, например, модуль <strong>math</strong>, то результатом извлечения квадратного корня из числа 11 будет его приближенное значение.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa6265ac0da837928843" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6265ac0da837928843-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa6265ac0da837928843-2">2</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6265ac0da837928843-1"><span class="crayon-st">from</span><span class="crayon-h"> </span><span class="crayon-k ">math</span><span class="crayon-h"> </span><span class="crayon-r">import</span><span class="crayon-h"> </span><span class="crayon-e">sqrt</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa6265ac0da837928843-2"><span class="crayon-e">sqrt</span><span class="crayon-sy">(</span><span class="crayon-cn">11</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0002 seconds] -->
+</div>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa6265ac0e6168360226" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6265ac0e6168360226-1">1</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6265ac0e6168360226-1">3.3166247903554</div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0000 seconds] -->
+</div>
+
+
+
+<p>Если же использовать <strong>SymPy</strong>, то результатом будет математическое выражение.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa6265ac0e8904646443" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6265ac0e8904646443-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa6265ac0e8904646443-2">2</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6265ac0e8904646443-1"><span class="crayon-st">from</span><span class="crayon-h"> </span><span class="crayon-e">sympy </span><span class="crayon-r">import</span><span class="crayon-h"> </span><span class="crayon-e">sqrt</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa6265ac0e8904646443-2"><span class="crayon-e">sqrt</span><span class="crayon-sy">(</span><span class="crayon-cn">11</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0001 seconds] -->
+</div>
+
+
+
+<figure class="wp-block-image size-full"><img loading="lazy" decoding="async" width="46" height="30" src="../../wp-content/uploads/2022/01/sqrt11.png" alt="функция корня в библиотеке SymPy" class="wp-image-9297"/></figure>
+
+
+
+<p>Для нахождения производной воспользуемся <strong>функцией diff()</strong>. Импортируем ее.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa6265ac0e9682626128" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6265ac0e9682626128-1">1</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6265ac0e9682626128-1"><span class="crayon-st">from</span><span class="crayon-h"> </span><span class="crayon-e">sympy </span><span class="crayon-r">import</span><span class="crayon-h"> </span><span class="crayon-v">diff</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0001 seconds] -->
+</div>
+
+
+
+<p>Кроме того, нам надо попросить Питон считать $w$ математическим символом, а не обычной переменной, которая хранит какое-либо значение.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa6265ac0eb115165453" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6265ac0eb115165453-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa6265ac0eb115165453-2">2</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6265ac0eb115165453-1"><span class="crayon-c"># для этого мы импортируем соответствующую букву из модуля abc</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa6265ac0eb115165453-2"><span class="crayon-st">from</span><span class="crayon-h"> </span><span class="crayon-v">sympy</span><span class="crayon-sy">.</span><span class="crayon-k ">abc</span><span class="crayon-h"> </span><span class="crayon-r">import</span><span class="crayon-h"> </span><span class="crayon-k ">w</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0001 seconds] -->
+</div>
+
+
+
+<p>Остается прописать функцию, которую мы хотим дифференцировать, и передать ее в <strong>diff()</strong> вместе с символом $w.$</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa6265ac0ec378567624" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6265ac0ec378567624-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa6265ac0ec378567624-2">2</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6265ac0ec378567624-1"><span class="crayon-v">f</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-cn">2</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-h"> </span><span class="crayon-k ">w</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-o">*</span><span class="crayon-o">*</span><span class="crayon-h"> </span><span class="crayon-cn">2</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa6265ac0ec378567624-2"><span class="crayon-e">diff</span><span class="crayon-sy">(</span><span class="crayon-v">f</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-k ">w</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0002 seconds] -->
+</div>
+
+
+
+<figure class="wp-block-image size-full"><img loading="lazy" decoding="async" width="85" height="37" src="../../wp-content/uploads/2022/01/lossder.png" alt="нахождение производной с помощью функции diff() библиотеки SymPy" class="wp-image-9299"/></figure>
+
+
+
+<h2 class="wp-block-heading" id="14-optimizatsiya-funktsii-i-nakhozhdenie-minimuma">Оптимизация функции и нахождение минимума</h2>
+
+
+
+<p>Итак, мы научились находить производную от функции и вычислять ее значение в заданной точке. Однако, и мы об этом уже сказали, нас интересует только та точка, в которой наклон касательной будет равен нулю, а значение функции минимально.</p>
+
+
+
+<h3 class="wp-block-heading" id="15-analiticheskoe-reshenie">Аналитическое решение</h3>
+
+
+
+<p>Если мы приравняем уравнение производной к нулю и решим относительно $w,$ то найдем минимум параболы.</p>
+
+
+
+<p>$$ 2w-4=0 $$</p>
+
+
+
+<p>$$ 2w = 4 $$</p>
+
+
+
+<p>$$ w = 2 $$</p>
+
+
+
+<p>Как мы уже видели на первом графике, в точке $w = 2$ ошибка действительно минимальна.</p>
+
+
+
+<p>К сожалению, такая простая оптимизация далеко не всегда возможна хотя бы потому, что наклон параболы (производная) равны нулю не только в точке минимума функции, но и в точке ее максимума.</p>
+
+
+
+<p>Возьмем вот такую функцию:</p>
+
+
+
+<p>$$ f(w) =-(2-w)^2 $$</p>
+
+
+
+<p>Ветви этой параболы направлены вниз и в точке, где наклон касательной равен нулю, находится ее максимум, а не минимум.</p>
+
+
+<div class="wp-block-image">
+<figure class="aligncenter size-full is-resized"><img loading="lazy" decoding="async" width="879" height="687" src="../../wp-content/uploads/2021/12/max-opt.png" alt="производная равна нулю и в точке максимума функции" class="wp-image-7691" style="aspect-ratio:1.2801358234295417;width:570px;height:auto" srcset="../../wp-content/uploads/2021/12/max-opt.png 879w, ../../wp-content/uploads/2021/12/max-opt-300x234.png 300w, ../../wp-content/uploads/2021/12/max-opt-768x600.png 768w, ../../wp-content/uploads/2021/12/max-opt-600x469.png 600w" sizes="auto, (max-width: 879px) 100vw, 879px" /></figure></div>
+
+
+<p>Похоже, что нам придется попросить компьютер подобрать для нас оптимальный вес $w,$ при котором ошибка будет минимальна. Такой метод называется численным или вычислительным.</p>
+
+
+
+<h3 class="wp-block-heading" id="16-chislennyy-metod-optimizatsii">Численный метод оптимизации</h3>
+
+
+
+<p>Впрочем, с подбором весов с помощью компьютера есть одна сложность. Начальный вес, то есть наклон прямой линейной регрессии, выбирается случайным образом.</p>
+
+
+
+<p>Например, это может быть точка $a$ или точка $c$ на графике ниже, где наклон касательной к функции потерь очевидно не равен нулю.</p>
+
+
+<div class="wp-block-image">
+<figure class="aligncenter size-full is-resized"><img loading="lazy" decoding="async" width="865" height="589" src="../../wp-content/uploads/2022/01/derivatives.png" alt="оптимизация функции: как использовать производную" class="wp-image-9317" style="aspect-ratio:1.4712389380530972;width:559px;height:auto" srcset="../../wp-content/uploads/2022/01/derivatives.png 865w, ../../wp-content/uploads/2022/01/derivatives-300x204.png 300w, ../../wp-content/uploads/2022/01/derivatives-768x523.png 768w, ../../wp-content/uploads/2022/01/derivatives-600x409.png 600w" sizes="auto, (max-width: 865px) 100vw, 865px" /></figure></div>
+
+
+<p>Как нам (или вернее комьютеру) узнать, в какую сторону сдвигаться по оси $w$, чтобы наклон касательной в результате стал равен нулю, а мы оказались в самой нижней точке? Простой перебор вариантов может оказаться нереализуемым на большом объеме данных и сложной функции потерь.</p>
+
+
+
+<p>Здесь будет уместно привести <em>вторую</em> важную особенность производной функции.</p>
+
+
+
+<p class="has-background" style="background-color:#ffe8c4">Помимо наклона, производная указывает <strong>направление</strong> скорейшего подъема по исходной функции.</p>
+
+
+
+<p>Этот факт станет более очевиден, когда мы будем изучать функции с несколькими переменными на следующем занятии. Пока же, если мы согласимся с этим утверждением, то для того чтобы спуститься по функции вниз, нам нужно двигаться в направлении обратном направлению производной.</p>
+
+
+
+<h4 class="wp-block-heading" id="17-primer-chislennoy-optimizatsii">Пример численной оптимизации</h4>
+
+
+
+<p>Вернемся к нашей функции потерь. Еще раз напомню саму функцию и ее производную.</p>
+
+
+
+<p>$$ f(w) = (2-w)^2 $$</p>
+
+
+
+<p> $$ f'(w) = 2w-4 $$</p>
+
+
+
+<p>Предположим, что мы выбрали начальный вес в точке $w = -3$. В этой точке производная равна</p>
+
+
+
+<p>$$ f'(-3) = 2 \times (-3)-4 =  -10 $$</p>
+
+
+<div class="wp-block-image">
+<figure class="aligncenter size-full is-resized"><img loading="lazy" decoding="async" width="869" height="719" src="../../wp-content/uploads/2022/01/des1.png" alt="оптимизация функции потерь, шаг 1" class="wp-image-9320" style="width:642px;height:auto" srcset="../../wp-content/uploads/2022/01/des1.png 869w, ../../wp-content/uploads/2022/01/des1-300x248.png 300w, ../../wp-content/uploads/2022/01/des1-768x635.png 768w, ../../wp-content/uploads/2022/01/des1-600x496.png 600w" sizes="auto, (max-width: 869px) 100vw, 869px" /></figure></div>
+
+
+<p>Для скорейшего подъема по функции вверх нам нужно двигаться &#171;влево&#187; на расстояние $-10$. Если же мы хотим (а мы как раз хотим) спускаться, то нам нужно двигаться &#171;вправо&#187;, то есть на расстояние $-(-10)$ или $+10$. Сдвинувшись на это расстояние, мы окажемся в точке $w = 7.$</p>
+
+
+<div class="wp-block-image">
+<figure class="aligncenter size-full is-resized"><img loading="lazy" decoding="async" width="876" height="708" src="../../wp-content/uploads/2022/01/des2.png" alt="оптимизация функции потерь без коэффициента скорости обучения" class="wp-image-9321" style="width:647px;height:auto" srcset="../../wp-content/uploads/2022/01/des2.png 876w, ../../wp-content/uploads/2022/01/des2-300x242.png 300w, ../../wp-content/uploads/2022/01/des2-768x621.png 768w, ../../wp-content/uploads/2022/01/des2-600x485.png 600w" sizes="auto, (max-width: 876px) 100vw, 876px" /></figure></div>
+
+
+<p>Все хорошо, только мы &#171;перелетели&#187; наш минимум. В результате теперь нам нужно двигаться в обратном направлении и, к сожалению, на такое же расстояние:</p>
+
+
+
+<p>$$ f'(7) = 2 \times 7-4 = 10 $$</p>
+
+
+
+<p>Давайте повторим это же действие, но предварительно умножим $-(-10)$ (обратное значение производной в точке $w = -3$) на коэффициент (назовем его &#171;альфа&#187;, $\alpha$), равный, например, $0{,}05$. Первый шаг &#171;вправо&#187; в этом случае будет равен не $10$, а $10 \times 0{,}05 = 0{,}5.$</p>
+
+
+
+<p>В результате мы окажемся в точке $w = -3 + 0{,}5 = -2{,}5$. Производная в этой точке равна</p>
+
+
+
+<p>$$ f'(-2.5) = 2 \times (-2.5)-4 = -9 $$</p>
+
+
+<div class="wp-block-image">
+<figure class="aligncenter size-full is-resized"><img loading="lazy" decoding="async" width="862" height="706" src="../../wp-content/uploads/2022/01/der9.png" alt="оптимизация функции потерь, шаг 2" class="wp-image-9334" style="width:794px;height:auto" srcset="../../wp-content/uploads/2022/01/der9.png 862w, ../../wp-content/uploads/2022/01/der9-300x246.png 300w, ../../wp-content/uploads/2022/01/der9-768x629.png 768w, ../../wp-content/uploads/2022/01/der9-600x491.png 600w" sizes="auto, (max-width: 862px) 100vw, 862px" /></figure></div>
+
+
+<p>Тогда следующий шаг составит $9 \times 0{,}05 = 0{,}45$. Сместившись на это расстояние, мы окажемся в точке $w = -2{,}5 + 0{,}45 = -2{,}05.$</p>
+
+
+<div class="wp-block-image">
+<figure class="aligncenter size-full is-resized"><img loading="lazy" decoding="async" width="860" height="703" src="../../wp-content/uploads/2022/01/der8.1.png" alt="оптимизация функции потерь, шаг 3" class="wp-image-9335" style="width:772px;height:auto" srcset="../../wp-content/uploads/2022/01/der8.1.png 860w, ../../wp-content/uploads/2022/01/der8.1-300x245.png 300w, ../../wp-content/uploads/2022/01/der8.1-768x628.png 768w, ../../wp-content/uploads/2022/01/der8.1-600x490.png 600w" sizes="auto, (max-width: 860px) 100vw, 860px" /></figure></div>
+
+
+<p>Так мы будем двигаться до тех пор, пока не окажемся &#171;на дне&#187; параболы в точке $w = 2.$</p>
+
+
+
+<p class="has-background" style="background-color:#ffe8c4">Коэффициент $\alpha$, который мы использовали для плавного спуска вниз по функции, принято называть <strong>скоростью обучения</strong> (learning rate). И действительно, в зависимости от значения $\alpha$ спуск будет происходить быстрее либо медленнее.</p>
+
+
+
+<p>Дополнительно замечу, что если бы мы изначально оказались в точке, например, $w = 3$, то двигались бы в обратную сторону (&#171;влево&#187;).</p>
+
+
+
+<h3 class="wp-block-heading" id="18-optimizatsiya-funktsii-na-pitone">Оптимизация функции на Питоне</h3>
+
+
+
+<p>Давайте реализуем этот несложный алгоритм на Питоне.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa6265ac0ee549150255" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6265ac0ee549150255-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa6265ac0ee549150255-2">2</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6265ac0ee549150255-1"><span class="crayon-r">import</span><span class="crayon-h"> </span><span class="crayon-e">numpy </span><span class="crayon-st">as</span><span class="crayon-h"> </span><span class="crayon-e">np</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa6265ac0ee549150255-2"><span class="crayon-r">import</span><span class="crayon-h"> </span><span class="crayon-v">matplotlib</span><span class="crayon-sy">.</span><span class="crayon-e">pyplot </span><span class="crayon-st">as</span><span class="crayon-h"> </span><span class="crayon-v">plt</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0002 seconds] -->
+</div>
+
+
+
+<p>Вначале объявим функцию потерь и ее производную.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa6265ac0f1610987223" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6265ac0f1610987223-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa6265ac0f1610987223-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6265ac0f1610987223-3">3</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa6265ac0f1610987223-4">4</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6265ac0f1610987223-5">5</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa6265ac0f1610987223-6">6</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6265ac0f1610987223-7">7</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6265ac0f1610987223-1"><span class="crayon-c"># функция потерь</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa6265ac0f1610987223-2"><span class="crayon-r">def</span><span class="crayon-h"> </span><span class="crayon-e">objective</span><span class="crayon-sy">(</span><span class="crayon-v">x</span><span class="crayon-sy">)</span><span class="crayon-o">:</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6265ac0f1610987223-3"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-st">return</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-v">x</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-h"> </span><span class="crayon-cn">2</span><span class="crayon-h"> </span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-o">*</span><span class="crayon-o">*</span><span class="crayon-h"> </span><span class="crayon-cn">2.0</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa6265ac0f1610987223-4">&nbsp;</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6265ac0f1610987223-5"><span class="crayon-c"># производная</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa6265ac0f1610987223-6"><span class="crayon-r">def</span><span class="crayon-h"> </span><span class="crayon-e">derivative</span><span class="crayon-sy">(</span><span class="crayon-v">x</span><span class="crayon-sy">)</span><span class="crayon-o">:</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6265ac0f1610987223-7"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-st">return</span><span class="crayon-h"> </span><span class="crayon-cn">2.0</span><span class="crayon-h"> </span><span class="crayon-o">*</span><span class="crayon-h"> </span><span class="crayon-v">x</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-h"> </span><span class="crayon-cn">4</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0003 seconds] -->
+</div>
+
+
+
+<p>Теперь зададим исходные параметры алгоритма.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa6265ac0f3193781162" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6265ac0f3193781162-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa6265ac0f3193781162-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6265ac0f3193781162-3">3</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa6265ac0f3193781162-4">4</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6265ac0f3193781162-5">5</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa6265ac0f3193781162-6">6</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6265ac0f3193781162-7">7</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa6265ac0f3193781162-8">8</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6265ac0f3193781162-1"><span class="crayon-c"># изначальный вес линейной модели</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa6265ac0f3193781162-2"><span class="crayon-k ">w</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-cn">3</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6265ac0f3193781162-3">&nbsp;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa6265ac0f3193781162-4"><span class="crayon-c"># количество итераций</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6265ac0f3193781162-5"><span class="crayon-k ">iter</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">100</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa6265ac0f3193781162-6">&nbsp;</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6265ac0f3193781162-7"><span class="crayon-c"># коэффициент скорости обучения</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa6265ac0f3193781162-8"><span class="crayon-v">learning_rate</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">0.05</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0002 seconds] -->
+</div>
+
+
+
+<p>Теперь создадим списки, в которые на каждой итерации будем записывать обновляемые веса (w_list), значение функции потерь при этих весах (l_list) и значение производной на каждой итерации (d_list).</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa6265ac0f4892576564" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6265ac0f4892576564-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa6265ac0f4892576564-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6265ac0f4892576564-3">3</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa6265ac0f4892576564-4">4</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6265ac0f4892576564-1"><span class="crayon-c"># эти данные нам нужны только для оценки процесса оптимизации</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa6265ac0f4892576564-2"><span class="crayon-v">w_list</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-sy">[</span><span class="crayon-sy">]</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6265ac0f4892576564-3"><span class="crayon-v">l_list</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-sy">[</span><span class="crayon-sy">]</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa6265ac0f4892576564-4"><span class="crayon-v">d_list</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-sy">[</span><span class="crayon-sy">]</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0001 seconds] -->
+</div>
+
+
+
+<p>Теперь напишем сам алгоритм.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa6265ac0f6683134432" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6265ac0f6683134432-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa6265ac0f6683134432-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6265ac0f6683134432-3">3</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa6265ac0f6683134432-4">4</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6265ac0f6683134432-5">5</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa6265ac0f6683134432-6">6</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6265ac0f6683134432-7">7</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa6265ac0f6683134432-8">8</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6265ac0f6683134432-9">9</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa6265ac0f6683134432-10">10</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6265ac0f6683134432-11">11</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa6265ac0f6683134432-12">12</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6265ac0f6683134432-13">13</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa6265ac0f6683134432-14">14</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6265ac0f6683134432-15">15</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa6265ac0f6683134432-16">16</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6265ac0f6683134432-17">17</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa6265ac0f6683134432-18">18</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6265ac0f6683134432-19">19</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6265ac0f6683134432-1"><span class="crayon-c"># в цикле с заданным количеством итераций</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa6265ac0f6683134432-2"><span class="crayon-st">for</span><span class="crayon-h"> </span><span class="crayon-i">i</span><span class="crayon-h"> </span><span class="crayon-st">in</span><span class="crayon-h"> </span><span class="crayon-k ">range</span><span class="crayon-sy">(</span><span class="crayon-k ">iter</span><span class="crayon-sy">)</span><span class="crayon-o">:</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6265ac0f6683134432-3">&nbsp;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa6265ac0f6683134432-4"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-c"># будем добавлять значение w,</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6265ac0f6683134432-5"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-v">w_list</span><span class="crayon-sy">.</span><span class="crayon-e">append</span><span class="crayon-sy">(</span><span class="crayon-k ">w</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa6265ac0f6683134432-6">&nbsp;</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6265ac0f6683134432-7"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-c"># уровень потерь</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa6265ac0f6683134432-8"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-v">l_list</span><span class="crayon-sy">.</span><span class="crayon-e">append</span><span class="crayon-sy">(</span><span class="crayon-e">objective</span><span class="crayon-sy">(</span><span class="crayon-k ">w</span><span class="crayon-sy">)</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6265ac0f6683134432-9">&nbsp;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa6265ac0f6683134432-10"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-c"># и значение производной при текущем значении w</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6265ac0f6683134432-11"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-v">d_list</span><span class="crayon-sy">.</span><span class="crayon-e">append</span><span class="crayon-sy">(</span><span class="crayon-e">derivative</span><span class="crayon-sy">(</span><span class="crayon-k ">w</span><span class="crayon-sy">)</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa6265ac0f6683134432-12">&nbsp;</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6265ac0f6683134432-13"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-c"># но главное, будем обновлять веса в направлении, </span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa6265ac0f6683134432-14"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-c"># обратном направлению производной, умноженному на скорость обучения</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6265ac0f6683134432-15"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-k ">w</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-k ">w</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-h"> </span><span class="crayon-v">learning_rate</span><span class="crayon-h"> </span><span class="crayon-o">*</span><span class="crayon-h"> </span><span class="crayon-e">derivative</span><span class="crayon-sy">(</span><span class="crayon-k ">w</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa6265ac0f6683134432-16">&nbsp;</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6265ac0f6683134432-17"><span class="crayon-c"># после завершения цикла, выведем итоговый вес w,</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa6265ac0f6683134432-18"><span class="crayon-c"># значение функции потерь и значение производной в этой точке</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6265ac0f6683134432-19"><span class="crayon-k ">w</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-e">objective</span><span class="crayon-sy">(</span><span class="crayon-k ">w</span><span class="crayon-sy">)</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-e">derivative</span><span class="crayon-sy">(</span><span class="crayon-k ">w</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0005 seconds] -->
+</div>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa6265ac0f7351022542" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6265ac0f7351022542-1">1</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6265ac0f7351022542-1">(1.999867193005562, 1.76376977716448e-08, -0.00026561398887592347)</div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0000 seconds] -->
+</div>
+
+
+
+<p>В процессе оптимизации мы вплотную приблизились к $w = 2.$ Как и ожидалось, значение функции потерь, равно как и прозводная в этой точке, близки к нулю.</p>
+
+
+
+<p>Дополнительно, давайте убедимся, что наши расчеты весов и производной, выполненные ранее &#171;на бумаге&#187;, верны. Для этого выведем первые три значения из списков w_list и d_list.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa6265ac0f8415004412" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6265ac0f8415004412-1">1</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6265ac0f8415004412-1"><span class="crayon-v">w_list</span><span class="crayon-sy">[</span><span class="crayon-o">:</span><span class="crayon-cn">3</span><span class="crayon-sy">]</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">d_list</span><span class="crayon-sy">[</span><span class="crayon-o">:</span><span class="crayon-cn">3</span><span class="crayon-sy">]</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0001 seconds] -->
+</div>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa6265ac0f9908227949" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6265ac0f9908227949-1">1</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6265ac0f9908227949-1">([-3, -2.5, -2.05], [-10.0, -9.0, -8.1])</div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0000 seconds] -->
+</div>
+
+
+
+<p>Все значения совпадают. Остается визуально оценить процесс &#171;спуска&#187;.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa6265ac0fa136397458" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6265ac0fa136397458-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa6265ac0fa136397458-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6265ac0fa136397458-3">3</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa6265ac0fa136397458-4">4</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6265ac0fa136397458-5">5</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa6265ac0fa136397458-6">6</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6265ac0fa136397458-7">7</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa6265ac0fa136397458-8">8</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6265ac0fa136397458-9">9</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa6265ac0fa136397458-10">10</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6265ac0fa136397458-11">11</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa6265ac0fa136397458-12">12</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6265ac0fa136397458-13">13</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa6265ac0fa136397458-14">14</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6265ac0fa136397458-1"><span class="crayon-c"># зададим размер графика</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa6265ac0fa136397458-2"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">figure</span><span class="crayon-sy">(</span><span class="crayon-v">figsize</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-cn">12</span><span class="crayon-sy">,</span><span class="crayon-cn">10</span><span class="crayon-sy">)</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6265ac0fa136397458-3">&nbsp;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa6265ac0fa136397458-4"><span class="crayon-c"># построим функцию потерь (параболу)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6265ac0fa136397458-5"><span class="crayon-v">x</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-e">linspace</span><span class="crayon-sy">(</span><span class="crayon-o">-</span><span class="crayon-cn">5</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">5</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">5000</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa6265ac0fa136397458-6"><span class="crayon-v">y</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-e">objective</span><span class="crayon-sy">(</span><span class="crayon-v">x</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6265ac0fa136397458-7"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">plot</span><span class="crayon-sy">(</span><span class="crayon-v">x</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">y</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa6265ac0fa136397458-8">&nbsp;</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6265ac0fa136397458-9"><span class="crayon-c"># выведем шаги алгоритма оптимизации</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa6265ac0fa136397458-10"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">plot</span><span class="crayon-sy">(</span><span class="crayon-v">w_list</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">l_list</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-s">'.-'</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">color</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-s">'red'</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6265ac0fa136397458-11">&nbsp;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa6265ac0fa136397458-12"><span class="crayon-c"># добавим сетку и выведем результат</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6265ac0fa136397458-13"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">grid</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa6265ac0fa136397458-14"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">show</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0005 seconds] -->
+</div>
+
+
+<div class="wp-block-image">
+<figure class="aligncenter size-full"><img loading="lazy" decoding="async" width="703" height="575" src="../../wp-content/uploads/2022/01/optpath.png" alt="простая оптимизация на Питоне" class="wp-image-9331" srcset="../../wp-content/uploads/2022/01/optpath.png 703w, ../../wp-content/uploads/2022/01/optpath-300x245.png 300w, ../../wp-content/uploads/2022/01/optpath-600x491.png 600w" sizes="auto, (max-width: 703px) 100vw, 703px" /></figure></div>
+
+
+<p>Обратите внимание, вначале шаги были достаточно большими, но по мере приближения к точке минимума существенно сократились. Это связано с уменьшением &#171;крутизны&#187; или скорости изменения параболы и, как следствие, наклона касательной.</p>
+
+
+<div class="wp-block-image">
+<figure class="aligncenter size-full is-resized"><img loading="lazy" decoding="async" width="1022" height="617" src="../../wp-content/uploads/2022/01/derlr.png" alt="наклон производной и шаги алгоритма оптимизации" class="wp-image-9336" style="width:734px;height:auto" srcset="../../wp-content/uploads/2022/01/derlr.png 1022w, ../../wp-content/uploads/2022/01/derlr-300x181.png 300w, ../../wp-content/uploads/2022/01/derlr-768x464.png 768w, ../../wp-content/uploads/2022/01/derlr-600x362.png 600w" sizes="auto, (max-width: 1022px) 100vw, 1022px" /></figure></div>
+
+
+<p>Это приводит нас к <em>третьей</em> важной особенности производной.</p>
+
+
+
+<p class="has-background" style="background-color:#ffe8c4">Производная показывает <strong>скорость изменения функции</strong> в определенной точке.</p>
+
+
+
+<p>Прежде чем завершить, посмотрим как примерно менялся наклон прямой исходной модели по мере оптимизации коэффициента $w.$</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa6265ac0fc472484254" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6265ac0fc472484254-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa6265ac0fc472484254-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6265ac0fc472484254-3">3</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa6265ac0fc472484254-4">4</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6265ac0fc472484254-5">5</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa6265ac0fc472484254-6">6</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6265ac0fc472484254-7">7</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa6265ac0fc472484254-8">8</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6265ac0fc472484254-9">9</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa6265ac0fc472484254-10">10</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6265ac0fc472484254-11">11</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa6265ac0fc472484254-12">12</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6265ac0fc472484254-13">13</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa6265ac0fc472484254-14">14</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6265ac0fc472484254-15">15</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa6265ac0fc472484254-16">16</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6265ac0fc472484254-17">17</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa6265ac0fc472484254-18">18</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6265ac0fc472484254-19">19</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa6265ac0fc472484254-20">20</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6265ac0fc472484254-21">21</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa6265ac0fc472484254-22">22</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6265ac0fc472484254-1"><span class="crayon-c"># настроим размер графика</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa6265ac0fc472484254-2"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">figure</span><span class="crayon-sy">(</span><span class="crayon-v">figsize</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-cn">12</span><span class="crayon-sy">,</span><span class="crayon-cn">10</span><span class="crayon-sy">)</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6265ac0fc472484254-3">&nbsp;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa6265ac0fc472484254-4"><span class="crayon-c"># создадим примерную последовательность наших весов от -3 до 2 и в цикле</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6265ac0fc472484254-5"><span class="crayon-st">for</span><span class="crayon-h"> </span><span class="crayon-k ">w</span><span class="crayon-h"> </span><span class="crayon-st">in</span><span class="crayon-h"> </span><span class="crayon-k ">range</span><span class="crayon-sy">(</span><span class="crayon-o">-</span><span class="crayon-cn">3</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">3</span><span class="crayon-sy">)</span><span class="crayon-o">:</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa6265ac0fc472484254-6">&nbsp;</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6265ac0fc472484254-7"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-c"># создадим точки для координаты x,</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa6265ac0fc472484254-8"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-v">x</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-e">linspace</span><span class="crayon-sy">(</span><span class="crayon-cn">0</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">3</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">5000</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6265ac0fc472484254-9">&nbsp;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa6265ac0fc472484254-10"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-c"># умножим наклон w на x </span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6265ac0fc472484254-11"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-v">y</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-k ">w</span><span class="crayon-h"> </span><span class="crayon-o">*</span><span class="crayon-h"> </span><span class="crayon-i">x</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa6265ac0fc472484254-12">&nbsp;</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6265ac0fc472484254-13"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-c"># и построим прямые с соответствующим наклоном</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa6265ac0fc472484254-14"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">plot</span><span class="crayon-sy">(</span><span class="crayon-v">x</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">y</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">label</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-i">f</span><span class="crayon-s">'наклон прямой: {w}'</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6265ac0fc472484254-15">&nbsp;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa6265ac0fc472484254-16"><span class="crayon-c"># укажем подписи к осям и положение легенды</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6265ac0fc472484254-17"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">xlabel</span><span class="crayon-sy">(</span><span class="crayon-s">'x'</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">fontsize</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">18</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa6265ac0fc472484254-18"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">ylabel</span><span class="crayon-sy">(</span><span class="crayon-s">'y'</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">fontsize</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">18</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6265ac0fc472484254-19"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">legend</span><span class="crayon-sy">(</span><span class="crayon-v">loc</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-s">'upper left'</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">prop</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-sy">{</span><span class="crayon-s">'size'</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-cn">14</span><span class="crayon-sy">}</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa6265ac0fc472484254-20">&nbsp;</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6265ac0fc472484254-21"><span class="crayon-c"># выведем результат</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa6265ac0fc472484254-22"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">show</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0008 seconds] -->
+</div>
+
+
+
+<figure class="wp-block-image size-full"><img loading="lazy" decoding="async" width="727" height="597" src="../../wp-content/uploads/2022/01/lineopt.png" alt="наклон прямой исходной модели в процессе оптимизации функции" class="wp-image-9352" srcset="../../wp-content/uploads/2022/01/lineopt.png 727w, ../../wp-content/uploads/2022/01/lineopt-300x246.png 300w, ../../wp-content/uploads/2022/01/lineopt-600x493.png 600w" sizes="auto, (max-width: 727px) 100vw, 727px" /></figure>
+
+
+
+<p>Когда у нас появятся реальные данные, процесс настройки модели станет еще более наглядным.</p>
+
+
+
+<h2 class="wp-block-heading" id="19-podvedem-itog">Подведем итог</h2>
+
+
+
+<p>В силу важности сегодняшнего занятия давайте еще раз по пунктам разберем весь пройденный материал:</p>
+
+
+
+<ul class="wp-block-list">
+<li>вначале у нас есть модель, которую мы хотим оптимизировать, у нее есть данные (признаки), веса этих признаков и результат (например, цена дома в задаче линейной регрессии);</li>
+
+
+
+<li>для оптимизации исходной модели (то есть поиска идеальных весов) мы берем вторую функцию, функцию потерь, которая на входе принимает разные варианты этих весов, а на выходе показывает насколько, при таких весах, мы отклонились от идеального описания исходных данных;</li>
+
+
+
+<li>идеальные веса находятся там, где функция потерь выдает минимальное значение (&#171;дно&#187; параболы, например);</li>
+
+
+
+<li>зная значения производной от функции потерь в конкретной точке, мы можем спускаться в обратном ей направлении до тех пор, пока не дойдем до минимума;</li>
+
+
+
+<li>коэффициент скорости обучения, на который мы умножаем значение производной, позволяет регулировать длину шага при каждой итерации алгоритма.</li>
+</ul>
+
+
+
+<p>При построении модели регрессии мы отказались от коэффициента сдвига. При этом простая линейная регрессия (simple linear regression), как известно, имеет вид</p>
+
+
+
+<p>$$ y = wx + b $$</p>
+
+
+
+<p>Такую модель мы построим уже на следующем занятии. Однако прежде нам необходимо развить понятие производной и познакомиться с градиентом. Так мы перейдем к алгоритму, который называется методом градиентного спуска.</p>
+
+			</div> <!-- .content -->
+
+			
+		</div> <!-- .post -->
+
+					<footer class="site-footer section-inner">
+
+				<p class="copyright">&copy; 2025 <a href="../../index.html" class="site-name"><!--Машинное обучение--></a></p>
+
+			</footer> <!-- footer -->
+
+		</main>
+		
+		<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js?ver=6.7.1" id="mathjax-js"></script>
+<script type="text/javascript" src="../../wp-includes/js/imagesloaded.min.js@ver=5.0.0" id="imagesloaded-js"></script>
+<script type="text/javascript" src="../../wp-includes/js/masonry.min.js@ver=4.2.2" id="masonry-js"></script>
+<script type="text/javascript" id="mcluhan_global-js-extra">
+/* <![CDATA[ */
+var mcluhan_ajaxpagination = {"ajaxurl":"https:\/\/www.dmitrymakarov.ru\/wp-admin\/admin-ajax.php","query_vars":"{\"page\":\"\",\"pagename\":\"learning\\\/derivative\"}"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="../../wp-content/themes/mcluhan/assets/js/global.js@ver=2.1.1" id="mcluhan_global-js"></script>
+			
+	</body>
+</html>

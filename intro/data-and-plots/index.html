@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+
+<html class="no-js" lang="ru-RU">
+
+	<head>
+
+		<meta http-equiv="content-type" content="text/html" charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" >
+
+		<link rel="profile" href="http://gmpg.org/xfn/11">
+
+		<meta name='robots' content='index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' />
+	<style>img:is([sizes="auto" i], [sizes^="auto," i]) { contain-intrinsic-size: 3000px 1500px }</style>
+	
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$','$'],['\\(','\\)']], 
+    processEscapes: true
+  },
+  options: {
+    ignoreHtmlClass: 'tex2jax_ignore|editor-rich-text'
+  }
+};
+
+</script>
+
+	<!-- This site is optimized with the Yoast SEO plugin v24.4 - https://yoast.com/wordpress/plugins/seo/ -->
+	<title>Анализируем данные и строим графики | Вводный курс</title>
+	<meta name="description" content="Сегодня мы перейдем от изучения базовых возможностей Питона, к знакомству с библиотеками для анализа данных и построения графиков." />
+	<link rel="canonical" href="index.html" />
+	<meta property="og:locale" content="ru_RU" />
+	<meta property="og:type" content="article" />
+	<meta property="og:title" content="Анализируем данные и строим графики | Вводный курс" />
+	<meta property="og:description" content="Сегодня мы перейдем от изучения базовых возможностей Питона, к знакомству с библиотеками для анализа данных и построения графиков." />
+	<meta property="og:url" content="https://www.dmitrymakarov.ru/intro/data-and-plots/" />
+	<meta property="og:site_name" content="Машинное обучение" />
+	<meta property="article:modified_time" content="2024-12-28T09:17:05+00:00" />
+	<meta property="og:image" content="https://www.dmitrymakarov.ru/wp-content/uploads/2021/06/python-data-analysis-libraries.jpg" />
+	<meta property="og:image:width" content="960" />
+	<meta property="og:image:height" content="540" />
+	<meta property="og:image:type" content="image/jpeg" />
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:label1" content="Примерное время для чтения" />
+	<meta name="twitter:data1" content="6 минут" />
+	<script type="application/ld+json" class="yoast-schema-graph">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.dmitrymakarov.ru/intro/data-and-plots/","url":"https://www.dmitrymakarov.ru/intro/data-and-plots/","name":"Анализируем данные и строим графики | Вводный курс","isPartOf":{"@id":"https://www.dmitrymakarov.ru/#website"},"primaryImageOfPage":{"@id":"https://www.dmitrymakarov.ru/intro/data-and-plots/#primaryimage"},"image":{"@id":"https://www.dmitrymakarov.ru/intro/data-and-plots/#primaryimage"},"thumbnailUrl":"https://www.dmitrymakarov.ru/wp-content/uploads/2021/06/python-data-analysis-libraries.jpg","datePublished":"2021-03-08T18:59:49+00:00","dateModified":"2024-12-28T09:17:05+00:00","description":"Сегодня мы перейдем от изучения базовых возможностей Питона, к знакомству с библиотеками для анализа данных и построения графиков.","breadcrumb":{"@id":"https://www.dmitrymakarov.ru/intro/data-and-plots/#breadcrumb"},"inLanguage":"ru-RU","potentialAction":[{"@type":"ReadAction","target":["https://www.dmitrymakarov.ru/intro/data-and-plots/"]}]},{"@type":"ImageObject","inLanguage":"ru-RU","@id":"https://www.dmitrymakarov.ru/intro/data-and-plots/#primaryimage","url":"https://www.dmitrymakarov.ru/wp-content/uploads/2021/06/python-data-analysis-libraries.jpg","contentUrl":"https://www.dmitrymakarov.ru/wp-content/uploads/2021/06/python-data-analysis-libraries.jpg","width":960,"height":540},{"@type":"BreadcrumbList","@id":"https://www.dmitrymakarov.ru/intro/data-and-plots/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная страница","item":"https://www.dmitrymakarov.ru/"},{"@type":"ListItem","position":2,"name":"Вводный курс","item":"https://www.dmitrymakarov.ru/intro/"},{"@type":"ListItem","position":3,"name":"Анализируем данные и строим графики"}]},{"@type":"WebSite","@id":"https://www.dmitrymakarov.ru/#website","url":"https://www.dmitrymakarov.ru/","name":"Машинное обучение","description":"","publisher":{"@id":"https://www.dmitrymakarov.ru/#/schema/person/3fc221e2d391cc5cfd9d31c9c251c2a4"},"potentialAction":[{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://www.dmitrymakarov.ru/?s={search_term_string}"},"query-input":{"@type":"PropertyValueSpecification","valueRequired":true,"valueName":"search_term_string"}}],"inLanguage":"ru-RU"},{"@type":["Person","Organization"],"@id":"https://www.dmitrymakarov.ru/#/schema/person/3fc221e2d391cc5cfd9d31c9c251c2a4","name":"DmitryMakarov","image":{"@type":"ImageObject","inLanguage":"ru-RU","@id":"https://www.dmitrymakarov.ru/#/schema/person/image/","url":"https://secure.gravatar.com/avatar/2c5f922d990c667feffc00f99517cc0e?s=96&d=mm&r=g","contentUrl":"https://secure.gravatar.com/avatar/2c5f922d990c667feffc00f99517cc0e?s=96&d=mm&r=g","caption":"DmitryMakarov"},"logo":{"@id":"https://www.dmitrymakarov.ru/#/schema/person/image/"}}]}</script>
+	<!-- / Yoast SEO plugin. -->
+
+
+<link rel='dns-prefetch' href='https://cdn.jsdelivr.net/' />
+<link rel="alternate" type="application/rss+xml" title="Машинное обучение &raquo; Лента" href="../../feed/index.html" />
+<link rel="alternate" type="application/rss+xml" title="Машинное обучение &raquo; Лента комментариев" href="../../comments/feed/index.html" />
+<script type="text/javascript">
+/* <![CDATA[ */
+window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15.0.3\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15.0.3\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/www.dmitrymakarov.ru\/wp-includes\/js\/wp-emoji-release.min.js?ver=6.7.1"}};
+/*! This file is auto-generated */
+!function(i,n){var o,s,e;function c(e){try{var t={supportTests:e,timestamp:(new Date).valueOf()};sessionStorage.setItem(o,JSON.stringify(t))}catch(e){}}function p(e,t,n){e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(t,0,0);var t=new Uint32Array(e.getImageData(0,0,e.canvas.width,e.canvas.height).data),r=(e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(n,0,0),new Uint32Array(e.getImageData(0,0,e.canvas.width,e.canvas.height).data));return t.every(function(e,t){return e===r[t]})}function u(e,t,n){switch(t){case"flag":return n(e,"\ud83c\udff3\ufe0f\u200d\u26a7\ufe0f","\ud83c\udff3\ufe0f\u200b\u26a7\ufe0f")?!1:!n(e,"\ud83c\uddfa\ud83c\uddf3","\ud83c\uddfa\u200b\ud83c\uddf3")&&!n(e,"\ud83c\udff4\udb40\udc67\udb40\udc62\udb40\udc65\udb40\udc6e\udb40\udc67\udb40\udc7f","\ud83c\udff4\u200b\udb40\udc67\u200b\udb40\udc62\u200b\udb40\udc65\u200b\udb40\udc6e\u200b\udb40\udc67\u200b\udb40\udc7f");case"emoji":return!n(e,"\ud83d\udc26\u200d\u2b1b","\ud83d\udc26\u200b\u2b1b")}return!1}function f(e,t,n){var r="undefined"!=typeof WorkerGlobalScope&&self instanceof WorkerGlobalScope?new OffscreenCanvas(300,150):i.createElement("canvas"),a=r.getContext("2d",{willReadFrequently:!0}),o=(a.textBaseline="top",a.font="600 32px Arial",{});return e.forEach(function(e){o[e]=t(a,e,n)}),o}function t(e){var t=i.createElement("script");t.src=e,t.defer=!0,i.head.appendChild(t)}"undefined"!=typeof Promise&&(o="wpEmojiSettingsSupports",s=["flag","emoji"],n.supports={everything:!0,everythingExceptFlag:!0},e=new Promise(function(e){i.addEventListener("DOMContentLoaded",e,{once:!0})}),new Promise(function(t){var n=function(){try{var e=JSON.parse(sessionStorage.getItem(o));if("object"==typeof e&&"number"==typeof e.timestamp&&(new Date).valueOf()<e.timestamp+604800&&"object"==typeof e.supportTests)return e.supportTests}catch(e){}return null}();if(!n){if("undefined"!=typeof Worker&&"undefined"!=typeof OffscreenCanvas&&"undefined"!=typeof URL&&URL.createObjectURL&&"undefined"!=typeof Blob)try{var e="postMessage("+f.toString()+"("+[JSON.stringify(s),u.toString(),p.toString()].join(",")+"));",r=new Blob([e],{type:"text/javascript"}),a=new Worker(URL.createObjectURL(r),{name:"wpTestEmojiSupports"});return void(a.onmessage=function(e){c(n=e.data),a.terminate(),t(n)})}catch(e){}c(n=f(s,u,p))}t(n)}).then(function(e){for(var t in e)n.supports[t]=e[t],n.supports.everything=n.supports.everything&&n.supports[t],"flag"!==t&&(n.supports.everythingExceptFlag=n.supports.everythingExceptFlag&&n.supports[t]);n.supports.everythingExceptFlag=n.supports.everythingExceptFlag&&!n.supports.flag,n.DOMReady=!1,n.readyCallback=function(){n.DOMReady=!0}}).then(function(){return e}).then(function(){var e;n.supports.everything||(n.readyCallback(),(e=n.source||{}).concatemoji?t(e.concatemoji):e.wpemoji&&e.twemoji&&(t(e.twemoji),t(e.wpemoji)))}))}((window,document),window._wpemojiSettings);
+/* ]]> */
+</script>
+<link rel='stylesheet' id='urvanov_syntax_highlighter-css' href='../../wp-content/plugins/urvanov-syntax-highlighter/css/min/urvanov_syntax_highlighter.min.css@ver=2.8.38.css' type='text/css' media='all' />
+<link rel='stylesheet' id='crayon-theme-familiar-my-copy-css' href='../../wp-content/uploads/urvanov-syntax-highlighter/themes/familiar-my-copy/familiar-my-copy.css@ver=2.8.38.css' type='text/css' media='all' />
+<link rel='stylesheet' id='crayon-font-consolas-css' href='../../wp-content/plugins/urvanov-syntax-highlighter/fonts/consolas.css@ver=2.8.38.css' type='text/css' media='all' />
+<style id='wp-emoji-styles-inline-css' type='text/css'>
+
+	img.wp-smiley, img.emoji {
+		display: inline !important;
+		border: none !important;
+		box-shadow: none !important;
+		height: 1em !important;
+		width: 1em !important;
+		margin: 0 0.07em !important;
+		vertical-align: -0.1em !important;
+		background: none !important;
+		padding: 0 !important;
+	}
+</style>
+<link rel='stylesheet' id='wp-block-library-css' href='../../wp-includes/css/dist/block-library/style.min.css@ver=6.7.1.css' type='text/css' media='all' />
+<style id='filebird-block-filebird-gallery-style-inline-css' type='text/css'>
+ul.filebird-block-filebird-gallery{margin:auto!important;padding:0!important;width:100%}ul.filebird-block-filebird-gallery.layout-grid{display:grid;grid-gap:20px;align-items:stretch;grid-template-columns:repeat(var(--columns),1fr);justify-items:stretch}ul.filebird-block-filebird-gallery.layout-grid li img{border:1px solid #ccc;box-shadow:2px 2px 6px 0 rgba(0,0,0,.3);height:100%;max-width:100%;-o-object-fit:cover;object-fit:cover;width:100%}ul.filebird-block-filebird-gallery.layout-masonry{-moz-column-count:var(--columns);-moz-column-gap:var(--space);column-gap:var(--space);-moz-column-width:var(--min-width);columns:var(--min-width) var(--columns);display:block;overflow:auto}ul.filebird-block-filebird-gallery.layout-masonry li{margin-bottom:var(--space)}ul.filebird-block-filebird-gallery li{list-style:none}ul.filebird-block-filebird-gallery li figure{height:100%;margin:0;padding:0;position:relative;width:100%}ul.filebird-block-filebird-gallery li figure figcaption{background:linear-gradient(0deg,rgba(0,0,0,.7),rgba(0,0,0,.3) 70%,transparent);bottom:0;box-sizing:border-box;color:#fff;font-size:.8em;margin:0;max-height:100%;overflow:auto;padding:3em .77em .7em;position:absolute;text-align:center;width:100%;z-index:2}ul.filebird-block-filebird-gallery li figure figcaption a{color:inherit}
+
+</style>
+<style id='classic-theme-styles-inline-css' type='text/css'>
+/*! This file is auto-generated */
+.wp-block-button__link{color:#fff;background-color:#32373c;border-radius:9999px;box-shadow:none;text-decoration:none;padding:calc(.667em + 2px) calc(1.333em + 2px);font-size:1.125em}.wp-block-file__button{background:#32373c;color:#fff;text-decoration:none}
+</style>
+<style id='global-styles-inline-css' type='text/css'>
+:root{--wp--preset--aspect-ratio--square: 1;--wp--preset--aspect-ratio--4-3: 4/3;--wp--preset--aspect-ratio--3-4: 3/4;--wp--preset--aspect-ratio--3-2: 3/2;--wp--preset--aspect-ratio--2-3: 2/3;--wp--preset--aspect-ratio--16-9: 16/9;--wp--preset--aspect-ratio--9-16: 9/16;--wp--preset--color--black: #121212;--wp--preset--color--cyan-bluish-gray: #abb8c3;--wp--preset--color--white: #fff;--wp--preset--color--pale-pink: #f78da7;--wp--preset--color--vivid-red: #cf2e2e;--wp--preset--color--luminous-vivid-orange: #ff6900;--wp--preset--color--luminous-vivid-amber: #fcb900;--wp--preset--color--light-green-cyan: #7bdcb5;--wp--preset--color--vivid-green-cyan: #00d084;--wp--preset--color--pale-cyan-blue: #8ed1fc;--wp--preset--color--vivid-cyan-blue: #0693e3;--wp--preset--color--vivid-purple: #9b51e0;--wp--preset--color--dark-gray: #333;--wp--preset--color--medium-gray: #555;--wp--preset--color--light-gray: #777;--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg,rgba(6,147,227,1) 0%,rgb(155,81,224) 100%);--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg,rgb(122,220,180) 0%,rgb(0,208,130) 100%);--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg,rgba(252,185,0,1) 0%,rgba(255,105,0,1) 100%);--wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg,rgba(255,105,0,1) 0%,rgb(207,46,46) 100%);--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg,rgb(238,238,238) 0%,rgb(169,184,195) 100%);--wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg,rgb(74,234,220) 0%,rgb(151,120,209) 20%,rgb(207,42,186) 40%,rgb(238,44,130) 60%,rgb(251,105,98) 80%,rgb(254,248,76) 100%);--wp--preset--gradient--blush-light-purple: linear-gradient(135deg,rgb(255,206,236) 0%,rgb(152,150,240) 100%);--wp--preset--gradient--blush-bordeaux: linear-gradient(135deg,rgb(254,205,165) 0%,rgb(254,45,45) 50%,rgb(107,0,62) 100%);--wp--preset--gradient--luminous-dusk: linear-gradient(135deg,rgb(255,203,112) 0%,rgb(199,81,192) 50%,rgb(65,88,208) 100%);--wp--preset--gradient--pale-ocean: linear-gradient(135deg,rgb(255,245,203) 0%,rgb(182,227,212) 50%,rgb(51,167,181) 100%);--wp--preset--gradient--electric-grass: linear-gradient(135deg,rgb(202,248,128) 0%,rgb(113,206,126) 100%);--wp--preset--gradient--midnight: linear-gradient(135deg,rgb(2,3,129) 0%,rgb(40,116,252) 100%);--wp--preset--font-size--small: 16px;--wp--preset--font-size--medium: 20px;--wp--preset--font-size--large: 24px;--wp--preset--font-size--x-large: 42px;--wp--preset--font-size--normal: 18px;--wp--preset--font-size--larger: 28px;--wp--preset--spacing--20: 0.44rem;--wp--preset--spacing--30: 0.67rem;--wp--preset--spacing--40: 1rem;--wp--preset--spacing--50: 1.5rem;--wp--preset--spacing--60: 2.25rem;--wp--preset--spacing--70: 3.38rem;--wp--preset--spacing--80: 5.06rem;--wp--preset--shadow--natural: 6px 6px 9px rgba(0, 0, 0, 0.2);--wp--preset--shadow--deep: 12px 12px 50px rgba(0, 0, 0, 0.4);--wp--preset--shadow--sharp: 6px 6px 0px rgba(0, 0, 0, 0.2);--wp--preset--shadow--outlined: 6px 6px 0px -3px rgba(255, 255, 255, 1), 6px 6px rgba(0, 0, 0, 1);--wp--preset--shadow--crisp: 6px 6px 0px rgba(0, 0, 0, 1);}:where(.is-layout-flex){gap: 0.5em;}:where(.is-layout-grid){gap: 0.5em;}body .is-layout-flex{display: flex;}.is-layout-flex{flex-wrap: wrap;align-items: center;}.is-layout-flex > :is(*, div){margin: 0;}body .is-layout-grid{display: grid;}.is-layout-grid > :is(*, div){margin: 0;}:where(.wp-block-columns.is-layout-flex){gap: 2em;}:where(.wp-block-columns.is-layout-grid){gap: 2em;}:where(.wp-block-post-template.is-layout-flex){gap: 1.25em;}:where(.wp-block-post-template.is-layout-grid){gap: 1.25em;}.has-black-color{color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-color{color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-color{color: var(--wp--preset--color--white) !important;}.has-pale-pink-color{color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-color{color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-color{color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-color{color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-color{color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-color{color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-color{color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-color{color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-color{color: var(--wp--preset--color--vivid-purple) !important;}.has-black-background-color{background-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-background-color{background-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-background-color{background-color: var(--wp--preset--color--white) !important;}.has-pale-pink-background-color{background-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-background-color{background-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-background-color{background-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-background-color{background-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-background-color{background-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-background-color{background-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-background-color{background-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-background-color{background-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-background-color{background-color: var(--wp--preset--color--vivid-purple) !important;}.has-black-border-color{border-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-border-color{border-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-border-color{border-color: var(--wp--preset--color--white) !important;}.has-pale-pink-border-color{border-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-border-color{border-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-border-color{border-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-border-color{border-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-border-color{border-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-border-color{border-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-border-color{border-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-border-color{border-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-border-color{border-color: var(--wp--preset--color--vivid-purple) !important;}.has-vivid-cyan-blue-to-vivid-purple-gradient-background{background: var(--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple) !important;}.has-light-green-cyan-to-vivid-green-cyan-gradient-background{background: var(--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan) !important;}.has-luminous-vivid-amber-to-luminous-vivid-orange-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange) !important;}.has-luminous-vivid-orange-to-vivid-red-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-orange-to-vivid-red) !important;}.has-very-light-gray-to-cyan-bluish-gray-gradient-background{background: var(--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray) !important;}.has-cool-to-warm-spectrum-gradient-background{background: var(--wp--preset--gradient--cool-to-warm-spectrum) !important;}.has-blush-light-purple-gradient-background{background: var(--wp--preset--gradient--blush-light-purple) !important;}.has-blush-bordeaux-gradient-background{background: var(--wp--preset--gradient--blush-bordeaux) !important;}.has-luminous-dusk-gradient-background{background: var(--wp--preset--gradient--luminous-dusk) !important;}.has-pale-ocean-gradient-background{background: var(--wp--preset--gradient--pale-ocean) !important;}.has-electric-grass-gradient-background{background: var(--wp--preset--gradient--electric-grass) !important;}.has-midnight-gradient-background{background: var(--wp--preset--gradient--midnight) !important;}.has-small-font-size{font-size: var(--wp--preset--font-size--small) !important;}.has-medium-font-size{font-size: var(--wp--preset--font-size--medium) !important;}.has-large-font-size{font-size: var(--wp--preset--font-size--large) !important;}.has-x-large-font-size{font-size: var(--wp--preset--font-size--x-large) !important;}
+:where(.wp-block-post-template.is-layout-flex){gap: 1.25em;}:where(.wp-block-post-template.is-layout-grid){gap: 1.25em;}
+:where(.wp-block-columns.is-layout-flex){gap: 2em;}:where(.wp-block-columns.is-layout-grid){gap: 2em;}
+:root :where(.wp-block-pullquote){font-size: 1.5em;line-height: 1.6;}
+</style>
+<link rel='stylesheet' id='mcluhan-fonts-css' href='../../wp-content/themes/mcluhan/assets/css/fonts.css@ver=6.7.1.css' type='text/css' media='all' />
+<link rel='stylesheet' id='fontawesome-css' href='../../wp-content/themes/mcluhan/assets/css/font-awesome.css@ver=6.7.1.css' type='text/css' media='all' />
+<link rel='stylesheet' id='mcluhan-style-css' href='../../wp-content/themes/mcluhan/style.css@ver=2.1.1.css' type='text/css' media='all' />
+<script type="text/javascript" src="../../wp-includes/js/jquery/jquery.min.js@ver=3.7.1" id="jquery-core-js"></script>
+<script type="text/javascript" src="../../wp-includes/js/jquery/jquery-migrate.min.js@ver=3.4.1" id="jquery-migrate-js"></script>
+<script type="text/javascript" id="urvanov_syntax_highlighter_js-js-extra">
+/* <![CDATA[ */
+var UrvanovSyntaxHighlighterSyntaxSettings = {"version":"2.8.38","is_admin":"0","ajaxurl":"https:\/\/www.dmitrymakarov.ru\/wp-admin\/admin-ajax.php","prefix":"urvanov-syntax-highlighter-","setting":"urvanov-syntax-highlighter-setting","selected":"urvanov-syntax-highlighter-setting-selected","changed":"urvanov-syntax-highlighter-setting-changed","special":"urvanov-syntax-highlighter-setting-special","orig_value":"data-orig-value","debug":""};
+var UrvanovSyntaxHighlighterSyntaxStrings = {"copy":"Copied to the clipboard","minimize":"Click To Expand Code"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="../../wp-content/plugins/urvanov-syntax-highlighter/js/min/urvanov_syntax_highlighter.min.js@ver=2.8.38" id="urvanov_syntax_highlighter_js-js"></script>
+
+			<!-- Customizer CSS -->
+
+			<style type="text/css">
+
+				body .site-header { background-color:#004235; }.social-menu.desktop { background-color:#004235; }.social-menu a:hover { color:#004235; }.social-menu a.active { color:#004235; }.mobile-menu-wrapper { background-color:#004235; }.social-menu.mobile { background-color:#004235; }.mobile-search.active { background-color:#004235; }
+			</style>
+
+			<!-- /Customizer CSS -->
+
+					<script>jQuery( 'html' ).removeClass( 'no-js' ).addClass( 'js' );</script>
+		<style type="text/css">.broken_link, a.broken_link {
+	text-decoration: line-through;
+}</style><style type="text/css" id="custom-background-css">
+body.custom-background { background-color: #fff9ef; }
+</style>
+	<link rel="icon" href="../../wp-content/uploads/2021/08/cropped-wp-favicon-512-32x32.png" sizes="32x32" />
+<link rel="icon" href="../../wp-content/uploads/2021/08/cropped-wp-favicon-512-192x192.png" sizes="192x192" />
+<link rel="apple-touch-icon" href="../../wp-content/uploads/2021/08/cropped-wp-favicon-512-180x180.png" />
+<meta name="msapplication-TileImage" content="https://www.dmitrymakarov.ru/wp-content/uploads/2021/08/cropped-wp-favicon-512-270x270.png" />
+
+	</head>
+
+	<body class="page-template page-template-full-width-page-template page-template-full-width-page-template-php page page-id-1332 page-child parent-pageid-202 custom-background full-width-template">
+
+		
+		<a class="skip-link button" href="index.html#site-content">Перейти к содержимому</a>
+
+		<header class="site-header group">
+
+			
+			<p class="site-title"><a href="../../index.html" class="site-name">Машинное обучение</a></p>
+
+			
+			<div class="nav-toggle">
+				<div class="bar"></div>
+				<div class="bar"></div>
+			</div>
+
+			<div class="menu-wrapper">
+
+				<ul class="main-menu desktop">
+
+									</ul>
+
+			</div><!-- .menu-wrapper -->
+
+			
+				<div class="social-menu desktop">
+
+					<ul class="social-menu-inner">
+
+						<li class="social-search-wrapper"><a href="../../index.html@s=.html"></a></li>
+
+						
+					</ul><!-- .social-menu-inner -->
+
+				</div><!-- .social-menu -->
+
+			
+		</header><!-- header -->
+
+		<div class="mobile-menu-wrapper">
+
+			<ul class="main-menu mobile">
+									<li class="toggle-mobile-search-wrapper"><a href="index.html#" class="toggle-mobile-search">Поиск</a></li>
+							</ul><!-- .main-menu.mobile -->
+
+			
+		</div><!-- .mobile-menu-wrapper -->
+
+		
+			<div class="mobile-search">
+
+				<div class="untoggle-mobile-search"></div>
+
+				
+<form role="search" method="get" class="search-form" action="../../index.html">
+	<label class="screen-reader-text" for="search-form-67aa623361755">Поиск:</label>
+	<input type="search" id="search-form-67aa623361755" class="search-field" placeholder="Введите запрос" value="" name="s" autocomplete="off" />
+	</button>
+</form>
+
+				<div class="mobile-results">
+
+					<div class="results-wrapper"></div>
+
+				</div>
+
+			</div><!-- .mobile-search -->
+
+			<div class="search-overlay">
+
+				
+<form role="search" method="get" class="search-form" action="../../index.html">
+	<label class="screen-reader-text" for="search-form-67aa623361807">Поиск:</label>
+	<input type="search" id="search-form-67aa623361807" class="search-field" placeholder="Введите запрос" value="" name="s" autocomplete="off" />
+	</button>
+</form>
+
+			</div><!-- .search-overlay -->
+
+		
+		<main class="site-content" id="site-content">
+		<article class="post-1332 page type-page status-publish hentry missing-thumbnail">
+
+			
+			<header class="entry-header section-inner">
+
+				<h1 class="entry-title">Анализируем данные и строим графики</h1>
+			</header><!-- .entry-header -->
+
+			<div class="entry-content section-inner">
+
+				
+<p class="has-light-gray-color has-text-color"><a href="../../index.html">Материалы</a> > <a href="../index.html">Вводный курс</a></p>
+
+
+
+<h3 class="wp-block-heading" id="0-struktura-pitona">Структура Питона</h3>
+
+
+
+<p>Прежде чем мы перейдем к анализу данных, несколько слов о структуре Питона. Питон состоит из базового функционала (его мы изучали до сих пор) и дополнительных библиотек. Библиотеки в свою очередь состоят из модулей. В этих модулях есть инструменты для создания веб-сайтов, разработки игр и многого другого.</p>
+
+
+
+<p>Нас будут интересовать те библиотеки и модули, с помощью которых можно анализировать данные, строить графики и производить математические вычисления. Приведу несколько примеров:</p>
+
+
+<div class="wp-block-image">
+<figure class="aligncenter size-large is-resized"><img fetchpriority="high" decoding="async" width="960" height="540" src="../../wp-content/uploads/2021/06/python-data-analysis-libraries.jpg" alt="библиотеки Питона для анализа данных" class="wp-image-2251" style="width:764px;height:429px" srcset="../../wp-content/uploads/2021/06/python-data-analysis-libraries.jpg 960w, ../../wp-content/uploads/2021/06/python-data-analysis-libraries-300x169.jpg 300w, ../../wp-content/uploads/2021/06/python-data-analysis-libraries-768x432.jpg 768w, ../../wp-content/uploads/2021/06/python-data-analysis-libraries-600x338.jpg 600w" sizes="(max-width: 960px) 100vw, 960px" /></figure></div>
+
+
+<p>На сегодняшнем занятии мы познакомимся с двумя библиотеками: Pandas и Matplotlib.</p>
+
+
+
+<p class="has-text-align-center has-white-color has-text-color has-background" style="background-color:#004235"><a href="https://colab.research.google.com/drive/1w08bur9C11k_2yQSc02ZASehhSZeqVEO?usp=sharing" target="_blank" rel="noreferrer noopener">Вначале откроем блокнот к этому занятию</a>⧉</p>
+
+
+
+<h3 class="wp-block-heading" id="1-biblioteka-pandas">Библиотека Pandas</h3>
+
+
+
+<p>Библиотека Pandas используется для анализа данных в форме таблиц или, как еще говорят, датафреймов. Для того чтобы воспользоваться библиотекой Pandas, ее нужно предварительно <strong>импортировать</strong>.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa62335b2b0254033403" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa62335b2b0254033403-1">1</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa62335b2b0254033403-1"><span class="crayon-r">import</span><span class="crayon-h"> </span><span class="crayon-e">pandas </span><span class="crayon-st">as</span><span class="crayon-h"> </span><span class="crayon-v">pd</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0002 seconds] -->
+</div>
+
+
+
+<p>В данном случае мы сказали компьютеру: &#171;Загрузи дополнительную библиотеку Pandas и создай для нее псевдоним или сокращение pd&#187;. Сокращение может быть любым, однако для основных библиотек уже давно появились устоявшиеся псевдонимы и будет разумно использовать именно их.</p>
+
+
+
+<p>Создадим первую таблицу или <strong>датафрейм</strong> на основе <a href="../principle/index.html">уже рассмотренных</a> данных Ивана Ивановича и Ивана Петровича. Вначале, вспомним, что это за данные.</p>
+
+
+
+<figure class="wp-block-image size-large is-resized"><img decoding="async" width="1024" height="288" src="../../wp-content/uploads/2021/06/existing-borrowers.jpg" alt="данные о заемщиках" class="wp-image-1982" style="width:812px;height:228px" srcset="../../wp-content/uploads/2021/06/existing-borrowers.jpg 1024w, ../../wp-content/uploads/2021/06/existing-borrowers-300x84.jpg 300w, ../../wp-content/uploads/2021/06/existing-borrowers-768x216.jpg 768w, ../../wp-content/uploads/2021/06/existing-borrowers-600x169.jpg 600w" sizes="(max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+<p>Теперь то же самое, но в коде.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa62335b2b6030402237" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa62335b2b6030402237-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa62335b2b6030402237-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa62335b2b6030402237-3">3</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa62335b2b6030402237-4">4</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa62335b2b6030402237-5">5</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa62335b2b6030402237-6">6</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa62335b2b6030402237-7">7</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa62335b2b6030402237-8">8</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa62335b2b6030402237-9">9</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa62335b2b6030402237-10">10</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa62335b2b6030402237-11">11</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa62335b2b6030402237-12">12</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa62335b2b6030402237-1"><span class="crayon-v">bank_db</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa62335b2b6030402237-2"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-s">'Name'</span><span class="crayon-h"> </span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-sy">[</span><span class="crayon-s">'Иван Иванович'</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-s">'Иван Петрович'</span><span class="crayon-sy">]</span><span class="crayon-sy">,</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa62335b2b6030402237-3"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-s">'Age'</span><span class="crayon-h"> </span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-sy">[</span><span class="crayon-cn">0</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-sy">]</span><span class="crayon-sy">,</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa62335b2b6030402237-4"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-s">'Experience'</span><span class="crayon-h"> </span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-sy">[</span><span class="crayon-cn">4</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">7</span><span class="crayon-sy">]</span><span class="crayon-sy">,</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa62335b2b6030402237-5"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-s">'Salary'</span><span class="crayon-h"> </span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-sy">[</span><span class="crayon-cn">75</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">95</span><span class="crayon-sy">]</span><span class="crayon-sy">,</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa62335b2b6030402237-6"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-s">'Credit_score'</span><span class="crayon-h"> </span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-sy">[</span><span class="crayon-cn">4</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">8</span><span class="crayon-sy">]</span><span class="crayon-sy">,</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa62335b2b6030402237-7"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-s">'Outcome'</span><span class="crayon-h"> </span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-sy">[</span><span class="crayon-cn">0</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-sy">]</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa62335b2b6030402237-8"><span class="crayon-sy">}</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa62335b2b6030402237-9">&nbsp;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa62335b2b6030402237-10"><span class="crayon-v">df</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">pd</span><span class="crayon-sy">.</span><span class="crayon-e">DataFrame</span><span class="crayon-sy">(</span><span class="crayon-v">bank_db</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa62335b2b6030402237-11">&nbsp;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa62335b2b6030402237-12"><span class="crayon-k ">print</span><span class="crayon-sy">(</span><span class="crayon-v">df</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0006 seconds] -->
+</div>
+
+
+
+<p>Результат.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa62335b2b8075289518" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa62335b2b8075289518-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa62335b2b8075289518-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa62335b2b8075289518-3">3</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa62335b2b8075289518-1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Name&nbsp;&nbsp;Age&nbsp;&nbsp;Experience&nbsp;&nbsp;Salary&nbsp;&nbsp;Credit_score&nbsp;&nbsp;Outcome</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa62335b2b8075289518-2">0&nbsp;&nbsp;Иван Иванович&nbsp;&nbsp;&nbsp;&nbsp;0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;75&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa62335b2b8075289518-3">1&nbsp;&nbsp;Иван Петрович&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 7&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;95&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1</div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0000 seconds] -->
+</div>
+
+
+
+<p>Что мы сделали?</p>
+
+
+
+<p><strong>Шаг 1</strong>. Мы взяли данные в форме словаря и вложенных в него списков и поместили в переменную bank_db от английского bank database. Как я уже говорил, чтобы не запутаться, переменным лучше давать осмысленные названия. </p>
+
+
+
+<p><strong>Шаг 2</strong>. Далее мы передали словарь bank_db в 
+			<span id="urvanov-syntax-highlighter-67aa62335b2b9305317791" class="urvanov-syntax-highlighter-syntax urvanov-syntax-highlighter-syntax-inline  crayon-theme-familiar-my-copy crayon-theme-familiar-my-copy-inline urvanov-syntax-highlighter-font-consolas" style="font-size: 16px !important; line-height: 22px !important;font-size: 16px !important;"><span class="crayon-pre urvanov-syntax-highlighter-code" style="font-size: 16px !important; line-height: 22px !important;font-size: 16px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><span class="crayon-v">pd</span><span class="crayon-sy">.</span><span class="crayon-e">DataFrame</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span></span></span> и сохранили результат (датафрейм) в переменную df.</p>
+
+
+
+<p>Теперь эти данные удобно анализировать. Например, можно с помощью одной строчки кода посчитать средний доход (среднее арифметическое) заемщиков:</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa62335b2ba256282800" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa62335b2ba256282800-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa62335b2ba256282800-2">2</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa62335b2ba256282800-1"><span class="crayon-c"># посчитаем средний доход заемщиков: (75 + 95) / 2</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa62335b2ba256282800-2"><span class="crayon-v">df</span><span class="crayon-sy">[</span><span class="crayon-s">'Salary'</span><span class="crayon-sy">]</span><span class="crayon-sy">.</span><span class="crayon-e">mean</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0001 seconds] -->
+</div>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa62335b2bb143899065" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa62335b2bb143899065-1">1</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa62335b2bb143899065-1">85.0</div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0000 seconds] -->
+</div>
+
+
+
+<p>В данном случае мы взяли столбец Salary датафрейма df и применили к нему метод <strong>.mean()</strong>.</p>
+
+
+
+<p>Теперь отложим на время библиотеку Pandas и попробуем построить график. Для этого нам понадобится библиотека Matplotlib, а точнее ее модуль pyplot.</p>
+
+
+
+<h3 class="wp-block-heading" id="2-biblioteka-matplotlib">Библиотека Matplotlib</h3>
+
+
+
+<p>Вначале импортируем модуль pyplot из библиотеки Matplotlib под псевдонимом plt. Опять же псевдоним может быть любым, но лучше оставить общепринятое сокращение.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa62335b2bd488982525" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa62335b2bd488982525-1">1</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa62335b2bd488982525-1"><span class="crayon-r">import</span><span class="crayon-h"> </span><span class="crayon-v">matplotlib</span><span class="crayon-sy">.</span><span class="crayon-e">pyplot </span><span class="crayon-st">as</span><span class="crayon-h"> </span><span class="crayon-v">plt</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0001 seconds] -->
+</div>
+
+
+
+<p>Теперь построим наш первый график. Например, на горизонтальной оси отложим доход человека, а на вертикальной оси его уровень счастья.</p>
+
+
+
+<p>Для этого воспользуемся функцией plot и передадим ей два аргумента: список значений дохода 
+			<span id="urvanov-syntax-highlighter-67aa62335b2be157117391" class="urvanov-syntax-highlighter-syntax urvanov-syntax-highlighter-syntax-inline  crayon-theme-familiar-my-copy crayon-theme-familiar-my-copy-inline urvanov-syntax-highlighter-font-consolas" style="font-size: 16px !important; line-height: 22px !important;font-size: 16px !important;"><span class="crayon-pre urvanov-syntax-highlighter-code" style="font-size: 16px !important; line-height: 22px !important;font-size: 16px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><span class="crayon-sy">[</span><span class="crayon-cn">70</span><span class="crayon-sy">,</span> <span class="crayon-cn">80</span><span class="crayon-sy">,</span> <span class="crayon-cn">100</span><span class="crayon-sy">,</span> <span class="crayon-cn">150</span><span class="crayon-sy">,</span> <span class="crayon-cn">300</span><span class="crayon-sy">]</span></span></span> и список со значениями уровня счастья 
+			<span id="urvanov-syntax-highlighter-67aa62335b2bf626322291" class="urvanov-syntax-highlighter-syntax urvanov-syntax-highlighter-syntax-inline  crayon-theme-familiar-my-copy crayon-theme-familiar-my-copy-inline urvanov-syntax-highlighter-font-consolas" style="font-size: 16px !important; line-height: 22px !important;font-size: 16px !important;"><span class="crayon-pre urvanov-syntax-highlighter-code" style="font-size: 16px !important; line-height: 22px !important;font-size: 16px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><span class="crayon-sy">[</span><span class="crayon-cn">1</span><span class="crayon-sy">,</span> <span class="crayon-cn">4</span><span class="crayon-sy">,</span> <span class="crayon-cn">6</span><span class="crayon-sy">,</span> <span class="crayon-cn">9</span><span class="crayon-sy">,</span> <span class="crayon-cn">16</span><span class="crayon-sy">]</span></span></span>.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa62335b2c0975265183" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa62335b2c0975265183-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa62335b2c0975265183-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa62335b2c0975265183-3">3</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa62335b2c0975265183-4">4</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa62335b2c0975265183-5">5</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa62335b2c0975265183-6">6</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa62335b2c0975265183-7">7</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa62335b2c0975265183-8">8</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa62335b2c0975265183-9">9</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa62335b2c0975265183-1"><span class="crayon-c"># передаем функции plot() библиотеки Matplotlib два значения: доход и уровень счастья</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa62335b2c0975265183-2"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">plot</span><span class="crayon-sy">(</span><span class="crayon-sy">[</span><span class="crayon-cn">70</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">80</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">100</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">150</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">300</span><span class="crayon-sy">]</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-sy">[</span><span class="crayon-cn">1</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">4</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">6</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">9</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">16</span><span class="crayon-sy">]</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa62335b2c0975265183-3">&nbsp;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa62335b2c0975265183-4"><span class="crayon-c"># добавим подписи для наглядности</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa62335b2c0975265183-5"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">xlabel</span><span class="crayon-sy">(</span><span class="crayon-s">'Доход, тыс. рублей'</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-c"># для оси x</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa62335b2c0975265183-6"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">ylabel</span><span class="crayon-sy">(</span><span class="crayon-s">'Счастье, вымышленные единицы'</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-c"># для оси y</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa62335b2c0975265183-7"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">title</span><span class="crayon-sy">(</span><span class="crayon-s">'Уровень дохода и счастье'</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-c"># заголовок</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa62335b2c0975265183-8">&nbsp;</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa62335b2c0975265183-9"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">show</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-c"># посмотрим, что получилось</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0004 seconds] -->
+</div>
+
+
+
+<p>Результат:</p>
+
+
+<div class="wp-block-image">
+<figure class="aligncenter size-large is-resized"><img decoding="async" width="382" height="278" src="../../wp-content/uploads/2021/06/income-vs-happiness.png" alt="доход и уровень счастья" class="wp-image-2255" style="width:468px;height:340px" srcset="../../wp-content/uploads/2021/06/income-vs-happiness.png 382w, ../../wp-content/uploads/2021/06/income-vs-happiness-300x218.png 300w" sizes="(max-width: 382px) 100vw, 382px" /></figure></div>
+
+
+<p>График наглядно показывает одновременный рост обоих показателей. Это было ожидаемо. В статистике такое изменение двух величин называют положительной корреляцией.</p>
+
+
+
+<p>При этом важно помнить, что мы не доказали, что уровень счастья определяется доходом. Почему, обсудим в следующем разделе.</p>
+
+
+
+<h3 class="wp-block-heading" id="3-neskolko-slov-pro-print-i-pltshow">Несколько слов про print() и plt.show()</h3>
+
+
+
+<p>Как вы возможно заметили, Google Colab умеет выводить результат исполнения кода без 
+			<span id="urvanov-syntax-highlighter-67aa62335b2c1272611077" class="urvanov-syntax-highlighter-syntax urvanov-syntax-highlighter-syntax-inline  crayon-theme-familiar-my-copy crayon-theme-familiar-my-copy-inline urvanov-syntax-highlighter-font-consolas" style="font-size: 16px !important; line-height: 22px !important;font-size: 16px !important;"><span class="crayon-pre urvanov-syntax-highlighter-code" style="font-size: 16px !important; line-height: 22px !important;font-size: 16px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><span class="crayon-k ">print</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span></span></span> и 
+			<span id="urvanov-syntax-highlighter-67aa62335b2c2136162415" class="urvanov-syntax-highlighter-syntax urvanov-syntax-highlighter-syntax-inline  crayon-theme-familiar-my-copy crayon-theme-familiar-my-copy-inline urvanov-syntax-highlighter-font-consolas" style="font-size: 16px !important; line-height: 22px !important;font-size: 16px !important;"><span class="crayon-pre urvanov-syntax-highlighter-code" style="font-size: 16px !important; line-height: 22px !important;font-size: 16px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">show</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span></span></span>. Другими словами, вы можете написать 
+			<span id="urvanov-syntax-highlighter-67aa62335b2c3802247436" class="urvanov-syntax-highlighter-syntax urvanov-syntax-highlighter-syntax-inline  crayon-theme-familiar-my-copy crayon-theme-familiar-my-copy-inline urvanov-syntax-highlighter-font-consolas" style="font-size: 16px !important; line-height: 22px !important;font-size: 16px !important;"><span class="crayon-pre urvanov-syntax-highlighter-code" style="font-size: 16px !important; line-height: 22px !important;font-size: 16px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><span class="crayon-cn">7</span><span class="crayon-o">+</span><span class="crayon-cn">7</span></span></span> или 
+			<span id="urvanov-syntax-highlighter-67aa62335b2c4329785066" class="urvanov-syntax-highlighter-syntax urvanov-syntax-highlighter-syntax-inline  crayon-theme-familiar-my-copy crayon-theme-familiar-my-copy-inline urvanov-syntax-highlighter-font-consolas" style="font-size: 16px !important; line-height: 22px !important;font-size: 16px !important;"><span class="crayon-pre urvanov-syntax-highlighter-code" style="font-size: 16px !important; line-height: 22px !important;font-size: 16px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><span class="crayon-k ">print</span><span class="crayon-sy">(</span><span class="crayon-cn">7</span><span class="crayon-o">+</span><span class="crayon-cn">7</span><span class="crayon-sy">)</span></span></span> и в обоих случаях программа выведет результат без ошибок. То же самое и с графиками и командой 
+			<span id="urvanov-syntax-highlighter-67aa62335b2c5844667310" class="urvanov-syntax-highlighter-syntax urvanov-syntax-highlighter-syntax-inline  crayon-theme-familiar-my-copy crayon-theme-familiar-my-copy-inline urvanov-syntax-highlighter-font-consolas" style="font-size: 16px !important; line-height: 22px !important;font-size: 16px !important;"><span class="crayon-pre urvanov-syntax-highlighter-code" style="font-size: 16px !important; line-height: 22px !important;font-size: 16px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">show</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span></span></span>. Но есть один нюанс.</p>
+
+
+
+<p>Если внутри одной ячейки вы указали две операции, например, сложения, 
+			<span id="urvanov-syntax-highlighter-67aa62335b2c6058982972" class="urvanov-syntax-highlighter-syntax urvanov-syntax-highlighter-syntax-inline  crayon-theme-familiar-my-copy crayon-theme-familiar-my-copy-inline urvanov-syntax-highlighter-font-consolas" style="font-size: 16px !important; line-height: 22px !important;font-size: 16px !important;"><span class="crayon-pre urvanov-syntax-highlighter-code" style="font-size: 16px !important; line-height: 22px !important;font-size: 16px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><span class="crayon-cn">7</span><span class="crayon-o">+</span><span class="crayon-cn">7</span></span></span> и 
+			<span id="urvanov-syntax-highlighter-67aa62335b2c7107217202" class="urvanov-syntax-highlighter-syntax urvanov-syntax-highlighter-syntax-inline  crayon-theme-familiar-my-copy crayon-theme-familiar-my-copy-inline urvanov-syntax-highlighter-font-consolas" style="font-size: 16px !important; line-height: 22px !important;font-size: 16px !important;"><span class="crayon-pre urvanov-syntax-highlighter-code" style="font-size: 16px !important; line-height: 22px !important;font-size: 16px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><span class="crayon-cn">8</span><span class="crayon-o">+</span><span class="crayon-cn">4</span></span></span>, Colab выведет результат только второй операции. </p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa62335b2c8750053601" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa62335b2c8750053601-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa62335b2c8750053601-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa62335b2c8750053601-3">3</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa62335b2c8750053601-1"><span class="crayon-c"># две операции в одной ячейке без print()</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa62335b2c8750053601-2"><span class="crayon-cn">7</span><span class="crayon-h"> </span><span class="crayon-o">+</span><span class="crayon-h"> </span><span class="crayon-cn">7</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa62335b2c8750053601-3"><span class="crayon-cn">8</span><span class="crayon-h"> </span><span class="crayon-o">+</span><span class="crayon-h"> </span><span class="crayon-cn">4</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0001 seconds] -->
+</div>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa62335b2cc792176207" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa62335b2cc792176207-1">1</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa62335b2cc792176207-1">12</div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0000 seconds] -->
+</div>
+
+
+
+<p>Чтобы вывести обе суммы, нужно использовать 
+			<span id="urvanov-syntax-highlighter-67aa62335b2cd450385602" class="urvanov-syntax-highlighter-syntax urvanov-syntax-highlighter-syntax-inline  crayon-theme-familiar-my-copy crayon-theme-familiar-my-copy-inline urvanov-syntax-highlighter-font-consolas" style="font-size: 16px !important; line-height: 22px !important;font-size: 16px !important;"><span class="crayon-pre urvanov-syntax-highlighter-code" style="font-size: 16px !important; line-height: 22px !important;font-size: 16px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><span class="crayon-k ">print</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span></span></span>.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa62335b2ce239617142" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa62335b2ce239617142-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa62335b2ce239617142-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa62335b2ce239617142-3">3</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa62335b2ce239617142-1"><span class="crayon-c"># то же самое, но используя print()</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa62335b2ce239617142-2"><span class="crayon-k ">print</span><span class="crayon-sy">(</span><span class="crayon-cn">7</span><span class="crayon-h"> </span><span class="crayon-o">+</span><span class="crayon-h"> </span><span class="crayon-cn">7</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa62335b2ce239617142-3"><span class="crayon-k ">print</span><span class="crayon-sy">(</span><span class="crayon-cn">8</span><span class="crayon-h"> </span><span class="crayon-o">+</span><span class="crayon-h"> </span><span class="crayon-cn">4</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0001 seconds] -->
+</div>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa62335b2cf778411570" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa62335b2cf778411570-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa62335b2cf778411570-2">2</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa62335b2cf778411570-1">14</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa62335b2cf778411570-2">12</div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0000 seconds] -->
+</div>
+
+
+
+<p>Похожая ситуация с графиками. Без 
+			<span id="urvanov-syntax-highlighter-67aa62335b2d0856883299" class="urvanov-syntax-highlighter-syntax urvanov-syntax-highlighter-syntax-inline  crayon-theme-familiar-my-copy crayon-theme-familiar-my-copy-inline urvanov-syntax-highlighter-font-consolas" style="font-size: 16px !important; line-height: 22px !important;font-size: 16px !important;"><span class="crayon-pre urvanov-syntax-highlighter-code" style="font-size: 16px !important; line-height: 22px !important;font-size: 16px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">show</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span></span></span> Colab постарается разместить все данные на одном графике. </p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa62335b2d1840088931" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa62335b2d1840088931-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa62335b2d1840088931-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa62335b2d1840088931-3">3</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa62335b2d1840088931-1"><span class="crayon-c"># без plt.show()</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa62335b2d1840088931-2"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">plot</span><span class="crayon-sy">(</span><span class="crayon-sy">[</span><span class="crayon-cn">70</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">80</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">100</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">150</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">300</span><span class="crayon-sy">]</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-sy">[</span><span class="crayon-cn">1</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">4</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">6</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">9</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">16</span><span class="crayon-sy">]</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa62335b2d1840088931-3"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">plot</span><span class="crayon-sy">(</span><span class="crayon-sy">[</span><span class="crayon-cn">39</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">50</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">80</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">100</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">200</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">300</span><span class="crayon-sy">]</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-sy">[</span><span class="crayon-cn">1</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">4</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">7</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">9</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">18</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">22</span><span class="crayon-sy">]</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0005 seconds] -->
+</div>
+
+
+<div class="wp-block-image">
+<figure class="aligncenter size-large is-resized"><img loading="lazy" decoding="async" width="368" height="248" src="../../wp-content/uploads/2021/06/two-lines-same-plot.png" alt="две линии на одном графике" class="wp-image-2258" style="width:457px;height:308px" srcset="../../wp-content/uploads/2021/06/two-lines-same-plot.png 368w, ../../wp-content/uploads/2021/06/two-lines-same-plot-300x202.png 300w" sizes="auto, (max-width: 368px) 100vw, 368px" /></figure></div>
+
+
+<p>Если вам нужно два разных графика, лучше использовать 
+			<span id="urvanov-syntax-highlighter-67aa62335b2d3186741923" class="urvanov-syntax-highlighter-syntax urvanov-syntax-highlighter-syntax-inline  crayon-theme-familiar-my-copy crayon-theme-familiar-my-copy-inline urvanov-syntax-highlighter-font-consolas" style="font-size: 16px !important; line-height: 22px !important;font-size: 16px !important;"><span class="crayon-pre urvanov-syntax-highlighter-code" style="font-size: 16px !important; line-height: 22px !important;font-size: 16px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">show</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span></span></span>.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa62335b2d4208920087" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa62335b2d4208920087-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa62335b2d4208920087-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa62335b2d4208920087-3">3</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa62335b2d4208920087-4">4</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa62335b2d4208920087-5">5</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa62335b2d4208920087-1"><span class="crayon-c"># то же самое, но используя plt.show()</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa62335b2d4208920087-2"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">plot</span><span class="crayon-sy">(</span><span class="crayon-sy">[</span><span class="crayon-cn">70</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">80</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">100</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">150</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">300</span><span class="crayon-sy">]</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-sy">[</span><span class="crayon-cn">1</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">4</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">6</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">9</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">16</span><span class="crayon-sy">]</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa62335b2d4208920087-3"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">show</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa62335b2d4208920087-4"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">plot</span><span class="crayon-sy">(</span><span class="crayon-sy">[</span><span class="crayon-cn">39</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">50</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">80</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">100</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">200</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">300</span><span class="crayon-sy">]</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-sy">[</span><span class="crayon-cn">1</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">4</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">7</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">9</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">18</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">22</span><span class="crayon-sy">]</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa62335b2d4208920087-5"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">show</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0006 seconds] -->
+</div>
+
+
+<div class="wp-block-image">
+<figure class="aligncenter size-large is-resized"><img loading="lazy" decoding="async" width="368" height="248" src="../../wp-content/uploads/2021/06/one-line-per-chart-1.png" alt="одна линия на графике 1" class="wp-image-2261" style="width:460px;height:310px" srcset="../../wp-content/uploads/2021/06/one-line-per-chart-1.png 368w, ../../wp-content/uploads/2021/06/one-line-per-chart-1-300x202.png 300w" sizes="auto, (max-width: 368px) 100vw, 368px" /></figure></div>
+
+<div class="wp-block-image">
+<figure class="aligncenter size-large is-resized"><img loading="lazy" decoding="async" width="368" height="248" src="../../wp-content/uploads/2021/06/one-line-per-chart-2.png" alt="одна линия на графике 2" class="wp-image-2262" style="width:460px;height:310px" srcset="../../wp-content/uploads/2021/06/one-line-per-chart-2.png 368w, ../../wp-content/uploads/2021/06/one-line-per-chart-2-300x202.png 300w" sizes="auto, (max-width: 368px) 100vw, 368px" /></figure></div>
+
+
+<p>Дополнительные <a href="https://colab.research.google.com/drive/1w08bur9C11k_2yQSc02ZASehhSZeqVEO#scrollTo=HYOZ_UYtENQC" target="_blank" rel="noreferrer noopener">упра</a><a href="https://colab.research.google.com/drive/1w08bur9C11k_2yQSc02ZASehhSZeqVEO#scrollTo=HYOZ_UYtENQC&amp;line=1&amp;uniqifier=1" target="_blank" rel="noreferrer noopener">ж</a><a href="https://colab.research.google.com/drive/1w08bur9C11k_2yQSc02ZASehhSZeqVEO#scrollTo=HYOZ_UYtENQC" target="_blank" rel="noreferrer noopener">нения</a>⧉ вы найдете в конце блокнота.</p>
+
+
+
+<h3 class="wp-block-heading" id="5-podvedem-itog">Подведем итог</h3>
+
+
+
+<p>Мы завершили раздел. В нем мы познакомились с базовым функционалом Питона и двумя важными дополнительными библиотеками: Pandas и Matplotlib.</p>
+
+
+
+<p>Теперь пора переходить ко второй составляющей машинного обучения &#8212; математике. </p>
+
+			</div> <!-- .content -->
+
+			
+		</div> <!-- .post -->
+
+					<footer class="site-footer section-inner">
+
+				<p class="copyright">&copy; 2025 <a href="../../index.html" class="site-name"><!--Машинное обучение--></a></p>
+
+			</footer> <!-- footer -->
+
+		</main>
+		
+		<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js?ver=6.7.1" id="mathjax-js"></script>
+<script type="text/javascript" src="../../wp-includes/js/imagesloaded.min.js@ver=5.0.0" id="imagesloaded-js"></script>
+<script type="text/javascript" src="../../wp-includes/js/masonry.min.js@ver=4.2.2" id="masonry-js"></script>
+<script type="text/javascript" id="mcluhan_global-js-extra">
+/* <![CDATA[ */
+var mcluhan_ajaxpagination = {"ajaxurl":"https:\/\/www.dmitrymakarov.ru\/wp-admin\/admin-ajax.php","query_vars":"{\"page\":\"\",\"pagename\":\"intro\\\/data-and-plots\"}"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="../../wp-content/themes/mcluhan/assets/js/global.js@ver=2.1.1" id="mcluhan_global-js"></script>
+			
+	</body>
+</html>

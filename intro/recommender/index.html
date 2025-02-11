@@ -1,0 +1,1492 @@
+<!DOCTYPE html>
+
+<html class="no-js" lang="ru-RU">
+
+	<head>
+
+		<meta http-equiv="content-type" content="text/html" charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" >
+
+		<link rel="profile" href="http://gmpg.org/xfn/11">
+
+		<meta name='robots' content='index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' />
+	<style>img:is([sizes="auto" i], [sizes^="auto," i]) { contain-intrinsic-size: 3000px 1500px }</style>
+	
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$','$'],['\\(','\\)']], 
+    processEscapes: true
+  },
+  options: {
+    ignoreHtmlClass: 'tex2jax_ignore|editor-rich-text'
+  }
+};
+
+</script>
+
+	<!-- This site is optimized with the Yoast SEO plugin v24.4 - https://yoast.com/wordpress/plugins/seo/ -->
+	<title>Рекомендательная система | Вводный курс</title>
+	<meta name="description" content="Рекомендательная система использует данные о предпочтениях пользователей и предлагает максимально полезные товары, услуги или контент" />
+	<link rel="canonical" href="index.html" />
+	<meta property="og:locale" content="ru_RU" />
+	<meta property="og:type" content="article" />
+	<meta property="og:title" content="Рекомендательная система | Вводный курс" />
+	<meta property="og:description" content="Рекомендательная система использует данные о предпочтениях пользователей и предлагает максимально полезные товары, услуги или контент" />
+	<meta property="og:url" content="https://www.dmitrymakarov.ru/intro/recommender/" />
+	<meta property="og:site_name" content="Машинное обучение" />
+	<meta property="article:modified_time" content="2025-01-01T06:02:30+00:00" />
+	<meta property="og:image" content="https://www.dmitrymakarov.ru/wp-content/uploads/2021/08/rec-types.jpg" />
+	<meta property="og:image:width" content="2021" />
+	<meta property="og:image:height" content="1204" />
+	<meta property="og:image:type" content="image/jpeg" />
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:label1" content="Примерное время для чтения" />
+	<meta name="twitter:data1" content="20 минут" />
+	<script type="application/ld+json" class="yoast-schema-graph">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.dmitrymakarov.ru/intro/recommender/","url":"https://www.dmitrymakarov.ru/intro/recommender/","name":"Рекомендательная система | Вводный курс","isPartOf":{"@id":"https://www.dmitrymakarov.ru/#website"},"primaryImageOfPage":{"@id":"https://www.dmitrymakarov.ru/intro/recommender/#primaryimage"},"image":{"@id":"https://www.dmitrymakarov.ru/intro/recommender/#primaryimage"},"thumbnailUrl":"https://www.dmitrymakarov.ru/wp-content/uploads/2021/08/rec-types-1024x610.jpg","datePublished":"2021-08-20T08:26:32+00:00","dateModified":"2025-01-01T06:02:30+00:00","description":"Рекомендательная система использует данные о предпочтениях пользователей и предлагает максимально полезные товары, услуги или контент","breadcrumb":{"@id":"https://www.dmitrymakarov.ru/intro/recommender/#breadcrumb"},"inLanguage":"ru-RU","potentialAction":[{"@type":"ReadAction","target":["https://www.dmitrymakarov.ru/intro/recommender/"]}]},{"@type":"ImageObject","inLanguage":"ru-RU","@id":"https://www.dmitrymakarov.ru/intro/recommender/#primaryimage","url":"https://www.dmitrymakarov.ru/wp-content/uploads/2021/08/rec-types.jpg","contentUrl":"https://www.dmitrymakarov.ru/wp-content/uploads/2021/08/rec-types.jpg","width":2021,"height":1204},{"@type":"BreadcrumbList","@id":"https://www.dmitrymakarov.ru/intro/recommender/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная страница","item":"https://www.dmitrymakarov.ru/"},{"@type":"ListItem","position":2,"name":"Вводный курс","item":"https://www.dmitrymakarov.ru/intro/"},{"@type":"ListItem","position":3,"name":"Рекомендательная система"}]},{"@type":"WebSite","@id":"https://www.dmitrymakarov.ru/#website","url":"https://www.dmitrymakarov.ru/","name":"Машинное обучение","description":"","publisher":{"@id":"https://www.dmitrymakarov.ru/#/schema/person/3fc221e2d391cc5cfd9d31c9c251c2a4"},"potentialAction":[{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://www.dmitrymakarov.ru/?s={search_term_string}"},"query-input":{"@type":"PropertyValueSpecification","valueRequired":true,"valueName":"search_term_string"}}],"inLanguage":"ru-RU"},{"@type":["Person","Organization"],"@id":"https://www.dmitrymakarov.ru/#/schema/person/3fc221e2d391cc5cfd9d31c9c251c2a4","name":"DmitryMakarov","image":{"@type":"ImageObject","inLanguage":"ru-RU","@id":"https://www.dmitrymakarov.ru/#/schema/person/image/","url":"https://secure.gravatar.com/avatar/2c5f922d990c667feffc00f99517cc0e?s=96&d=mm&r=g","contentUrl":"https://secure.gravatar.com/avatar/2c5f922d990c667feffc00f99517cc0e?s=96&d=mm&r=g","caption":"DmitryMakarov"},"logo":{"@id":"https://www.dmitrymakarov.ru/#/schema/person/image/"}}]}</script>
+	<!-- / Yoast SEO plugin. -->
+
+
+<link rel='dns-prefetch' href='https://cdn.jsdelivr.net/' />
+<link rel="alternate" type="application/rss+xml" title="Машинное обучение &raquo; Лента" href="../../feed/index.html" />
+<link rel="alternate" type="application/rss+xml" title="Машинное обучение &raquo; Лента комментариев" href="../../comments/feed/index.html" />
+<script type="text/javascript">
+/* <![CDATA[ */
+window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15.0.3\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15.0.3\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/www.dmitrymakarov.ru\/wp-includes\/js\/wp-emoji-release.min.js?ver=6.7.1"}};
+/*! This file is auto-generated */
+!function(i,n){var o,s,e;function c(e){try{var t={supportTests:e,timestamp:(new Date).valueOf()};sessionStorage.setItem(o,JSON.stringify(t))}catch(e){}}function p(e,t,n){e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(t,0,0);var t=new Uint32Array(e.getImageData(0,0,e.canvas.width,e.canvas.height).data),r=(e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(n,0,0),new Uint32Array(e.getImageData(0,0,e.canvas.width,e.canvas.height).data));return t.every(function(e,t){return e===r[t]})}function u(e,t,n){switch(t){case"flag":return n(e,"\ud83c\udff3\ufe0f\u200d\u26a7\ufe0f","\ud83c\udff3\ufe0f\u200b\u26a7\ufe0f")?!1:!n(e,"\ud83c\uddfa\ud83c\uddf3","\ud83c\uddfa\u200b\ud83c\uddf3")&&!n(e,"\ud83c\udff4\udb40\udc67\udb40\udc62\udb40\udc65\udb40\udc6e\udb40\udc67\udb40\udc7f","\ud83c\udff4\u200b\udb40\udc67\u200b\udb40\udc62\u200b\udb40\udc65\u200b\udb40\udc6e\u200b\udb40\udc67\u200b\udb40\udc7f");case"emoji":return!n(e,"\ud83d\udc26\u200d\u2b1b","\ud83d\udc26\u200b\u2b1b")}return!1}function f(e,t,n){var r="undefined"!=typeof WorkerGlobalScope&&self instanceof WorkerGlobalScope?new OffscreenCanvas(300,150):i.createElement("canvas"),a=r.getContext("2d",{willReadFrequently:!0}),o=(a.textBaseline="top",a.font="600 32px Arial",{});return e.forEach(function(e){o[e]=t(a,e,n)}),o}function t(e){var t=i.createElement("script");t.src=e,t.defer=!0,i.head.appendChild(t)}"undefined"!=typeof Promise&&(o="wpEmojiSettingsSupports",s=["flag","emoji"],n.supports={everything:!0,everythingExceptFlag:!0},e=new Promise(function(e){i.addEventListener("DOMContentLoaded",e,{once:!0})}),new Promise(function(t){var n=function(){try{var e=JSON.parse(sessionStorage.getItem(o));if("object"==typeof e&&"number"==typeof e.timestamp&&(new Date).valueOf()<e.timestamp+604800&&"object"==typeof e.supportTests)return e.supportTests}catch(e){}return null}();if(!n){if("undefined"!=typeof Worker&&"undefined"!=typeof OffscreenCanvas&&"undefined"!=typeof URL&&URL.createObjectURL&&"undefined"!=typeof Blob)try{var e="postMessage("+f.toString()+"("+[JSON.stringify(s),u.toString(),p.toString()].join(",")+"));",r=new Blob([e],{type:"text/javascript"}),a=new Worker(URL.createObjectURL(r),{name:"wpTestEmojiSupports"});return void(a.onmessage=function(e){c(n=e.data),a.terminate(),t(n)})}catch(e){}c(n=f(s,u,p))}t(n)}).then(function(e){for(var t in e)n.supports[t]=e[t],n.supports.everything=n.supports.everything&&n.supports[t],"flag"!==t&&(n.supports.everythingExceptFlag=n.supports.everythingExceptFlag&&n.supports[t]);n.supports.everythingExceptFlag=n.supports.everythingExceptFlag&&!n.supports.flag,n.DOMReady=!1,n.readyCallback=function(){n.DOMReady=!0}}).then(function(){return e}).then(function(){var e;n.supports.everything||(n.readyCallback(),(e=n.source||{}).concatemoji?t(e.concatemoji):e.wpemoji&&e.twemoji&&(t(e.twemoji),t(e.wpemoji)))}))}((window,document),window._wpemojiSettings);
+/* ]]> */
+</script>
+<link rel='stylesheet' id='urvanov_syntax_highlighter-css' href='../../wp-content/plugins/urvanov-syntax-highlighter/css/min/urvanov_syntax_highlighter.min.css@ver=2.8.38.css' type='text/css' media='all' />
+<link rel='stylesheet' id='crayon-theme-familiar-my-copy-css' href='../../wp-content/uploads/urvanov-syntax-highlighter/themes/familiar-my-copy/familiar-my-copy.css@ver=2.8.38.css' type='text/css' media='all' />
+<link rel='stylesheet' id='crayon-font-consolas-css' href='../../wp-content/plugins/urvanov-syntax-highlighter/fonts/consolas.css@ver=2.8.38.css' type='text/css' media='all' />
+<style id='wp-emoji-styles-inline-css' type='text/css'>
+
+	img.wp-smiley, img.emoji {
+		display: inline !important;
+		border: none !important;
+		box-shadow: none !important;
+		height: 1em !important;
+		width: 1em !important;
+		margin: 0 0.07em !important;
+		vertical-align: -0.1em !important;
+		background: none !important;
+		padding: 0 !important;
+	}
+</style>
+<link rel='stylesheet' id='wp-block-library-css' href='../../wp-includes/css/dist/block-library/style.min.css@ver=6.7.1.css' type='text/css' media='all' />
+<style id='filebird-block-filebird-gallery-style-inline-css' type='text/css'>
+ul.filebird-block-filebird-gallery{margin:auto!important;padding:0!important;width:100%}ul.filebird-block-filebird-gallery.layout-grid{display:grid;grid-gap:20px;align-items:stretch;grid-template-columns:repeat(var(--columns),1fr);justify-items:stretch}ul.filebird-block-filebird-gallery.layout-grid li img{border:1px solid #ccc;box-shadow:2px 2px 6px 0 rgba(0,0,0,.3);height:100%;max-width:100%;-o-object-fit:cover;object-fit:cover;width:100%}ul.filebird-block-filebird-gallery.layout-masonry{-moz-column-count:var(--columns);-moz-column-gap:var(--space);column-gap:var(--space);-moz-column-width:var(--min-width);columns:var(--min-width) var(--columns);display:block;overflow:auto}ul.filebird-block-filebird-gallery.layout-masonry li{margin-bottom:var(--space)}ul.filebird-block-filebird-gallery li{list-style:none}ul.filebird-block-filebird-gallery li figure{height:100%;margin:0;padding:0;position:relative;width:100%}ul.filebird-block-filebird-gallery li figure figcaption{background:linear-gradient(0deg,rgba(0,0,0,.7),rgba(0,0,0,.3) 70%,transparent);bottom:0;box-sizing:border-box;color:#fff;font-size:.8em;margin:0;max-height:100%;overflow:auto;padding:3em .77em .7em;position:absolute;text-align:center;width:100%;z-index:2}ul.filebird-block-filebird-gallery li figure figcaption a{color:inherit}
+
+</style>
+<style id='classic-theme-styles-inline-css' type='text/css'>
+/*! This file is auto-generated */
+.wp-block-button__link{color:#fff;background-color:#32373c;border-radius:9999px;box-shadow:none;text-decoration:none;padding:calc(.667em + 2px) calc(1.333em + 2px);font-size:1.125em}.wp-block-file__button{background:#32373c;color:#fff;text-decoration:none}
+</style>
+<style id='global-styles-inline-css' type='text/css'>
+:root{--wp--preset--aspect-ratio--square: 1;--wp--preset--aspect-ratio--4-3: 4/3;--wp--preset--aspect-ratio--3-4: 3/4;--wp--preset--aspect-ratio--3-2: 3/2;--wp--preset--aspect-ratio--2-3: 2/3;--wp--preset--aspect-ratio--16-9: 16/9;--wp--preset--aspect-ratio--9-16: 9/16;--wp--preset--color--black: #121212;--wp--preset--color--cyan-bluish-gray: #abb8c3;--wp--preset--color--white: #fff;--wp--preset--color--pale-pink: #f78da7;--wp--preset--color--vivid-red: #cf2e2e;--wp--preset--color--luminous-vivid-orange: #ff6900;--wp--preset--color--luminous-vivid-amber: #fcb900;--wp--preset--color--light-green-cyan: #7bdcb5;--wp--preset--color--vivid-green-cyan: #00d084;--wp--preset--color--pale-cyan-blue: #8ed1fc;--wp--preset--color--vivid-cyan-blue: #0693e3;--wp--preset--color--vivid-purple: #9b51e0;--wp--preset--color--dark-gray: #333;--wp--preset--color--medium-gray: #555;--wp--preset--color--light-gray: #777;--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg,rgba(6,147,227,1) 0%,rgb(155,81,224) 100%);--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg,rgb(122,220,180) 0%,rgb(0,208,130) 100%);--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg,rgba(252,185,0,1) 0%,rgba(255,105,0,1) 100%);--wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg,rgba(255,105,0,1) 0%,rgb(207,46,46) 100%);--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg,rgb(238,238,238) 0%,rgb(169,184,195) 100%);--wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg,rgb(74,234,220) 0%,rgb(151,120,209) 20%,rgb(207,42,186) 40%,rgb(238,44,130) 60%,rgb(251,105,98) 80%,rgb(254,248,76) 100%);--wp--preset--gradient--blush-light-purple: linear-gradient(135deg,rgb(255,206,236) 0%,rgb(152,150,240) 100%);--wp--preset--gradient--blush-bordeaux: linear-gradient(135deg,rgb(254,205,165) 0%,rgb(254,45,45) 50%,rgb(107,0,62) 100%);--wp--preset--gradient--luminous-dusk: linear-gradient(135deg,rgb(255,203,112) 0%,rgb(199,81,192) 50%,rgb(65,88,208) 100%);--wp--preset--gradient--pale-ocean: linear-gradient(135deg,rgb(255,245,203) 0%,rgb(182,227,212) 50%,rgb(51,167,181) 100%);--wp--preset--gradient--electric-grass: linear-gradient(135deg,rgb(202,248,128) 0%,rgb(113,206,126) 100%);--wp--preset--gradient--midnight: linear-gradient(135deg,rgb(2,3,129) 0%,rgb(40,116,252) 100%);--wp--preset--font-size--small: 16px;--wp--preset--font-size--medium: 20px;--wp--preset--font-size--large: 24px;--wp--preset--font-size--x-large: 42px;--wp--preset--font-size--normal: 18px;--wp--preset--font-size--larger: 28px;--wp--preset--spacing--20: 0.44rem;--wp--preset--spacing--30: 0.67rem;--wp--preset--spacing--40: 1rem;--wp--preset--spacing--50: 1.5rem;--wp--preset--spacing--60: 2.25rem;--wp--preset--spacing--70: 3.38rem;--wp--preset--spacing--80: 5.06rem;--wp--preset--shadow--natural: 6px 6px 9px rgba(0, 0, 0, 0.2);--wp--preset--shadow--deep: 12px 12px 50px rgba(0, 0, 0, 0.4);--wp--preset--shadow--sharp: 6px 6px 0px rgba(0, 0, 0, 0.2);--wp--preset--shadow--outlined: 6px 6px 0px -3px rgba(255, 255, 255, 1), 6px 6px rgba(0, 0, 0, 1);--wp--preset--shadow--crisp: 6px 6px 0px rgba(0, 0, 0, 1);}:where(.is-layout-flex){gap: 0.5em;}:where(.is-layout-grid){gap: 0.5em;}body .is-layout-flex{display: flex;}.is-layout-flex{flex-wrap: wrap;align-items: center;}.is-layout-flex > :is(*, div){margin: 0;}body .is-layout-grid{display: grid;}.is-layout-grid > :is(*, div){margin: 0;}:where(.wp-block-columns.is-layout-flex){gap: 2em;}:where(.wp-block-columns.is-layout-grid){gap: 2em;}:where(.wp-block-post-template.is-layout-flex){gap: 1.25em;}:where(.wp-block-post-template.is-layout-grid){gap: 1.25em;}.has-black-color{color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-color{color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-color{color: var(--wp--preset--color--white) !important;}.has-pale-pink-color{color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-color{color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-color{color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-color{color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-color{color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-color{color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-color{color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-color{color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-color{color: var(--wp--preset--color--vivid-purple) !important;}.has-black-background-color{background-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-background-color{background-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-background-color{background-color: var(--wp--preset--color--white) !important;}.has-pale-pink-background-color{background-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-background-color{background-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-background-color{background-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-background-color{background-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-background-color{background-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-background-color{background-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-background-color{background-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-background-color{background-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-background-color{background-color: var(--wp--preset--color--vivid-purple) !important;}.has-black-border-color{border-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-border-color{border-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-border-color{border-color: var(--wp--preset--color--white) !important;}.has-pale-pink-border-color{border-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-border-color{border-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-border-color{border-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-border-color{border-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-border-color{border-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-border-color{border-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-border-color{border-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-border-color{border-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-border-color{border-color: var(--wp--preset--color--vivid-purple) !important;}.has-vivid-cyan-blue-to-vivid-purple-gradient-background{background: var(--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple) !important;}.has-light-green-cyan-to-vivid-green-cyan-gradient-background{background: var(--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan) !important;}.has-luminous-vivid-amber-to-luminous-vivid-orange-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange) !important;}.has-luminous-vivid-orange-to-vivid-red-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-orange-to-vivid-red) !important;}.has-very-light-gray-to-cyan-bluish-gray-gradient-background{background: var(--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray) !important;}.has-cool-to-warm-spectrum-gradient-background{background: var(--wp--preset--gradient--cool-to-warm-spectrum) !important;}.has-blush-light-purple-gradient-background{background: var(--wp--preset--gradient--blush-light-purple) !important;}.has-blush-bordeaux-gradient-background{background: var(--wp--preset--gradient--blush-bordeaux) !important;}.has-luminous-dusk-gradient-background{background: var(--wp--preset--gradient--luminous-dusk) !important;}.has-pale-ocean-gradient-background{background: var(--wp--preset--gradient--pale-ocean) !important;}.has-electric-grass-gradient-background{background: var(--wp--preset--gradient--electric-grass) !important;}.has-midnight-gradient-background{background: var(--wp--preset--gradient--midnight) !important;}.has-small-font-size{font-size: var(--wp--preset--font-size--small) !important;}.has-medium-font-size{font-size: var(--wp--preset--font-size--medium) !important;}.has-large-font-size{font-size: var(--wp--preset--font-size--large) !important;}.has-x-large-font-size{font-size: var(--wp--preset--font-size--x-large) !important;}
+:where(.wp-block-post-template.is-layout-flex){gap: 1.25em;}:where(.wp-block-post-template.is-layout-grid){gap: 1.25em;}
+:where(.wp-block-columns.is-layout-flex){gap: 2em;}:where(.wp-block-columns.is-layout-grid){gap: 2em;}
+:root :where(.wp-block-pullquote){font-size: 1.5em;line-height: 1.6;}
+</style>
+<link rel='stylesheet' id='mcluhan-fonts-css' href='../../wp-content/themes/mcluhan/assets/css/fonts.css@ver=6.7.1.css' type='text/css' media='all' />
+<link rel='stylesheet' id='fontawesome-css' href='../../wp-content/themes/mcluhan/assets/css/font-awesome.css@ver=6.7.1.css' type='text/css' media='all' />
+<link rel='stylesheet' id='mcluhan-style-css' href='../../wp-content/themes/mcluhan/style.css@ver=2.1.1.css' type='text/css' media='all' />
+<script type="text/javascript" src="../../wp-includes/js/jquery/jquery.min.js@ver=3.7.1" id="jquery-core-js"></script>
+<script type="text/javascript" src="../../wp-includes/js/jquery/jquery-migrate.min.js@ver=3.4.1" id="jquery-migrate-js"></script>
+<script type="text/javascript" id="urvanov_syntax_highlighter_js-js-extra">
+/* <![CDATA[ */
+var UrvanovSyntaxHighlighterSyntaxSettings = {"version":"2.8.38","is_admin":"0","ajaxurl":"https:\/\/www.dmitrymakarov.ru\/wp-admin\/admin-ajax.php","prefix":"urvanov-syntax-highlighter-","setting":"urvanov-syntax-highlighter-setting","selected":"urvanov-syntax-highlighter-setting-selected","changed":"urvanov-syntax-highlighter-setting-changed","special":"urvanov-syntax-highlighter-setting-special","orig_value":"data-orig-value","debug":""};
+var UrvanovSyntaxHighlighterSyntaxStrings = {"copy":"Copied to the clipboard","minimize":"Click To Expand Code"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="../../wp-content/plugins/urvanov-syntax-highlighter/js/min/urvanov_syntax_highlighter.min.js@ver=2.8.38" id="urvanov_syntax_highlighter_js-js"></script>
+
+			<!-- Customizer CSS -->
+
+			<style type="text/css">
+
+				body .site-header { background-color:#004235; }.social-menu.desktop { background-color:#004235; }.social-menu a:hover { color:#004235; }.social-menu a.active { color:#004235; }.mobile-menu-wrapper { background-color:#004235; }.social-menu.mobile { background-color:#004235; }.mobile-search.active { background-color:#004235; }
+			</style>
+
+			<!-- /Customizer CSS -->
+
+					<script>jQuery( 'html' ).removeClass( 'no-js' ).addClass( 'js' );</script>
+		<style type="text/css">.broken_link, a.broken_link {
+	text-decoration: line-through;
+}</style><style type="text/css" id="custom-background-css">
+body.custom-background { background-color: #fff9ef; }
+</style>
+	<link rel="icon" href="../../wp-content/uploads/2021/08/cropped-wp-favicon-512-32x32.png" sizes="32x32" />
+<link rel="icon" href="../../wp-content/uploads/2021/08/cropped-wp-favicon-512-192x192.png" sizes="192x192" />
+<link rel="apple-touch-icon" href="../../wp-content/uploads/2021/08/cropped-wp-favicon-512-180x180.png" />
+<meta name="msapplication-TileImage" content="https://www.dmitrymakarov.ru/wp-content/uploads/2021/08/cropped-wp-favicon-512-270x270.png" />
+
+	</head>
+
+	<body class="page-template page-template-full-width-page-template page-template-full-width-page-template-php page page-id-4223 page-child parent-pageid-202 custom-background full-width-template">
+
+		
+		<a class="skip-link button" href="index.html#site-content">Перейти к содержимому</a>
+
+		<header class="site-header group">
+
+			
+			<p class="site-title"><a href="../../index.html" class="site-name">Машинное обучение</a></p>
+
+			
+			<div class="nav-toggle">
+				<div class="bar"></div>
+				<div class="bar"></div>
+			</div>
+
+			<div class="menu-wrapper">
+
+				<ul class="main-menu desktop">
+
+									</ul>
+
+			</div><!-- .menu-wrapper -->
+
+			
+				<div class="social-menu desktop">
+
+					<ul class="social-menu-inner">
+
+						<li class="social-search-wrapper"><a href="../../index.html@s=.html"></a></li>
+
+						
+					</ul><!-- .social-menu-inner -->
+
+				</div><!-- .social-menu -->
+
+			
+		</header><!-- header -->
+
+		<div class="mobile-menu-wrapper">
+
+			<ul class="main-menu mobile">
+									<li class="toggle-mobile-search-wrapper"><a href="index.html#" class="toggle-mobile-search">Поиск</a></li>
+							</ul><!-- .main-menu.mobile -->
+
+			
+		</div><!-- .mobile-menu-wrapper -->
+
+		
+			<div class="mobile-search">
+
+				<div class="untoggle-mobile-search"></div>
+
+				
+<form role="search" method="get" class="search-form" action="../../index.html">
+	<label class="screen-reader-text" for="search-form-67aa623db4b6e">Поиск:</label>
+	<input type="search" id="search-form-67aa623db4b6e" class="search-field" placeholder="Введите запрос" value="" name="s" autocomplete="off" />
+	</button>
+</form>
+
+				<div class="mobile-results">
+
+					<div class="results-wrapper"></div>
+
+				</div>
+
+			</div><!-- .mobile-search -->
+
+			<div class="search-overlay">
+
+				
+<form role="search" method="get" class="search-form" action="../../index.html">
+	<label class="screen-reader-text" for="search-form-67aa623db4c3a">Поиск:</label>
+	<input type="search" id="search-form-67aa623db4c3a" class="search-field" placeholder="Введите запрос" value="" name="s" autocomplete="off" />
+	</button>
+</form>
+
+			</div><!-- .search-overlay -->
+
+		
+		<main class="site-content" id="site-content">
+		<article class="post-4223 page type-page status-publish hentry missing-thumbnail">
+
+			
+			<header class="entry-header section-inner">
+
+				<h1 class="entry-title">Рекомендательная система</h1>
+			</header><!-- .entry-header -->
+
+			<div class="entry-content section-inner">
+
+				
+<p class="has-light-gray-color has-text-color"><a href="../../index.html">Материалы</a> &gt; <a href="../index.html">Вводный курс</a></p>
+
+
+
+<h3 class="wp-block-heading" id="0-chto-takoe-rekomendatelnaya-sistema">Что такое рекомендательная система?</h3>
+
+
+
+<p><strong>Рекомендательная система</strong> (recommender system) стремится максимально точно предсказать предпочтения потребителя и предложить наиболее подходящий товар или услугу.</p>
+
+
+
+<p>Сегодня такие системы встречаются повсеместно. Практически любой крупный интернет-магазин, онлайн-кинотеатр или новостной портал использует ту или иную рекомендательную систему для того, чтобы предоставить пользователям то, что им действительно нужно.</p>
+
+
+
+<p>На этом занятии мы коротко рассмотрим основные типы рекомендательных систем, а затем создадим свою рекомендательную систему для онлайн-кинотеатра.</p>
+
+
+
+<h3 class="wp-block-heading" id="1-tipy-rekomendatelnykh-sistem">Типы рекомендательных систем</h3>
+
+
+
+<p>Выделим три типа рекомендательных систем: фильтрацию по популярности, на основе содержания и коллаборативную систему.</p>
+
+
+
+<figure class="wp-block-image size-large is-resized"><img fetchpriority="high" decoding="async" width="1024" height="610" src="../../wp-content/uploads/2021/08/rec-types-1024x610.jpg" alt="типы рекомендательных систем" class="wp-image-4289" style="width:708px;height:auto" srcset="../../wp-content/uploads/2021/08/rec-types-1024x610.jpg 1024w, ../../wp-content/uploads/2021/08/rec-types-300x179.jpg 300w, ../../wp-content/uploads/2021/08/rec-types-768x458.jpg 768w, ../../wp-content/uploads/2021/08/rec-types-1536x915.jpg 1536w, ../../wp-content/uploads/2021/08/rec-types-1200x715.jpg 1200w, ../../wp-content/uploads/2021/08/rec-types-600x357.jpg 600w, ../../wp-content/uploads/2021/08/rec-types.jpg 2021w" sizes="(max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+<p>Наиболее простая система выдает <strong>рекомендации на основе популярности</strong> (popularity-based recommender systems). Чем выше средний рейтинг фильма, купленного товара или статьи, тем вероятнее, что система будет рекомендовать именно их.</p>
+
+
+
+<p>Преимуществом является простота, недостатком то, что не учитываются предпочтения конкретного пользователя.</p>
+
+
+
+<p><strong>Фильтрация на основе содержания</strong> (content-based filtering) рекомендует товары или услуги, схожие с теми, которые пользователь приобретал ранее. Например, если вы посмотрели фильм &#171;Матрица&#187; с Киану Ривзом, то в дальнейшем система будет рекомендовать вам научную фантастику, а также другие фильмы с участием этого актера.</p>
+
+
+
+<p>Такую систему также несложно реализовать, при этом основным недостатком будет то, что покупатели не пробуют новые товары или услуги.</p>
+
+
+
+<p>Третий тип &#8212; <strong>коллаборативная система</strong> (collaborative filtering). Именно ей мы и будем сегодня заниматься. Она основывается на сопоставлении пользователей и товаров (или услуг, новостей и т.д.). Математически в данном случае мы работаем с <em>матрицами предпочтений</em> (user-item matrix).</p>
+
+
+
+<figure class="wp-block-image size-large"><img decoding="async" width="1024" height="561" src="../../wp-content/uploads/2021/08/user-item-matrix-1024x561.jpg" alt="два вида коллаборативных рекомендательных систем" class="wp-image-4291" srcset="../../wp-content/uploads/2021/08/user-item-matrix-1024x561.jpg 1024w, ../../wp-content/uploads/2021/08/user-item-matrix-300x164.jpg 300w, ../../wp-content/uploads/2021/08/user-item-matrix-768x421.jpg 768w, ../../wp-content/uploads/2021/08/user-item-matrix-1536x842.jpg 1536w, ../../wp-content/uploads/2021/08/user-item-matrix-1200x658.jpg 1200w, ../../wp-content/uploads/2021/08/user-item-matrix-600x329.jpg 600w, ../../wp-content/uploads/2021/08/user-item-matrix.jpg 2032w" sizes="(max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+<p>Существует два вида таких систем.</p>
+
+
+
+<p>Коллаборативные системы, основанные <strong>на пользователях</strong> (user-based), находят близких по предпочтениям пользователей и рекомендуют одному из них то, что уже попробовал другой.</p>
+
+
+
+<figure class="wp-block-image size-large is-resized"><img decoding="async" width="1024" height="705" src="../../wp-content/uploads/2021/08/user-recom-1024x705.jpg" alt="коллаборативная рекомендательная система, основанная на пользователях (user-based)" class="wp-image-4293" style="width:726px;height:auto" srcset="../../wp-content/uploads/2021/08/user-recom-1024x705.jpg 1024w, ../../wp-content/uploads/2021/08/user-recom-300x207.jpg 300w, ../../wp-content/uploads/2021/08/user-recom-768x529.jpg 768w, ../../wp-content/uploads/2021/08/user-recom-1536x1058.jpg 1536w, ../../wp-content/uploads/2021/08/user-recom-1200x826.jpg 1200w, ../../wp-content/uploads/2021/08/user-recom-600x413.jpg 600w, ../../wp-content/uploads/2021/08/user-recom.jpg 1648w" sizes="(max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+<figure class="wp-block-image size-large is-resized"><img loading="lazy" decoding="async" width="1024" height="798" src="../../wp-content/uploads/2021/08/user-vectors-1024x798.jpg" alt="векторы пользователей в коллаборативной системе" class="wp-image-4303" style="aspect-ratio:1.2842287694974004;width:619px;height:auto" srcset="../../wp-content/uploads/2021/08/user-vectors-1024x798.jpg 1024w, ../../wp-content/uploads/2021/08/user-vectors-300x234.jpg 300w, ../../wp-content/uploads/2021/08/user-vectors-768x598.jpg 768w, ../../wp-content/uploads/2021/08/user-vectors-1536x1197.jpg 1536w, ../../wp-content/uploads/2021/08/user-vectors-2048x1596.jpg 2048w, ../../wp-content/uploads/2021/08/user-vectors-1200x935.jpg 1200w, ../../wp-content/uploads/2021/08/user-vectors-600x468.jpg 600w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+<p>Системы, основанные <strong>на предмете рекомендации</strong> (item-based), сравнивают непосредственно близость товаров или услуг. Причем что отличает эту систему, сходство определяется на основе предпочтений всех пользователей, которые оставили оценки.</p>
+
+
+
+<figure class="wp-block-image size-large is-resized"><img loading="lazy" decoding="async" width="1024" height="716" src="../../wp-content/uploads/2021/08/item-vectors-1024x716.jpg" alt="векторы товаров или услуг в коллаборативной системе" class="wp-image-4304" style="aspect-ratio:1.430232558139535;width:638px;height:auto" srcset="../../wp-content/uploads/2021/08/item-vectors-1024x716.jpg 1024w, ../../wp-content/uploads/2021/08/item-vectors-300x210.jpg 300w, ../../wp-content/uploads/2021/08/item-vectors-768x537.jpg 768w, ../../wp-content/uploads/2021/08/item-vectors-1536x1075.jpg 1536w, ../../wp-content/uploads/2021/08/item-vectors-2048x1433.jpg 2048w, ../../wp-content/uploads/2021/08/item-vectors-1200x840.jpg 1200w, ../../wp-content/uploads/2021/08/item-vectors-600x420.jpg 600w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+<p>Для оценки расстояния между векторами мы будем использовать <a href="../vectors/index.html">косинусное сходство</a>.</p>
+
+
+
+<h3 class="wp-block-heading" id="2-rekomendatelnaya-sistema-dlya-onlayn-kinoteatra">Рекомендательная система для онлайн-кинотеатра</h3>
+
+
+
+<p>Пошагово обсудим, что предстоит сделать.</p>
+
+
+
+<p class="has-background" style="background-color:#ffe8c4">На этом занятии мы будем создавать <strong>коллаборативную систему, основанную на предмете рекомендации</strong> (item-based collaborative filtering recommender system). Впервые она была разработана компанией Amazon в 1998 году.</p>
+
+
+
+<p>Итак, на первом этапе, нужно подготовить данные, то есть создать матрицу предпочтений, где строками будут фильмы, столбцами &#8212; пользователи, а элементами &#8212; рейтинги.</p>
+
+
+
+<p>На втором этапе, мы <strong>рассчитаем расстояния</strong> от каждого фильма до ближайших векторов (других фильмов).</p>
+
+
+
+<p>Для этого мы будем использовать алгоритм <em>k-ближайших соседей</em> (k-nearest neighbors algorithm, k-NN). Графически его работа выглядит следующим образом.</p>
+
+
+
+<figure class="wp-block-image size-large is-resized"><img loading="lazy" decoding="async" width="1024" height="764" src="../../wp-content/uploads/2021/08/knn-1024x764.jpg" alt="алгоритм k-ближайших соседей (k-nearest neighbors algorithm, k-NN)" class="wp-image-4297" style="width:524px;height:auto" srcset="../../wp-content/uploads/2021/08/knn-1024x764.jpg 1024w, ../../wp-content/uploads/2021/08/knn-300x224.jpg 300w, ../../wp-content/uploads/2021/08/knn-768x573.jpg 768w, ../../wp-content/uploads/2021/08/knn-1200x895.jpg 1200w, ../../wp-content/uploads/2021/08/knn-600x448.jpg 600w, ../../wp-content/uploads/2021/08/knn.jpg 1504w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+<p>На третьем этапе, возьмем картину, для которой хотим <strong>подобрать рекомендации</strong>, и найдем в базе данных фильмы с наибольшим косинусным сходством.</p>
+
+
+
+<p>В частности, предлагаю взять уже упомянутый фильм &#171;Матрица&#187; и посмотреть, предложит ли такая система фильмы с Киану Ривзом или научную фантастику.</p>
+
+
+
+<h3 class="wp-block-heading" id="3-praktika">Практика</h3>
+
+
+
+<p>Мы воспользуемся открытым набором данных о рейтинге фильмов MovieLens Latest Datasets. В этом датасете, в частности, содержатся названия фильмов (файл movies.csv) и оценки, которые зрители ставили фильмам (файл rating.csv).</p>
+
+
+
+<div class="wp-block-file"><a id="wp-block-file--media-5f608fe4-a98c-467f-bee8-06e4daa0cab4" href="../../wp-content/uploads/2021/08/movies.csv">movies.csv</a><a href="../../wp-content/uploads/2021/08/movies.csv" class="wp-block-file__button wp-element-button" download aria-describedby="wp-block-file--media-5f608fe4-a98c-467f-bee8-06e4daa0cab4">Скачать</a></div>
+
+
+
+<div class="wp-block-file"><a id="wp-block-file--media-4354d761-528a-49f6-b693-35248f4b8ab8" href="../../wp-content/uploads/2021/08/ratings.csv">ratings.csv</a><a href="../../wp-content/uploads/2021/08/ratings.csv" class="wp-block-file__button wp-element-button" download aria-describedby="wp-block-file--media-4354d761-528a-49f6-b693-35248f4b8ab8">Скачать</a></div>
+
+
+
+<p class="has-text-align-center has-white-color has-text-color has-background" style="background-color:#004235"><a href="https://colab.research.google.com/drive/1-RC3JoRQCenj9P_6zxZmfI5UAbsB6DsM?usp=sharing" target="_blank" rel="noreferrer noopener">Откроем блокнот к этому занятию</a>⧉</p>
+
+
+
+<h4 class="wp-block-heading" id="4-etap-1-podgotovka-dannykh">Этап 1. Подготовка данных</h4>
+
+
+
+<p>Скачаем файлы на жесткий диск и подгрузим в блокнот. Это можно сделать, открыв вкладку &#171;Файлы&#187; в меню слева и выбрав значок &#171;Загрузить в сессионное хранилище&#187;.</p>
+
+
+
+<figure class="wp-block-image size-large is-resized"><img loading="lazy" decoding="async" width="1024" height="689" src="../../wp-content/uploads/2021/08/upload-1-1024x689.jpg" alt="загрузка данных в сессионное хранилище Google Colab. Шаг 1." class="wp-image-4283" style="aspect-ratio:1.4877126654064272;width:741px;height:auto" srcset="../../wp-content/uploads/2021/08/upload-1-1024x689.jpg 1024w, ../../wp-content/uploads/2021/08/upload-1-300x202.jpg 300w, ../../wp-content/uploads/2021/08/upload-1-768x517.jpg 768w, ../../wp-content/uploads/2021/08/upload-1-1536x1033.jpg 1536w, ../../wp-content/uploads/2021/08/upload-1-2048x1378.jpg 2048w, ../../wp-content/uploads/2021/08/upload-1-1200x807.jpg 1200w, ../../wp-content/uploads/2021/08/upload-1-600x404.jpg 600w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+<figure class="wp-block-image size-large is-resized"><img loading="lazy" decoding="async" width="1024" height="581" src="../../wp-content/uploads/2021/08/upload-2-1024x581.jpg" alt="загрузка данных в сессионное хранилище Google Colab. Шаг 2." class="wp-image-4287" style="width:742px;height:auto" srcset="../../wp-content/uploads/2021/08/upload-2-1024x581.jpg 1024w, ../../wp-content/uploads/2021/08/upload-2-300x170.jpg 300w, ../../wp-content/uploads/2021/08/upload-2-768x436.jpg 768w, ../../wp-content/uploads/2021/08/upload-2-1536x872.jpg 1536w, ../../wp-content/uploads/2021/08/upload-2-1200x681.jpg 1200w, ../../wp-content/uploads/2021/08/upload-2-600x341.jpg 600w, ../../wp-content/uploads/2021/08/upload-2.jpg 1763w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+<p class="has-background" style="background-color:#ffe8c4">Обратите внимание, файлы хранятся в памяти временно и их <strong>придется подгружать каждый раз</strong> при перезапуске рабочей среды.</p>
+
+
+
+<p>Теперь мы готовы использовать эти файлы для создания рекомендательной системы. В первую очередь, импортируем необходимые библиотеки.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623dad809039271439" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad809039271439-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623dad809039271439-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad809039271439-3">3</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623dad809039271439-4">4</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad809039271439-5">5</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623dad809039271439-6">6</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad809039271439-7">7</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623dad809039271439-8">8</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad809039271439-9">9</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad809039271439-1"><span class="crayon-r">import</span><span class="crayon-h"> </span><span class="crayon-e">pandas </span><span class="crayon-st">as</span><span class="crayon-h"> </span><span class="crayon-e">pd</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623dad809039271439-2"><span class="crayon-r">import</span><span class="crayon-h"> </span><span class="crayon-e">numpy </span><span class="crayon-st">as</span><span class="crayon-h"> </span><span class="crayon-i">np</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad809039271439-3">&nbsp;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623dad809039271439-4"><span class="crayon-c"># модуль sparse библиотеки scipy понадобится </span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad809039271439-5"><span class="crayon-c"># для работы с разреженными матрицами (об этом ниже)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623dad809039271439-6"><span class="crayon-st">from</span><span class="crayon-h"> </span><span class="crayon-v">scipy</span><span class="crayon-sy">.</span><span class="crayon-e">sparse </span><span class="crayon-r">import</span><span class="crayon-h"> </span><span class="crayon-v">csr</span><span class="crayon-sy">_</span>matrix</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad809039271439-7">&nbsp;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623dad809039271439-8"><span class="crayon-c"># из sklearn импортируем алгоритм k-ближайших соседей</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad809039271439-9"><span class="crayon-st">from</span><span class="crayon-h"> </span><span class="crayon-v">sklearn</span><span class="crayon-sy">.</span><span class="crayon-e">neighbors </span><span class="crayon-r">import</span><span class="crayon-h"> </span><span class="crayon-v">NearestNeighbors</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0004 seconds] -->
+</div>
+
+
+
+<p>Теперь необходимо импортировать файлы movies.csv и rating.csv и преобразовать их в датафреймы. Для этого будем использовать функцию read_csv() библиотеки Pandas.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623dad811840971364" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad811840971364-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623dad811840971364-2">2</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad811840971364-1"><span class="crayon-v">movies</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">pd</span><span class="crayon-sy">.</span><span class="crayon-e">read_csv</span><span class="crayon-sy">(</span><span class="crayon-s">'/content/movies.csv'</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623dad811840971364-2"><span class="crayon-v">ratings</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">pd</span><span class="crayon-sy">.</span><span class="crayon-e">read_csv</span><span class="crayon-sy">(</span><span class="crayon-s">'/content/ratings.csv'</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0004 seconds] -->
+</div>
+
+
+
+<p class="has-background" style="background-color:#ffe8c4">Информация в этих файлах записана в <strong>формате .csv</strong> или comma-separated values, другими словами, значения одной строки разделены запятыми.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623dad813980235916" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad813980235916-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623dad813980235916-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad813980235916-3">3</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623dad813980235916-4">4</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad813980235916-5">5</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad813980235916-1"><span class="crayon-c"># посмотрим на содержимое файла movies.csv</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623dad813980235916-2"><span class="crayon-c"># дополнительно удалим столбец genres, он нам не нужен</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad813980235916-3"><span class="crayon-c"># (параметр axis = 1 говорит, что мы работаем со столбцами, inplace = True, что изменения нужно сохранить)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623dad813980235916-4"><span class="crayon-v">movies</span><span class="crayon-sy">.</span><span class="crayon-e">drop</span><span class="crayon-sy">(</span><span class="crayon-sy">[</span><span class="crayon-s">'genres'</span><span class="crayon-sy">]</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">axis</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">inplace</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-t">True</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad813980235916-5"><span class="crayon-v">movies</span><span class="crayon-sy">.</span><span class="crayon-e">head</span><span class="crayon-sy">(</span><span class="crayon-cn">3</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0003 seconds] -->
+</div>
+
+
+
+<figure class="wp-block-image size-full is-resized"><img loading="lazy" decoding="async" width="443" height="211" src="../../wp-content/uploads/2021/08/movies-df.jpg" alt="датасет movies из MovieLens Latest Datasets" class="wp-image-4309" style="width:309px;height:147px" srcset="../../wp-content/uploads/2021/08/movies-df.jpg 443w, ../../wp-content/uploads/2021/08/movies-df-300x143.jpg 300w" sizes="auto, (max-width: 443px) 100vw, 443px" /></figure>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623dad814199380127" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad814199380127-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623dad814199380127-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad814199380127-3">3</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad814199380127-1"><span class="crayon-c"># и ratings.csv (здесь также удаляем ненужный столбец timestamp)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623dad814199380127-2"><span class="crayon-v">ratings</span><span class="crayon-sy">.</span><span class="crayon-e">drop</span><span class="crayon-sy">(</span><span class="crayon-sy">[</span><span class="crayon-s">'timestamp'</span><span class="crayon-sy">]</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">axis</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">inplace</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-t">True</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad814199380127-3"><span class="crayon-v">ratings</span><span class="crayon-sy">.</span><span class="crayon-e">head</span><span class="crayon-sy">(</span><span class="crayon-cn">3</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0005 seconds] -->
+</div>
+
+
+
+<figure class="wp-block-image size-full is-resized"><img loading="lazy" decoding="async" width="370" height="210" src="../../wp-content/uploads/2021/08/ratings-df.jpg" alt="датасет ratings из MovieLens Latest Datasets" class="wp-image-4310" style="width:266px;height:151px" srcset="../../wp-content/uploads/2021/08/ratings-df.jpg 370w, ../../wp-content/uploads/2021/08/ratings-df-300x170.jpg 300w" sizes="auto, (max-width: 370px) 100vw, 370px" /></figure>
+
+
+
+<p>Теперь необходимо создать матрицу предпочтений. Для этого воспользуемся сводной таблицей (pivot table). В библиотеке Pandas такую таблицу можно создать, в частности, с помощью функции <nobr><strong>pivot()</strong>.</nobr></p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623dad815056545078" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad815056545078-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623dad815056545078-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad815056545078-3">3</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad815056545078-1"><span class="crayon-c"># по горизонтали будут фильмы, по вертикали - пользователи, значения - оценки</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623dad815056545078-2"><span class="crayon-v">user_item_matrix</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">ratings</span><span class="crayon-sy">.</span><span class="crayon-e">pivot</span><span class="crayon-sy">(</span><span class="crayon-v">index</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-s">'movieId'</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">columns</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-s">'userId'</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">values</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-s">'rating'</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad815056545078-3"><span class="crayon-v">user_item_matrix</span><span class="crayon-sy">.</span><span class="crayon-e">head</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0003 seconds] -->
+</div>
+
+
+
+<figure class="wp-block-image size-full is-resized"><img loading="lazy" decoding="async" width="817" height="412" src="../../wp-content/uploads/2021/08/matrix-NaN.jpg" alt="матрица предпочтений с пропущенными значениями" class="wp-image-4314" style="width:565px;height:285px" srcset="../../wp-content/uploads/2021/08/matrix-NaN.jpg 817w, ../../wp-content/uploads/2021/08/matrix-NaN-300x151.jpg 300w, ../../wp-content/uploads/2021/08/matrix-NaN-768x387.jpg 768w, ../../wp-content/uploads/2021/08/matrix-NaN-600x303.jpg 600w" sizes="auto, (max-width: 817px) 100vw, 817px" /></figure>
+
+
+
+<p><strong>NaN</strong> расшифровывается как <strong>Not A Number</strong> и представляет собой наиболее частый способ отображения пропущенных значений. Так как мы будем заниматься вычислениями расстояния, каждое значение таблицы должно быть числовым. С помощью функции <strong>fillna()</strong> мы заменим NaN на ноль.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623dad817439846043" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad817439846043-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623dad817439846043-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad817439846043-3">3</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad817439846043-1"><span class="crayon-c"># параметр inplace = True опять же поможет сохранить результат</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623dad817439846043-2"><span class="crayon-v">user_item_matrix</span><span class="crayon-sy">.</span><span class="crayon-e">fillna</span><span class="crayon-sy">(</span><span class="crayon-cn">0</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">inplace</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-t">True</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad817439846043-3"><span class="crayon-v">user_item_matrix</span><span class="crayon-sy">.</span><span class="crayon-e">head</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0002 seconds] -->
+</div>
+
+
+
+<p class="has-background" style="background-color:#ffe8c4"><strong>Замена пропущенных значений</strong> (imputation of missing values) &#8212; это сам по себе довольно сложный и интересный процесс, ведь далеко не всегда можно заменить пропуски нулями.</p>
+
+
+
+<figure class="wp-block-image size-full is-resized"><img loading="lazy" decoding="async" width="690" height="405" src="../../wp-content/uploads/2021/08/matrix-0.jpg" alt="матрица предпочтений, пропущенные значения заменены нулями" class="wp-image-4315" style="width:540px;height:317px" srcset="../../wp-content/uploads/2021/08/matrix-0.jpg 690w, ../../wp-content/uploads/2021/08/matrix-0-300x176.jpg 300w, ../../wp-content/uploads/2021/08/matrix-0-600x352.jpg 600w" sizes="auto, (max-width: 690px) 100vw, 690px" /></figure>
+
+
+
+<p>Теперь давайте <strong>уберем неактивных пользователей и фильмы с небольшим количеством оценок</strong>. С одной стороны, такие пользователи не окажут существенного влияния на расстояния между фильмами, с другой, малому количеству оценок довольно сложно доверять.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623dad818264784176" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad818264784176-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623dad818264784176-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad818264784176-3">3</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623dad818264784176-4">4</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad818264784176-5">5</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623dad818264784176-6">6</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad818264784176-7">7</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623dad818264784176-8">8</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad818264784176-9">9</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623dad818264784176-10">10</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad818264784176-11">11</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623dad818264784176-12">12</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad818264784176-13">13</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623dad818264784176-14">14</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad818264784176-15">15</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623dad818264784176-16">16</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad818264784176-1"><span class="crayon-c"># вначале сгруппируем (объединим) пользователей, возьмем только столбец rating </span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623dad818264784176-2"><span class="crayon-c"># и посчитаем, сколько было оценок у каждого пользователя</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad818264784176-3"><span class="crayon-v">users_votes</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">ratings</span><span class="crayon-sy">.</span><span class="crayon-e">groupby</span><span class="crayon-sy">(</span><span class="crayon-s">'userId'</span><span class="crayon-sy">)</span><span class="crayon-sy">[</span><span class="crayon-s">'rating'</span><span class="crayon-sy">]</span><span class="crayon-sy">.</span><span class="crayon-e">agg</span><span class="crayon-sy">(</span><span class="crayon-s">'count'</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623dad818264784176-4">&nbsp;</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad818264784176-5"><span class="crayon-c"># сделаем то же самое, только для фильма</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623dad818264784176-6"><span class="crayon-v">movies_votes</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">ratings</span><span class="crayon-sy">.</span><span class="crayon-e">groupby</span><span class="crayon-sy">(</span><span class="crayon-s">'movieId'</span><span class="crayon-sy">)</span><span class="crayon-sy">[</span><span class="crayon-s">'rating'</span><span class="crayon-sy">]</span><span class="crayon-sy">.</span><span class="crayon-e">agg</span><span class="crayon-sy">(</span><span class="crayon-s">'count'</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad818264784176-7">&nbsp;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623dad818264784176-8"><span class="crayon-c"># теперь создадим фильтр (mask)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad818264784176-9"><span class="crayon-v">user_mask</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">users_votes</span><span class="crayon-sy">[</span><span class="crayon-v">users_votes</span><span class="crayon-h"> </span><span class="crayon-o">&gt;</span><span class="crayon-h"> </span><span class="crayon-cn">50</span><span class="crayon-sy">]</span><span class="crayon-sy">.</span><span class="crayon-e">index</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623dad818264784176-10"><span class="crayon-v">movie_mask</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">movies_votes</span><span class="crayon-sy">[</span><span class="crayon-v">movies_votes</span><span class="crayon-h"> </span><span class="crayon-o">&gt;</span><span class="crayon-h"> </span><span class="crayon-cn">10</span><span class="crayon-sy">]</span><span class="crayon-sy">.</span><span class="crayon-i">index</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad818264784176-11">&nbsp;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623dad818264784176-12"><span class="crayon-c"># применим фильтры и отберем фильмы с достаточным количеством оценок,</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad818264784176-13"><span class="crayon-v">user_item_matrix</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">user_item_matrix</span><span class="crayon-sy">.</span><span class="crayon-v">loc</span><span class="crayon-sy">[</span><span class="crayon-v">movie_mask</span><span class="crayon-sy">,</span><span class="crayon-o">:</span><span class="crayon-sy">]</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623dad818264784176-14">&nbsp;</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad818264784176-15"><span class="crayon-c"># а также активных пользователей</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623dad818264784176-16"><span class="crayon-v">user_item_matrix</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">user_item_matrix</span><span class="crayon-sy">.</span><span class="crayon-v">loc</span><span class="crayon-sy">[</span><span class="crayon-o">:</span><span class="crayon-sy">,</span><span class="crayon-v">user_mask</span><span class="crayon-sy">]</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0010 seconds] -->
+</div>
+
+
+
+<p>Теперь давайте посмотрим на новую размерность, то есть на те фильмы и тех пользователей, которые остались после фильтрации данных.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623dad819840765464" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad819840765464-1">1</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad819840765464-1"><span class="crayon-v">user_item_matrix</span><span class="crayon-sy">.</span><span class="crayon-v">shape</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0001 seconds] -->
+</div>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623dad81a391487112" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad81a391487112-1">1</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad81a391487112-1">(2121, 378)</div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0000 seconds] -->
+</div>
+
+
+
+<h5 class="wp-block-heading" id="5-pro-razrezhennye-matritsy-i-vysokuyu-razmernost">Про разреженные матрицы и высокую размерность</h5>
+
+
+
+<p>В датасете по понятным причинам очень много нулей. Такая матрица называется <strong>разреженной </strong>(sparse matrix). Одновременно, если признаков очень много (а у нас их уже довольно много), то говорят про <strong>данные с высокой размерностью</strong> (high-dimensional data). В таком формате алгоритм будет долго обсчитывать расстояния между фильмами.</p>
+
+
+
+<p>Для того чтобы преодолеть эту сложность, можно преобразовать данные в формат <strong>сжатого хранения строкой</strong> (сompressed sparse row, csr).</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623dad81b075898759" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad81b075898759-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623dad81b075898759-2">2</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad81b075898759-1"><span class="crayon-c"># атрибут values передаст функции csr_matrix только значения датафрейма</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623dad81b075898759-2"><span class="crayon-v">csr_data</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-e">csr_matrix</span><span class="crayon-sy">(</span><span class="crayon-v">user_item_matrix</span><span class="crayon-sy">.</span><span class="crayon-v">values</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0003 seconds] -->
+</div>
+
+
+
+<p>Посмотрим на результат.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623dad81d378595794" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad81d378595794-1">1</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad81d378595794-1"><span class="crayon-k ">print</span><span class="crayon-sy">(</span><span class="crayon-v">csr_data</span><span class="crayon-sy">[</span><span class="crayon-o">:</span><span class="crayon-cn">2</span><span class="crayon-sy">,</span><span class="crayon-o">:</span><span class="crayon-cn">5</span><span class="crayon-sy">]</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0002 seconds] -->
+</div>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623dad81e241337466" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad81e241337466-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623dad81e241337466-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad81e241337466-3">3</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad81e241337466-1">(0, 0)&nbsp;&nbsp;&nbsp;&nbsp; 4.0</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623dad81e241337466-2">(0, 3)&nbsp;&nbsp;&nbsp;&nbsp; 4.5</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad81e241337466-3">(1, 2)&nbsp;&nbsp;&nbsp;&nbsp; 4.0</div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0000 seconds] -->
+</div>
+
+
+
+<p>Как мы видим, в таком формате в каждой строке сначала записывается номер строки и стобца ненулевого значения, а затем само это значение. Если взять исходный датафрейм, то по этой кодировке будет нетрудно найти ненулевые значения.</p>
+
+
+
+<figure class="wp-block-image size-full is-resized"><img loading="lazy" decoding="async" width="212" height="112" src="../../wp-content/uploads/2021/08/final-matrix-small.jpg" alt="сравнение исходного формата с форматом сжатого хранения строкой (csr)" class="wp-image-4326" style="width:148px;height:78px"/></figure>
+
+
+
+<p>Остается только сбросить индекс для удобства поиска рекомендованных фильмов.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623dad81f711147793" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad81f711147793-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623dad81f711147793-2">2</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad81f711147793-1"><span class="crayon-v">user_item_matrix</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">user_item_matrix</span><span class="crayon-sy">.</span><span class="crayon-e">rename_axis</span><span class="crayon-sy">(</span><span class="crayon-t">None</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">axis</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-sy">)</span><span class="crayon-sy">.</span><span class="crayon-e">reset_index</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623dad81f711147793-2"><span class="crayon-v">user_item_matrix</span><span class="crayon-sy">.</span><span class="crayon-e">head</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0005 seconds] -->
+</div>
+
+
+
+<figure class="wp-block-image size-full is-resized"><img loading="lazy" decoding="async" width="766" height="311" src="../../wp-content/uploads/2021/08/final-df.jpg" alt="матрица предпочтений с новым индексом" class="wp-image-4327" style="width:611px;height:248px" srcset="../../wp-content/uploads/2021/08/final-df.jpg 766w, ../../wp-content/uploads/2021/08/final-df-300x122.jpg 300w, ../../wp-content/uploads/2021/08/final-df-600x244.jpg 600w" sizes="auto, (max-width: 766px) 100vw, 766px" /></figure>
+
+
+
+<p>Обратите внимание, фильм с 
+			<span id="urvanov-syntax-highlighter-67aa623dad820599944551" class="urvanov-syntax-highlighter-syntax urvanov-syntax-highlighter-syntax-inline  crayon-theme-familiar-my-copy crayon-theme-familiar-my-copy-inline urvanov-syntax-highlighter-font-consolas" style="font-size: 16px !important; line-height: 22px !important;font-size: 16px !important;"><span class="crayon-pre urvanov-syntax-highlighter-code" style="font-size: 16px !important; line-height: 22px !important;font-size: 16px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><span class="crayon-v">movieId</span><span class="crayon-h"> </span><span class="crayon-o">==</span><span class="crayon-h"> </span><span class="crayon-cn">4</span></span></span> не прошел фильтры и не включен в датасет. Также в него не вошли, например, второй и третий пользователи.</p>
+
+
+
+<h4 class="wp-block-heading" id="6-etap-2-obuchenie-modeli">Этап 2. Обучение модели</h4>
+
+
+
+<p>Как уже было сказано, для обучения модели мы будем использовать алгоритм k-ближайших соседей. Этот алгоритм решает разные задачи, в частности, с его помощью можно заниматься регрессией (класс KNeighborsRegressor) и классификацией (класс KNeighborsClassifier).</p>
+
+
+
+<p>Для наших целей достаточно измерить расстояние между объектами. В этом нам поможет класс машинного обучения без учителя <strong>NearestNeighbors</strong>.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623dad821496670128" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad821496670128-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623dad821496670128-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad821496670128-3">3</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623dad821496670128-4">4</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad821496670128-5">5</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623dad821496670128-6">6</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad821496670128-7">7</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623dad821496670128-8">8</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad821496670128-1"><span class="crayon-c"># создадим объект класса NearestNeighbors</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623dad821496670128-2"><span class="crayon-v">knn</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-e">NearestNeighbors</span><span class="crayon-sy">(</span><span class="crayon-v">metric</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-s">'cosine'</span><span class="crayon-sy">,</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad821496670128-3"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-v">algorithm</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-s">'brute'</span><span class="crayon-sy">,</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623dad821496670128-4"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-v">n_neighbors</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">20</span><span class="crayon-sy">,</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad821496670128-5"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-v">n_jobs</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-cn">1</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623dad821496670128-6">&nbsp;</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad821496670128-7"><span class="crayon-c"># обучим модель</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623dad821496670128-8"><span class="crayon-v">knn</span><span class="crayon-sy">.</span><span class="crayon-e">fit</span><span class="crayon-sy">(</span><span class="crayon-v">csr_data</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0006 seconds] -->
+</div>
+
+
+
+<p>Теперь давайте подробнее поговорим про параметры:</p>
+
+
+
+<ul class="wp-block-list">
+<li><strong>metric = &#8216;cosine&#8217;</strong>: выбираем способ измерения расстояния, в данном случае это будет косинусное сходство;</li>
+
+
+
+<li><strong>algorithm = &#8216;brute&#8217;</strong>: предполагает, что мы будем искать решение методом полного перебора (brute force search), в нашем случае пространство решений позволяет перебрать все варианты;</li>
+
+
+
+<li><strong>n_neighbors&nbsp;=&nbsp;20</strong>: по скольким соседям ведется обучение;</li>
+
+
+
+<li><strong>n_jobs = -1</strong>: вычисления будут вестись на всех свободных ядрах процессора.</li>
+</ul>
+
+
+
+<p>Перейдем к составлению рекомендаций.</p>
+
+
+
+<h4 class="wp-block-heading" id="7-etap-3-sostavlenie-rekomendatsiy">Этап 3. Составление рекомендаций</h4>
+
+
+
+<p>Введем изначальные параметры: количество рекомендаций и на основе какого фильма мы хотим их получить (мы говорили о том, что будем смотреть на рекомендации для &#171;Матрицы&#187;).</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623dad822197572881" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad822197572881-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623dad822197572881-2">2</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad822197572881-1"><span class="crayon-v">recommendations</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">10</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623dad822197572881-2"><span class="crayon-v">search_word</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-s">'Matrix'</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0002 seconds] -->
+</div>
+
+
+
+<p>Теперь найдем индекс фильма в матрице предпочтений.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623dad826889661098" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad826889661098-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623dad826889661098-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad826889661098-3">3</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad826889661098-1"><span class="crayon-c"># для начала найдем фильм в заголовках датафрейма movies</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623dad826889661098-2"><span class="crayon-v">movie_search</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">movies</span><span class="crayon-sy">[</span><span class="crayon-v">movies</span><span class="crayon-sy">[</span><span class="crayon-s">'title'</span><span class="crayon-sy">]</span><span class="crayon-sy">.</span><span class="crayon-k ">str</span><span class="crayon-sy">.</span><span class="crayon-e">contains</span><span class="crayon-sy">(</span><span class="crayon-v">search_word</span><span class="crayon-sy">)</span><span class="crayon-sy">]</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad826889661098-3"><span class="crayon-v">movie_search</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0003 seconds] -->
+</div>
+
+
+
+<figure class="wp-block-image size-full is-resized"><img loading="lazy" decoding="async" width="540" height="212" src="https://www.dmitrymakarov.ru/wp-content/uploads/2021/08/search-result.jpg" alt="поиск фильма в матрице предпочтений" class="wp-image-4334" style="width:397px;height:156px" srcset="https://www.dmitrymakarov.ru/wp-content/uploads/2021/08/search-result.jpg 540w, https://www.dmitrymakarov.ru/wp-content/uploads/2021/08/search-result-300x118.jpg 300w" sizes="auto, (max-width: 540px) 100vw, 540px" /></figure>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623dad827120811824" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad827120811824-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623dad827120811824-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad827120811824-3">3</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623dad827120811824-4">4</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad827120811824-5">5</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623dad827120811824-6">6</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad827120811824-7">7</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623dad827120811824-8">8</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad827120811824-1"><span class="crayon-c"># вариантов может быть несколько, для простоты всегда будем брать первый вариант</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623dad827120811824-2"><span class="crayon-c"># через iloc[0] мы берем первую строку столбца ['movieId']</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad827120811824-3"><span class="crayon-v">movie_id</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">movie_search</span><span class="crayon-sy">.</span><span class="crayon-v">iloc</span><span class="crayon-sy">[</span><span class="crayon-cn">0</span><span class="crayon-sy">]</span><span class="crayon-sy">[</span><span class="crayon-s">'movieId'</span><span class="crayon-sy">]</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623dad827120811824-4">&nbsp;</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad827120811824-5"><span class="crayon-c"># далее по индексу фильма в датасете movies найдем соответствующий индекс</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623dad827120811824-6"><span class="crayon-c"># в матрице предпочтений</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad827120811824-7"><span class="crayon-v">movie_id</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">user_item_matrix</span><span class="crayon-sy">[</span><span class="crayon-v">user_item_matrix</span><span class="crayon-sy">[</span><span class="crayon-s">'movieId'</span><span class="crayon-sy">]</span><span class="crayon-h"> </span><span class="crayon-o">==</span><span class="crayon-h"> </span><span class="crayon-v">movie_id</span><span class="crayon-sy">]</span><span class="crayon-sy">.</span><span class="crayon-v">index</span><span class="crayon-sy">[</span><span class="crayon-cn">0</span><span class="crayon-sy">]</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623dad827120811824-8"><span class="crayon-v">movie_id</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0005 seconds] -->
+</div>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623dad828048960854" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad828048960854-1">1</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad828048960854-1">901</div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0000 seconds] -->
+</div>
+
+
+
+<p>Это индекс фильма в матрице предпочтений (после того как мы сбросили индекс). Далее с помощью метода <strong>.kneighbors()</strong> найдем индексы ближайших соседей &#171;Матрицы&#187;.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623dad829267449849" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad829267449849-1">1</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad829267449849-1"><span class="crayon-v">distances</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">indices</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">knn</span><span class="crayon-sy">.</span><span class="crayon-e">kneighbors</span><span class="crayon-sy">(</span><span class="crayon-v">csr_data</span><span class="crayon-sy">[</span><span class="crayon-v">movie_id</span><span class="crayon-sy">]</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">n_neighbors</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">recommendations</span><span class="crayon-h"> </span><span class="crayon-o">+</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0004 seconds] -->
+</div>
+
+
+
+<p>В качестве параметров передадим:</p>
+
+
+
+<ul class="wp-block-list">
+<li><strong>csr_data[movie_id]</strong>, то есть индекс нужного фильма из матрицы предпочтений в формате сжатого хранения строкой;</li>
+
+
+
+<li><strong>n_neighbors</strong>, количество соседей (или рекомендаций); обратите внимание, мы добавляем &#171;лишнего&#187; соседа (+1) из-за того, что алгоритм также считает расстояние до самого себя.</li>
+</ul>
+
+
+
+<p id="ind_dist">На выходе мы получаем массив индексов фильмов (indices) и массив расстояний (distances) до них. Для удобства преобразуем эти массивы в списки, а затем попарно объединим и создадим кортежи (tuples).</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623dad82a016840504" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad82a016840504-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623dad82a016840504-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad82a016840504-3">3</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623dad82a016840504-4">4</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad82a016840504-5">5</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623dad82a016840504-6">6</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad82a016840504-7">7</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623dad82a016840504-8">8</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad82a016840504-9">9</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623dad82a016840504-10">10</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad82a016840504-11">11</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623dad82a016840504-12">12</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad82a016840504-1"><span class="crayon-c"># уберем лишние измерения через squeeze() и преобразуем массивы в списки с помощью tolist()</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623dad82a016840504-2"><span class="crayon-v">indices_list</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">indices</span><span class="crayon-sy">.</span><span class="crayon-e">squeeze</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span><span class="crayon-sy">.</span><span class="crayon-e">tolist</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad82a016840504-3"><span class="crayon-v">distances_list</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">distances</span><span class="crayon-sy">.</span><span class="crayon-e">squeeze</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span><span class="crayon-sy">.</span><span class="crayon-e">tolist</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623dad82a016840504-4">&nbsp;</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad82a016840504-5"><span class="crayon-c"># далее с помощью функций zip() и list() преобразуем списки</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623dad82a016840504-6"><span class="crayon-v">indices_distances</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-k ">list</span><span class="crayon-sy">(</span><span class="crayon-k ">zip</span><span class="crayon-sy">(</span><span class="crayon-v">indices_list</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">distances_list</span><span class="crayon-sy">)</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad82a016840504-7">&nbsp;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623dad82a016840504-8"><span class="crayon-c"># в набор кортежей (tuple)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad82a016840504-9"><span class="crayon-k ">print</span><span class="crayon-sy">(</span><span class="crayon-k ">type</span><span class="crayon-sy">(</span><span class="crayon-v">indices_distances</span><span class="crayon-sy">[</span><span class="crayon-cn">0</span><span class="crayon-sy">]</span><span class="crayon-sy">)</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623dad82a016840504-10">&nbsp;</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad82a016840504-11"><span class="crayon-c"># и посмотрим на первые три пары/кортежа</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623dad82a016840504-12"><span class="crayon-k ">print</span><span class="crayon-sy">(</span><span class="crayon-v">indices_distances</span><span class="crayon-sy">[</span><span class="crayon-o">:</span><span class="crayon-cn">3</span><span class="crayon-sy">]</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0007 seconds] -->
+</div>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623dad82c112146576" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad82c112146576-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623dad82c112146576-2">2</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad82c112146576-1">&lt;class 'tuple'&gt;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623dad82c112146576-2">[(901, 0.0), (1002, 0.22982440568634488), (442, 0.25401128310081567)]</div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0000 seconds] -->
+</div>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623dad82d128936786" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad82d128936786-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623dad82d128936786-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad82d128936786-3">3</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623dad82d128936786-4">4</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad82d128936786-5">5</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623dad82d128936786-6">6</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad82d128936786-7">7</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad82d128936786-1"><span class="crayon-c"># остается отсортировать список по расстояниям через key = lambda x: x[1] (то есть по второму элементу)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623dad82d128936786-2"><span class="crayon-c"># в возрастающем порядке reverse = False</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad82d128936786-3"><span class="crayon-v">indices_distances_sorted</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-k ">sorted</span><span class="crayon-sy">(</span><span class="crayon-v">indices_distances</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">key</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-r">lambda</span><span class="crayon-h"> </span><span class="crayon-v">x</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-v">x</span><span class="crayon-sy">[</span><span class="crayon-cn">1</span><span class="crayon-sy">]</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">reverse</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-t">False</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623dad82d128936786-4">&nbsp;</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad82d128936786-5"><span class="crayon-c"># и убрать первый элемент с индексом 901 (потому что это и есть "Матрица")</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623dad82d128936786-6"><span class="crayon-v">indices_distances_sorted</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">indices_distances_sorted</span><span class="crayon-sy">[</span><span class="crayon-cn">1</span><span class="crayon-o">:</span><span class="crayon-sy">]</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad82d128936786-7"><span class="crayon-v">indices_distances_sorted</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0006 seconds] -->
+</div>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623dad82e063657295" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad82e063657295-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623dad82e063657295-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad82e063657295-3">3</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623dad82e063657295-4">4</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad82e063657295-5">5</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623dad82e063657295-6">6</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad82e063657295-7">7</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623dad82e063657295-8">8</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad82e063657295-9">9</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623dad82e063657295-10">10</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad82e063657295-1">[(1002, 0.22982440568634488),</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623dad82e063657295-2"> (442, 0.25401128310081567),</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad82e063657295-3"> (454, 0.27565616686043737),</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623dad82e063657295-4"> (124, 0.2776088577731709),</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad82e063657295-5"> (735, 0.2869100842838125),</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623dad82e063657295-6"> (954, 0.2911101181714415),</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad82e063657295-7"> (1362, 0.31393358217709477),</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623dad82e063657295-8"> (1157, 0.31405925934381695),</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad82e063657295-9"> (1536, 0.3154800434449465),</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623dad82e063657295-10"> (978, 0.31748544046311844)]</div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0000 seconds] -->
+</div>
+
+
+
+<p>Теперь нужно найти, какие фильмы (вернее их названия) соответствуют этим индексам. Обратимся к датафрейму movies.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623dad82f776266632" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad82f776266632-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623dad82f776266632-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad82f776266632-3">3</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623dad82f776266632-4">4</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad82f776266632-5">5</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623dad82f776266632-6">6</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad82f776266632-7">7</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623dad82f776266632-8">8</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad82f776266632-9">9</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623dad82f776266632-10">10</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad82f776266632-11">11</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623dad82f776266632-12">12</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad82f776266632-13">13</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623dad82f776266632-14">14</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad82f776266632-15">15</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623dad82f776266632-16">16</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad82f776266632-17">17</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623dad82f776266632-18">18</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad82f776266632-19">19</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad82f776266632-1"><span class="crayon-c"># создадим пустой список, в который будем помещать название фильма и расстояние до него</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623dad82f776266632-2"><span class="crayon-v">recom_list</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-sy">[</span><span class="crayon-sy">]</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad82f776266632-3">&nbsp;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623dad82f776266632-4"><span class="crayon-c"># в цикле будем поочередно проходить по кортежам</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad82f776266632-5"><span class="crayon-st">for</span><span class="crayon-h"> </span><span class="crayon-e">ind_dist </span><span class="crayon-st">in</span><span class="crayon-h"> </span><span class="crayon-v">indices_distances_sorted</span><span class="crayon-o">:</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623dad82f776266632-6">&nbsp;</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad82f776266632-7"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-c"># искать movieId в матрице предпочтений</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623dad82f776266632-8"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">matrix_movie_id</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">user_item_matrix</span><span class="crayon-sy">.</span><span class="crayon-v">iloc</span><span class="crayon-sy">[</span><span class="crayon-v">ind_dist</span><span class="crayon-sy">[</span><span class="crayon-cn">0</span><span class="crayon-sy">]</span><span class="crayon-sy">]</span><span class="crayon-sy">[</span><span class="crayon-s">'movieId'</span><span class="crayon-sy">]</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad82f776266632-9">&nbsp;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623dad82f776266632-10"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-c"># выяснять индекс этого фильма в датафрейме movies</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad82f776266632-11"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-k ">id</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">movies</span><span class="crayon-sy">[</span><span class="crayon-v">movies</span><span class="crayon-sy">[</span><span class="crayon-s">'movieId'</span><span class="crayon-sy">]</span><span class="crayon-h"> </span><span class="crayon-o">==</span><span class="crayon-h"> </span><span class="crayon-v">matrix_movie_id</span><span class="crayon-sy">]</span><span class="crayon-sy">.</span><span class="crayon-i">index</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623dad82f776266632-12">&nbsp;</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad82f776266632-13"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-c"># брать название фильма и расстояние до него</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623dad82f776266632-14"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">title</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">movies</span><span class="crayon-sy">.</span><span class="crayon-v">iloc</span><span class="crayon-sy">[</span><span class="crayon-k ">id</span><span class="crayon-sy">]</span><span class="crayon-sy">[</span><span class="crayon-s">'title'</span><span class="crayon-sy">]</span><span class="crayon-sy">.</span><span class="crayon-v">values</span><span class="crayon-sy">[</span><span class="crayon-cn">0</span><span class="crayon-sy">]</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad82f776266632-15"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">dist</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">ind_dist</span><span class="crayon-sy">[</span><span class="crayon-cn">1</span><span class="crayon-sy">]</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623dad82f776266632-16">&nbsp;</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad82f776266632-17"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-c"># помещать каждую пару в питоновский словарь,</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623dad82f776266632-18"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-c"># который, в свою очередь, станет элементом списка recom_list</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad82f776266632-19"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">recom_list</span><span class="crayon-sy">.</span><span class="crayon-e">append</span><span class="crayon-sy">(</span><span class="crayon-sy">{</span><span class="crayon-s">'Title'</span><span class="crayon-h"> </span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-v">title</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-s">'Distance'</span><span class="crayon-h"> </span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-v">dist</span><span class="crayon-sy">}</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0013 seconds] -->
+</div>
+
+
+
+<p>Посмотрим на первый элемент получившегося списка.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623dad830613879964" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad830613879964-1">1</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad830613879964-1"><span class="crayon-v">recom_list</span><span class="crayon-sy">[</span><span class="crayon-cn">0</span><span class="crayon-sy">]</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0002 seconds] -->
+</div>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623dad831906756746" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad831906756746-1">1</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad831906756746-1">{'Title': 'Fight Club (1999)', 'Distance': 0.22982440568634488}</div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0000 seconds] -->
+</div>
+
+
+
+<p id="result">Остается&nbsp;преобразовать&nbsp;список&nbsp;в&nbsp;датафрейм.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623dad832393427581" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad832393427581-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623dad832393427581-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad832393427581-3">3</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad832393427581-1"><span class="crayon-c"># индекс будем начинать с 1, как и положено рейтингу</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623dad832393427581-2"><span class="crayon-v">recom_df</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">pd</span><span class="crayon-sy">.</span><span class="crayon-e">DataFrame</span><span class="crayon-sy">(</span><span class="crayon-v">recom_list</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">index</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-k ">range</span><span class="crayon-sy">(</span><span class="crayon-cn">1</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">recommendations</span><span class="crayon-h"> </span><span class="crayon-o">+</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-sy">)</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad832393427581-3"><span class="crayon-v">recom_df</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0004 seconds] -->
+</div>
+
+
+
+<figure class="wp-block-image size-full is-resized"><img loading="lazy" decoding="async" width="548" height="433" src="../../wp-content/uploads/2022/04/films_sorted.png" alt="перечень рекомендованных фильмов" class="wp-image-11723" style="width:510px;height:403px" srcset="../../wp-content/uploads/2022/04/films_sorted.png 548w, ../../wp-content/uploads/2022/04/films_sorted-300x237.png 300w" sizes="auto, (max-width: 548px) 100vw, 548px" /></figure>
+
+
+
+<p>В некоторых случаях результат может показаться неожиданным, однако важно помнить, что мы учитываем предпочтения всех пользователей, а значит наши представления о схожести фильмов не обязательно являются верными.</p>
+
+
+
+<h3 class="wp-block-heading" id="8-podvedem-itog">Подведем итог</h3>
+
+
+
+<p>Сегодня мы познакомились с понятием рекомендательной системы, рассмотрели типы рекомендательных систем и создали коллаборативную систему, основанную на предмете рекомендации.</p>
+
+
+
+<h3 class="wp-block-heading" id="10-otvety-na-voprosy-v-kommentariyakh">Ответы на вопросы в комментариях</h3>
+
+
+
+<p><strong>Вопрос</strong>. Если одному фильму все пользователи поставили по 10 баллов, а второму фильму &#8212; по одному баллу, то правильно ли я понимаю, что между векторами этих фильмов будет нулевой угол. И если пришел новый пользователь, который поставил первому фильму 10 баллов, то система порекомендует ему второй фильм (чего с точки зрения логики быть не должно)?</p>
+
+
+
+<p><strong>Ответ</strong>. (1) На первую часть вопроса, ответ &#171;да&#187;, угол будет нулевой, потому что векторы коллинеарны (т.е. лежат на одной прямой или на параллельных прямых) и сонаправлены, различается только их длина.</p>
+
+
+
+<p>Для вектора с двумя координатами это легко увидеть на графике.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623dad834403429981" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad834403429981-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623dad834403429981-2">2</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad834403429981-1"><span class="crayon-r">import</span><span class="crayon-h"> </span><span class="crayon-e">numpy </span><span class="crayon-st">as</span><span class="crayon-h"> </span><span class="crayon-e">np</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623dad834403429981-2"><span class="crayon-r">import</span><span class="crayon-h"> </span><span class="crayon-v">matplotlib</span><span class="crayon-sy">.</span><span class="crayon-e">pyplot </span><span class="crayon-st">as</span><span class="crayon-h"> </span><span class="crayon-v">plt</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0003 seconds] -->
+</div>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623dad835562018869" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad835562018869-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623dad835562018869-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad835562018869-3">3</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad835562018869-1"><span class="crayon-c"># создадим два вектора с координатами [10, 10] и [1, 1]</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623dad835562018869-2"><span class="crayon-v">x</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-k ">array</span><span class="crayon-sy">(</span><span class="crayon-sy">[</span><span class="crayon-cn">10</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">10</span><span class="crayon-sy">]</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad835562018869-3"><span class="crayon-v">y</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-k ">array</span><span class="crayon-sy">(</span><span class="crayon-sy">[</span><span class="crayon-cn">1</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-sy">]</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0004 seconds] -->
+</div>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623dad836616653285" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad836616653285-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623dad836616653285-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad836616653285-3">3</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623dad836616653285-4">4</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad836616653285-5">5</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623dad836616653285-6">6</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad836616653285-7">7</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623dad836616653285-8">8</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad836616653285-9">9</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623dad836616653285-10">10</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad836616653285-11">11</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623dad836616653285-12">12</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad836616653285-13">13</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623dad836616653285-14">14</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad836616653285-15">15</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623dad836616653285-16">16</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad836616653285-1"><span class="crayon-c"># зададим размер фигуры (контейнера, в который помещаются графики)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623dad836616653285-2"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">figure</span><span class="crayon-sy">(</span><span class="crayon-v">figsize</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-cn">10</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">6</span><span class="crayon-sy">)</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad836616653285-3">&nbsp;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623dad836616653285-4"><span class="crayon-c"># создадим объект графика внутри этой фигуры</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad836616653285-5"><span class="crayon-v">ax</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">axes</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623dad836616653285-6">&nbsp;</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad836616653285-7"><span class="crayon-c"># зададим диапазон осей x и y</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623dad836616653285-8"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">xlim</span><span class="crayon-sy">(</span><span class="crayon-sy">[</span><span class="crayon-cn">0</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">11</span><span class="crayon-sy">]</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad836616653285-9"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">ylim</span><span class="crayon-sy">(</span><span class="crayon-sy">[</span><span class="crayon-cn">0</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">11</span><span class="crayon-sy">]</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623dad836616653285-10"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">grid</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad836616653285-11">&nbsp;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623dad836616653285-12"><span class="crayon-c"># "подграфиками" будут два вектора в форме стрелок</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad836616653285-13"><span class="crayon-v">ax</span><span class="crayon-sy">.</span><span class="crayon-e">arrow</span><span class="crayon-sy">(</span><span class="crayon-cn">0</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">0</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">x</span><span class="crayon-sy">[</span><span class="crayon-cn">0</span><span class="crayon-sy">]</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">x</span><span class="crayon-sy">[</span><span class="crayon-cn">1</span><span class="crayon-sy">]</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">width</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">0.03</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">head_width</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">0.2</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">head_length</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">0.2</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">fc</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-s">'g'</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">ec</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-s">'g'</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623dad836616653285-14"><span class="crayon-v">ax</span><span class="crayon-sy">.</span><span class="crayon-e">arrow</span><span class="crayon-sy">(</span><span class="crayon-cn">0</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">0</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">y</span><span class="crayon-sy">[</span><span class="crayon-cn">0</span><span class="crayon-sy">]</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">y</span><span class="crayon-sy">[</span><span class="crayon-cn">1</span><span class="crayon-sy">]</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">width</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">0.03</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">head_width</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">0.2</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">head_length</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">0.2</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">fc</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-s">'b'</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">ec</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-s">'b'</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad836616653285-15">&nbsp;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623dad836616653285-16"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">show</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0018 seconds] -->
+</div>
+
+
+
+<figure class="wp-block-image size-full"><img loading="lazy" decoding="async" width="592" height="357" src="../../wp-content/uploads/2021/12/colvectors.png" alt="коллинеарные векторы" class="wp-image-8440" srcset="../../wp-content/uploads/2021/12/colvectors.png 592w, ../../wp-content/uploads/2021/12/colvectors-300x181.png 300w" sizes="auto, (max-width: 592px) 100vw, 592px" /></figure>
+
+
+
+<p>Примечание: про создание графиков в Matplotlib мы подробно поговорим на курсе по <a href="../../data/index.html">анализу данных</a>.</p>
+
+
+
+<p>Можно также рассчитать косинусное сходство.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623dad837311864608" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad837311864608-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623dad837311864608-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad837311864608-3">3</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623dad837311864608-4">4</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad837311864608-5">5</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623dad837311864608-6">6</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad837311864608-7">7</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623dad837311864608-8">8</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad837311864608-9">9</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623dad837311864608-10">10</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad837311864608-11">11</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623dad837311864608-12">12</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad837311864608-1"><span class="crayon-c"># напишем функцию для расчета косинусного сходства</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623dad837311864608-2"><span class="crayon-r">def</span><span class="crayon-h"> </span><span class="crayon-e">similar</span><span class="crayon-sy">(</span><span class="crayon-v">x</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">y</span><span class="crayon-sy">)</span><span class="crayon-o">:</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad837311864608-3"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623dad837311864608-4"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-c"># рассчитаем длины векторов</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad837311864608-5"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">xLen</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-v">linalg</span><span class="crayon-sy">.</span><span class="crayon-e">norm</span><span class="crayon-sy">(</span><span class="crayon-v">x</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623dad837311864608-6"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">yLen</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-v">linalg</span><span class="crayon-sy">.</span><span class="crayon-e">norm</span><span class="crayon-sy">(</span><span class="crayon-v">y</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad837311864608-7">&nbsp;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623dad837311864608-8"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-c"># подставим их в формулу косинусного сходства</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad837311864608-9"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">result</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-e">dot</span><span class="crayon-sy">(</span><span class="crayon-v">x</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">y</span><span class="crayon-sy">)</span><span class="crayon-o">/</span><span class="crayon-sy">(</span><span class="crayon-v">xLen</span><span class="crayon-h"> </span><span class="crayon-o">*</span><span class="crayon-h"> </span><span class="crayon-v">yLen</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623dad837311864608-10"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad837311864608-11"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-c"># выведем результат</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623dad837311864608-12"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-st">return</span><span class="crayon-h"> </span><span class="crayon-v">result</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0009 seconds] -->
+</div>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623dad838470880424" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad838470880424-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623dad838470880424-2">2</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad838470880424-1"><span class="crayon-c"># ожидаемо косунус угла между коллинеарными векторами будет равен единице</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623dad838470880424-2"><span class="crayon-k ">round</span><span class="crayon-sy">(</span><span class="crayon-e">similar</span><span class="crayon-sy">(</span><span class="crayon-v">x</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">y</span><span class="crayon-sy">)</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">3</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0002 seconds] -->
+</div>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623dad839457926893" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad839457926893-1">1</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad839457926893-1">1.0</div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0000 seconds] -->
+</div>
+
+
+
+<p>Примечание: про создание функций можно посмотреть <a href="../../python/functions/index.html">здесь</a>.</p>
+
+
+
+<p>(2) Вторую часть вопроса я бы вначале переформулировал, потому что если есть два фильма, которым все пользователи ставят рейтинги 10 и 1 соответственно, то мы сравниваем фильмы, а не пользователей (а значит это item-based, а не user-based система).</p>
+
+
+
+<p>Как следствие, нужно посмотреть, что будет, если появится новый <em>фильм</em>, которому пользователи поставят оценки в 10 баллов. И вот здесь возникает справедливый вопрос, к какому из уже имеющихся в системе фильмов будет близок новый фильм с этими рейтингами?</p>
+
+
+
+<p>Для решения этой задачи давайте построим простейшую item-based систему. Возьмем пять фильмов, пусть трем из них пользователи поставят разные оценки, а двум другим &#8212; только десятки и только единицы.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623dad83b822495562" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad83b822495562-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623dad83b822495562-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad83b822495562-3">3</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623dad83b822495562-4">4</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad83b822495562-5">5</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623dad83b822495562-6">6</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad83b822495562-7">7</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623dad83b822495562-8">8</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad83b822495562-9">9</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623dad83b822495562-10">10</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad83b822495562-11">11</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623dad83b822495562-12">12</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad83b822495562-13">13</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad83b822495562-1"><span class="crayon-c"># создадим массив Numpy с оценками</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623dad83b822495562-2"><span class="crayon-v">films</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-k ">array</span><span class="crayon-sy">(</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad83b822495562-3"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">[</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623dad83b822495562-4"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-sy">[</span><span class="crayon-cn">1</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">3</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">2</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">6</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">2</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">0</span><span class="crayon-sy">]</span><span class="crayon-sy">,</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad83b822495562-5"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-sy">[</span><span class="crayon-cn">0</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">2</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">0</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">3</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">0</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">6</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">2</span><span class="crayon-sy">]</span><span class="crayon-sy">,</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623dad83b822495562-6"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-sy">[</span><span class="crayon-cn">1</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-sy">]</span><span class="crayon-sy">,</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad83b822495562-7"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-sy">[</span><span class="crayon-cn">2</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">4</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">3</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">9</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">2</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-sy">]</span><span class="crayon-sy">,</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623dad83b822495562-8"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-sy">[</span><span class="crayon-cn">10</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">10</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">10</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">10</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">10</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">10</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">10</span><span class="crayon-sy">]</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad83b822495562-9"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-sy">]</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623dad83b822495562-10"><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad83b822495562-11">&nbsp;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623dad83b822495562-12"><span class="crayon-c"># строки это фильмы, столбцы - пользователи</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad83b822495562-13"><span class="crayon-v">films</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0014 seconds] -->
+</div>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623dad83c856510834" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad83c856510834-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623dad83c856510834-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad83c856510834-3">3</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623dad83c856510834-4">4</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad83c856510834-5">5</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad83c856510834-1">array([[ 1,&nbsp;&nbsp;3,&nbsp;&nbsp;2,&nbsp;&nbsp;6,&nbsp;&nbsp;2,&nbsp;&nbsp;1,&nbsp;&nbsp;0],</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623dad83c856510834-2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [ 0,&nbsp;&nbsp;2,&nbsp;&nbsp;0,&nbsp;&nbsp;3,&nbsp;&nbsp;0,&nbsp;&nbsp;6,&nbsp;&nbsp;2],</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad83c856510834-3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [ 1,&nbsp;&nbsp;1,&nbsp;&nbsp;1,&nbsp;&nbsp;1,&nbsp;&nbsp;1,&nbsp;&nbsp;1,&nbsp;&nbsp;1],</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623dad83c856510834-4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [ 2,&nbsp;&nbsp;4,&nbsp;&nbsp;1,&nbsp;&nbsp;3,&nbsp;&nbsp;9,&nbsp;&nbsp;2,&nbsp;&nbsp;1],</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad83c856510834-5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [10, 10, 10, 10, 10, 10, 10]])</div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0001 seconds] -->
+</div>
+
+
+
+<p>Предположим, вышел новый фильм, и все пользователи поставили ему рейтинг 10.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623dad83d272000157" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad83d272000157-1">1</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad83d272000157-1"><span class="crayon-v">new_film</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-k ">array</span><span class="crayon-sy">(</span><span class="crayon-sy">[</span><span class="crayon-cn">10</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">10</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">10</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">10</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">10</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">10</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">10</span><span class="crayon-sy">]</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0004 seconds] -->
+</div>
+
+
+
+<p>В цикле <strong>for</strong> поочередно рассчитаем косинусное сходство каждого из имеющихся фильмов с новым фильмом.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623dad83e115374625" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad83e115374625-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623dad83e115374625-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad83e115374625-3">3</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad83e115374625-1"><span class="crayon-c"># для этого снова воспользуемся функцией similar()</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623dad83e115374625-2"><span class="crayon-st">for</span><span class="crayon-h"> </span><span class="crayon-v">i</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-e">film </span><span class="crayon-st">in</span><span class="crayon-h"> </span><span class="crayon-k ">enumerate</span><span class="crayon-sy">(</span><span class="crayon-v">films</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-sy">)</span><span class="crayon-o">:</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad83e115374625-3"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-k ">print</span><span class="crayon-sy">(</span><span class="crayon-i">f</span><span class="crayon-s">'Фильм {i} с оценками {film} имеет сходство с новым фильмом {np.round(similar(film, new_film), 3)}'</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0004 seconds] -->
+</div>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623dad83f920090716" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad83f920090716-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623dad83f920090716-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad83f920090716-3">3</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623dad83f920090716-4">4</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623dad83f920090716-5">5</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad83f920090716-1">Фильм 1 с оценками [1 3 2 6 2 1 0] имеет сходство с новым фильмом 0.764</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623dad83f920090716-2">Фильм 2 с оценками [0 2 0 3 0 6 2] имеет сходство с новым фильмом 0.675</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad83f920090716-3">Фильм 3 с оценками [1 1 1 1 1 1 1] имеет сходство с новым фильмом 1.0</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623dad83f920090716-4">Фильм 4 с оценками [2 4 1 3 9 2 1] имеет сходство с новым фильмом 0.772</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623dad83f920090716-5">Фильм 5 с оценками [10 10 10 10 10 10 10] имеет сходство с новым фильмом 1.0</div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0001 seconds] -->
+</div>
+
+
+
+<p>Как мы видим, система показала, что новый фильм одинаково близок как к фильму с рейтингами 1 от всех пользователей, так и к фильму с рейтингами 10. Конечно, это противоречит здравому смыслу.</p>
+
+
+
+<p>На практике такая ситуация маловероятна, потому что мы работаем с матрицами с огромным количеством пользователей и фильмов. Вряд ли все пользователи поставят фильму одни и те же оценки. Однако в целом да, при создании коллаборативных систем возникает ряд сложностей.</p>
+
+
+
+<p id="11-o-nekotorykh-slozhnostyakh-sozdaniya-kollaborativnykh-sistem"><strong>О некоторых сложностях создания коллаборативных систем</strong></p>
+
+
+
+<p>Например, есть проблема <strong>разреженности</strong> (sparcity) матрицы предпочтений, когда многие пользователи не оставляют оценок, матрица заполняется нулями и от этого страдает качество рекомедаций (мы с этим столкнулись, в частности, в учебном примере).</p>
+
+
+
+<p>Кроме того, существует проблема <strong>холодного старта</strong> (cold start), когда либо (1) в системе в самом начале ее работы недостаточно данных для генерации рекомендаций, либо (2) пришел новый пользователь, который еще не ставил оценок, и система не знает, что ему посоветовать, либо (3) вышел новый фильм, книга, товар, которые пока не имеют рейтингов, и их схожесть с другими предметами рекомендации не так просто рассчитать.</p>
+
+
+
+<p>Помимо этого, появление новых пользователей и новых фильмов вынуждают производить <strong>перерасчет расстояний</strong> в системе. Это всегда затратно с точки зрения вычислительных мощностей. В этом смысле, item-based система более удобна, чем user-based система, потому что фильмы, например, добавляются в систему реже, чем пользователи.</p>
+
+
+
+<p>Весь код, приведенный в ответе, можно найти в конце <a href="https://colab.research.google.com/drive/1-RC3JoRQCenj9P_6zxZmfI5UAbsB6DsM#scrollTo=y_RsrDRrUzEf" target="_blank" rel="noreferrer noopener">блокнота</a>⧉.</p>
+
+
+
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
+
+
+
+<p><strong>Вопрос</strong>. Скажите можно ли разделить выборку на обучающую и тестовую? И если да, может подскажете в комментарии как?</p>
+
+
+
+<p><strong>Ответ</strong>. Один из подходов &#8212; использовать leave one out cross validation в качестве метода разделения данных и RMSE или MAE в качестве метрики качества алгоритма.</p>
+
+
+
+<p>В этом случае один из рейтингов изымается из набора данных и становится тестовой выборкой, остальные рейтинги соответственно остаются в обучающей. Алгоритм обучается на имеющихся данных и делает прогноз для того рейтинга, который мы изъяли. Далее рассчитывается RMSE (который сравнивает прогнозное значение с фактическим).</p>
+
+
+
+<p>Процесс повторяется для остальных рейтингов и затем рассчитывается средний RMSE по всем итерациям.</p>
+
+
+
+<p>Для того чтобы сократить время вычислений, за одну итерацию можно брать не один, а несколько рейтингов, то есть использовать leave n-out cross validation.</p>
+
+			</div> <!-- .content -->
+
+			
+		</div> <!-- .post -->
+
+					<footer class="site-footer section-inner">
+
+				<p class="copyright">&copy; 2025 <a href="../../index.html" class="site-name"><!--Машинное обучение--></a></p>
+
+			</footer> <!-- footer -->
+
+		</main>
+		
+		<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js?ver=6.7.1" id="mathjax-js"></script>
+<script type="text/javascript" src="../../wp-includes/js/imagesloaded.min.js@ver=5.0.0" id="imagesloaded-js"></script>
+<script type="text/javascript" src="../../wp-includes/js/masonry.min.js@ver=4.2.2" id="masonry-js"></script>
+<script type="text/javascript" id="mcluhan_global-js-extra">
+/* <![CDATA[ */
+var mcluhan_ajaxpagination = {"ajaxurl":"https:\/\/www.dmitrymakarov.ru\/wp-admin\/admin-ajax.php","query_vars":"{\"page\":\"\",\"pagename\":\"intro\\\/recommender\"}"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="../../wp-content/themes/mcluhan/assets/js/global.js@ver=2.1.1" id="mcluhan_global-js"></script>
+			
+	</body>
+</html>

@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+
+<html class="no-js" lang="ru-RU">
+
+	<head>
+
+		<meta http-equiv="content-type" content="text/html" charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" >
+
+		<link rel="profile" href="http://gmpg.org/xfn/11">
+
+		<meta name='robots' content='index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' />
+	<style>img:is([sizes="auto" i], [sizes^="auto," i]) { contain-intrinsic-size: 3000px 1500px }</style>
+	
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$','$'],['\\(','\\)']], 
+    processEscapes: true
+  },
+  options: {
+    ignoreHtmlClass: 'tex2jax_ignore|editor-rich-text'
+  }
+};
+
+</script>
+
+	<!-- This site is optimized with the Yoast SEO plugin v24.4 - https://yoast.com/wordpress/plugins/seo/ -->
+	<title>Линейная регрессия. Часть 1 | Обучение модели</title>
+	<meta name="description" content="В первой части занятия по множественной линейной регрессии мы обсудим теорию регрессионного анализа и допущения модели." />
+	<link rel="canonical" href="index.html" />
+	<meta property="og:locale" content="ru_RU" />
+	<meta property="og:type" content="article" />
+	<meta property="og:title" content="Линейная регрессия. Часть 1 | Обучение модели" />
+	<meta property="og:description" content="В первой части занятия по множественной линейной регрессии мы обсудим теорию регрессионного анализа и допущения модели." />
+	<meta property="og:url" content="https://www.dmitrymakarov.ru/learning/mlr/" />
+	<meta property="og:site_name" content="Машинное обучение" />
+	<meta property="article:modified_time" content="2025-01-04T06:52:24+00:00" />
+	<meta property="og:image" content="https://www.dmitrymakarov.ru/wp-content/uploads/2022/08/regression_population_sample.png" />
+	<meta property="og:image:width" content="793" />
+	<meta property="og:image:height" content="493" />
+	<meta property="og:image:type" content="image/png" />
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:label1" content="Примерное время для чтения" />
+	<meta name="twitter:data1" content="1 минута" />
+	<script type="application/ld+json" class="yoast-schema-graph">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.dmitrymakarov.ru/learning/mlr/","url":"https://www.dmitrymakarov.ru/learning/mlr/","name":"Линейная регрессия. Часть 1 | Обучение модели","isPartOf":{"@id":"https://www.dmitrymakarov.ru/#website"},"primaryImageOfPage":{"@id":"https://www.dmitrymakarov.ru/learning/mlr/#primaryimage"},"image":{"@id":"https://www.dmitrymakarov.ru/learning/mlr/#primaryimage"},"thumbnailUrl":"https://www.dmitrymakarov.ru/wp-content/uploads/2022/08/regression_population_sample.png","datePublished":"2023-01-05T16:42:05+00:00","dateModified":"2025-01-04T06:52:24+00:00","description":"В первой части занятия по множественной линейной регрессии мы обсудим теорию регрессионного анализа и допущения модели.","breadcrumb":{"@id":"https://www.dmitrymakarov.ru/learning/mlr/#breadcrumb"},"inLanguage":"ru-RU","potentialAction":[{"@type":"ReadAction","target":["https://www.dmitrymakarov.ru/learning/mlr/"]}]},{"@type":"ImageObject","inLanguage":"ru-RU","@id":"https://www.dmitrymakarov.ru/learning/mlr/#primaryimage","url":"https://www.dmitrymakarov.ru/wp-content/uploads/2022/08/regression_population_sample.png","contentUrl":"https://www.dmitrymakarov.ru/wp-content/uploads/2022/08/regression_population_sample.png","width":793,"height":493},{"@type":"BreadcrumbList","@id":"https://www.dmitrymakarov.ru/learning/mlr/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная страница","item":"https://www.dmitrymakarov.ru/"},{"@type":"ListItem","position":2,"name":"Обучение модели","item":"https://www.dmitrymakarov.ru/learning/"},{"@type":"ListItem","position":3,"name":"Линейная регрессия. Часть 1"}]},{"@type":"WebSite","@id":"https://www.dmitrymakarov.ru/#website","url":"https://www.dmitrymakarov.ru/","name":"Машинное обучение","description":"","publisher":{"@id":"https://www.dmitrymakarov.ru/#/schema/person/3fc221e2d391cc5cfd9d31c9c251c2a4"},"potentialAction":[{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://www.dmitrymakarov.ru/?s={search_term_string}"},"query-input":{"@type":"PropertyValueSpecification","valueRequired":true,"valueName":"search_term_string"}}],"inLanguage":"ru-RU"},{"@type":["Person","Organization"],"@id":"https://www.dmitrymakarov.ru/#/schema/person/3fc221e2d391cc5cfd9d31c9c251c2a4","name":"DmitryMakarov","image":{"@type":"ImageObject","inLanguage":"ru-RU","@id":"https://www.dmitrymakarov.ru/#/schema/person/image/","url":"https://secure.gravatar.com/avatar/2c5f922d990c667feffc00f99517cc0e?s=96&d=mm&r=g","contentUrl":"https://secure.gravatar.com/avatar/2c5f922d990c667feffc00f99517cc0e?s=96&d=mm&r=g","caption":"DmitryMakarov"},"logo":{"@id":"https://www.dmitrymakarov.ru/#/schema/person/image/"}}]}</script>
+	<!-- / Yoast SEO plugin. -->
+
+
+<link rel='dns-prefetch' href='https://cdn.jsdelivr.net/' />
+<link rel="alternate" type="application/rss+xml" title="Машинное обучение &raquo; Лента" href="../../feed/index.html" />
+<link rel="alternate" type="application/rss+xml" title="Машинное обучение &raquo; Лента комментариев" href="../../comments/feed/index.html" />
+<script type="text/javascript">
+/* <![CDATA[ */
+window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15.0.3\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15.0.3\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/www.dmitrymakarov.ru\/wp-includes\/js\/wp-emoji-release.min.js?ver=6.7.1"}};
+/*! This file is auto-generated */
+!function(i,n){var o,s,e;function c(e){try{var t={supportTests:e,timestamp:(new Date).valueOf()};sessionStorage.setItem(o,JSON.stringify(t))}catch(e){}}function p(e,t,n){e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(t,0,0);var t=new Uint32Array(e.getImageData(0,0,e.canvas.width,e.canvas.height).data),r=(e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(n,0,0),new Uint32Array(e.getImageData(0,0,e.canvas.width,e.canvas.height).data));return t.every(function(e,t){return e===r[t]})}function u(e,t,n){switch(t){case"flag":return n(e,"\ud83c\udff3\ufe0f\u200d\u26a7\ufe0f","\ud83c\udff3\ufe0f\u200b\u26a7\ufe0f")?!1:!n(e,"\ud83c\uddfa\ud83c\uddf3","\ud83c\uddfa\u200b\ud83c\uddf3")&&!n(e,"\ud83c\udff4\udb40\udc67\udb40\udc62\udb40\udc65\udb40\udc6e\udb40\udc67\udb40\udc7f","\ud83c\udff4\u200b\udb40\udc67\u200b\udb40\udc62\u200b\udb40\udc65\u200b\udb40\udc6e\u200b\udb40\udc67\u200b\udb40\udc7f");case"emoji":return!n(e,"\ud83d\udc26\u200d\u2b1b","\ud83d\udc26\u200b\u2b1b")}return!1}function f(e,t,n){var r="undefined"!=typeof WorkerGlobalScope&&self instanceof WorkerGlobalScope?new OffscreenCanvas(300,150):i.createElement("canvas"),a=r.getContext("2d",{willReadFrequently:!0}),o=(a.textBaseline="top",a.font="600 32px Arial",{});return e.forEach(function(e){o[e]=t(a,e,n)}),o}function t(e){var t=i.createElement("script");t.src=e,t.defer=!0,i.head.appendChild(t)}"undefined"!=typeof Promise&&(o="wpEmojiSettingsSupports",s=["flag","emoji"],n.supports={everything:!0,everythingExceptFlag:!0},e=new Promise(function(e){i.addEventListener("DOMContentLoaded",e,{once:!0})}),new Promise(function(t){var n=function(){try{var e=JSON.parse(sessionStorage.getItem(o));if("object"==typeof e&&"number"==typeof e.timestamp&&(new Date).valueOf()<e.timestamp+604800&&"object"==typeof e.supportTests)return e.supportTests}catch(e){}return null}();if(!n){if("undefined"!=typeof Worker&&"undefined"!=typeof OffscreenCanvas&&"undefined"!=typeof URL&&URL.createObjectURL&&"undefined"!=typeof Blob)try{var e="postMessage("+f.toString()+"("+[JSON.stringify(s),u.toString(),p.toString()].join(",")+"));",r=new Blob([e],{type:"text/javascript"}),a=new Worker(URL.createObjectURL(r),{name:"wpTestEmojiSupports"});return void(a.onmessage=function(e){c(n=e.data),a.terminate(),t(n)})}catch(e){}c(n=f(s,u,p))}t(n)}).then(function(e){for(var t in e)n.supports[t]=e[t],n.supports.everything=n.supports.everything&&n.supports[t],"flag"!==t&&(n.supports.everythingExceptFlag=n.supports.everythingExceptFlag&&n.supports[t]);n.supports.everythingExceptFlag=n.supports.everythingExceptFlag&&!n.supports.flag,n.DOMReady=!1,n.readyCallback=function(){n.DOMReady=!0}}).then(function(){return e}).then(function(){var e;n.supports.everything||(n.readyCallback(),(e=n.source||{}).concatemoji?t(e.concatemoji):e.wpemoji&&e.twemoji&&(t(e.twemoji),t(e.wpemoji)))}))}((window,document),window._wpemojiSettings);
+/* ]]> */
+</script>
+<link rel='stylesheet' id='urvanov_syntax_highlighter-css' href='../../wp-content/plugins/urvanov-syntax-highlighter/css/min/urvanov_syntax_highlighter.min.css@ver=2.8.38.css' type='text/css' media='all' />
+<style id='wp-emoji-styles-inline-css' type='text/css'>
+
+	img.wp-smiley, img.emoji {
+		display: inline !important;
+		border: none !important;
+		box-shadow: none !important;
+		height: 1em !important;
+		width: 1em !important;
+		margin: 0 0.07em !important;
+		vertical-align: -0.1em !important;
+		background: none !important;
+		padding: 0 !important;
+	}
+</style>
+<link rel='stylesheet' id='wp-block-library-css' href='../../wp-includes/css/dist/block-library/style.min.css@ver=6.7.1.css' type='text/css' media='all' />
+<style id='filebird-block-filebird-gallery-style-inline-css' type='text/css'>
+ul.filebird-block-filebird-gallery{margin:auto!important;padding:0!important;width:100%}ul.filebird-block-filebird-gallery.layout-grid{display:grid;grid-gap:20px;align-items:stretch;grid-template-columns:repeat(var(--columns),1fr);justify-items:stretch}ul.filebird-block-filebird-gallery.layout-grid li img{border:1px solid #ccc;box-shadow:2px 2px 6px 0 rgba(0,0,0,.3);height:100%;max-width:100%;-o-object-fit:cover;object-fit:cover;width:100%}ul.filebird-block-filebird-gallery.layout-masonry{-moz-column-count:var(--columns);-moz-column-gap:var(--space);column-gap:var(--space);-moz-column-width:var(--min-width);columns:var(--min-width) var(--columns);display:block;overflow:auto}ul.filebird-block-filebird-gallery.layout-masonry li{margin-bottom:var(--space)}ul.filebird-block-filebird-gallery li{list-style:none}ul.filebird-block-filebird-gallery li figure{height:100%;margin:0;padding:0;position:relative;width:100%}ul.filebird-block-filebird-gallery li figure figcaption{background:linear-gradient(0deg,rgba(0,0,0,.7),rgba(0,0,0,.3) 70%,transparent);bottom:0;box-sizing:border-box;color:#fff;font-size:.8em;margin:0;max-height:100%;overflow:auto;padding:3em .77em .7em;position:absolute;text-align:center;width:100%;z-index:2}ul.filebird-block-filebird-gallery li figure figcaption a{color:inherit}
+
+</style>
+<style id='classic-theme-styles-inline-css' type='text/css'>
+/*! This file is auto-generated */
+.wp-block-button__link{color:#fff;background-color:#32373c;border-radius:9999px;box-shadow:none;text-decoration:none;padding:calc(.667em + 2px) calc(1.333em + 2px);font-size:1.125em}.wp-block-file__button{background:#32373c;color:#fff;text-decoration:none}
+</style>
+<style id='global-styles-inline-css' type='text/css'>
+:root{--wp--preset--aspect-ratio--square: 1;--wp--preset--aspect-ratio--4-3: 4/3;--wp--preset--aspect-ratio--3-4: 3/4;--wp--preset--aspect-ratio--3-2: 3/2;--wp--preset--aspect-ratio--2-3: 2/3;--wp--preset--aspect-ratio--16-9: 16/9;--wp--preset--aspect-ratio--9-16: 9/16;--wp--preset--color--black: #121212;--wp--preset--color--cyan-bluish-gray: #abb8c3;--wp--preset--color--white: #fff;--wp--preset--color--pale-pink: #f78da7;--wp--preset--color--vivid-red: #cf2e2e;--wp--preset--color--luminous-vivid-orange: #ff6900;--wp--preset--color--luminous-vivid-amber: #fcb900;--wp--preset--color--light-green-cyan: #7bdcb5;--wp--preset--color--vivid-green-cyan: #00d084;--wp--preset--color--pale-cyan-blue: #8ed1fc;--wp--preset--color--vivid-cyan-blue: #0693e3;--wp--preset--color--vivid-purple: #9b51e0;--wp--preset--color--dark-gray: #333;--wp--preset--color--medium-gray: #555;--wp--preset--color--light-gray: #777;--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg,rgba(6,147,227,1) 0%,rgb(155,81,224) 100%);--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg,rgb(122,220,180) 0%,rgb(0,208,130) 100%);--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg,rgba(252,185,0,1) 0%,rgba(255,105,0,1) 100%);--wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg,rgba(255,105,0,1) 0%,rgb(207,46,46) 100%);--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg,rgb(238,238,238) 0%,rgb(169,184,195) 100%);--wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg,rgb(74,234,220) 0%,rgb(151,120,209) 20%,rgb(207,42,186) 40%,rgb(238,44,130) 60%,rgb(251,105,98) 80%,rgb(254,248,76) 100%);--wp--preset--gradient--blush-light-purple: linear-gradient(135deg,rgb(255,206,236) 0%,rgb(152,150,240) 100%);--wp--preset--gradient--blush-bordeaux: linear-gradient(135deg,rgb(254,205,165) 0%,rgb(254,45,45) 50%,rgb(107,0,62) 100%);--wp--preset--gradient--luminous-dusk: linear-gradient(135deg,rgb(255,203,112) 0%,rgb(199,81,192) 50%,rgb(65,88,208) 100%);--wp--preset--gradient--pale-ocean: linear-gradient(135deg,rgb(255,245,203) 0%,rgb(182,227,212) 50%,rgb(51,167,181) 100%);--wp--preset--gradient--electric-grass: linear-gradient(135deg,rgb(202,248,128) 0%,rgb(113,206,126) 100%);--wp--preset--gradient--midnight: linear-gradient(135deg,rgb(2,3,129) 0%,rgb(40,116,252) 100%);--wp--preset--font-size--small: 16px;--wp--preset--font-size--medium: 20px;--wp--preset--font-size--large: 24px;--wp--preset--font-size--x-large: 42px;--wp--preset--font-size--normal: 18px;--wp--preset--font-size--larger: 28px;--wp--preset--spacing--20: 0.44rem;--wp--preset--spacing--30: 0.67rem;--wp--preset--spacing--40: 1rem;--wp--preset--spacing--50: 1.5rem;--wp--preset--spacing--60: 2.25rem;--wp--preset--spacing--70: 3.38rem;--wp--preset--spacing--80: 5.06rem;--wp--preset--shadow--natural: 6px 6px 9px rgba(0, 0, 0, 0.2);--wp--preset--shadow--deep: 12px 12px 50px rgba(0, 0, 0, 0.4);--wp--preset--shadow--sharp: 6px 6px 0px rgba(0, 0, 0, 0.2);--wp--preset--shadow--outlined: 6px 6px 0px -3px rgba(255, 255, 255, 1), 6px 6px rgba(0, 0, 0, 1);--wp--preset--shadow--crisp: 6px 6px 0px rgba(0, 0, 0, 1);}:where(.is-layout-flex){gap: 0.5em;}:where(.is-layout-grid){gap: 0.5em;}body .is-layout-flex{display: flex;}.is-layout-flex{flex-wrap: wrap;align-items: center;}.is-layout-flex > :is(*, div){margin: 0;}body .is-layout-grid{display: grid;}.is-layout-grid > :is(*, div){margin: 0;}:where(.wp-block-columns.is-layout-flex){gap: 2em;}:where(.wp-block-columns.is-layout-grid){gap: 2em;}:where(.wp-block-post-template.is-layout-flex){gap: 1.25em;}:where(.wp-block-post-template.is-layout-grid){gap: 1.25em;}.has-black-color{color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-color{color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-color{color: var(--wp--preset--color--white) !important;}.has-pale-pink-color{color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-color{color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-color{color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-color{color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-color{color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-color{color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-color{color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-color{color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-color{color: var(--wp--preset--color--vivid-purple) !important;}.has-black-background-color{background-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-background-color{background-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-background-color{background-color: var(--wp--preset--color--white) !important;}.has-pale-pink-background-color{background-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-background-color{background-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-background-color{background-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-background-color{background-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-background-color{background-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-background-color{background-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-background-color{background-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-background-color{background-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-background-color{background-color: var(--wp--preset--color--vivid-purple) !important;}.has-black-border-color{border-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-border-color{border-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-border-color{border-color: var(--wp--preset--color--white) !important;}.has-pale-pink-border-color{border-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-border-color{border-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-border-color{border-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-border-color{border-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-border-color{border-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-border-color{border-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-border-color{border-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-border-color{border-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-border-color{border-color: var(--wp--preset--color--vivid-purple) !important;}.has-vivid-cyan-blue-to-vivid-purple-gradient-background{background: var(--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple) !important;}.has-light-green-cyan-to-vivid-green-cyan-gradient-background{background: var(--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan) !important;}.has-luminous-vivid-amber-to-luminous-vivid-orange-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange) !important;}.has-luminous-vivid-orange-to-vivid-red-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-orange-to-vivid-red) !important;}.has-very-light-gray-to-cyan-bluish-gray-gradient-background{background: var(--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray) !important;}.has-cool-to-warm-spectrum-gradient-background{background: var(--wp--preset--gradient--cool-to-warm-spectrum) !important;}.has-blush-light-purple-gradient-background{background: var(--wp--preset--gradient--blush-light-purple) !important;}.has-blush-bordeaux-gradient-background{background: var(--wp--preset--gradient--blush-bordeaux) !important;}.has-luminous-dusk-gradient-background{background: var(--wp--preset--gradient--luminous-dusk) !important;}.has-pale-ocean-gradient-background{background: var(--wp--preset--gradient--pale-ocean) !important;}.has-electric-grass-gradient-background{background: var(--wp--preset--gradient--electric-grass) !important;}.has-midnight-gradient-background{background: var(--wp--preset--gradient--midnight) !important;}.has-small-font-size{font-size: var(--wp--preset--font-size--small) !important;}.has-medium-font-size{font-size: var(--wp--preset--font-size--medium) !important;}.has-large-font-size{font-size: var(--wp--preset--font-size--large) !important;}.has-x-large-font-size{font-size: var(--wp--preset--font-size--x-large) !important;}
+:where(.wp-block-post-template.is-layout-flex){gap: 1.25em;}:where(.wp-block-post-template.is-layout-grid){gap: 1.25em;}
+:where(.wp-block-columns.is-layout-flex){gap: 2em;}:where(.wp-block-columns.is-layout-grid){gap: 2em;}
+:root :where(.wp-block-pullquote){font-size: 1.5em;line-height: 1.6;}
+</style>
+<link rel='stylesheet' id='mcluhan-fonts-css' href='../../wp-content/themes/mcluhan/assets/css/fonts.css@ver=6.7.1.css' type='text/css' media='all' />
+<link rel='stylesheet' id='fontawesome-css' href='../../wp-content/themes/mcluhan/assets/css/font-awesome.css@ver=6.7.1.css' type='text/css' media='all' />
+<link rel='stylesheet' id='mcluhan-style-css' href='../../wp-content/themes/mcluhan/style.css@ver=2.1.1.css' type='text/css' media='all' />
+<script type="text/javascript" src="../../wp-includes/js/jquery/jquery.min.js@ver=3.7.1" id="jquery-core-js"></script>
+<script type="text/javascript" src="../../wp-includes/js/jquery/jquery-migrate.min.js@ver=3.4.1" id="jquery-migrate-js"></script>
+<script type="text/javascript" id="urvanov_syntax_highlighter_js-js-extra">
+/* <![CDATA[ */
+var UrvanovSyntaxHighlighterSyntaxSettings = {"version":"2.8.38","is_admin":"0","ajaxurl":"https:\/\/www.dmitrymakarov.ru\/wp-admin\/admin-ajax.php","prefix":"urvanov-syntax-highlighter-","setting":"urvanov-syntax-highlighter-setting","selected":"urvanov-syntax-highlighter-setting-selected","changed":"urvanov-syntax-highlighter-setting-changed","special":"urvanov-syntax-highlighter-setting-special","orig_value":"data-orig-value","debug":""};
+var UrvanovSyntaxHighlighterSyntaxStrings = {"copy":"Copied to the clipboard","minimize":"Click To Expand Code"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="../../wp-content/plugins/urvanov-syntax-highlighter/js/min/urvanov_syntax_highlighter.min.js@ver=2.8.38" id="urvanov_syntax_highlighter_js-js"></script>
+
+			<!-- Customizer CSS -->
+
+			<style type="text/css">
+
+				body .site-header { background-color:#004235; }.social-menu.desktop { background-color:#004235; }.social-menu a:hover { color:#004235; }.social-menu a.active { color:#004235; }.mobile-menu-wrapper { background-color:#004235; }.social-menu.mobile { background-color:#004235; }.mobile-search.active { background-color:#004235; }
+			</style>
+
+			<!-- /Customizer CSS -->
+
+					<script>jQuery( 'html' ).removeClass( 'no-js' ).addClass( 'js' );</script>
+		<style type="text/css">.broken_link, a.broken_link {
+	text-decoration: line-through;
+}</style><style type="text/css" id="custom-background-css">
+body.custom-background { background-color: #fff9ef; }
+</style>
+	<link rel="icon" href="../../wp-content/uploads/2021/08/cropped-wp-favicon-512-32x32.png" sizes="32x32" />
+<link rel="icon" href="../../wp-content/uploads/2021/08/cropped-wp-favicon-512-192x192.png" sizes="192x192" />
+<link rel="apple-touch-icon" href="../../wp-content/uploads/2021/08/cropped-wp-favicon-512-180x180.png" />
+<meta name="msapplication-TileImage" content="https://www.dmitrymakarov.ru/wp-content/uploads/2021/08/cropped-wp-favicon-512-270x270.png" />
+
+	</head>
+
+	<body class="page-template page-template-full-width-page-template page-template-full-width-page-template-php page page-id-17379 page-child parent-pageid-5658 custom-background full-width-template">
+
+		
+		<a class="skip-link button" href="index.html#site-content">Перейти к содержимому</a>
+
+		<header class="site-header group">
+
+			
+			<p class="site-title"><a href="../../index.html" class="site-name">Машинное обучение</a></p>
+
+			
+			<div class="nav-toggle">
+				<div class="bar"></div>
+				<div class="bar"></div>
+			</div>
+
+			<div class="menu-wrapper">
+
+				<ul class="main-menu desktop">
+
+									</ul>
+
+			</div><!-- .menu-wrapper -->
+
+			
+				<div class="social-menu desktop">
+
+					<ul class="social-menu-inner">
+
+						<li class="social-search-wrapper"><a href="../../index.html@s=.html"></a></li>
+
+						
+					</ul><!-- .social-menu-inner -->
+
+				</div><!-- .social-menu -->
+
+			
+		</header><!-- header -->
+
+		<div class="mobile-menu-wrapper">
+
+			<ul class="main-menu mobile">
+									<li class="toggle-mobile-search-wrapper"><a href="index.html#" class="toggle-mobile-search">Поиск</a></li>
+							</ul><!-- .main-menu.mobile -->
+
+			
+		</div><!-- .mobile-menu-wrapper -->
+
+		
+			<div class="mobile-search">
+
+				<div class="untoggle-mobile-search"></div>
+
+				
+<form role="search" method="get" class="search-form" action="../../index.html">
+	<label class="screen-reader-text" for="search-form-67aa626892b9d">Поиск:</label>
+	<input type="search" id="search-form-67aa626892b9d" class="search-field" placeholder="Введите запрос" value="" name="s" autocomplete="off" />
+	</button>
+</form>
+
+				<div class="mobile-results">
+
+					<div class="results-wrapper"></div>
+
+				</div>
+
+			</div><!-- .mobile-search -->
+
+			<div class="search-overlay">
+
+				
+<form role="search" method="get" class="search-form" action="../../index.html">
+	<label class="screen-reader-text" for="search-form-67aa626892c1f">Поиск:</label>
+	<input type="search" id="search-form-67aa626892c1f" class="search-field" placeholder="Введите запрос" value="" name="s" autocomplete="off" />
+	</button>
+</form>
+
+			</div><!-- .search-overlay -->
+
+		
+		<main class="site-content" id="site-content">
+		<article class="post-17379 page type-page status-publish hentry missing-thumbnail">
+
+			
+			<header class="entry-header section-inner">
+
+				<h1 class="entry-title">Линейная регрессия. Часть 1</h1>
+			</header><!-- .entry-header -->
+
+			<div class="entry-content section-inner">
+
+				
+<p class="has-light-gray-color has-text-color"><a href="../../index.html">Материалы</a> &gt; <a href="../index.html">Обучение модели</a></p>
+
+
+
+<p>Корреляция показывает степень совместного изменения двух признаков. При этом, как уже было сказано, в корреляционном анализе нет зависимых и независимых переменных. Они эквивалентны.</p>
+
+
+
+<p>Количественным предсказанием одной переменной (зависимой) на основании другой (независимой) занимается регрессионный анализ.</p>
+
+
+
+<p>В рамках сегодняшнего занятия мы с нуля построим несколько алгоритмов <em>множественной</em> линейной регрессии.</p>
+
+
+
+<h2 class="wp-block-heading" id="0-regressionnyy-analiz">Регрессионный анализ</h2>
+
+
+
+<p>В первую очередь обсудим некоторые теоретические вопросы регрессионного анализа.</p>
+
+
+
+<h3 class="wp-block-heading" id="1-generalnaya-sovokupnost-i-vyborka">Генеральная совокупность и выборка</h3>
+
+
+
+<p>Как мы <a href="../../intro/inference/index.html">уже знаем</a>, множество всех имеющихся наблюдений принято считать генеральной совокупностью (population). И эти наблюдения, если в них есть взаимосвязи, можно теоретически аппроксимировать, например, линией регрессии. При этом важно понимать, что это некоторая идеальная модель, которую мы никогда не сможем построить.</p>
+
+
+
+<p>Единственное, что мы можем сделать, взять выборку (sample) и на ней построить нашу модель, предполагая, что если выборка достаточно велика, она сможет достоверно описать генсовокупность.</p>
+
+
+
+<figure class="wp-block-image size-full is-resized"><img fetchpriority="high" decoding="async" width="793" height="493" src="../../wp-content/uploads/2022/08/regression_population_sample.png" alt="генеральная совокупность и выборка в модели линейной регрессии" class="wp-image-14439" style="width:561px;height:349px" srcset="../../wp-content/uploads/2022/08/regression_population_sample.png 793w, ../../wp-content/uploads/2022/08/regression_population_sample-300x187.png 300w, ../../wp-content/uploads/2022/08/regression_population_sample-768x477.png 768w, ../../wp-content/uploads/2022/08/regression_population_sample-600x373.png 600w" sizes="(max-width: 793px) 100vw, 793px" /></figure>
+
+
+
+<p>Отклонение прогнозного значения от фактического для &#171;идеальной&#187; линии принято называть <strong>ошибкой</strong> (error или true error).</p>
+
+
+
+<p>$$ \varepsilon = y-\hat{y} $$</p>
+
+
+
+<p>Отклонение прогноза от факта для выборочной модели (которую мы и строим) называют <strong>остатками</strong> (residuals или residual error).</p>
+
+
+
+<p>$$ \varepsilon = y-f(x) $$</p>
+
+
+
+<p class="has-background" style="background-color:#ffe8c4">В этом смысле <a href="../../intro/optimization/index.html">среднеквадратическую ошибку</a> (mean squared error, MSE) корректнее называть средними квадратичными остатками (mean squared residuals).</p>
+
+
+
+<p>На практике ошибку и остатки нередко используют как взаимозаменяемые термины.</p>
+
+
+
+<h3 class="wp-block-heading" id="2-uravnenie-mnozhestvennoy-lineynoy-regressii">Уравнение множественной линейной регрессии</h3>
+
+
+
+<p>Посмотрим на уравнение множественной линейной регрессии.</p>
+
+
+
+<p>$$&nbsp;y&nbsp;=&nbsp;\theta_0&nbsp;+&nbsp;\theta_1x_1&nbsp;+&nbsp;\theta_2x_2&nbsp;+&nbsp;&#8230;&nbsp;+&nbsp;\theta_jx_j&nbsp;+&nbsp;\varepsilon&nbsp;$$</p>
+
+
+
+<p>В отличие от простой линейной регрессии в данном случае у нас несколько признаков $x_j$ (независимых переменных) и несколько коэффициентов $ \theta $ (&#171;тета&#187;).</p>
+
+
+
+<h3 class="wp-block-heading" id="3-interpretatsiya-rezultatov-modeli">Интерпретация результатов модели</h3>
+
+
+
+<p><strong>Коэффициент $ \theta_0 $</strong> задает некоторый базовый уровень (baseline) при условии, что остальные коэффициенты равны нулю и зачастую не имеет смысла с точки зрения интерпретации модели (нужен лишь для того, что поднять линию на нужный уровень).</p>
+
+
+
+<p><strong>Параметры $ \theta_1, \theta_2, &#8230;, \theta_n $</strong> показывают изменение зависимой переменной при условии &#171;неподвижности&#187; остальных коэффициентов. Например, каждая дополнительная комната может увеличивать цену дома в 1,3 раза.</p>
+
+
+
+<p><strong>Переменная $ \varepsilon $</strong> (ошибка) представляет собой отклонение фактических данных от прогнозных. В этой переменной могут быть заложены две составляющие:</p>
+
+
+
+<ul class="wp-block-list">
+<li>во-первых, она может включать вариативность целевой переменной, описанную другими (не включенными в нашу модель) признаками;</li>
+
+
+
+<li>во-вторых, &#171;улавливать&#187; случайный шум, случайные колебания.</li>
+</ul>
+
+
+
+<h3 class="wp-block-heading" id="4-kategorialnye-priznaki">Категориальные признаки</h3>
+
+
+
+<p>Модель линейной регрессии может включать категориальные признаки. Продолжая пример с квартирой, предположим, что мы строим модель, в которой цена зависит от того, находится ли квартира в центре города или в спальном районе.</p>
+
+
+
+<p class="has-background" style="background-color:#ffe8c4">Перед этим переменную необходимо <a href="../../data/encoding/index.html">закодировать</a>, создав, например, через Label Encoder признак &#171;центр&#187;, который примет значение 1, если квартира в центре, и 0, если она находится в спальном районе.</p>
+
+
+<div class="wp-block-image">
+<figure class="aligncenter size-full is-resized"><img decoding="async" width="674" height="87" src="../../wp-content/uploads/2022/09/reg_categorical.png" alt="категориальная переменная с двумя классами" class="wp-image-15192" style="width:465px;height:60px" srcset="../../wp-content/uploads/2022/09/reg_categorical.png 674w, ../../wp-content/uploads/2022/09/reg_categorical-300x39.png 300w, ../../wp-content/uploads/2022/09/reg_categorical-600x77.png 600w" sizes="(max-width: 674px) 100vw, 674px" /></figure></div>
+
+
+<p>В модели, представленной выше, если квартира находится в центре (переменная &#171;центр&#187; равна единице), ее стоимость составит 10,1 миллиона рублей, если на окраине (переменная &#171;центр&#187; равна нулю) &#8212; лишь восемь.</p>
+
+
+
+<p>Для категориального признака с множеством классов можно использовать one-hot encoding, если между классами признака отсутствует иерархия</p>
+
+
+<div class="wp-block-image">
+<figure class="aligncenter size-large is-resized"><img decoding="async" width="1024" height="280" src="../../wp-content/uploads/2022/10/lr_ohe-1024x280.jpg" alt="категориальная переменная с несколькими классами (one-hot encoding)" class="wp-image-15239" style="width:774px;height:211px" srcset="../../wp-content/uploads/2022/10/lr_ohe-1024x280.jpg 1024w, ../../wp-content/uploads/2022/10/lr_ohe-300x82.jpg 300w, ../../wp-content/uploads/2022/10/lr_ohe-768x210.jpg 768w, ../../wp-content/uploads/2022/10/lr_ohe-1200x328.jpg 1200w, ../../wp-content/uploads/2022/10/lr_ohe-600x164.jpg 600w, ../../wp-content/uploads/2022/10/lr_ohe.jpg 1282w" sizes="(max-width: 1024px) 100vw, 1024px" /></figure></div>
+
+
+<p>или, например, ordinal encoding в случае наличия иерархии классов в признаке</p>
+
+
+<div class="wp-block-image">
+<figure class="aligncenter size-full is-resized"><img loading="lazy" decoding="async" width="999" height="324" src="../../wp-content/uploads/2022/10/lr_ordinal.jpg" alt="категориальная переменная с несколькими классами (ordinal encoding)" class="wp-image-15240" style="width:562px;height:182px" srcset="../../wp-content/uploads/2022/10/lr_ordinal.jpg 999w, ../../wp-content/uploads/2022/10/lr_ordinal-300x97.jpg 300w, ../../wp-content/uploads/2022/10/lr_ordinal-768x249.jpg 768w, ../../wp-content/uploads/2022/10/lr_ordinal-600x195.jpg 600w" sizes="auto, (max-width: 999px) 100vw, 999px" /></figure></div>
+
+
+<h3 class="wp-block-heading" id="5-vybrosy-v-lineynoy-regressii">Выбросы в линейной регрессии</h3>
+
+
+
+<p>Как и <a href="../../data/outliers/index.html">коэффициент корреляции Пирсона</a>, модель линейной регрессии чувствительна к <strong><a href="../../data/outliers/index.html">выбросам</a></strong> (outliers), то есть наблюдениям, заметно отличающимся от общей совокупности. Сравните рисунки ниже.</p>
+
+
+
+<figure class="wp-block-image size-full is-resized"><img loading="lazy" decoding="async" width="944" height="485" src="../../wp-content/uploads/2022/10/lr_outliers.png" alt="выбросы и модель линейной регрессии" class="wp-image-15274" style="width:667px;height:342px" srcset="../../wp-content/uploads/2022/10/lr_outliers.png 944w, ../../wp-content/uploads/2022/10/lr_outliers-300x154.png 300w, ../../wp-content/uploads/2022/10/lr_outliers-768x395.png 768w, ../../wp-content/uploads/2022/10/lr_outliers-600x308.png 600w" sizes="auto, (max-width: 944px) 100vw, 944px" /></figure>
+
+
+
+<p>При наличии выброса (слева), линия регрессии имеет наклон и может использоваться для построения прогноза. Удалив это наблюдение (справа), линия регрессии становится горизонтальной и построение прогноза теряет смысл.</p>
+
+
+
+<p>При этом различают два типа выбросов: </p>
+
+
+
+<ul class="wp-block-list">
+<li><strong>горизонтальные выбросы</strong> или влиятельные точки (leverage points) &#8212; они сильно отклоняются от среднего по оси x; и</li>
+
+
+
+<li><strong>вертикальные выбросы</strong> или просто выбросы (influential points) &#8212; отклоняются от среднего по оси y.</li>
+</ul>
+
+
+
+<p class="has-background" style="background-color:#ffe8c4">Ключевое отличие заключается в том, что вертикальные выбросы влияют на наклон модели (изменяют ее коэффициенты), а горизонтальные &#8212; нет.</p>
+
+
+
+<p>Сравним два графика.</p>
+
+
+
+<figure class="wp-block-image size-large is-resized"><img loading="lazy" decoding="async" width="1024" height="578" src="../../wp-content/uploads/2022/10/lr_lev_inf-1024x578.jpg" alt="leverage point vs. influential point" class="wp-image-15245" style="width:677px;height:382px" srcset="../../wp-content/uploads/2022/10/lr_lev_inf-1024x578.jpg 1024w, ../../wp-content/uploads/2022/10/lr_lev_inf-300x169.jpg 300w, ../../wp-content/uploads/2022/10/lr_lev_inf-768x434.jpg 768w, ../../wp-content/uploads/2022/10/lr_lev_inf-600x339.jpg 600w, ../../wp-content/uploads/2022/10/lr_lev_inf.jpg 1135w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+<p>На левом графике черная точка (leverage point) сильно отличается от остальных наблюдений, но наклон прямой линии регрессии с ее появлением не изменился. На правом графике, напротив, появление выброса (influential point) существенно изменяет наклон прямой.</p>
+
+
+
+<p class="has-background" style="background-color:#ffe8c4">На практике нас конечно больше интересуют influential points, потому что именно они существенно влияют на качество модели.</p>
+
+
+
+<p>Если в простой линейной регрессии мы можем оценить leverage и influence наблюдения <a href="https://www2.stat.duke.edu/courses/Spring19/sta101.002/post/project/outliers.html" target="_blank" rel="noreferrer noopener">графически</a>⧉, в многомерной модели это сделать сложнее. Можно использовать график остатков (об этом ниже) или применить один из уже известных нам методов выявления выбросов.</p>
+
+
+
+<p>Про выявление leverage и infuential points можно почитать <a href="https://online.stat.psu.edu/stat462/node/87/" target="_blank" rel="noreferrer noopener">здесь</a>⧉.</p>
+
+
+
+<h2 class="wp-block-heading" id="6-dopushcheniya-modeli-regressii">Допущения модели регрессии</h2>
+
+
+
+<p>Применение алгоритма линейной регрессии предполагает несколько <strong>допущений</strong> (assumptions) или условий, при выполнении которых мы можем говорить о качественно построенной модели.</p>
+
+
+
+<h3 class="wp-block-heading" id="7-1-pravilnyy-vybor-modeli">1. Правильный выбор модели</h3>
+
+
+
+<p>Вначале важно убедиться, что данные можно аппроксимировать с помощью линейной модели (correct model specification).</p>
+
+
+
+<p>Оценить распределение данных можно через <strong>график остатков</strong> (residuals plot), где по оси x отложен прогноз модели, а на оси y &#8212; сами остатки.</p>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" decoding="async" width="1024" height="528" src="../../wp-content/uploads/2022/10/linearity-residuals-plot-1024x528.png" alt="график остатков для проверки возможности аппроксимировать данные с помощью линейной модели" class="wp-image-15254" srcset="../../wp-content/uploads/2022/10/linearity-residuals-plot-1024x528.png 1024w, ../../wp-content/uploads/2022/10/linearity-residuals-plot-300x155.png 300w, ../../wp-content/uploads/2022/10/linearity-residuals-plot-768x396.png 768w, ../../wp-content/uploads/2022/10/linearity-residuals-plot-600x309.png 600w, ../../wp-content/uploads/2022/10/linearity-residuals-plot.png 1067w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+<p class="has-background" style="background-color:#ffe8c4">В отличие от простой линейной регрессии мы не используем точечную диаграмму X vs. y, потому что хотим оценить зависимость целевой переменной от <em>всех</em> признаков сразу.</p>
+
+
+
+<p>Остатки модели относительно ее прогнозных значений должны быть распределены случайным образом без систематической составляющей (residuals do not follow a pattern). При этом,</p>
+
+
+
+<ul class="wp-block-list">
+<li>если вы попробовали применить линейную модель с коэффициентами первой степени ($x_n^1$) и выявили некоторый паттерн в данных, можно попробовать полиномиальную или какую-либо еще функцию (об этом ниже); кроме того,</li>
+
+
+
+<li>количественные признаки можно попробовать преобразовать таким образом, чтобы их можно было аппроксимировать прямой линией;</li>
+
+
+
+<li>если ни то, ни другое не помогло, вероятно данные не стоит моделировать линейной регрессией.</li>
+</ul>
+
+
+
+<p>Также замечу, что график остатков показывает выбросы в данных.</p>
+
+
+
+<figure class="wp-block-image size-full is-resized"><img loading="lazy" decoding="async" width="659" height="517" src="../../wp-content/uploads/2022/10/outlier_residuals_plot.png" alt="выброс на графике остатков" class="wp-image-15255" style="aspect-ratio:1.2744565217391304;width:429px;height:auto" srcset="../../wp-content/uploads/2022/10/outlier_residuals_plot.png 659w, ../../wp-content/uploads/2022/10/outlier_residuals_plot-300x235.png 300w, ../../wp-content/uploads/2022/10/outlier_residuals_plot-600x471.png 600w" sizes="auto, (max-width: 659px) 100vw, 659px" /></figure>
+
+
+
+<h3 class="wp-block-heading" id="8-2-normalnost-raspredeleniya-ostatkov">2. Нормальность распределения остатков</h3>
+
+
+
+<p>Среднее значение остатков должно быть равно нулю. Если это не так, и среднее значение <em>меньше нуля</em> (скажем $-5$), то это значит, что модель регулярно недооценивает (underestimates) фактические значения. В противном случае, если среднее <em>больше нуля</em>, переоценивает (overestimated).</p>
+
+
+
+<figure class="wp-block-image size-large is-resized"><img loading="lazy" decoding="async" width="1024" height="532" src="../../wp-content/uploads/2022/10/underestimate-overestimate-residuals-plot-1024x532.png" alt="нормальность распределения остатков" class="wp-image-15256" style="width:778px;height:404px" srcset="../../wp-content/uploads/2022/10/underestimate-overestimate-residuals-plot-1024x532.png 1024w, ../../wp-content/uploads/2022/10/underestimate-overestimate-residuals-plot-300x156.png 300w, ../../wp-content/uploads/2022/10/underestimate-overestimate-residuals-plot-768x399.png 768w, ../../wp-content/uploads/2022/10/underestimate-overestimate-residuals-plot-600x312.png 600w, ../../wp-content/uploads/2022/10/underestimate-overestimate-residuals-plot.png 1041w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+<p>Кроме того, предполагается, что остатки следуют нормальному распределению.</p>
+
+
+
+<p>$$ \varepsilon \sim N(0, \sigma) $$</p>
+
+
+
+<p class="has-background" style="background-color:#ffe8c4">Проверить <a href="../../python/random-03/index.html">нормальность</a> остатков можно визуально с помощью гистограммы или рассмотренных ранее критериев нормальности распределения.</p>
+
+
+
+<p>Причинами могут быть (1) выбросы в данных или (2) неверный выбор модели. Решением может быть, соответственно, исследование выбросов, выбор новой модели и преобразование как признаков, так и целевой переменной.</p>
+
+
+
+<h3 class="wp-block-heading" id="9-3-gomoskedastichnost-ostatkov">3. Гомоскедастичность остатков</h3>
+
+
+
+<p><strong>Гомоскедастичность</strong> (homoscedasticity) или одинаковая изменчивость остатков предполагают, что дисперсия остатков не изменяется для различных наблюдений. Противоположное и нежелательное явление называется <strong>гетероскедастичностью</strong> (heteroscedasticity) или разной изменчивостью.</p>
+
+
+
+<figure class="wp-block-image size-full"><img loading="lazy" decoding="async" width="1020" height="575" src="../../wp-content/uploads/2022/10/heteroscedasticity.png" alt="гомоскедастичность остатков" class="wp-image-15261" srcset="../../wp-content/uploads/2022/10/heteroscedasticity.png 1020w, ../../wp-content/uploads/2022/10/heteroscedasticity-300x169.png 300w, ../../wp-content/uploads/2022/10/heteroscedasticity-768x433.png 768w, ../../wp-content/uploads/2022/10/heteroscedasticity-600x338.png 600w" sizes="auto, (max-width: 1020px) 100vw, 1020px" /></figure>
+
+
+
+<p>Гетероскедастичность остатков показывает, что модель ошибается сильнее при более высоких или более низких значениях признаков. Как следствие, если для разных прогнозов у нас разная погрешность, модель нельзя назвать надежной (robust).</p>
+
+
+
+<p>Как правило, гетероскедастичность бывает изначально заложена в данные. Ее можно попробовать исправить через преобразование целевой переменной (например, логарифмирование).</p>
+
+
+
+<h3 class="wp-block-heading" id="10-4-otsutstvie-multikollinearnosti">4. Отсутствие мультиколлинеарности</h3>
+
+
+
+<p>Еще одним важным допущением является отсутствие мультиколлинеарности. <strong>Мультиколлинеарность</strong> (multicollinearity) &#8212; это корреляция между независимыми переменными. Например, если мы предсказываем стоимость жилья по квадратным метрам и количеству комнат, то метры и комнаты логичным образом также будут коррелировать между собой.</p>
+
+
+
+<p>Почему плохо, если такая корреляция существует? Базовое предположение линейной регрессии &#8212; каждый коэффициент $\theta$ оказывает влияние на конечный результат при условии, что остальные коэффициенты постоянны. При мультиколлинеарности на целевую переменную оказывают эффект сразу несколько признаков, а значит мы не можем с точностью интерпретировать каждый из них.</p>
+
+
+
+<p class="has-background" style="background-color:#ffe8c4">Также говорят о том, что нужно стремиться к <strong>экономной</strong> (parsimonious) модели, то есть такой модели, которая при наименьшем количестве признаков в наибольшей степени объясняет поведение целевой переменной.</p>
+
+
+
+<h4 class="wp-block-heading" id="11-variance-inflation-factor">Variance inflation factor</h4>
+
+
+
+<h5 class="wp-block-heading" id="12-raschet-koeffitsienta">Расчет коэффициента</h5>
+
+
+
+<p><strong>Variance inflation factor (VIF)</strong> или коэффициент увеличения дисперсии позволяет выявить корреляцию между признаками модели.</p>
+
+
+
+<p>Принцип расчета VIF заключается в том, чтобы поочередно делать каждый из признаков целевой переменной и строить модель линейной регрессии на основе оставшихся независимых переменных. Например, если у нас есть три признака $x_1, x_2, x_3$, мы поочередно построим три модели линейной регрессии: $x_1 \sim x_2 + x_3, x_2 \sim x_1 + x_3$ и $x_3 \sim x_1 + x_3$.</p>
+
+
+
+<p class="has-background" style="background-color:#ffe8c4">Обратите внимание на новый для нас формат записи целевой и зависимых переменных модели через символ $\sim$.</p>
+
+
+
+<p>Затем для каждой модели (то есть для каждого признака $x_1, x_2, x_3$) мы рассчитаем <a href="../../intro/regression/index.html">коэффициент детерминации</a> $R^2$. Если он велик, значит данный признак можно объяснить с помощью других независимых переменных и имеется мультиколлинеарность. Если $R^2$ мал, то нельзя и мультиколлинеарность отсутствует.</p>
+
+
+
+<p>Теперь рассчитаем VIF на основе $R^2$:</p>
+
+
+
+<p>$$ VIF = \frac{1}{1-R^2} $$</p>
+
+
+
+<p>При таком способе расчета большой (близкий к единице) $R^2$ уменьшит знаменатель и существенно увеличит VIF, при небольшом коэффициенте детерминации коэффициент увеличения дисперсии наоборот уменьшится.</p>
+
+
+
+<p>Замечу, что $1-R^2$ принято называть tolerance.</p>
+
+
+
+<h5 class="wp-block-heading" id="13-drugie-sposoby-vyyavleniya-multikollinearnosti">Другие способы выявления мультиколлинеарности</h5>
+
+
+
+<p>Для выявления корреляции между независимыми переменными можно использовать точечные диаграммы или корреляционные матрицы. При этом важно понимать, что в данном случае мы выявляем зависимость лишь между двумя признаками. Корреляцию множества признаков выявляет только коэффициент увеличения дисперсии.</p>
+
+
+
+<h5 class="wp-block-heading" id="14-interpretatsiya-vif">Интерпретация VIF</h5>
+
+
+
+<p>VIF находится в диапазоне от единицы до плюс бесконечности. Как правило, при интерпретации показателей variance inflation factor придерживаются следующих принципов:</p>
+
+
+
+<ul class="wp-block-list">
+<li>$\text{VIF} = 1$, между признаками отсутствует корреляция;</li>
+
+
+
+<li>$1 &lt; \text{VIF} \leq 5$ &#8212; умеренная корреляция;</li>
+
+
+
+<li>$5 &lt; \text{VIF} \leq 10$ &#8212; высокая корреляция;</li>
+
+
+
+<li>более $10$ &#8212; очень высокая.</li>
+</ul>
+
+
+
+<p>После расчета VIF можно по одному удалять признаки с наибольшей корреляцией и смотреть, как изменится этот показатель для оставшихся независимых переменных.</p>
+
+
+
+<h3 class="wp-block-heading" id="15-5-otsutstvie-avtokorrelyatsii-ostatkov">5. Отсутствие автокорреляции остатков</h3>
+
+
+
+<p>На занятии по временным рядам (time series), мы сказали, что <a href="../../intro/time-series/index.html">автокорреляция</a> (autocorrelation) &#8212; это корреляция между значениями одной и той же переменной в разные моменты времени.</p>
+
+
+
+<p>Применительно к модели линейной регрессии автокорреляция целевой переменной (для простой линейной регрессии) и <strong>автокорреляция остатков</strong>, residuals autocorrelation (для модели множественной регрессии) означает, что результат или прогноз зависят не от признаков, а от самой целевой переменной. В такой ситуации признаки теряют свою значимость, и применение модели регрессии становится нецелесообразным.</p>
+
+
+
+<h4 class="wp-block-heading" id="16-prichiny-avtokorrelyatsii-ostatkov">Причины автокорреляции остатков</h4>
+
+
+
+<p>Приведем две возможные причины:</p>
+
+
+
+<ul class="wp-block-list">
+<li>прогнозирование целевой переменной с высокой автокорреляцией (например, если мы моделируем цену акций с помощью других переменных, то можем ожидать высокую автокорреляцию остатков, поскольку цена акций как правило сильно зависит от времени);</li>
+
+
+
+<li>удаление значимых признаков.</li>
+</ul>
+
+
+
+<h4 class="wp-block-heading" id="17-avtokorrelyatsiya-pervogo-poryadka">Автокорреляция первого порядка</h4>
+
+
+
+<p>Дадим формальное определение автокорреляции первого порядка (first order correlation), то есть автокорреляции с лагом 1.</p>
+
+
+
+<p>$$ \varepsilon_t = p\varepsilon_{t-1} + u_t, \quad \text{где} $$</p>
+
+
+
+<ul class="wp-block-list">
+<li>$u_t$ &#8212; некоррелированная при различных $t$ одинаково распределенная случайная величина (independent and identically distributed (i.i.d.) random variable); а</li>
+
+
+
+<li>$p$ &#8212; коэффициент автокорреляции, который находится в диапазоне $-1 &lt; p &lt; 1$.</li>
+</ul>
+
+
+
+<p>Чем он ближе к нулю, тем меньше зависимость остатка $\varepsilon_t$ от остатка предыдущего периода $\varepsilon_{t-1}.$</p>
+
+
+
+<p class="has-background" style="background-color:#ffe8c4">Такое уравнение также называется <strong>схемой Маркова</strong> первого порядка (Markov first-order scheme).</p>
+
+
+
+<p>Обратите внимание, что для модели автокорреляции первого порядка коэффициент автокорреляции $p$ совпадает с коэффициентом авторегрессии AR(1) $\varphi$.</p>
+
+
+
+<p>$$ y_t = c + \varphi  \cdot y_{t-1} $$</p>
+
+
+
+<p>Разумеется, мы можем построить модель автокорреляции, например, третьего порядка.</p>
+
+
+
+<p>$$ \varepsilon_t = p_1\varepsilon_{t-1} + p_2\varepsilon_{t-2} + p_3\varepsilon_{t-3} + u_t $$</p>
+
+
+
+<h4 class="wp-block-heading" id="18-vyyavlenie-avtokorrelyatsii-ostatkov">Выявление автокорреляции остатков</h4>
+
+
+
+<p>Для выявления автокорреляции остатков можно использовать график последовательности и график остатков с лагом 1, график автокорреляционной функции или критерий Дарбина-Уотсона.</p>
+
+
+
+<h5 class="wp-block-heading" id="19-grafik-posledovatelnosti-i-grafik-ostatkov-s-lagom-1">График последовательности и график остатков с лагом 1</h5>
+
+
+
+<p>На <strong>графике последовательности</strong> (sequence plot) по оси x откладывается время (или порядковый номер наблюдения), а по оси y &#8212; остатки модели. Кроме того, на <strong>графике остатков с лагом 1</strong> (lag-1 plot) остатки (ось y) можно сравнить с этими же значениями, взятыми с лагом 1 (ось x).</p>
+
+
+
+<p>Рассмотрим вариант <strong>положительной автокорреляции</strong> (positive autocorrelation).</p>
+
+
+
+<figure class="wp-block-image size-large is-resized"><img loading="lazy" decoding="async" width="1024" height="505" src="../../wp-content/uploads/2022/10/positive_autocorrelation-1024x505.png" alt="положительная автокорреляция" class="wp-image-15335" style="width:767px;height:378px" srcset="../../wp-content/uploads/2022/10/positive_autocorrelation-1024x505.png 1024w, ../../wp-content/uploads/2022/10/positive_autocorrelation-300x148.png 300w, ../../wp-content/uploads/2022/10/positive_autocorrelation-768x378.png 768w, ../../wp-content/uploads/2022/10/positive_autocorrelation-600x296.png 600w, ../../wp-content/uploads/2022/10/positive_autocorrelation.png 1029w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+<p>Как вы видите, при положительной автокорреляции в большинстве случаев, если одно наблюдение демонстрирует рост по отношению к предыдущему значению, то и последующее будет демонстрировать рост, и наоборот.</p>
+
+
+
+<p>Теперь обратимся к <strong>отрицательной автокорреляции</strong> (negative autocorrelation).</p>
+
+
+
+<figure class="wp-block-image size-full is-resized"><img loading="lazy" decoding="async" width="1012" height="508" src="../../wp-content/uploads/2022/10/negative_autocorrelation.png" alt="отрицательная автокорреляция" class="wp-image-15336" style="width:768px;height:385px" srcset="../../wp-content/uploads/2022/10/negative_autocorrelation.png 1012w, ../../wp-content/uploads/2022/10/negative_autocorrelation-300x151.png 300w, ../../wp-content/uploads/2022/10/negative_autocorrelation-768x386.png 768w, ../../wp-content/uploads/2022/10/negative_autocorrelation-600x301.png 600w" sizes="auto, (max-width: 1012px) 100vw, 1012px" /></figure>
+
+
+
+<p>Здесь наоборот, если одно наблюдение демонстрирует рост показателя по отношению к предыдущему значению, то последующее наблюдение будет наоборот снижением. Опять же справедливо и обратное утверждение.</p>
+
+
+
+<p>В случае <strong>отсутствия автокорреляции</strong> мы не должны увидеть на графиках какого-либо паттерна.</p>
+
+
+
+<figure class="wp-block-image size-full is-resized"><img loading="lazy" decoding="async" width="1006" height="539" src="../../wp-content/uploads/2022/10/image.png" alt="отсутствие автокорреляции" class="wp-image-15337" style="width:766px;height:410px" srcset="../../wp-content/uploads/2022/10/image.png 1006w, ../../wp-content/uploads/2022/10/image-300x161.png 300w, ../../wp-content/uploads/2022/10/image-768x411.png 768w, ../../wp-content/uploads/2022/10/image-600x321.png 600w" sizes="auto, (max-width: 1006px) 100vw, 1006px" /></figure>
+
+
+
+<h5 class="wp-block-heading" id="20-grafik-avtokorrelyatsionnoy-funktsii">График автокорреляционной функции</h5>
+
+
+
+<p>Еще один способ выявить автокорреляцию &#8212; построить <strong>график автокорреляционной функции</strong> (autocorrelation function, ACF).</p>
+
+
+
+<figure class="wp-block-image size-full is-resized"><img loading="lazy" decoding="async" width="651" height="536" src="../../wp-content/uploads/2021/10/bir_acf.png" alt="график автокорреляционной функции" class="wp-image-5088" style="width:555px;height:457px" srcset="../../wp-content/uploads/2021/10/bir_acf.png 651w, ../../wp-content/uploads/2021/10/bir_acf-300x247.png 300w, ../../wp-content/uploads/2021/10/bir_acf-600x494.png 600w" sizes="auto, (max-width: 651px) 100vw, 651px" /><figcaption class="wp-element-caption"><em>Занятие по <a href="../../intro/time-series/index.html">временным рядам</a> (данные о рождаемости)</em></figcaption></figure>
+
+
+
+<p>Напомню, такой график показывает автокорреляцию данных с этими же данными, взятыми с первым, вторым и последующими лагами.</p>
+
+
+
+<h5 class="wp-block-heading" id="21-kriteriy-darbina-uotsona">Критерий Дарбина-Уотсона</h5>
+
+
+
+<p>Количественным выражением автокорреляции является <strong>критерий Дарбина-Уотсона</strong> (Durbin-Watson test). Этот критерий выявляет только автокорреляцию первого порядка:</p>
+
+
+
+<ul class="wp-block-list">
+<li><strong><a href="../../intro/inference/index.html">нулевая гипотеза</a></strong> утверждает, что такая автокорреляция отсутствует ($p=0$);</li>
+
+
+
+<li><strong>альтернативная гипотеза</strong> соответственно утверждает, что присутствует:
+<ul class="wp-block-list">
+<li>положительная ($p \approx -1$); или</li>
+
+
+
+<li>отрицательная ($p \approx 1$) автокорреляция.</li>
+</ul>
+</li>
+</ul>
+
+
+
+<p>Значение теста находится в диапазоне от 0 до 4. При этом,</p>
+
+
+
+<ul class="wp-block-list">
+<li>при показателе близком к двум можно говорить об отсутствии автокорреляции;</li>
+
+
+
+<li>приближение к четырем говорит о положительной автокорреляции;</li>
+
+
+
+<li>к нулю, об отрицательной.</li>
+</ul>
+
+
+
+<h4 class="wp-block-heading" id="22-kak-izbavitsya-ot-avtokorrelyatsii">Как избавиться от автокорреляции</h4>
+
+
+
+<p>Автокорреляцию можно преодолеть, добавив значимый признак в модель, выбрав иной тип модели (например, полиномиальную регрессию) или в целом перейдя к моделированию и прогнозированию временного ряда.</p>
+
+
+
+<p>Рассмотрение этих методов находится за рамками сегодняшнего занятия.</p>
+
+			</div> <!-- .content -->
+
+			
+		</div> <!-- .post -->
+
+					<footer class="site-footer section-inner">
+
+				<p class="copyright">&copy; 2025 <a href="../../index.html" class="site-name"><!--Машинное обучение--></a></p>
+
+			</footer> <!-- footer -->
+
+		</main>
+		
+		<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js?ver=6.7.1" id="mathjax-js"></script>
+<script type="text/javascript" src="../../wp-includes/js/imagesloaded.min.js@ver=5.0.0" id="imagesloaded-js"></script>
+<script type="text/javascript" src="../../wp-includes/js/masonry.min.js@ver=4.2.2" id="masonry-js"></script>
+<script type="text/javascript" id="mcluhan_global-js-extra">
+/* <![CDATA[ */
+var mcluhan_ajaxpagination = {"ajaxurl":"https:\/\/www.dmitrymakarov.ru\/wp-admin\/admin-ajax.php","query_vars":"{\"page\":\"\",\"pagename\":\"learning\\\/mlr\"}"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="../../wp-content/themes/mcluhan/assets/js/global.js@ver=2.1.1" id="mcluhan_global-js"></script>
+			
+	</body>
+</html>

@@ -1,0 +1,1524 @@
+<!DOCTYPE html>
+
+<html class="no-js" lang="ru-RU">
+
+	<head>
+
+		<meta http-equiv="content-type" content="text/html" charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" >
+
+		<link rel="profile" href="http://gmpg.org/xfn/11">
+
+		<meta name='robots' content='index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' />
+	<style>img:is([sizes="auto" i], [sizes^="auto," i]) { contain-intrinsic-size: 3000px 1500px }</style>
+	
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$','$'],['\\(','\\)']], 
+    processEscapes: true
+  },
+  options: {
+    ignoreHtmlClass: 'tex2jax_ignore|editor-rich-text'
+  }
+};
+
+</script>
+
+	<!-- This site is optimized with the Yoast SEO plugin v24.4 - https://yoast.com/wordpress/plugins/seo/ -->
+	<title>Классификация | Вводный курс</title>
+	<meta name="description" content="Алгоритмы классификации позволяют построить модель, которая будет относить каждое новое наблюдение к определенному классу." />
+	<link rel="canonical" href="index.html" />
+	<meta property="og:locale" content="ru_RU" />
+	<meta property="og:type" content="article" />
+	<meta property="og:title" content="Классификация | Вводный курс" />
+	<meta property="og:description" content="Алгоритмы классификации позволяют построить модель, которая будет относить каждое новое наблюдение к определенному классу." />
+	<meta property="og:url" content="https://www.dmitrymakarov.ru/intro/classification/" />
+	<meta property="og:site_name" content="Машинное обучение" />
+	<meta property="article:modified_time" content="2025-01-01T06:01:22+00:00" />
+	<meta property="og:image" content="https://www.dmitrymakarov.ru/wp-content/uploads/2021/07/cancer_df.jpg" />
+	<meta property="og:image:width" content="1933" />
+	<meta property="og:image:height" content="668" />
+	<meta property="og:image:type" content="image/jpeg" />
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:label1" content="Примерное время для чтения" />
+	<meta name="twitter:data1" content="19 минут" />
+	<script type="application/ld+json" class="yoast-schema-graph">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.dmitrymakarov.ru/intro/classification/","url":"https://www.dmitrymakarov.ru/intro/classification/","name":"Классификация | Вводный курс","isPartOf":{"@id":"https://www.dmitrymakarov.ru/#website"},"primaryImageOfPage":{"@id":"https://www.dmitrymakarov.ru/intro/classification/#primaryimage"},"image":{"@id":"https://www.dmitrymakarov.ru/intro/classification/#primaryimage"},"thumbnailUrl":"https://www.dmitrymakarov.ru/wp-content/uploads/2021/07/cancer_df-1024x354.jpg","datePublished":"2021-07-18T15:56:27+00:00","dateModified":"2025-01-01T06:01:22+00:00","description":"Алгоритмы классификации позволяют построить модель, которая будет относить каждое новое наблюдение к определенному классу.","breadcrumb":{"@id":"https://www.dmitrymakarov.ru/intro/classification/#breadcrumb"},"inLanguage":"ru-RU","potentialAction":[{"@type":"ReadAction","target":["https://www.dmitrymakarov.ru/intro/classification/"]}]},{"@type":"ImageObject","inLanguage":"ru-RU","@id":"https://www.dmitrymakarov.ru/intro/classification/#primaryimage","url":"https://www.dmitrymakarov.ru/wp-content/uploads/2021/07/cancer_df.jpg","contentUrl":"https://www.dmitrymakarov.ru/wp-content/uploads/2021/07/cancer_df.jpg","width":1933,"height":668},{"@type":"BreadcrumbList","@id":"https://www.dmitrymakarov.ru/intro/classification/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная страница","item":"https://www.dmitrymakarov.ru/"},{"@type":"ListItem","position":2,"name":"Вводный курс","item":"https://www.dmitrymakarov.ru/intro/"},{"@type":"ListItem","position":3,"name":"Классификация"}]},{"@type":"WebSite","@id":"https://www.dmitrymakarov.ru/#website","url":"https://www.dmitrymakarov.ru/","name":"Машинное обучение","description":"","publisher":{"@id":"https://www.dmitrymakarov.ru/#/schema/person/3fc221e2d391cc5cfd9d31c9c251c2a4"},"potentialAction":[{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://www.dmitrymakarov.ru/?s={search_term_string}"},"query-input":{"@type":"PropertyValueSpecification","valueRequired":true,"valueName":"search_term_string"}}],"inLanguage":"ru-RU"},{"@type":["Person","Organization"],"@id":"https://www.dmitrymakarov.ru/#/schema/person/3fc221e2d391cc5cfd9d31c9c251c2a4","name":"DmitryMakarov","image":{"@type":"ImageObject","inLanguage":"ru-RU","@id":"https://www.dmitrymakarov.ru/#/schema/person/image/","url":"https://secure.gravatar.com/avatar/2c5f922d990c667feffc00f99517cc0e?s=96&d=mm&r=g","contentUrl":"https://secure.gravatar.com/avatar/2c5f922d990c667feffc00f99517cc0e?s=96&d=mm&r=g","caption":"DmitryMakarov"},"logo":{"@id":"https://www.dmitrymakarov.ru/#/schema/person/image/"}}]}</script>
+	<!-- / Yoast SEO plugin. -->
+
+
+<link rel='dns-prefetch' href='https://cdn.jsdelivr.net/' />
+<link rel="alternate" type="application/rss+xml" title="Машинное обучение &raquo; Лента" href="../../feed/index.html" />
+<link rel="alternate" type="application/rss+xml" title="Машинное обучение &raquo; Лента комментариев" href="../../comments/feed/index.html" />
+<script type="text/javascript">
+/* <![CDATA[ */
+window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15.0.3\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15.0.3\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/www.dmitrymakarov.ru\/wp-includes\/js\/wp-emoji-release.min.js?ver=6.7.1"}};
+/*! This file is auto-generated */
+!function(i,n){var o,s,e;function c(e){try{var t={supportTests:e,timestamp:(new Date).valueOf()};sessionStorage.setItem(o,JSON.stringify(t))}catch(e){}}function p(e,t,n){e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(t,0,0);var t=new Uint32Array(e.getImageData(0,0,e.canvas.width,e.canvas.height).data),r=(e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(n,0,0),new Uint32Array(e.getImageData(0,0,e.canvas.width,e.canvas.height).data));return t.every(function(e,t){return e===r[t]})}function u(e,t,n){switch(t){case"flag":return n(e,"\ud83c\udff3\ufe0f\u200d\u26a7\ufe0f","\ud83c\udff3\ufe0f\u200b\u26a7\ufe0f")?!1:!n(e,"\ud83c\uddfa\ud83c\uddf3","\ud83c\uddfa\u200b\ud83c\uddf3")&&!n(e,"\ud83c\udff4\udb40\udc67\udb40\udc62\udb40\udc65\udb40\udc6e\udb40\udc67\udb40\udc7f","\ud83c\udff4\u200b\udb40\udc67\u200b\udb40\udc62\u200b\udb40\udc65\u200b\udb40\udc6e\u200b\udb40\udc67\u200b\udb40\udc7f");case"emoji":return!n(e,"\ud83d\udc26\u200d\u2b1b","\ud83d\udc26\u200b\u2b1b")}return!1}function f(e,t,n){var r="undefined"!=typeof WorkerGlobalScope&&self instanceof WorkerGlobalScope?new OffscreenCanvas(300,150):i.createElement("canvas"),a=r.getContext("2d",{willReadFrequently:!0}),o=(a.textBaseline="top",a.font="600 32px Arial",{});return e.forEach(function(e){o[e]=t(a,e,n)}),o}function t(e){var t=i.createElement("script");t.src=e,t.defer=!0,i.head.appendChild(t)}"undefined"!=typeof Promise&&(o="wpEmojiSettingsSupports",s=["flag","emoji"],n.supports={everything:!0,everythingExceptFlag:!0},e=new Promise(function(e){i.addEventListener("DOMContentLoaded",e,{once:!0})}),new Promise(function(t){var n=function(){try{var e=JSON.parse(sessionStorage.getItem(o));if("object"==typeof e&&"number"==typeof e.timestamp&&(new Date).valueOf()<e.timestamp+604800&&"object"==typeof e.supportTests)return e.supportTests}catch(e){}return null}();if(!n){if("undefined"!=typeof Worker&&"undefined"!=typeof OffscreenCanvas&&"undefined"!=typeof URL&&URL.createObjectURL&&"undefined"!=typeof Blob)try{var e="postMessage("+f.toString()+"("+[JSON.stringify(s),u.toString(),p.toString()].join(",")+"));",r=new Blob([e],{type:"text/javascript"}),a=new Worker(URL.createObjectURL(r),{name:"wpTestEmojiSupports"});return void(a.onmessage=function(e){c(n=e.data),a.terminate(),t(n)})}catch(e){}c(n=f(s,u,p))}t(n)}).then(function(e){for(var t in e)n.supports[t]=e[t],n.supports.everything=n.supports.everything&&n.supports[t],"flag"!==t&&(n.supports.everythingExceptFlag=n.supports.everythingExceptFlag&&n.supports[t]);n.supports.everythingExceptFlag=n.supports.everythingExceptFlag&&!n.supports.flag,n.DOMReady=!1,n.readyCallback=function(){n.DOMReady=!0}}).then(function(){return e}).then(function(){var e;n.supports.everything||(n.readyCallback(),(e=n.source||{}).concatemoji?t(e.concatemoji):e.wpemoji&&e.twemoji&&(t(e.twemoji),t(e.wpemoji)))}))}((window,document),window._wpemojiSettings);
+/* ]]> */
+</script>
+<link rel='stylesheet' id='urvanov_syntax_highlighter-css' href='../../wp-content/plugins/urvanov-syntax-highlighter/css/min/urvanov_syntax_highlighter.min.css@ver=2.8.38.css' type='text/css' media='all' />
+<link rel='stylesheet' id='crayon-theme-familiar-my-copy-css' href='../../wp-content/uploads/urvanov-syntax-highlighter/themes/familiar-my-copy/familiar-my-copy.css@ver=2.8.38.css' type='text/css' media='all' />
+<link rel='stylesheet' id='crayon-font-consolas-css' href='../../wp-content/plugins/urvanov-syntax-highlighter/fonts/consolas.css@ver=2.8.38.css' type='text/css' media='all' />
+<style id='wp-emoji-styles-inline-css' type='text/css'>
+
+	img.wp-smiley, img.emoji {
+		display: inline !important;
+		border: none !important;
+		box-shadow: none !important;
+		height: 1em !important;
+		width: 1em !important;
+		margin: 0 0.07em !important;
+		vertical-align: -0.1em !important;
+		background: none !important;
+		padding: 0 !important;
+	}
+</style>
+<link rel='stylesheet' id='wp-block-library-css' href='../../wp-includes/css/dist/block-library/style.min.css@ver=6.7.1.css' type='text/css' media='all' />
+<style id='filebird-block-filebird-gallery-style-inline-css' type='text/css'>
+ul.filebird-block-filebird-gallery{margin:auto!important;padding:0!important;width:100%}ul.filebird-block-filebird-gallery.layout-grid{display:grid;grid-gap:20px;align-items:stretch;grid-template-columns:repeat(var(--columns),1fr);justify-items:stretch}ul.filebird-block-filebird-gallery.layout-grid li img{border:1px solid #ccc;box-shadow:2px 2px 6px 0 rgba(0,0,0,.3);height:100%;max-width:100%;-o-object-fit:cover;object-fit:cover;width:100%}ul.filebird-block-filebird-gallery.layout-masonry{-moz-column-count:var(--columns);-moz-column-gap:var(--space);column-gap:var(--space);-moz-column-width:var(--min-width);columns:var(--min-width) var(--columns);display:block;overflow:auto}ul.filebird-block-filebird-gallery.layout-masonry li{margin-bottom:var(--space)}ul.filebird-block-filebird-gallery li{list-style:none}ul.filebird-block-filebird-gallery li figure{height:100%;margin:0;padding:0;position:relative;width:100%}ul.filebird-block-filebird-gallery li figure figcaption{background:linear-gradient(0deg,rgba(0,0,0,.7),rgba(0,0,0,.3) 70%,transparent);bottom:0;box-sizing:border-box;color:#fff;font-size:.8em;margin:0;max-height:100%;overflow:auto;padding:3em .77em .7em;position:absolute;text-align:center;width:100%;z-index:2}ul.filebird-block-filebird-gallery li figure figcaption a{color:inherit}
+
+</style>
+<style id='classic-theme-styles-inline-css' type='text/css'>
+/*! This file is auto-generated */
+.wp-block-button__link{color:#fff;background-color:#32373c;border-radius:9999px;box-shadow:none;text-decoration:none;padding:calc(.667em + 2px) calc(1.333em + 2px);font-size:1.125em}.wp-block-file__button{background:#32373c;color:#fff;text-decoration:none}
+</style>
+<style id='global-styles-inline-css' type='text/css'>
+:root{--wp--preset--aspect-ratio--square: 1;--wp--preset--aspect-ratio--4-3: 4/3;--wp--preset--aspect-ratio--3-4: 3/4;--wp--preset--aspect-ratio--3-2: 3/2;--wp--preset--aspect-ratio--2-3: 2/3;--wp--preset--aspect-ratio--16-9: 16/9;--wp--preset--aspect-ratio--9-16: 9/16;--wp--preset--color--black: #121212;--wp--preset--color--cyan-bluish-gray: #abb8c3;--wp--preset--color--white: #fff;--wp--preset--color--pale-pink: #f78da7;--wp--preset--color--vivid-red: #cf2e2e;--wp--preset--color--luminous-vivid-orange: #ff6900;--wp--preset--color--luminous-vivid-amber: #fcb900;--wp--preset--color--light-green-cyan: #7bdcb5;--wp--preset--color--vivid-green-cyan: #00d084;--wp--preset--color--pale-cyan-blue: #8ed1fc;--wp--preset--color--vivid-cyan-blue: #0693e3;--wp--preset--color--vivid-purple: #9b51e0;--wp--preset--color--dark-gray: #333;--wp--preset--color--medium-gray: #555;--wp--preset--color--light-gray: #777;--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg,rgba(6,147,227,1) 0%,rgb(155,81,224) 100%);--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg,rgb(122,220,180) 0%,rgb(0,208,130) 100%);--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg,rgba(252,185,0,1) 0%,rgba(255,105,0,1) 100%);--wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg,rgba(255,105,0,1) 0%,rgb(207,46,46) 100%);--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg,rgb(238,238,238) 0%,rgb(169,184,195) 100%);--wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg,rgb(74,234,220) 0%,rgb(151,120,209) 20%,rgb(207,42,186) 40%,rgb(238,44,130) 60%,rgb(251,105,98) 80%,rgb(254,248,76) 100%);--wp--preset--gradient--blush-light-purple: linear-gradient(135deg,rgb(255,206,236) 0%,rgb(152,150,240) 100%);--wp--preset--gradient--blush-bordeaux: linear-gradient(135deg,rgb(254,205,165) 0%,rgb(254,45,45) 50%,rgb(107,0,62) 100%);--wp--preset--gradient--luminous-dusk: linear-gradient(135deg,rgb(255,203,112) 0%,rgb(199,81,192) 50%,rgb(65,88,208) 100%);--wp--preset--gradient--pale-ocean: linear-gradient(135deg,rgb(255,245,203) 0%,rgb(182,227,212) 50%,rgb(51,167,181) 100%);--wp--preset--gradient--electric-grass: linear-gradient(135deg,rgb(202,248,128) 0%,rgb(113,206,126) 100%);--wp--preset--gradient--midnight: linear-gradient(135deg,rgb(2,3,129) 0%,rgb(40,116,252) 100%);--wp--preset--font-size--small: 16px;--wp--preset--font-size--medium: 20px;--wp--preset--font-size--large: 24px;--wp--preset--font-size--x-large: 42px;--wp--preset--font-size--normal: 18px;--wp--preset--font-size--larger: 28px;--wp--preset--spacing--20: 0.44rem;--wp--preset--spacing--30: 0.67rem;--wp--preset--spacing--40: 1rem;--wp--preset--spacing--50: 1.5rem;--wp--preset--spacing--60: 2.25rem;--wp--preset--spacing--70: 3.38rem;--wp--preset--spacing--80: 5.06rem;--wp--preset--shadow--natural: 6px 6px 9px rgba(0, 0, 0, 0.2);--wp--preset--shadow--deep: 12px 12px 50px rgba(0, 0, 0, 0.4);--wp--preset--shadow--sharp: 6px 6px 0px rgba(0, 0, 0, 0.2);--wp--preset--shadow--outlined: 6px 6px 0px -3px rgba(255, 255, 255, 1), 6px 6px rgba(0, 0, 0, 1);--wp--preset--shadow--crisp: 6px 6px 0px rgba(0, 0, 0, 1);}:where(.is-layout-flex){gap: 0.5em;}:where(.is-layout-grid){gap: 0.5em;}body .is-layout-flex{display: flex;}.is-layout-flex{flex-wrap: wrap;align-items: center;}.is-layout-flex > :is(*, div){margin: 0;}body .is-layout-grid{display: grid;}.is-layout-grid > :is(*, div){margin: 0;}:where(.wp-block-columns.is-layout-flex){gap: 2em;}:where(.wp-block-columns.is-layout-grid){gap: 2em;}:where(.wp-block-post-template.is-layout-flex){gap: 1.25em;}:where(.wp-block-post-template.is-layout-grid){gap: 1.25em;}.has-black-color{color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-color{color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-color{color: var(--wp--preset--color--white) !important;}.has-pale-pink-color{color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-color{color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-color{color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-color{color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-color{color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-color{color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-color{color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-color{color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-color{color: var(--wp--preset--color--vivid-purple) !important;}.has-black-background-color{background-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-background-color{background-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-background-color{background-color: var(--wp--preset--color--white) !important;}.has-pale-pink-background-color{background-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-background-color{background-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-background-color{background-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-background-color{background-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-background-color{background-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-background-color{background-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-background-color{background-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-background-color{background-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-background-color{background-color: var(--wp--preset--color--vivid-purple) !important;}.has-black-border-color{border-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-border-color{border-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-border-color{border-color: var(--wp--preset--color--white) !important;}.has-pale-pink-border-color{border-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-border-color{border-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-border-color{border-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-border-color{border-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-border-color{border-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-border-color{border-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-border-color{border-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-border-color{border-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-border-color{border-color: var(--wp--preset--color--vivid-purple) !important;}.has-vivid-cyan-blue-to-vivid-purple-gradient-background{background: var(--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple) !important;}.has-light-green-cyan-to-vivid-green-cyan-gradient-background{background: var(--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan) !important;}.has-luminous-vivid-amber-to-luminous-vivid-orange-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange) !important;}.has-luminous-vivid-orange-to-vivid-red-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-orange-to-vivid-red) !important;}.has-very-light-gray-to-cyan-bluish-gray-gradient-background{background: var(--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray) !important;}.has-cool-to-warm-spectrum-gradient-background{background: var(--wp--preset--gradient--cool-to-warm-spectrum) !important;}.has-blush-light-purple-gradient-background{background: var(--wp--preset--gradient--blush-light-purple) !important;}.has-blush-bordeaux-gradient-background{background: var(--wp--preset--gradient--blush-bordeaux) !important;}.has-luminous-dusk-gradient-background{background: var(--wp--preset--gradient--luminous-dusk) !important;}.has-pale-ocean-gradient-background{background: var(--wp--preset--gradient--pale-ocean) !important;}.has-electric-grass-gradient-background{background: var(--wp--preset--gradient--electric-grass) !important;}.has-midnight-gradient-background{background: var(--wp--preset--gradient--midnight) !important;}.has-small-font-size{font-size: var(--wp--preset--font-size--small) !important;}.has-medium-font-size{font-size: var(--wp--preset--font-size--medium) !important;}.has-large-font-size{font-size: var(--wp--preset--font-size--large) !important;}.has-x-large-font-size{font-size: var(--wp--preset--font-size--x-large) !important;}
+:where(.wp-block-post-template.is-layout-flex){gap: 1.25em;}:where(.wp-block-post-template.is-layout-grid){gap: 1.25em;}
+:where(.wp-block-columns.is-layout-flex){gap: 2em;}:where(.wp-block-columns.is-layout-grid){gap: 2em;}
+:root :where(.wp-block-pullquote){font-size: 1.5em;line-height: 1.6;}
+</style>
+<link rel='stylesheet' id='mcluhan-fonts-css' href='../../wp-content/themes/mcluhan/assets/css/fonts.css@ver=6.7.1.css' type='text/css' media='all' />
+<link rel='stylesheet' id='fontawesome-css' href='../../wp-content/themes/mcluhan/assets/css/font-awesome.css@ver=6.7.1.css' type='text/css' media='all' />
+<link rel='stylesheet' id='mcluhan-style-css' href='../../wp-content/themes/mcluhan/style.css@ver=2.1.1.css' type='text/css' media='all' />
+<script type="text/javascript" src="../../wp-includes/js/jquery/jquery.min.js@ver=3.7.1" id="jquery-core-js"></script>
+<script type="text/javascript" src="../../wp-includes/js/jquery/jquery-migrate.min.js@ver=3.4.1" id="jquery-migrate-js"></script>
+<script type="text/javascript" id="urvanov_syntax_highlighter_js-js-extra">
+/* <![CDATA[ */
+var UrvanovSyntaxHighlighterSyntaxSettings = {"version":"2.8.38","is_admin":"0","ajaxurl":"https:\/\/www.dmitrymakarov.ru\/wp-admin\/admin-ajax.php","prefix":"urvanov-syntax-highlighter-","setting":"urvanov-syntax-highlighter-setting","selected":"urvanov-syntax-highlighter-setting-selected","changed":"urvanov-syntax-highlighter-setting-changed","special":"urvanov-syntax-highlighter-setting-special","orig_value":"data-orig-value","debug":""};
+var UrvanovSyntaxHighlighterSyntaxStrings = {"copy":"Copied to the clipboard","minimize":"Click To Expand Code"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="../../wp-content/plugins/urvanov-syntax-highlighter/js/min/urvanov_syntax_highlighter.min.js@ver=2.8.38" id="urvanov_syntax_highlighter_js-js"></script>
+
+			<!-- Customizer CSS -->
+
+			<style type="text/css">
+
+				body .site-header { background-color:#004235; }.social-menu.desktop { background-color:#004235; }.social-menu a:hover { color:#004235; }.social-menu a.active { color:#004235; }.mobile-menu-wrapper { background-color:#004235; }.social-menu.mobile { background-color:#004235; }.mobile-search.active { background-color:#004235; }
+			</style>
+
+			<!-- /Customizer CSS -->
+
+					<script>jQuery( 'html' ).removeClass( 'no-js' ).addClass( 'js' );</script>
+		<style type="text/css">.broken_link, a.broken_link {
+	text-decoration: line-through;
+}</style><style type="text/css" id="custom-background-css">
+body.custom-background { background-color: #fff9ef; }
+</style>
+	<link rel="icon" href="../../wp-content/uploads/2021/08/cropped-wp-favicon-512-32x32.png" sizes="32x32" />
+<link rel="icon" href="../../wp-content/uploads/2021/08/cropped-wp-favicon-512-192x192.png" sizes="192x192" />
+<link rel="apple-touch-icon" href="../../wp-content/uploads/2021/08/cropped-wp-favicon-512-180x180.png" />
+<meta name="msapplication-TileImage" content="https://www.dmitrymakarov.ru/wp-content/uploads/2021/08/cropped-wp-favicon-512-270x270.png" />
+
+	</head>
+
+	<body class="page-template page-template-full-width-page-template page-template-full-width-page-template-php page page-id-3559 page-child parent-pageid-202 custom-background full-width-template">
+
+		
+		<a class="skip-link button" href="index.html#site-content">Перейти к содержимому</a>
+
+		<header class="site-header group">
+
+			
+			<p class="site-title"><a href="../../index.html" class="site-name">Машинное обучение</a></p>
+
+			
+			<div class="nav-toggle">
+				<div class="bar"></div>
+				<div class="bar"></div>
+			</div>
+
+			<div class="menu-wrapper">
+
+				<ul class="main-menu desktop">
+
+									</ul>
+
+			</div><!-- .menu-wrapper -->
+
+			
+				<div class="social-menu desktop">
+
+					<ul class="social-menu-inner">
+
+						<li class="social-search-wrapper"><a href="../../index.html@s=.html"></a></li>
+
+						
+					</ul><!-- .social-menu-inner -->
+
+				</div><!-- .social-menu -->
+
+			
+		</header><!-- header -->
+
+		<div class="mobile-menu-wrapper">
+
+			<ul class="main-menu mobile">
+									<li class="toggle-mobile-search-wrapper"><a href="index.html#" class="toggle-mobile-search">Поиск</a></li>
+							</ul><!-- .main-menu.mobile -->
+
+			
+		</div><!-- .mobile-menu-wrapper -->
+
+		
+			<div class="mobile-search">
+
+				<div class="untoggle-mobile-search"></div>
+
+				
+<form role="search" method="get" class="search-form" action="../../index.html">
+	<label class="screen-reader-text" for="search-form-67aa623bcd097">Поиск:</label>
+	<input type="search" id="search-form-67aa623bcd097" class="search-field" placeholder="Введите запрос" value="" name="s" autocomplete="off" />
+	</button>
+</form>
+
+				<div class="mobile-results">
+
+					<div class="results-wrapper"></div>
+
+				</div>
+
+			</div><!-- .mobile-search -->
+
+			<div class="search-overlay">
+
+				
+<form role="search" method="get" class="search-form" action="../../index.html">
+	<label class="screen-reader-text" for="search-form-67aa623bcd120">Поиск:</label>
+	<input type="search" id="search-form-67aa623bcd120" class="search-field" placeholder="Введите запрос" value="" name="s" autocomplete="off" />
+	</button>
+</form>
+
+			</div><!-- .search-overlay -->
+
+		
+		<main class="site-content" id="site-content">
+		<article class="post-3559 page type-page status-publish hentry missing-thumbnail">
+
+			
+			<header class="entry-header section-inner">
+
+				<h1 class="entry-title">Классификация</h1>
+			</header><!-- .entry-header -->
+
+			<div class="entry-content section-inner">
+
+				
+<p class="has-light-gray-color has-text-color"><a href="../../index.html">Материалы</a> > <a href="../index.html">Вводный курс</a></p>
+
+
+
+<p>На прошлом занятии мы говорили про <a href="../regression/index.html">регрессию</a>. Теперь давайте поговорим про задачи классификации. Отчасти мы уже коснулись этой темы в самом начале, когда разбирали <a href="../principle/index.html">принцип машинного обучения</a>. В этот раз мы рассмотрим похожую задачу, но уже воспользуемся Питоном для ее решения.</p>
+
+
+
+<p class="has-text-align-center has-white-color has-text-color has-background" style="background-color:#004235"><a href="https://colab.research.google.com/drive/1d4dMYSIUdoqS51qbWABcxn4fLsQd3J0Y?usp=sharing" target="_blank" rel="noreferrer noopener">Вначале откроем блокнот к этому занятию</a>⧉</p>
+
+
+
+<h3 class="wp-block-heading" id="0-etap-1-zagruzka-dannykh-klassifikatsiya-opukholey">Этап 1. Загрузка данных &#8212; классификация опухолей</h3>
+
+
+
+<p>Возьмем данные из модуля datasets библиотеки Scikit-learn. Вначале загрузим их.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623bc3604463397560" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3604463397560-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc3604463397560-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3604463397560-3">3</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3604463397560-1"><span class="crayon-c"># импортируем данные и поместим их в переменную cancer</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc3604463397560-2"><span class="crayon-st">from</span><span class="crayon-h"> </span><span class="crayon-v">sklearn</span><span class="crayon-sy">.</span><span class="crayon-e">datasets </span><span class="crayon-r">import</span><span class="crayon-h"> </span><span class="crayon-e">load_breast_cancer</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3604463397560-3"><span class="crayon-v">cancer</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-e">load_breast_cancer</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0002 seconds] -->
+</div>
+
+
+
+<p>Набор данных является объектом Bunch, который в свою очередь, представляет собой подкласс питоновского словаря.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623bc360c237782090" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc360c237782090-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc360c237782090-2">2</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc360c237782090-1"><span class="crayon-c"># определим тип данных датасета</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc360c237782090-2"><span class="crayon-k ">type</span><span class="crayon-sy">(</span><span class="crayon-v">cancer</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0001 seconds] -->
+</div>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623bc360e738936857" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc360e738936857-1">1</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc360e738936857-1">sklearn.utils._bunch.Bunch</div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0000 seconds] -->
+</div>
+
+
+
+<p>Это значит, что его структуру мы можем увидеть с помощью <strong>метода .keys()</strong>.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623bc360f460807580" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc360f460807580-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc360f460807580-2">2</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc360f460807580-1"><span class="crayon-c"># посмотрим на составляющие датасета</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc360f460807580-2"><span class="crayon-v">cancer</span><span class="crayon-sy">.</span><span class="crayon-e">keys</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0001 seconds] -->
+</div>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623bc3610307059209" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3610307059209-1">1</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3610307059209-1">dict_keys(['data', 'target', 'frame', 'target_names', 'DESCR', 'feature_names', 'filename', 'data_module'])</div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0000 seconds] -->
+</div>
+
+
+
+<p>В разделе <em>data</em> содержится информация о признаках (независимые переменные). В <em>target</em> содержится целевая (зависимая) переменная, в <em>feature_names</em> &#8212; наименование признаков, а <em>DESCR</em> содержит описание датасета.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623bc3611120805757" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3611120805757-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc3611120805757-2">2</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3611120805757-1"><span class="crayon-c"># посмотрим на тип данных компонентов data и target</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc3611120805757-2"><span class="crayon-k ">print</span><span class="crayon-sy">(</span><span class="crayon-k ">type</span><span class="crayon-sy">(</span><span class="crayon-v">cancer</span><span class="crayon-sy">.</span><span class="crayon-v">data</span><span class="crayon-sy">)</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-k ">type</span><span class="crayon-sy">(</span><span class="crayon-v">cancer</span><span class="crayon-sy">.</span><span class="crayon-v">target</span><span class="crayon-sy">)</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0003 seconds] -->
+</div>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623bc3613704279294" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3613704279294-1">1</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3613704279294-1">&lt;class 'numpy.ndarray'&gt; &lt;class 'numpy.ndarray'&gt;</div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0000 seconds] -->
+</div>
+
+
+
+<p>Компонент <em>target_names</em> содержит названия целевых классов.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623bc3614014548788" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3614014548788-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc3614014548788-2">2</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3614014548788-1"><span class="crayon-c"># выведем целевые классы</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc3614014548788-2"><span class="crayon-v">cancer</span><span class="crayon-sy">.</span><span class="crayon-v">target_names</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0001 seconds] -->
+</div>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623bc3616849020814" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3616849020814-1">1</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3616849020814-1">array(['malignant', 'benign'], dtype='&lt;U9')</div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0000 seconds] -->
+</div>
+
+
+
+<p>Посмотрим на описание этого датасета.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623bc3617060705310" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3617060705310-1">1</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3617060705310-1"><span class="crayon-k ">print</span><span class="crayon-sy">(</span><span class="crayon-v">cancer</span><span class="crayon-sy">.</span><span class="crayon-v">DESCR</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0001 seconds] -->
+</div>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623bc3618671485084" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3618671485084-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc3618671485084-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3618671485084-3">3</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc3618671485084-4">4</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3618671485084-5">5</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc3618671485084-6">6</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3618671485084-7">7</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc3618671485084-8">8</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3618671485084-9">9</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc3618671485084-10">10</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3618671485084-11">11</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc3618671485084-12">12</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3618671485084-13">13</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc3618671485084-14">14</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3618671485084-15">15</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc3618671485084-16">16</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3618671485084-17">17</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc3618671485084-18">18</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3618671485084-19">19</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc3618671485084-20">20</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3618671485084-21">21</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc3618671485084-22">22</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3618671485084-23">23</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc3618671485084-24">24</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3618671485084-25">25</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc3618671485084-26">26</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3618671485084-27">27</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc3618671485084-28">28</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3618671485084-29">29</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3618671485084-1">Breast cancer wisconsin (diagnostic) dataset</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc3618671485084-2">--------------------------------------------</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3618671485084-3">&nbsp;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc3618671485084-4">**Data Set Characteristics:**</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3618671485084-5">&nbsp;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc3618671485084-6">&nbsp;&nbsp;&nbsp;&nbsp;:Number of Instances: 569</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3618671485084-7">&nbsp;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc3618671485084-8">&nbsp;&nbsp;&nbsp;&nbsp;:Number of Attributes: 30 numeric, predictive attributes and the class</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3618671485084-9">&nbsp;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc3618671485084-10">&nbsp;&nbsp;&nbsp;&nbsp;:Attribute Information:</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3618671485084-11">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- radius (mean of distances from center to points on the perimeter)</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc3618671485084-12">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- texture (standard deviation of gray-scale values)</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3618671485084-13">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- perimeter</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc3618671485084-14">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- area</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3618671485084-15">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- smoothness (local variation in radius lengths)</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc3618671485084-16">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- compactness (perimeter^2 / area - 1.0)</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3618671485084-17">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- concavity (severity of concave portions of the contour)</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc3618671485084-18">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- concave points (number of concave portions of the contour)</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3618671485084-19">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- symmetry </div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc3618671485084-20">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- fractal dimension ("coastline approximation" - 1)</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3618671485084-21">&nbsp;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc3618671485084-22">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The mean, standard error, and "worst" or largest (mean of the three</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3618671485084-23">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;largest values) of these features were computed for each image,</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc3618671485084-24">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;resulting in 30 features.&nbsp;&nbsp;For instance, field 3 is Mean Radius, field</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3618671485084-25">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;13 is Radius SE, field 23 is Worst Radius.</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc3618671485084-26">&nbsp;</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3618671485084-27">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- class:</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc3618671485084-28">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- WDBC-Malignant</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3618671485084-29">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- WDBC-Benign</div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0001 seconds] -->
+</div>
+
+
+
+<p>Как мы видим, здесь собраны данные по 569 образованиям, которые могут быть злокачественными (раком груди) либо доброкачественными.</p>
+
+
+
+<p>Для каждой из 10 базовых характеристик опухоли (таких как, радиус, текстура, периметр, площадь и т.д.) рассчитаны три значения (среднее арифметическое, СКО и среднее трёх наибольших значений). Таким образом, получается 30 параметров или признаков.</p>
+
+
+
+<p>Помимо этого, каждое образование классифицировано как злокачественное или доброкачественное.</p>
+
+
+
+<p>Наша задача заключается в том, чтобы построить модель, которая, используя эти признаки (все или часть из них), сможет с высокой долей уверенности говорить о том, злокачественная перед нами опухоль или нет.</p>
+
+
+
+<p>Преобразуем данные в формат датафрейма. Для этого передадим <strong>функции pd.DataFrame()</strong> массив признаков cancer.data. Название столбцов возьмем из cancer.feature_names. Добавим целевую переменную из cancer.tanget и назовем ее так же, target.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623bc3619401522376" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3619401522376-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc3619401522376-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3619401522376-3">3</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc3619401522376-4">4</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3619401522376-5">5</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3619401522376-1"><span class="crayon-v">cancer_df</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">pd</span><span class="crayon-sy">.</span><span class="crayon-e">DataFrame</span><span class="crayon-sy">(</span><span class="crayon-v">cancer</span><span class="crayon-sy">.</span><span class="crayon-v">data</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">columns</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">cancer</span><span class="crayon-sy">.</span><span class="crayon-v">feature_names</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc3619401522376-2"><span class="crayon-v">cancer_df</span><span class="crayon-sy">[</span><span class="crayon-s">'target'</span><span class="crayon-sy">]</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">cancer</span><span class="crayon-sy">.</span><span class="crayon-i">target</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3619401522376-3"><span class="crayon-h"> </span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc3619401522376-4"><span class="crayon-c"># посмотрим на первые пять наблюдений</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3619401522376-5"><span class="crayon-v">cancer_df</span><span class="crayon-sy">.</span><span class="crayon-e">head</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0003 seconds] -->
+</div>
+
+
+<div class="wp-block-image">
+<figure class="aligncenter size-large"><img fetchpriority="high" decoding="async" width="1024" height="354" src="../../wp-content/uploads/2021/07/cancer_df-1024x354.jpg" alt="датафрейм для классификации" class="wp-image-3682" srcset="../../wp-content/uploads/2021/07/cancer_df-1024x354.jpg 1024w, ../../wp-content/uploads/2021/07/cancer_df-300x104.jpg 300w, ../../wp-content/uploads/2021/07/cancer_df-768x265.jpg 768w, ../../wp-content/uploads/2021/07/cancer_df-1536x531.jpg 1536w, ../../wp-content/uploads/2021/07/cancer_df-1200x415.jpg 1200w, ../../wp-content/uploads/2021/07/cancer_df-600x207.jpg 600w, ../../wp-content/uploads/2021/07/cancer_df.jpg 1933w" sizes="(max-width: 1024px) 100vw, 1024px" /><figcaption class="wp-element-caption"><em>На рисунке представлена только часть получившегося датафрейма. Весь датафрейм вы найдете в <a href="https://colab.research.google.com/drive/1d4dMYSIUdoqS51qbWABcxn4fLsQd3J0Y?usp=sharing" target="_blank" rel="noreferrer noopener">блокноте</a>⧉.</em></figcaption></figure></div>
+
+
+<p class="has-background" style="background-color:#ffe8c4">Когда вы работаете над новым датасетом, очень важно идти от логики исследования и того результата, который хотите получить. Если вы знаете, что вы хотите получить, то всегда напишете код, который решит поставленную задачу.</p>
+
+
+
+<p><strong>Целевая переменная</strong> обозначается как ноль и один. Посмотрим, какой цифрой обозначается доброкачественная опухоль, а какой &#8212; злокачественная.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623bc361b437019217" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc361b437019217-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc361b437019217-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc361b437019217-3">3</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc361b437019217-4">4</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc361b437019217-1"><span class="crayon-c"># расшифруем 0 и 1 в значениях целевой переменной</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc361b437019217-2"><span class="crayon-c"># для этого посчитаем сколько раз встречается 0 и сколько раз встречается 1</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc361b437019217-3"><span class="crayon-v">unique</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">counts</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-e">unique</span><span class="crayon-sy">(</span><span class="crayon-v">cancer</span><span class="crayon-sy">.</span><span class="crayon-v">target</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">return_counts</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-t">True</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc361b437019217-4"><span class="crayon-v">unique</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">counts</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0002 seconds] -->
+</div>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623bc361c881237455" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc361c881237455-1">1</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc361c881237455-1">(array([0, 1]), array([212, 357]))</div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0000 seconds] -->
+</div>
+
+
+
+<p>Из описания мы знаем, что в датасете 212 злокачественных опухолей и 357 доброкачественных. Получается, что <em>ноль означает злокачественное образование, а единица &#8212; доброкачественное</em>.</p>
+
+
+
+<p>Изучим <strong>тип переменных</strong>, с которыми нам предстоит работать.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623bc361d201086308" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc361d201086308-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc361d201086308-2">2</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc361d201086308-1"><span class="crayon-c"># посмотрим на тип переменных, используя метод .info()</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc361d201086308-2"><span class="crayon-v">cancer_df</span><span class="crayon-sy">.</span><span class="crayon-e">info</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0001 seconds] -->
+</div>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623bc361f747707697" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc361f747707697-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc361f747707697-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc361f747707697-3">3</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc361f747707697-4">4</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc361f747707697-5">5</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc361f747707697-6">6</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc361f747707697-7">7</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc361f747707697-8">8</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc361f747707697-9">9</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc361f747707697-10">10</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc361f747707697-11">11</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc361f747707697-12">12</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc361f747707697-13">13</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc361f747707697-14">14</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc361f747707697-15">15</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc361f747707697-16">16</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc361f747707697-17">17</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc361f747707697-18">18</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc361f747707697-19">19</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc361f747707697-20">20</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc361f747707697-21">21</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc361f747707697-22">22</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc361f747707697-23">23</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc361f747707697-24">24</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc361f747707697-25">25</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc361f747707697-26">26</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc361f747707697-27">27</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc361f747707697-28">28</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc361f747707697-29">29</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc361f747707697-30">30</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc361f747707697-31">31</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc361f747707697-32">32</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc361f747707697-33">33</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc361f747707697-34">34</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc361f747707697-35">35</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc361f747707697-36">36</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc361f747707697-37">37</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc361f747707697-38">38</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc361f747707697-1">&lt;class 'pandas.core.frame.DataFrame'&gt;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc361f747707697-2">RangeIndex: 569 entries, 0 to 568</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc361f747707697-3">Data columns (total 31 columns):</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc361f747707697-4"> #&nbsp;&nbsp; Column&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Non-Null Count&nbsp;&nbsp;Dtype&nbsp;&nbsp;</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc361f747707697-5">---&nbsp;&nbsp;------&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; --------------&nbsp;&nbsp;-----&nbsp;&nbsp;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc361f747707697-6"> 0&nbsp;&nbsp; mean radius&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;569 non-null&nbsp;&nbsp;&nbsp;&nbsp;float64</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc361f747707697-7"> 1&nbsp;&nbsp; mean texture&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 569 non-null&nbsp;&nbsp;&nbsp;&nbsp;float64</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc361f747707697-8"> 2&nbsp;&nbsp; mean perimeter&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 569 non-null&nbsp;&nbsp;&nbsp;&nbsp;float64</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc361f747707697-9"> 3&nbsp;&nbsp; mean area&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;569 non-null&nbsp;&nbsp;&nbsp;&nbsp;float64</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc361f747707697-10"> 4&nbsp;&nbsp; mean smoothness&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;569 non-null&nbsp;&nbsp;&nbsp;&nbsp;float64</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc361f747707697-11"> 5&nbsp;&nbsp; mean compactness&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 569 non-null&nbsp;&nbsp;&nbsp;&nbsp;float64</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc361f747707697-12"> 6&nbsp;&nbsp; mean concavity&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 569 non-null&nbsp;&nbsp;&nbsp;&nbsp;float64</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc361f747707697-13"> 7&nbsp;&nbsp; mean concave points&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;569 non-null&nbsp;&nbsp;&nbsp;&nbsp;float64</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc361f747707697-14"> 8&nbsp;&nbsp; mean symmetry&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;569 non-null&nbsp;&nbsp;&nbsp;&nbsp;float64</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc361f747707697-15"> 9&nbsp;&nbsp; mean fractal dimension&nbsp;&nbsp; 569 non-null&nbsp;&nbsp;&nbsp;&nbsp;float64</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc361f747707697-16"> 10&nbsp;&nbsp;radius error&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 569 non-null&nbsp;&nbsp;&nbsp;&nbsp;float64</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc361f747707697-17"> 11&nbsp;&nbsp;texture error&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;569 non-null&nbsp;&nbsp;&nbsp;&nbsp;float64</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc361f747707697-18"> 12&nbsp;&nbsp;perimeter error&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;569 non-null&nbsp;&nbsp;&nbsp;&nbsp;float64</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc361f747707697-19"> 13&nbsp;&nbsp;area error&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 569 non-null&nbsp;&nbsp;&nbsp;&nbsp;float64</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc361f747707697-20"> 14&nbsp;&nbsp;smoothness error&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 569 non-null&nbsp;&nbsp;&nbsp;&nbsp;float64</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc361f747707697-21"> 15&nbsp;&nbsp;compactness error&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;569 non-null&nbsp;&nbsp;&nbsp;&nbsp;float64</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc361f747707697-22"> 16&nbsp;&nbsp;concavity error&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;569 non-null&nbsp;&nbsp;&nbsp;&nbsp;float64</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc361f747707697-23"> 17&nbsp;&nbsp;concave points error&nbsp;&nbsp;&nbsp;&nbsp; 569 non-null&nbsp;&nbsp;&nbsp;&nbsp;float64</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc361f747707697-24"> 18&nbsp;&nbsp;symmetry error&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 569 non-null&nbsp;&nbsp;&nbsp;&nbsp;float64</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc361f747707697-25"> 19&nbsp;&nbsp;fractal dimension error&nbsp;&nbsp;569 non-null&nbsp;&nbsp;&nbsp;&nbsp;float64</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc361f747707697-26"> 20&nbsp;&nbsp;worst radius&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 569 non-null&nbsp;&nbsp;&nbsp;&nbsp;float64</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc361f747707697-27"> 21&nbsp;&nbsp;worst texture&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;569 non-null&nbsp;&nbsp;&nbsp;&nbsp;float64</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc361f747707697-28"> 22&nbsp;&nbsp;worst perimeter&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;569 non-null&nbsp;&nbsp;&nbsp;&nbsp;float64</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc361f747707697-29"> 23&nbsp;&nbsp;worst area&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 569 non-null&nbsp;&nbsp;&nbsp;&nbsp;float64</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc361f747707697-30"> 24&nbsp;&nbsp;worst smoothness&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 569 non-null&nbsp;&nbsp;&nbsp;&nbsp;float64</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc361f747707697-31"> 25&nbsp;&nbsp;worst compactness&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;569 non-null&nbsp;&nbsp;&nbsp;&nbsp;float64</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc361f747707697-32"> 26&nbsp;&nbsp;worst concavity&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;569 non-null&nbsp;&nbsp;&nbsp;&nbsp;float64</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc361f747707697-33"> 27&nbsp;&nbsp;worst concave points&nbsp;&nbsp;&nbsp;&nbsp; 569 non-null&nbsp;&nbsp;&nbsp;&nbsp;float64</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc361f747707697-34"> 28&nbsp;&nbsp;worst symmetry&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 569 non-null&nbsp;&nbsp;&nbsp;&nbsp;float64</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc361f747707697-35"> 29&nbsp;&nbsp;worst fractal dimension&nbsp;&nbsp;569 non-null&nbsp;&nbsp;&nbsp;&nbsp;float64</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc361f747707697-36"> 30&nbsp;&nbsp;target&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 569 non-null&nbsp;&nbsp;&nbsp;&nbsp;int64&nbsp;&nbsp;</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc361f747707697-37">dtypes: float64(30), int64(1)</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc361f747707697-38">memory usage: 137.9 KB</div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0001 seconds] -->
+</div>
+
+
+
+<p>Все зависимые переменные &#8212; количественные. Целевая переменная &#8212; категориальная, однако что важно, обозначена числовым значением (0 и 1).</p>
+
+
+
+<p>Посмотрим на основные статистические показатели (summary statistics).</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623bc3620241311336" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3620241311336-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc3620241311336-2">2</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3620241311336-1"><span class="crayon-c"># для этого воспользуемся методом .describe() и округлим значения</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc3620241311336-2"><span class="crayon-v">cancer_df</span><span class="crayon-sy">.</span><span class="crayon-e">describe</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span><span class="crayon-sy">.</span><span class="crayon-k ">round</span><span class="crayon-sy">(</span><span class="crayon-cn">2</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0001 seconds] -->
+</div>
+
+
+
+<figure class="wp-block-image size-large"><img decoding="async" width="1024" height="425" src="../../wp-content/uploads/2021/07/cancer-describe-1024x425.jpg" alt="применение метода .describe() к датафрейму опухолевых образований" class="wp-image-3702" srcset="../../wp-content/uploads/2021/07/cancer-describe-1024x425.jpg 1024w, ../../wp-content/uploads/2021/07/cancer-describe-300x124.jpg 300w, ../../wp-content/uploads/2021/07/cancer-describe-768x318.jpg 768w, ../../wp-content/uploads/2021/07/cancer-describe-1536x637.jpg 1536w, ../../wp-content/uploads/2021/07/cancer-describe-2048x849.jpg 2048w, ../../wp-content/uploads/2021/07/cancer-describe-1200x498.jpg 1200w, ../../wp-content/uploads/2021/07/cancer-describe-600x249.jpg 600w" sizes="(max-width: 1024px) 100vw, 1024px" /><figcaption class="wp-element-caption"><em>На рисунке представлены статистические показатели опять же только для части признаков. Полный набор показателей приведен в <a href="https://colab.research.google.com/drive/1d4dMYSIUdoqS51qbWABcxn4fLsQd3J0Y?usp=sharing" target="_blank" rel="noreferrer noopener">блокноте</a>⧉.</em></figcaption></figure>
+
+
+
+<h3 class="wp-block-heading" id="1-etap-2-predvaritelnaya-obrabotka-dannykh">Этап 2. Предварительная обработка данных</h3>
+
+
+
+<h4 class="wp-block-heading" id="2-propushchennye-znacheniya">Пропущенные значения</h4>
+
+
+
+<p>Вначале посмотрим на пропущенные значения. Если в наборе данных пропущен существенный процент значений, то мы не сможем построить корректную модель.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623bc3621764367381" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3621764367381-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc3621764367381-2">2</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3621764367381-1"><span class="crayon-c"># воспользуемся функциями isnull() и sum()</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc3621764367381-2"><span class="crayon-v">cancer_df</span><span class="crayon-sy">.</span><span class="crayon-e">isnull</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span><span class="crayon-sy">.</span><span class="crayon-k ">sum</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0001 seconds] -->
+</div>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623bc3623464479691" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3623464479691-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc3623464479691-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3623464479691-3">3</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc3623464479691-4">4</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3623464479691-5">5</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc3623464479691-6">6</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3623464479691-7">7</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc3623464479691-8">8</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3623464479691-9">9</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc3623464479691-10">10</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3623464479691-11">11</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc3623464479691-12">12</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3623464479691-13">13</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc3623464479691-14">14</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3623464479691-15">15</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc3623464479691-16">16</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3623464479691-17">17</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc3623464479691-18">18</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3623464479691-19">19</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc3623464479691-20">20</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3623464479691-21">21</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc3623464479691-22">22</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3623464479691-23">23</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc3623464479691-24">24</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3623464479691-25">25</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc3623464479691-26">26</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3623464479691-27">27</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc3623464479691-28">28</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3623464479691-29">29</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc3623464479691-30">30</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3623464479691-31">31</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc3623464479691-32">32</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3623464479691-1">mean radius&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc3623464479691-2">mean texture&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3623464479691-3">mean perimeter&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc3623464479691-4">mean area&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3623464479691-5">mean smoothness&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc3623464479691-6">mean compactness&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3623464479691-7">mean concavity&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc3623464479691-8">mean concave points&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3623464479691-9">mean symmetry&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc3623464479691-10">mean fractal dimension&nbsp;&nbsp;&nbsp;&nbsp; 0</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3623464479691-11">radius error&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc3623464479691-12">texture error&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3623464479691-13">perimeter error&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc3623464479691-14">area error&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3623464479691-15">smoothness error&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc3623464479691-16">compactness error&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3623464479691-17">concavity error&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc3623464479691-18">concave points error&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3623464479691-19">symmetry error&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc3623464479691-20">fractal dimension error&nbsp;&nbsp;&nbsp;&nbsp;0</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3623464479691-21">worst radius&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc3623464479691-22">worst texture&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3623464479691-23">worst perimeter&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc3623464479691-24">worst area&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3623464479691-25">worst smoothness&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc3623464479691-26">worst compactness&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3623464479691-27">worst concavity&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc3623464479691-28">worst concave points&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3623464479691-29">worst symmetry&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc3623464479691-30">worst fractal dimension&nbsp;&nbsp;&nbsp;&nbsp;0</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3623464479691-31">target&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc3623464479691-32">dtype: int64</div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0001 seconds] -->
+</div>
+
+
+
+<p>Пропущенных значений нет. Мы также могли видеть это в результате метода <strong>.info()</strong>, сравнив диапазон значений с количеством значений каждой переменной.</p>
+
+
+
+<h4 class="wp-block-heading" id="3-preobrazovanie-kategorialnykh-peremennykh">Преобразование категориальных переменных</h4>
+
+
+
+<p>Как уже было сказано, целевая категориальная переменная записана числами. Если бы вместо них стояли, например, слова &#171;Да&#187;/ &#171;Нет&#187;, или &#171;Злокачественное&#187;/ &#171;Доброкачественное&#187;, пришлось бы превратить эти строковые значения в цифры. Делается это из-за того, что модель не умеет оперировать словами. Она просто не сможет подобрать веса.</p>
+
+
+
+<h4 class="wp-block-heading" id="4-normalizatsiya-dannykh">Нормализация данных</h4>
+
+
+
+<p>Помимо пропущенных значений и строковых категорий при обучении модели может возникнуть еще одна сложность. Если масштаб различных признаков сильно различается, модель может придать больше значимости признаку с большим масштабом.</p>
+
+
+
+<p>Например, мы видим, что mean texture имеет разброс от 9,71 до 39,28. При этом mean area находится в диапазоне от 143,50 до 2501,00. Значит ли это, что mean area важнее для модели? Не обязательно. Однако в силу особенностей алгоритма модель может отдать предпочтение (больший вес) именно этому признаку.</p>
+
+
+
+<p>Для того чтобы этого не произошло данные нужно нормализовать или привести к единому масштабу (normalization, feature scaling). </p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623bc3624275137822" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3624275137822-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc3624275137822-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3624275137822-3">3</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc3624275137822-4">4</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3624275137822-5">5</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc3624275137822-6">6</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3624275137822-7">7</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc3624275137822-8">8</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3624275137822-9">9</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc3624275137822-10">10</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3624275137822-11">11</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc3624275137822-12">12</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3624275137822-13">13</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3624275137822-1"><span class="crayon-c"># приведем все независимые переменные к единому масштабу</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc3624275137822-2">&nbsp;</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3624275137822-3"><span class="crayon-c"># снова создадим датафрейм без целевой переменной </span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc3624275137822-4"><span class="crayon-v">cancer_df</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">pd</span><span class="crayon-sy">.</span><span class="crayon-e">DataFrame</span><span class="crayon-sy">(</span><span class="crayon-v">cancer</span><span class="crayon-sy">.</span><span class="crayon-v">data</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">columns</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">cancer</span><span class="crayon-sy">.</span><span class="crayon-v">feature_names</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3624275137822-5">&nbsp;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc3624275137822-6"><span class="crayon-c"># импортируем необходимый класс из модуля preprocessing библиотеки sklearn</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3624275137822-7"><span class="crayon-st">from</span><span class="crayon-h"> </span><span class="crayon-v">sklearn</span><span class="crayon-sy">.</span><span class="crayon-e">preprocessing </span><span class="crayon-r">import</span><span class="crayon-h"> </span><span class="crayon-i">StandardScaler</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc3624275137822-8">&nbsp;</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3624275137822-9"><span class="crayon-c"># создадим объект этого класса</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc3624275137822-10"><span class="crayon-v">scaler</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-e">StandardScaler</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3624275137822-11">&nbsp;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc3624275137822-12"><span class="crayon-c"># приведем данные к единому масштабу </span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3624275137822-13"><span class="crayon-v">scaled_data</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">scaler</span><span class="crayon-sy">.</span><span class="crayon-e">fit_transform</span><span class="crayon-sy">(</span><span class="crayon-v">cancer_df</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0004 seconds] -->
+</div>
+
+
+
+<p>В переменную scaled_data был записан массив Numpy. Его нужно вновь преобразовать в датафрейм.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623bc3625325035877" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3625325035877-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc3625325035877-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3625325035877-3">3</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc3625325035877-4">4</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3625325035877-5">5</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc3625325035877-6">6</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3625325035877-7">7</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc3625325035877-8">8</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3625325035877-1"><span class="crayon-c"># преобразуем scaled_data обратно в датафрейм</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc3625325035877-2"><span class="crayon-v">cancer_df_scaled</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">pd</span><span class="crayon-sy">.</span><span class="crayon-e">DataFrame</span><span class="crayon-sy">(</span><span class="crayon-v">scaled_data</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">columns</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">cancer</span><span class="crayon-sy">.</span><span class="crayon-v">feature_names</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3625325035877-3">&nbsp;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc3625325035877-4"><span class="crayon-c"># вновь добавим целевую переменную</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3625325035877-5"><span class="crayon-v">cancer_df_scaled</span><span class="crayon-sy">[</span><span class="crayon-s">'target'</span><span class="crayon-sy">]</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">cancer</span><span class="crayon-sy">.</span><span class="crayon-i">target</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc3625325035877-6">&nbsp;</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3625325035877-7"><span class="crayon-c"># посмотрим на результат (только два первых значения)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc3625325035877-8"><span class="crayon-v">cancer_df_scaled</span><span class="crayon-sy">.</span><span class="crayon-e">head</span><span class="crayon-sy">(</span><span class="crayon-cn">2</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0003 seconds] -->
+</div>
+
+
+
+<figure class="wp-block-image size-large is-resized"><img decoding="async" width="1024" height="217" src="../../wp-content/uploads/2021/07/scaled-cancer-df-1024x217.jpg" alt="результат масштабирования данных в датафрейме" class="wp-image-3724" style="width:731px;height:155px" srcset="../../wp-content/uploads/2021/07/scaled-cancer-df-1024x217.jpg 1024w, ../../wp-content/uploads/2021/07/scaled-cancer-df-300x63.jpg 300w, ../../wp-content/uploads/2021/07/scaled-cancer-df-768x163.jpg 768w, ../../wp-content/uploads/2021/07/scaled-cancer-df-1536x325.jpg 1536w, ../../wp-content/uploads/2021/07/scaled-cancer-df-1200x254.jpg 1200w, ../../wp-content/uploads/2021/07/scaled-cancer-df-600x127.jpg 600w, ../../wp-content/uploads/2021/07/scaled-cancer-df.jpg 1829w" sizes="(max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623bc3627317800471" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3627317800471-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc3627317800471-2">2</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3627317800471-1"><span class="crayon-c"># а также на основные статистическое показатели (масштаб должен быть другим!)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc3627317800471-2"><span class="crayon-v">cancer_df_scaled</span><span class="crayon-sy">.</span><span class="crayon-e">describe</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span><span class="crayon-sy">.</span><span class="crayon-k ">round</span><span class="crayon-sy">(</span><span class="crayon-cn">2</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0001 seconds] -->
+</div>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" decoding="async" width="1024" height="468" src="../../wp-content/uploads/2021/07/scaled-cancer-describe-1024x468.jpg" alt="основные статистическое показатели данных после масштабирования" class="wp-image-3725" srcset="../../wp-content/uploads/2021/07/scaled-cancer-describe-1024x468.jpg 1024w, ../../wp-content/uploads/2021/07/scaled-cancer-describe-300x137.jpg 300w, ../../wp-content/uploads/2021/07/scaled-cancer-describe-768x351.jpg 768w, ../../wp-content/uploads/2021/07/scaled-cancer-describe-1536x701.jpg 1536w, ../../wp-content/uploads/2021/07/scaled-cancer-describe-1200x548.jpg 1200w, ../../wp-content/uploads/2021/07/scaled-cancer-describe-600x274.jpg 600w, ../../wp-content/uploads/2021/07/scaled-cancer-describe.jpg 2021w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+<p>Как мы видим, масштаб переменных изменился. Теперь у них у всех одинаковое среднее арифметическое (ноль) и одинаковое СКО (единица).</p>
+
+
+
+<p class="has-background" style="background-color:#ffe8c4">Нормализацию данных лучше производить после того, как мы разобьем выборку на обучающую и тестовую часть. Для простоты кода сегодня мы сделаем наоборот.</p>
+
+
+
+<h3 class="wp-block-heading" id="5-etap-3-issledovatelskiy-analiz-dannykh">Этап 3. Исследовательский анализ данных</h3>
+
+
+
+<p>Приступим к исследовательскому анализу данных (Exploratory Data Analysis, EDA). Как уже было сказано на прошлом занятии, требуется выявить взаимосвязь между зависимой и независимыми переменными.</p>
+
+
+
+<p>В данном случае речь идет о <strong>взаимосвязи количественных и категориальной переменной</strong>. Вот какие варианты выявления такой взаимосвязи у нас есть, мы можем:</p>
+
+
+
+<ul class="wp-block-list">
+<li><em>количественно оценить</em> насколько будут отличаться основные статистические показатели (например, среднее арифметическое) для каждой из переменных в зависимости от класса;</li>
+
+
+
+<li><em>графически построить</em> две гистограммы на одном графике, как мы уже <a href="../relationship/index.html">делали раньше</a>;</li>
+
+
+
+<li>в рамках более продвинутого анализа <em>оценить статистическую значимость</em> такого различия.</li>
+</ul>
+
+
+
+<p>На сегодняшнем занятии займемся первым и вторым пунктами.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623bc3628137437275" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3628137437275-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc3628137437275-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3628137437275-3">3</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc3628137437275-4">4</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3628137437275-5">5</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc3628137437275-6">6</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3628137437275-1"><span class="crayon-c"># сгруппируем данные по целевой переменной, рассчитаем среднее и перевернем (транспонируем) датафрейм</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc3628137437275-2"><span class="crayon-c"># все это последовательно делается с помощью group_by, .mean() и .T</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3628137437275-3"><span class="crayon-v">data</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">cancer_df_scaled</span><span class="crayon-sy">.</span><span class="crayon-e">groupby</span><span class="crayon-sy">(</span><span class="crayon-s">'target'</span><span class="crayon-sy">)</span><span class="crayon-sy">.</span><span class="crayon-e">mean</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span><span class="crayon-sy">.</span><span class="crayon-i">T</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc3628137437275-4">&nbsp;</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3628137437275-5"><span class="crayon-c"># выведем первые два значения, чтобы убедиться в верности результата</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc3628137437275-6"><span class="crayon-v">data</span><span class="crayon-sy">.</span><span class="crayon-e">head</span><span class="crayon-sy">(</span><span class="crayon-cn">2</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0002 seconds] -->
+</div>
+
+
+
+<figure class="wp-block-image size-full is-resized"><img loading="lazy" decoding="async" width="770" height="265" src="../../wp-content/uploads/2021/07/df-scaled-transposed.jpg" alt="средние значения признаков в зависимости от класса целевой переменной" class="wp-image-3736" style="width:291px;height:100px" srcset="../../wp-content/uploads/2021/07/df-scaled-transposed.jpg 770w, ../../wp-content/uploads/2021/07/df-scaled-transposed-300x103.jpg 300w, ../../wp-content/uploads/2021/07/df-scaled-transposed-768x264.jpg 768w, ../../wp-content/uploads/2021/07/df-scaled-transposed-600x206.jpg 600w" sizes="auto, (max-width: 770px) 100vw, 770px" /></figure>
+
+
+
+<p>Как мы видим, теперь в строках содержатся признаки и соответствующие им средние значения, разбитые на две группы (среднее значение для злокачественной опухоли и среднее для доброкачественной). Теперь давайте посчитаем разницу и вычислим модуль. Так мы сможем сравнивать получившиеся значения между собой.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623bc3629396555376" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3629396555376-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc3629396555376-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3629396555376-3">3</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc3629396555376-4">4</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3629396555376-5">5</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc3629396555376-6">6</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3629396555376-7">7</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc3629396555376-8">8</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3629396555376-9">9</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3629396555376-1"><span class="crayon-c"># вычтем одну колонку из другой и вычислим модуль</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc3629396555376-2"><span class="crayon-c"># синтаксис может показаться сложным, пока не обращайте на это внимания</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3629396555376-3"><span class="crayon-v">data</span><span class="crayon-sy">[</span><span class="crayon-s">'diff'</span><span class="crayon-sy">]</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-k ">abs</span><span class="crayon-sy">(</span><span class="crayon-v">data</span><span class="crayon-sy">.</span><span class="crayon-v">iloc</span><span class="crayon-sy">[</span><span class="crayon-o">:</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">0</span><span class="crayon-sy">]</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-h"> </span><span class="crayon-v">data</span><span class="crayon-sy">.</span><span class="crayon-v">iloc</span><span class="crayon-sy">[</span><span class="crayon-o">:</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-sy">]</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc3629396555376-4">&nbsp;</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3629396555376-5"><span class="crayon-c"># остается отсортировать датафрейм по столбцу разницы средних в нисходящем порядке</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc3629396555376-6"><span class="crayon-v">data</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">data</span><span class="crayon-sy">.</span><span class="crayon-e">sort_values</span><span class="crayon-sy">(</span><span class="crayon-v">by</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-sy">[</span><span class="crayon-s">'diff'</span><span class="crayon-sy">]</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">ascending</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-t">False</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3629396555376-7">&nbsp;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc3629396555376-8"><span class="crayon-c"># и вывести те значения (пусть их будет 10), где разница наиболее существенная</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3629396555376-9"><span class="crayon-v">data</span><span class="crayon-sy">.</span><span class="crayon-e">head</span><span class="crayon-sy">(</span><span class="crayon-cn">10</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0004 seconds] -->
+</div>
+
+
+
+<figure class="wp-block-image size-large is-resized"><img loading="lazy" decoding="async" width="1024" height="895" src="../../wp-content/uploads/2021/07/top-mean-diff-1024x895.jpg" alt="разница средних 10 признаков" class="wp-image-3737" style="aspect-ratio:1.143167028199566;width:486px;height:auto" srcset="../../wp-content/uploads/2021/07/top-mean-diff-1024x895.jpg 1024w, ../../wp-content/uploads/2021/07/top-mean-diff-300x262.jpg 300w, ../../wp-content/uploads/2021/07/top-mean-diff-768x671.jpg 768w, ../../wp-content/uploads/2021/07/top-mean-diff-600x524.jpg 600w, ../../wp-content/uploads/2021/07/top-mean-diff.jpg 1176w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+<p>Эту разницу в средних значениях и в целом в распределении переменной мы можем также увидеть на совмещенных гистограммах. Давайте построим такие гистограммы для признака с наибольшей разницей средних worst concave points.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623bc362b473396228" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc362b473396228-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc362b473396228-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc362b473396228-3">3</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc362b473396228-4">4</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc362b473396228-5">5</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc362b473396228-6">6</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc362b473396228-7">7</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc362b473396228-8">8</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc362b473396228-9">9</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc362b473396228-10">10</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc362b473396228-11">11</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc362b473396228-12">12</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc362b473396228-13">13</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc362b473396228-14">14</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc362b473396228-15">15</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc362b473396228-16">16</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc362b473396228-17">17</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc362b473396228-18">18</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc362b473396228-1"><span class="crayon-c"># задаем количество интервалов</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc362b473396228-2"><span class="crayon-v">bins</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">17</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc362b473396228-3">&nbsp;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc362b473396228-4"><span class="crayon-c"># и размер графика</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc362b473396228-5"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">figure</span><span class="crayon-sy">(</span><span class="crayon-v">figsize</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-cn">10</span><span class="crayon-sy">,</span><span class="crayon-cn">6</span><span class="crayon-sy">)</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc362b473396228-6">&nbsp;</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc362b473396228-7"><span class="crayon-c"># из датафрейма cancer_df_scaled выберем столбец 'worst concave points'</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc362b473396228-8"><span class="crayon-c"># и только те строки, где target == 0 (злокачественная)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc362b473396228-9"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">hist</span><span class="crayon-sy">(</span><span class="crayon-v">cancer_df_scaled</span><span class="crayon-sy">.</span><span class="crayon-v">loc</span><span class="crayon-sy">[</span><span class="crayon-v">cancer_df_scaled</span><span class="crayon-sy">[</span><span class="crayon-s">'target'</span><span class="crayon-sy">]</span><span class="crayon-h"> </span><span class="crayon-o">==</span><span class="crayon-h"> </span><span class="crayon-cn">0</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-s">'worst concave points'</span><span class="crayon-sy">]</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">bins</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">alpha</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">0.5</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">label</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-s">'Злокачественная'</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc362b473396228-10">&nbsp;</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc362b473396228-11"><span class="crayon-c"># то же самое, но target == 1 (доброкачественная)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc362b473396228-12"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">hist</span><span class="crayon-sy">(</span><span class="crayon-v">cancer_df_scaled</span><span class="crayon-sy">.</span><span class="crayon-v">loc</span><span class="crayon-sy">[</span><span class="crayon-v">cancer_df_scaled</span><span class="crayon-sy">[</span><span class="crayon-s">'target'</span><span class="crayon-sy">]</span><span class="crayon-h"> </span><span class="crayon-o">==</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-s">'worst concave points'</span><span class="crayon-sy">]</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">bins</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">alpha</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">0.5</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">label</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-s">'Доброкачественная'</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc362b473396228-13"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">legend</span><span class="crayon-sy">(</span><span class="crayon-v">loc</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-s">'upper right'</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc362b473396228-14">&nbsp;</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc362b473396228-15"><span class="crayon-c"># добавим подписи и размер шрифта</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc362b473396228-16"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">xlabel</span><span class="crayon-sy">(</span><span class="crayon-s">'worst concave points'</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">fontsize</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">16</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc362b473396228-17"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">ylabel</span><span class="crayon-sy">(</span><span class="crayon-s">'Количество наблюдений'</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">fontsize</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">16</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc362b473396228-18"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">title</span><span class="crayon-sy">(</span><span class="crayon-s">'Распределение worst concave points для двух типов опухолей'</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">fontsize</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">16</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0009 seconds] -->
+</div>
+
+
+
+<figure class="wp-block-image size-full"><img loading="lazy" decoding="async" width="611" height="394" src="../../wp-content/uploads/2021/07/worst-concave-points.png" alt="две гистограммы на одном графике иллюстрируют разницу распределений" class="wp-image-3741" srcset="../../wp-content/uploads/2021/07/worst-concave-points.png 611w, ../../wp-content/uploads/2021/07/worst-concave-points-300x193.png 300w, ../../wp-content/uploads/2021/07/worst-concave-points-600x387.png 600w" sizes="auto, (max-width: 611px) 100vw, 611px" /></figure>
+
+
+
+<p>Как мы видим, распределение признака отличается для злокачественных и доброкачественных образований.</p>
+
+
+
+<h3 class="wp-block-heading" id="6-etap-4-otbor-i-vydelenie-priznakov">Этап 4. Отбор и выделение признаков</h3>
+
+
+
+<p>На основе проведенного EDA, давайте возьмем десять признаков в наибольшими отличиями среднего арифметического в зависимости от значения целевой переменной. Таким образом, в модель войдут: worst concave points, worst perimeter, mean concave points, worst radius, mean perimeter, worst area, mean radius, mean area, mean concavity, worst concavity.</p>
+
+
+
+<p>Поместим&nbsp;признаки&nbsp;в&nbsp;переменную&nbsp;X,&nbsp;а&nbsp;классы&nbsp;в&nbsp;переменную&nbsp;y. Для этого возьмем названия признаков из индекса вспомогательного датафрейма data, преобразуем их в список и сделаем срез по первым 10 значениям (и все это для того, чтобы не набирать названия столбцов вручную).</p>
+
+
+
+<p>Результат запишем в переменную features.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623bc362c127789187" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc362c127789187-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc362c127789187-2">2</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc362c127789187-1"><span class="crayon-v">features</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-k ">list</span><span class="crayon-sy">(</span><span class="crayon-v">data</span><span class="crayon-sy">.</span><span class="crayon-v">index</span><span class="crayon-sy">[</span><span class="crayon-o">:</span><span class="crayon-cn">10</span><span class="crayon-sy">]</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc362c127789187-2"><span class="crayon-k ">print</span><span class="crayon-sy">(</span><span class="crayon-v">features</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0002 seconds] -->
+</div>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623bc362e329832772" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc362e329832772-1">1</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc362e329832772-1">['worst concave points', 'worst perimeter', 'mean concave points', 'worst radius', 'mean perimeter', 'worst area', 'mean radius', 'mean area', 'mean concavity', 'worst concavity']</div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0000 seconds] -->
+</div>
+
+
+
+<p>Теперь отфильтруем исходный датафрейм по этим признакам. Переменная features и будет фильтром.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623bc362f529541988" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc362f529541988-1">1</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc362f529541988-1"><span class="crayon-v">X</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">cancer_df_scaled</span><span class="crayon-sy">[</span><span class="crayon-v">features</span><span class="crayon-sy">]</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0001 seconds] -->
+</div>
+
+
+
+<p>В&nbsp;переменную&nbsp;y&nbsp;запишем&nbsp;классы.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623bc3630630138338" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3630630138338-1">1</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3630630138338-1"><span class="crayon-v">y</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">cancer_df_scaled</span><span class="crayon-sy">[</span><span class="crayon-s">'target'</span><span class="crayon-sy">]</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0001 seconds] -->
+</div>
+
+
+
+<p class="has-background" style="background-color:#ffe8c4">Разумеется задачи <strong>отбора и выделения признаков</strong> (feature selection and feature extraction) и <strong>конструирования признаков</strong> (feature engineering) намного шире и сложнее. Пока мы только начинаем знакомиться с этими инструментами.</p>
+
+
+
+<h3 class="wp-block-heading" id="7-etap-5-obuchenie-i-otsenka-kachestva-modeli">Этап 5. Обучение и оценка качества модели</h3>
+
+
+
+<h4 class="wp-block-heading" id="8-razdelenie-na-obuchayushchuyu-i-testovuyu-vyborki">Разделение на обучающую и тестовую выборки</h4>
+
+
+
+<p>Прежде всего разобьем данные на <a href="../train-test/index.html">обучающую и тестовую выборки</a>.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623bc3631053484751" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3631053484751-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc3631053484751-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3631053484751-3">3</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc3631053484751-4">4</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3631053484751-5">5</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc3631053484751-6">6</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3631053484751-7">7</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc3631053484751-8">8</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3631053484751-1"><span class="crayon-c"># импортируем необходимый модуль</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc3631053484751-2"><span class="crayon-st">from</span><span class="crayon-h"> </span><span class="crayon-v">sklearn</span><span class="crayon-sy">.</span><span class="crayon-e">model_selection </span><span class="crayon-r">import</span><span class="crayon-h"> </span><span class="crayon-v">train_test</span><span class="crayon-sy">_</span>split</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3631053484751-3"><span class="crayon-h"> </span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc3631053484751-4"><span class="crayon-c"># размер тестовой выборки составит 30%</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3631053484751-5"><span class="crayon-c"># также зададим точку отсчета для воспроизводимости результата</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc3631053484751-6"><span class="crayon-v">X_train</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">X_test</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">y_train</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">y_test</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-e">train_test_split</span><span class="crayon-sy">(</span><span class="crayon-v">X</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">y</span><span class="crayon-sy">,</span><span class="crayon-h"> </span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3631053484751-7"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">test_size</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">0.3</span><span class="crayon-sy">,</span><span class="crayon-h"> </span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc3631053484751-8"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">random_state</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">42</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0004 seconds] -->
+</div>
+
+
+
+<h4 class="wp-block-heading" id="9-obuchenie-modeli-i-prognoz">Обучение модели и прогноз</h4>
+
+
+
+<p>Задача классификации решается с помощью множества различных алгоритмов. Сегодня мы будем использовать <strong>логистическую регрессию</strong> (logistic regression). Во многом принцип ее работы был описан еще на втором занятии, когда мы изучали <a href="../principle/index.html">принцип машинного обучения</a>.</p>
+
+
+
+<p class="has-background" style="background-color:#ffe8c4">Обратите внимание, что хотя в названии присутствует слово &#171;регрессия&#187;, модель логистической регрессии <em>решает задачу классификации</em>.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623bc3633482833519" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3633482833519-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc3633482833519-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3633482833519-3">3</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc3633482833519-4">4</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3633482833519-5">5</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc3633482833519-6">6</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3633482833519-7">7</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc3633482833519-8">8</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3633482833519-9">9</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc3633482833519-10">10</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3633482833519-11">11</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3633482833519-1"><span class="crayon-c"># импортируем логистическую регрессию из модуля linear_model библиотеки sklearn</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc3633482833519-2"><span class="crayon-st">from</span><span class="crayon-h"> </span><span class="crayon-v">sklearn</span><span class="crayon-sy">.</span><span class="crayon-e">linear_model </span><span class="crayon-r">import</span><span class="crayon-h"> </span><span class="crayon-i">LogisticRegression</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3633482833519-3">&nbsp;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc3633482833519-4"><span class="crayon-c"># создадим объект этого класса и запишем его в переменную model</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3633482833519-5"><span class="crayon-v">model</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-e">LogisticRegression</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc3633482833519-6">&nbsp;</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3633482833519-7"><span class="crayon-c"># обучим модель</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc3633482833519-8"><span class="crayon-v">model</span><span class="crayon-sy">.</span><span class="crayon-e">fit</span><span class="crayon-sy">(</span><span class="crayon-v">X_train</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">y_train</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3633482833519-9">&nbsp;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc3633482833519-10"><span class="crayon-c"># выполним предсказание класса на тестовой выборке</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3633482833519-11"><span class="crayon-v">y_pred</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">model</span><span class="crayon-sy">.</span><span class="crayon-e">predict</span><span class="crayon-sy">(</span><span class="crayon-v">X_test</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0003 seconds] -->
+</div>
+
+
+
+<h4 class="wp-block-heading" id="10-otsenka-kachestva-modeli">Оценка качества модели</h4>
+
+
+
+<p>Те метрики, которые мы использовали для оценки качества модели регрессии, здесь, разумеется, не подойдут. Нужны новые. </p>
+
+
+
+<p>Вначале построим <strong>матрицу ошибок</strong> (confusion matrix). Она в целом покажет, сколько наблюдений были правильно и неправильно классифицированы как злокачественные, и сколько &#8212; как доброкачественные. Схематично это выглядит так:</p>
+
+
+
+<figure class="wp-block-image size-large is-resized"><img loading="lazy" decoding="async" width="1024" height="404" src="../../wp-content/uploads/2022/12/conf_matrix-1024x404.jpg" alt="матрица ошибок" class="wp-image-16731" style="width:741px;height:292px" srcset="../../wp-content/uploads/2022/12/conf_matrix-1024x404.jpg 1024w, ../../wp-content/uploads/2022/12/conf_matrix-300x118.jpg 300w, ../../wp-content/uploads/2022/12/conf_matrix-768x303.jpg 768w, ../../wp-content/uploads/2022/12/conf_matrix-1200x473.jpg 1200w, ../../wp-content/uploads/2022/12/conf_matrix-600x237.jpg 600w, ../../wp-content/uploads/2022/12/conf_matrix.jpg 1260w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+<p>Теперь построим такую матрицу на основе прогнозных значений модели.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623bc3634787376242" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3634787376242-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc3634787376242-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3634787376242-3">3</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc3634787376242-4">4</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3634787376242-5">5</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc3634787376242-6">6</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3634787376242-7">7</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc3634787376242-8">8</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3634787376242-9">9</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc3634787376242-10">10</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3634787376242-1"><span class="crayon-c"># построим матрицу ошибок</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc3634787376242-2"><span class="crayon-st">from</span><span class="crayon-h"> </span><span class="crayon-v">sklearn</span><span class="crayon-sy">.</span><span class="crayon-e">metrics </span><span class="crayon-r">import</span><span class="crayon-h"> </span><span class="crayon-v">confusion</span><span class="crayon-sy">_</span>matrix</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3634787376242-3">&nbsp;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc3634787376242-4"><span class="crayon-c"># передадим ей тестовые и прогнозные значения</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3634787376242-5"><span class="crayon-c"># поменяем порядок так, чтобы злокачественные опухоли были положительным классом</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc3634787376242-6"><span class="crayon-v">model_matrix</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-e">confusion_matrix</span><span class="crayon-sy">(</span><span class="crayon-v">y_test</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">y_pred</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">labels</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-sy">[</span><span class="crayon-cn">1</span><span class="crayon-sy">,</span><span class="crayon-cn">0</span><span class="crayon-sy">]</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3634787376242-7">&nbsp;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc3634787376242-8"><span class="crayon-c"># для удобства создадим датафрейм</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3634787376242-9"><span class="crayon-v">model_matrix_df</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">pd</span><span class="crayon-sy">.</span><span class="crayon-e">DataFrame</span><span class="crayon-sy">(</span><span class="crayon-v">model_matrix</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc3634787376242-10"><span class="crayon-v">model_matrix_df</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0003 seconds] -->
+</div>
+
+
+
+<figure class="wp-block-image size-full is-resized"><img loading="lazy" decoding="async" width="305" height="281" src="../../wp-content/uploads/2021/07/conf-matrix-not-lab.jpg" alt="матрица ошибок в задаче рака груди" class="wp-image-3771" style="aspect-ratio:1.0845070422535212;width:134px;height:auto" srcset="../../wp-content/uploads/2021/07/conf-matrix-not-lab.jpg 305w, ../../wp-content/uploads/2021/07/conf-matrix-not-lab-300x276.jpg 300w" sizes="auto, (max-width: 305px) 100vw, 305px" /></figure>
+
+
+
+<p>Мы сделали злокачественные опухоли положительным классом (единица), потому что обычно в медицине под положительным результатом подразумевается выявление заболевания.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623bc3635959535302" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3635959535302-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc3635959535302-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3635959535302-3">3</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc3635959535302-4">4</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3635959535302-5">5</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3635959535302-1"><span class="crayon-c"># добавим подписи к столбцам и строкам через параметры columns и index</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc3635959535302-2"><span class="crayon-c"># столбец - это прогноз, строка - фактическое значение</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3635959535302-3"><span class="crayon-c"># 0 - добр. образование, 1 - злок. образование (только в рамках матрицы ошибок!)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc3635959535302-4"><span class="crayon-v">model_matrix_df</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">pd</span><span class="crayon-sy">.</span><span class="crayon-e">DataFrame</span><span class="crayon-sy">(</span><span class="crayon-v">model_matrix</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">columns</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-sy">[</span><span class="crayon-s">'Прогноз добр.'</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-s">'Прогноз злок.'</span><span class="crayon-sy">]</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">index</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-sy">[</span><span class="crayon-s">'Факт добр.'</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-s">'Факт злок.'</span><span class="crayon-sy">]</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3635959535302-5"><span class="crayon-v">model_matrix_df</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0003 seconds] -->
+</div>
+
+
+
+<figure class="wp-block-image size-full is-resized"><img loading="lazy" decoding="async" width="999" height="237" src="../../wp-content/uploads/2021/07/conf-lab.jpg" alt="матрица ошибок в задаче рака груди (с подписями строк и столбцов)" class="wp-image-3772" style="aspect-ratio:4.220183486238532;width:414px;height:auto" srcset="../../wp-content/uploads/2021/07/conf-lab.jpg 999w, ../../wp-content/uploads/2021/07/conf-lab-300x71.jpg 300w, ../../wp-content/uploads/2021/07/conf-lab-768x182.jpg 768w, ../../wp-content/uploads/2021/07/conf-lab-600x142.jpg 600w" sizes="auto, (max-width: 999px) 100vw, 999px" /></figure>
+
+
+
+<p>Как мы видим, модель допустила шесть ошибок:</p>
+
+
+
+<ul class="wp-block-list">
+<li>две опухоли она классифицировала как доброкачественные, хотя на самом деле это не так; кроме того</li>
+
+
+
+<li>четыре доброкачественные опухоли были помечены как злокачественные;</li>
+
+
+
+<li>остальные значения предсказаны верно.</li>
+</ul>
+
+
+
+<p id="acc">Доля правильно предсказанных значений называется <strong>accuracy</strong>. Чтобы ее посчитать, мы берем те значения, которые предсказаны верно (TP + TN) и делим на общее количество прогнозов.</p>
+
+
+
+<p>$$ accuracy = \frac{TP + TN}{TP + TN + FP + FN} $$</p>
+
+
+
+<p class="has-background" style="background-color:#ffe8c4">Поскольку несколько англоязычных терминов могут одинаково переводиться на русский язык, здесь и далее для метрик моделей классификации мы будем использовать <em>только английские термины</em>.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623bc3637556129884" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3637556129884-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc3637556129884-2">2</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3637556129884-1"><span class="crayon-c"># рассчитаем accuracy или долю правильных прогнозов</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc3637556129884-2"><span class="crayon-k ">round</span><span class="crayon-sy">(</span><span class="crayon-sy">(</span><span class="crayon-cn">61</span><span class="crayon-h"> </span><span class="crayon-o">+</span><span class="crayon-h"> </span><span class="crayon-cn">104</span><span class="crayon-sy">)</span><span class="crayon-o">/</span><span class="crayon-sy">(</span><span class="crayon-cn">61</span><span class="crayon-h"> </span><span class="crayon-o">+</span><span class="crayon-h"> </span><span class="crayon-cn">104</span><span class="crayon-h"> </span><span class="crayon-o">+</span><span class="crayon-h"> </span><span class="crayon-cn">2</span><span class="crayon-h"> </span><span class="crayon-o">+</span><span class="crayon-h"> </span><span class="crayon-cn">4</span><span class="crayon-sy">)</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">2</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0002 seconds] -->
+</div>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623bc3641148643006" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3641148643006-1">1</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3641148643006-1">0.96</div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0000 seconds] -->
+</div>
+
+
+
+<p>Мы также можем воспользоваться встроенной в sklearn метрикой.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623bc3642746064784" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3642746064784-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc3642746064784-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3642746064784-3">3</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc3642746064784-4">4</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3642746064784-1"><span class="crayon-st">from</span><span class="crayon-h"> </span><span class="crayon-v">sklearn</span><span class="crayon-sy">.</span><span class="crayon-e">metrics </span><span class="crayon-r">import</span><span class="crayon-h"> </span><span class="crayon-e">accuracy_score</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc3642746064784-2">&nbsp;</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3642746064784-3"><span class="crayon-v">model_accuracy</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-e">accuracy_score</span><span class="crayon-sy">(</span><span class="crayon-v">y_test</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">y_pred</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc3642746064784-4"><span class="crayon-k ">round</span><span class="crayon-sy">(</span><span class="crayon-v">model_accuracy</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">2</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0002 seconds] -->
+</div>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623bc3644403940266" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3644403940266-1">1</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3644403940266-1">0.96</div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0000 seconds] -->
+</div>
+
+
+
+<p>Модель предсказывает верный результат в 96% случаев. Кажется, что это очень хорошо. Однако, есть одна проблема. С точки зрения медицины и здравого смысла мы больше всего боимся того, что модель не сможет распознать злокачественное образование, и нас прежде всего интересует минимизация ложноотрицательныго результата, когда пациенту с онкологией мы говорим, что не стоит волноваться. Показатель accuracy не дает этой информации.</p>
+
+
+
+<p>Хотя сегодня мы не будем сильнее углубляться в эту тему, скажу, что в каждом конкретном случае нужно выбирать наиболее подходящую с точки зрения решаемой задачи метрику.</p>
+
+
+
+<h3 class="wp-block-heading" id="11-podvedem-itog">Подведем итог</h3>
+
+
+
+<p>Было сделано следующее.</p>
+
+
+
+<ol class="wp-block-list">
+<li>После загрузки данных мы создали датафрейм, изучили переменные, а также посмотрели на основные статистические показатели. </li>
+
+
+
+<li>Обработка данных предполагала изучение пропущенных значений, кодировку категориальных переменных и нормализацию данных. </li>
+
+
+
+<li>Исследовательcкий анализ данных позволил выявить взаимосвязь нескольких независимых переменных и целевых классов. </li>
+
+
+
+<li>В рамках отбора и выделения признаков мы взяли 10 наиболее значимых признаков.</li>
+
+
+
+<li>Затем мы разделили выборку на обучающую и тестовую, обучили модель логистической регрессии и сделали прогноз. При оценке результата мы столкнулись с тем, что в случае задачи классификации доля правильных прогнозов не всегда отражает качество модели.</li>
+</ol>
+
+
+
+<p>Дополнительные <a href="https://colab.research.google.com/drive/1d4dMYSIUdoqS51qbWABcxn4fLsQd3J0Y#scrollTo=mPD0a61VcdG_" target="_blank" rel="noreferrer noopener">упражнения</a>⧉ вы найдете в конце блокнота.</p>
+
+
+
+<h4 class="wp-block-heading" id="13-otvety-na-voprosy">Ответы на вопросы</h4>
+
+
+
+<p><strong>Вопрос</strong>. Почему правильно проводить нормализацию данных после разделения на train и test?</p>
+
+
+
+<p><strong>Ответ</strong>. При разделении на обучающую (train) и тестовую (test) выборки самое главное &#8212; избежать их взаимного влияния друг на друга. В противном случае, мы не сможем объективно оценить качество модели.</p>
+
+
+
+<p>Эту проблему также называют проблемой <strong>утечки данных</strong> (data leakage).</p>
+
+
+
+<p>Если говорить про решение этой задачи с помощью библиотеки sklearn, то, например, у класса StandardScaler есть методы .fit(), .transform() и .fit_transform(). Метод .fit() рассчитывает среднее арифметическое и СКО для масштабирования данных, метод .transform() их применяет. Метод .fit_transform() сразу делает и то, и другое.</p>
+
+
+
+<p>На практике, мы могли бы (1) применить метод .fit_transform() к обучающей выборке (train dataset). Это даст необходимые среднее арифметическое и СКО (метод .fit()), которые затем позволят масштабировать эти данные (метод .transform()). После этого (2) мы можем применить полученные с помощью .fit() параметры для масштабирования уже тестовых данных (test dataset).</p>
+
+
+
+<p>В этом случае тестовые данные не повлияют на масштабирование обучающей выборки. Другими словами, не произойдет той самой утечки данных.</p>
+
+
+
+<p>Приведу пример на Питоне. Предположим, вы уже поместили ваши данные в переменные X и y.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa623bc3645994911699" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3645994911699-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc3645994911699-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3645994911699-3">3</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc3645994911699-4">4</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3645994911699-5">5</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc3645994911699-6">6</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3645994911699-7">7</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc3645994911699-8">8</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3645994911699-9">9</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc3645994911699-10">10</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3645994911699-11">11</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc3645994911699-12">12</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3645994911699-13">13</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc3645994911699-14">14</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3645994911699-15">15</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa623bc3645994911699-16">16</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa623bc3645994911699-17">17</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3645994911699-1"><span class="crayon-c"># тогда вначале делим данные на train и test</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc3645994911699-2"><span class="crayon-v">X_train</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">X_test</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">y_train</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">y_test</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-e">train_test_split</span><span class="crayon-sy">(</span><span class="crayon-v">X</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">y</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">test_size</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">0.30</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">random_state</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">42</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3645994911699-3">&nbsp;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc3645994911699-4"><span class="crayon-c"># создаем объект класса StandardScaler()</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3645994911699-5"><span class="crayon-v">scaler</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-e">StandardScaler</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc3645994911699-6">&nbsp;</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3645994911699-7"><span class="crayon-c"># масштабируем обучающую выборку</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc3645994911699-8"><span class="crayon-v">X_train_scaled</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">scaler</span><span class="crayon-sy">.</span><span class="crayon-e">fit_transform</span><span class="crayon-sy">(</span><span class="crayon-v">X_train</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3645994911699-9">&nbsp;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc3645994911699-10"><span class="crayon-c"># обучаем модель на масштабированных train данных</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3645994911699-11"><span class="crayon-v">model</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-e">LogisticRegression</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span><span class="crayon-sy">.</span><span class="crayon-e">fit</span><span class="crayon-sy">(</span><span class="crayon-v">X_train_scaled</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">y_train</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc3645994911699-12">&nbsp;</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3645994911699-13"><span class="crayon-c"># используем среднее арифметическое и СКО обучающей выборки для масштабирования тестовых данных</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc3645994911699-14"><span class="crayon-v">X_test_scaled</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">scaler</span><span class="crayon-sy">.</span><span class="crayon-e">transform</span><span class="crayon-sy">(</span><span class="crayon-v">X_test</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3645994911699-15">&nbsp;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa623bc3645994911699-16"><span class="crayon-c"># делаем прогноз</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa623bc3645994911699-17"><span class="crayon-v">y_pred</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">model</span><span class="crayon-sy">.</span><span class="crayon-e">predict</span><span class="crayon-sy">(</span><span class="crayon-v">X_test_scaled</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0006 seconds] -->
+</div>
+
+
+
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
+
+
+
+<p><strong>Вопрос</strong>. Запутался с терминологией. Встречал в других источниках, что приведение данных к одному масштабу, которое описывается в этой статье, называют стандартизацией или z-преобразованием. А нормализацией &#8212; когда данные масштабируются в диапазон от $0$ до $1$.</p>
+
+
+
+<p>Есть ли чёткие определения у этих масштабирований в русском языке или, чтобы не путаться, лучше пользоваться оригинальными наименованиями типа StandardScaler, MinMaxScaler и другие?</p>
+
+
+
+<p><strong>Ответ</strong>. Я думал над этим вопросом. На самом деле есть некоторая путаница в самих источниках. Я руководствовался двумя статьями.</p>
+
+
+
+<p>(1) Статья в <a href="https://en.wikipedia.org/wiki/Normalization_(statistics)" target="_blank" rel="noreferrer noopener">Википедии</a>⧉, которая, в свою очередь, ссылается на Оксфордский словарь, обозначает <strong>нормализацию</strong> как наиболее общий термин.</p>
+
+
+
+<p>Нормализация же включает:</p>
+
+
+
+<ul class="wp-block-list">
+<li><strong>стандартизацию</strong> (standartization) или как еще говорят нормализацию по z-оценке (z-score normalization), т.е. изменение данных таким образом, чтобы их среднее (mean) было равно нулю, а СКО (standard deviation) &#8212; единице;</li>
+
+
+
+<li><strong>min-max нормализацию</strong>, т.е. приведение данных к определенному диапазону; кстати, диапазон не обязательно должен быть от $0$ до $1$, на <a href="../neural/index.html">занятии по нейросетям</a> мы, например, приводим данные к диапазону от $-1$ до $1$ (общая формула приведена ниже);</li>
+
+
+
+<li>и другие методы.</li>
+</ul>
+
+
+
+<p>(2) Еще один общий термин &#8212; <a href="https://en.wikipedia.org/wiki/Feature_scaling" target="_blank" rel="noreferrer noopener"><strong>feature scaling</strong></a>⧉ (масштабирование признаков).</p>
+
+
+
+<p>Именно эти два понятия (нормализация и масштабирование) я и использовал для первого знакомства с темой преобразования данных.</p>
+
+
+
+<p>На практике, конечно, главное понимать, что делает конкретный инструмент и какого результата вы с его помощью хотите достичь.</p>
+
+
+
+<p>И StandardScaler, разумеется, отвечает за стандартизацию.</p>
+
+
+
+<p>Более подробно все эти методы мы рассмотрим на курсе по <a href="../../data/index.html">анализу и обработке данных</a>.</p>
+
+
+
+<p>А вот формула для min-max нормализации:</p>
+
+
+
+<p>$$ x&#8217; = a + \frac{x-min(x)(b-a)}{max(x)-min(x)}, $$</p>
+
+
+
+<p>где $a$ и $b$ &#8212; это желаемые минимальное и максимальное значения.</p>
+
+
+
+<p><strong>UPD</strong>: вероятно наиболее общим термином следует считать преобразование количественных переменных (numerical data transformation), которое включает в себя:</p>
+
+
+
+<ul class="wp-block-list">
+<li>масштабирование (scaling), т.е. стандартизацию (standartization) и приведение данных к определенному диапазону (min-max scaling);</li>
+
+
+
+<li>нелинейные преобразования (non-linear transformations);</li>
+
+
+
+<li>нормализацию (normalization), т.е. приведение отдельных наблюдений к единичной норме (scaling individual samples to have unit norm).</li>
+</ul>
+
+			</div> <!-- .content -->
+
+			
+		</div> <!-- .post -->
+
+					<footer class="site-footer section-inner">
+
+				<p class="copyright">&copy; 2025 <a href="../../index.html" class="site-name"><!--Машинное обучение--></a></p>
+
+			</footer> <!-- footer -->
+
+		</main>
+		
+		<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js?ver=6.7.1" id="mathjax-js"></script>
+<script type="text/javascript" src="../../wp-includes/js/imagesloaded.min.js@ver=5.0.0" id="imagesloaded-js"></script>
+<script type="text/javascript" src="../../wp-includes/js/masonry.min.js@ver=4.2.2" id="masonry-js"></script>
+<script type="text/javascript" id="mcluhan_global-js-extra">
+/* <![CDATA[ */
+var mcluhan_ajaxpagination = {"ajaxurl":"https:\/\/www.dmitrymakarov.ru\/wp-admin\/admin-ajax.php","query_vars":"{\"page\":\"\",\"pagename\":\"intro\\\/classification\"}"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="../../wp-content/themes/mcluhan/assets/js/global.js@ver=2.1.1" id="mcluhan_global-js"></script>
+			
+	</body>
+</html>

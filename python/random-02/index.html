@@ -1,0 +1,1560 @@
+<!DOCTYPE html>
+
+<html class="no-js" lang="ru-RU">
+
+	<head>
+
+		<meta http-equiv="content-type" content="text/html" charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" >
+
+		<link rel="profile" href="http://gmpg.org/xfn/11">
+
+		<meta name='robots' content='index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' />
+	<style>img:is([sizes="auto" i], [sizes^="auto," i]) { contain-intrinsic-size: 3000px 1500px }</style>
+	
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$','$'],['\\(','\\)']], 
+    processEscapes: true
+  },
+  options: {
+    ignoreHtmlClass: 'tex2jax_ignore|editor-rich-text'
+  }
+};
+
+</script>
+
+	<!-- This site is optimized with the Yoast SEO plugin v24.4 - https://yoast.com/wordpress/plugins/seo/ -->
+	<title>Модуль random. Часть 2 | Программирование на Питоне</title>
+	<meta name="description" content="Рассмотрим понятия дискретных и непрерывных случайных величин, а также вероятностные распределения дискретной случайной величины." />
+	<link rel="canonical" href="index.html" />
+	<meta property="og:locale" content="ru_RU" />
+	<meta property="og:type" content="article" />
+	<meta property="og:title" content="Модуль random. Часть 2 | Программирование на Питоне" />
+	<meta property="og:description" content="Рассмотрим понятия дискретных и непрерывных случайных величин, а также вероятностные распределения дискретной случайной величины." />
+	<meta property="og:url" content="https://www.dmitrymakarov.ru/python/random-02/" />
+	<meta property="og:site_name" content="Машинное обучение" />
+	<meta property="article:modified_time" content="2025-01-01T06:15:34+00:00" />
+	<meta property="og:image" content="https://www.dmitrymakarov.ru/wp-content/uploads/2022/02/discrete-variable.png" />
+	<meta property="og:image:width" content="755" />
+	<meta property="og:image:height" content="200" />
+	<meta property="og:image:type" content="image/png" />
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:label1" content="Примерное время для чтения" />
+	<meta name="twitter:data1" content="3 минуты" />
+	<script type="application/ld+json" class="yoast-schema-graph">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.dmitrymakarov.ru/python/random-02/","url":"https://www.dmitrymakarov.ru/python/random-02/","name":"Модуль random. Часть 2 | Программирование на Питоне","isPartOf":{"@id":"https://www.dmitrymakarov.ru/#website"},"primaryImageOfPage":{"@id":"https://www.dmitrymakarov.ru/python/random-02/#primaryimage"},"image":{"@id":"https://www.dmitrymakarov.ru/python/random-02/#primaryimage"},"thumbnailUrl":"https://www.dmitrymakarov.ru/wp-content/uploads/2022/02/discrete-variable.png","datePublished":"2023-02-01T13:25:50+00:00","dateModified":"2025-01-01T06:15:34+00:00","description":"Рассмотрим понятия дискретных и непрерывных случайных величин, а также вероятностные распределения дискретной случайной величины.","breadcrumb":{"@id":"https://www.dmitrymakarov.ru/python/random-02/#breadcrumb"},"inLanguage":"ru-RU","potentialAction":[{"@type":"ReadAction","target":["https://www.dmitrymakarov.ru/python/random-02/"]}]},{"@type":"ImageObject","inLanguage":"ru-RU","@id":"https://www.dmitrymakarov.ru/python/random-02/#primaryimage","url":"https://www.dmitrymakarov.ru/wp-content/uploads/2022/02/discrete-variable.png","contentUrl":"https://www.dmitrymakarov.ru/wp-content/uploads/2022/02/discrete-variable.png","width":755,"height":200},{"@type":"BreadcrumbList","@id":"https://www.dmitrymakarov.ru/python/random-02/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная страница","item":"https://www.dmitrymakarov.ru/"},{"@type":"ListItem","position":2,"name":"Программирование на Питоне","item":"https://www.dmitrymakarov.ru/python/"},{"@type":"ListItem","position":3,"name":"Модуль random. Часть 2"}]},{"@type":"WebSite","@id":"https://www.dmitrymakarov.ru/#website","url":"https://www.dmitrymakarov.ru/","name":"Машинное обучение","description":"","publisher":{"@id":"https://www.dmitrymakarov.ru/#/schema/person/3fc221e2d391cc5cfd9d31c9c251c2a4"},"potentialAction":[{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://www.dmitrymakarov.ru/?s={search_term_string}"},"query-input":{"@type":"PropertyValueSpecification","valueRequired":true,"valueName":"search_term_string"}}],"inLanguage":"ru-RU"},{"@type":["Person","Organization"],"@id":"https://www.dmitrymakarov.ru/#/schema/person/3fc221e2d391cc5cfd9d31c9c251c2a4","name":"DmitryMakarov","image":{"@type":"ImageObject","inLanguage":"ru-RU","@id":"https://www.dmitrymakarov.ru/#/schema/person/image/","url":"https://secure.gravatar.com/avatar/2c5f922d990c667feffc00f99517cc0e?s=96&d=mm&r=g","contentUrl":"https://secure.gravatar.com/avatar/2c5f922d990c667feffc00f99517cc0e?s=96&d=mm&r=g","caption":"DmitryMakarov"},"logo":{"@id":"https://www.dmitrymakarov.ru/#/schema/person/image/"}}]}</script>
+	<!-- / Yoast SEO plugin. -->
+
+
+<link rel='dns-prefetch' href='https://cdn.jsdelivr.net/' />
+<link rel="alternate" type="application/rss+xml" title="Машинное обучение &raquo; Лента" href="../../feed/index.html" />
+<link rel="alternate" type="application/rss+xml" title="Машинное обучение &raquo; Лента комментариев" href="../../comments/feed/index.html" />
+<script type="text/javascript">
+/* <![CDATA[ */
+window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15.0.3\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15.0.3\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/www.dmitrymakarov.ru\/wp-includes\/js\/wp-emoji-release.min.js?ver=6.7.1"}};
+/*! This file is auto-generated */
+!function(i,n){var o,s,e;function c(e){try{var t={supportTests:e,timestamp:(new Date).valueOf()};sessionStorage.setItem(o,JSON.stringify(t))}catch(e){}}function p(e,t,n){e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(t,0,0);var t=new Uint32Array(e.getImageData(0,0,e.canvas.width,e.canvas.height).data),r=(e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(n,0,0),new Uint32Array(e.getImageData(0,0,e.canvas.width,e.canvas.height).data));return t.every(function(e,t){return e===r[t]})}function u(e,t,n){switch(t){case"flag":return n(e,"\ud83c\udff3\ufe0f\u200d\u26a7\ufe0f","\ud83c\udff3\ufe0f\u200b\u26a7\ufe0f")?!1:!n(e,"\ud83c\uddfa\ud83c\uddf3","\ud83c\uddfa\u200b\ud83c\uddf3")&&!n(e,"\ud83c\udff4\udb40\udc67\udb40\udc62\udb40\udc65\udb40\udc6e\udb40\udc67\udb40\udc7f","\ud83c\udff4\u200b\udb40\udc67\u200b\udb40\udc62\u200b\udb40\udc65\u200b\udb40\udc6e\u200b\udb40\udc67\u200b\udb40\udc7f");case"emoji":return!n(e,"\ud83d\udc26\u200d\u2b1b","\ud83d\udc26\u200b\u2b1b")}return!1}function f(e,t,n){var r="undefined"!=typeof WorkerGlobalScope&&self instanceof WorkerGlobalScope?new OffscreenCanvas(300,150):i.createElement("canvas"),a=r.getContext("2d",{willReadFrequently:!0}),o=(a.textBaseline="top",a.font="600 32px Arial",{});return e.forEach(function(e){o[e]=t(a,e,n)}),o}function t(e){var t=i.createElement("script");t.src=e,t.defer=!0,i.head.appendChild(t)}"undefined"!=typeof Promise&&(o="wpEmojiSettingsSupports",s=["flag","emoji"],n.supports={everything:!0,everythingExceptFlag:!0},e=new Promise(function(e){i.addEventListener("DOMContentLoaded",e,{once:!0})}),new Promise(function(t){var n=function(){try{var e=JSON.parse(sessionStorage.getItem(o));if("object"==typeof e&&"number"==typeof e.timestamp&&(new Date).valueOf()<e.timestamp+604800&&"object"==typeof e.supportTests)return e.supportTests}catch(e){}return null}();if(!n){if("undefined"!=typeof Worker&&"undefined"!=typeof OffscreenCanvas&&"undefined"!=typeof URL&&URL.createObjectURL&&"undefined"!=typeof Blob)try{var e="postMessage("+f.toString()+"("+[JSON.stringify(s),u.toString(),p.toString()].join(",")+"));",r=new Blob([e],{type:"text/javascript"}),a=new Worker(URL.createObjectURL(r),{name:"wpTestEmojiSupports"});return void(a.onmessage=function(e){c(n=e.data),a.terminate(),t(n)})}catch(e){}c(n=f(s,u,p))}t(n)}).then(function(e){for(var t in e)n.supports[t]=e[t],n.supports.everything=n.supports.everything&&n.supports[t],"flag"!==t&&(n.supports.everythingExceptFlag=n.supports.everythingExceptFlag&&n.supports[t]);n.supports.everythingExceptFlag=n.supports.everythingExceptFlag&&!n.supports.flag,n.DOMReady=!1,n.readyCallback=function(){n.DOMReady=!0}}).then(function(){return e}).then(function(){var e;n.supports.everything||(n.readyCallback(),(e=n.source||{}).concatemoji?t(e.concatemoji):e.wpemoji&&e.twemoji&&(t(e.twemoji),t(e.wpemoji)))}))}((window,document),window._wpemojiSettings);
+/* ]]> */
+</script>
+<link rel='stylesheet' id='urvanov_syntax_highlighter-css' href='../../wp-content/plugins/urvanov-syntax-highlighter/css/min/urvanov_syntax_highlighter.min.css@ver=2.8.38.css' type='text/css' media='all' />
+<link rel='stylesheet' id='crayon-theme-familiar-my-copy-css' href='../../wp-content/uploads/urvanov-syntax-highlighter/themes/familiar-my-copy/familiar-my-copy.css@ver=2.8.38.css' type='text/css' media='all' />
+<link rel='stylesheet' id='crayon-font-consolas-css' href='../../wp-content/plugins/urvanov-syntax-highlighter/fonts/consolas.css@ver=2.8.38.css' type='text/css' media='all' />
+<style id='wp-emoji-styles-inline-css' type='text/css'>
+
+	img.wp-smiley, img.emoji {
+		display: inline !important;
+		border: none !important;
+		box-shadow: none !important;
+		height: 1em !important;
+		width: 1em !important;
+		margin: 0 0.07em !important;
+		vertical-align: -0.1em !important;
+		background: none !important;
+		padding: 0 !important;
+	}
+</style>
+<link rel='stylesheet' id='wp-block-library-css' href='../../wp-includes/css/dist/block-library/style.min.css@ver=6.7.1.css' type='text/css' media='all' />
+<style id='filebird-block-filebird-gallery-style-inline-css' type='text/css'>
+ul.filebird-block-filebird-gallery{margin:auto!important;padding:0!important;width:100%}ul.filebird-block-filebird-gallery.layout-grid{display:grid;grid-gap:20px;align-items:stretch;grid-template-columns:repeat(var(--columns),1fr);justify-items:stretch}ul.filebird-block-filebird-gallery.layout-grid li img{border:1px solid #ccc;box-shadow:2px 2px 6px 0 rgba(0,0,0,.3);height:100%;max-width:100%;-o-object-fit:cover;object-fit:cover;width:100%}ul.filebird-block-filebird-gallery.layout-masonry{-moz-column-count:var(--columns);-moz-column-gap:var(--space);column-gap:var(--space);-moz-column-width:var(--min-width);columns:var(--min-width) var(--columns);display:block;overflow:auto}ul.filebird-block-filebird-gallery.layout-masonry li{margin-bottom:var(--space)}ul.filebird-block-filebird-gallery li{list-style:none}ul.filebird-block-filebird-gallery li figure{height:100%;margin:0;padding:0;position:relative;width:100%}ul.filebird-block-filebird-gallery li figure figcaption{background:linear-gradient(0deg,rgba(0,0,0,.7),rgba(0,0,0,.3) 70%,transparent);bottom:0;box-sizing:border-box;color:#fff;font-size:.8em;margin:0;max-height:100%;overflow:auto;padding:3em .77em .7em;position:absolute;text-align:center;width:100%;z-index:2}ul.filebird-block-filebird-gallery li figure figcaption a{color:inherit}
+
+</style>
+<style id='classic-theme-styles-inline-css' type='text/css'>
+/*! This file is auto-generated */
+.wp-block-button__link{color:#fff;background-color:#32373c;border-radius:9999px;box-shadow:none;text-decoration:none;padding:calc(.667em + 2px) calc(1.333em + 2px);font-size:1.125em}.wp-block-file__button{background:#32373c;color:#fff;text-decoration:none}
+</style>
+<style id='global-styles-inline-css' type='text/css'>
+:root{--wp--preset--aspect-ratio--square: 1;--wp--preset--aspect-ratio--4-3: 4/3;--wp--preset--aspect-ratio--3-4: 3/4;--wp--preset--aspect-ratio--3-2: 3/2;--wp--preset--aspect-ratio--2-3: 2/3;--wp--preset--aspect-ratio--16-9: 16/9;--wp--preset--aspect-ratio--9-16: 9/16;--wp--preset--color--black: #121212;--wp--preset--color--cyan-bluish-gray: #abb8c3;--wp--preset--color--white: #fff;--wp--preset--color--pale-pink: #f78da7;--wp--preset--color--vivid-red: #cf2e2e;--wp--preset--color--luminous-vivid-orange: #ff6900;--wp--preset--color--luminous-vivid-amber: #fcb900;--wp--preset--color--light-green-cyan: #7bdcb5;--wp--preset--color--vivid-green-cyan: #00d084;--wp--preset--color--pale-cyan-blue: #8ed1fc;--wp--preset--color--vivid-cyan-blue: #0693e3;--wp--preset--color--vivid-purple: #9b51e0;--wp--preset--color--dark-gray: #333;--wp--preset--color--medium-gray: #555;--wp--preset--color--light-gray: #777;--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg,rgba(6,147,227,1) 0%,rgb(155,81,224) 100%);--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg,rgb(122,220,180) 0%,rgb(0,208,130) 100%);--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg,rgba(252,185,0,1) 0%,rgba(255,105,0,1) 100%);--wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg,rgba(255,105,0,1) 0%,rgb(207,46,46) 100%);--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg,rgb(238,238,238) 0%,rgb(169,184,195) 100%);--wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg,rgb(74,234,220) 0%,rgb(151,120,209) 20%,rgb(207,42,186) 40%,rgb(238,44,130) 60%,rgb(251,105,98) 80%,rgb(254,248,76) 100%);--wp--preset--gradient--blush-light-purple: linear-gradient(135deg,rgb(255,206,236) 0%,rgb(152,150,240) 100%);--wp--preset--gradient--blush-bordeaux: linear-gradient(135deg,rgb(254,205,165) 0%,rgb(254,45,45) 50%,rgb(107,0,62) 100%);--wp--preset--gradient--luminous-dusk: linear-gradient(135deg,rgb(255,203,112) 0%,rgb(199,81,192) 50%,rgb(65,88,208) 100%);--wp--preset--gradient--pale-ocean: linear-gradient(135deg,rgb(255,245,203) 0%,rgb(182,227,212) 50%,rgb(51,167,181) 100%);--wp--preset--gradient--electric-grass: linear-gradient(135deg,rgb(202,248,128) 0%,rgb(113,206,126) 100%);--wp--preset--gradient--midnight: linear-gradient(135deg,rgb(2,3,129) 0%,rgb(40,116,252) 100%);--wp--preset--font-size--small: 16px;--wp--preset--font-size--medium: 20px;--wp--preset--font-size--large: 24px;--wp--preset--font-size--x-large: 42px;--wp--preset--font-size--normal: 18px;--wp--preset--font-size--larger: 28px;--wp--preset--spacing--20: 0.44rem;--wp--preset--spacing--30: 0.67rem;--wp--preset--spacing--40: 1rem;--wp--preset--spacing--50: 1.5rem;--wp--preset--spacing--60: 2.25rem;--wp--preset--spacing--70: 3.38rem;--wp--preset--spacing--80: 5.06rem;--wp--preset--shadow--natural: 6px 6px 9px rgba(0, 0, 0, 0.2);--wp--preset--shadow--deep: 12px 12px 50px rgba(0, 0, 0, 0.4);--wp--preset--shadow--sharp: 6px 6px 0px rgba(0, 0, 0, 0.2);--wp--preset--shadow--outlined: 6px 6px 0px -3px rgba(255, 255, 255, 1), 6px 6px rgba(0, 0, 0, 1);--wp--preset--shadow--crisp: 6px 6px 0px rgba(0, 0, 0, 1);}:where(.is-layout-flex){gap: 0.5em;}:where(.is-layout-grid){gap: 0.5em;}body .is-layout-flex{display: flex;}.is-layout-flex{flex-wrap: wrap;align-items: center;}.is-layout-flex > :is(*, div){margin: 0;}body .is-layout-grid{display: grid;}.is-layout-grid > :is(*, div){margin: 0;}:where(.wp-block-columns.is-layout-flex){gap: 2em;}:where(.wp-block-columns.is-layout-grid){gap: 2em;}:where(.wp-block-post-template.is-layout-flex){gap: 1.25em;}:where(.wp-block-post-template.is-layout-grid){gap: 1.25em;}.has-black-color{color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-color{color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-color{color: var(--wp--preset--color--white) !important;}.has-pale-pink-color{color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-color{color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-color{color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-color{color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-color{color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-color{color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-color{color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-color{color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-color{color: var(--wp--preset--color--vivid-purple) !important;}.has-black-background-color{background-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-background-color{background-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-background-color{background-color: var(--wp--preset--color--white) !important;}.has-pale-pink-background-color{background-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-background-color{background-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-background-color{background-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-background-color{background-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-background-color{background-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-background-color{background-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-background-color{background-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-background-color{background-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-background-color{background-color: var(--wp--preset--color--vivid-purple) !important;}.has-black-border-color{border-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-border-color{border-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-border-color{border-color: var(--wp--preset--color--white) !important;}.has-pale-pink-border-color{border-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-border-color{border-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-border-color{border-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-border-color{border-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-border-color{border-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-border-color{border-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-border-color{border-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-border-color{border-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-border-color{border-color: var(--wp--preset--color--vivid-purple) !important;}.has-vivid-cyan-blue-to-vivid-purple-gradient-background{background: var(--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple) !important;}.has-light-green-cyan-to-vivid-green-cyan-gradient-background{background: var(--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan) !important;}.has-luminous-vivid-amber-to-luminous-vivid-orange-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange) !important;}.has-luminous-vivid-orange-to-vivid-red-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-orange-to-vivid-red) !important;}.has-very-light-gray-to-cyan-bluish-gray-gradient-background{background: var(--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray) !important;}.has-cool-to-warm-spectrum-gradient-background{background: var(--wp--preset--gradient--cool-to-warm-spectrum) !important;}.has-blush-light-purple-gradient-background{background: var(--wp--preset--gradient--blush-light-purple) !important;}.has-blush-bordeaux-gradient-background{background: var(--wp--preset--gradient--blush-bordeaux) !important;}.has-luminous-dusk-gradient-background{background: var(--wp--preset--gradient--luminous-dusk) !important;}.has-pale-ocean-gradient-background{background: var(--wp--preset--gradient--pale-ocean) !important;}.has-electric-grass-gradient-background{background: var(--wp--preset--gradient--electric-grass) !important;}.has-midnight-gradient-background{background: var(--wp--preset--gradient--midnight) !important;}.has-small-font-size{font-size: var(--wp--preset--font-size--small) !important;}.has-medium-font-size{font-size: var(--wp--preset--font-size--medium) !important;}.has-large-font-size{font-size: var(--wp--preset--font-size--large) !important;}.has-x-large-font-size{font-size: var(--wp--preset--font-size--x-large) !important;}
+:where(.wp-block-post-template.is-layout-flex){gap: 1.25em;}:where(.wp-block-post-template.is-layout-grid){gap: 1.25em;}
+:where(.wp-block-columns.is-layout-flex){gap: 2em;}:where(.wp-block-columns.is-layout-grid){gap: 2em;}
+:root :where(.wp-block-pullquote){font-size: 1.5em;line-height: 1.6;}
+</style>
+<link rel='stylesheet' id='mcluhan-fonts-css' href='../../wp-content/themes/mcluhan/assets/css/fonts.css@ver=6.7.1.css' type='text/css' media='all' />
+<link rel='stylesheet' id='fontawesome-css' href='../../wp-content/themes/mcluhan/assets/css/font-awesome.css@ver=6.7.1.css' type='text/css' media='all' />
+<link rel='stylesheet' id='mcluhan-style-css' href='../../wp-content/themes/mcluhan/style.css@ver=2.1.1.css' type='text/css' media='all' />
+<script type="text/javascript" src="../../wp-includes/js/jquery/jquery.min.js@ver=3.7.1" id="jquery-core-js"></script>
+<script type="text/javascript" src="../../wp-includes/js/jquery/jquery-migrate.min.js@ver=3.4.1" id="jquery-migrate-js"></script>
+<script type="text/javascript" id="urvanov_syntax_highlighter_js-js-extra">
+/* <![CDATA[ */
+var UrvanovSyntaxHighlighterSyntaxSettings = {"version":"2.8.38","is_admin":"0","ajaxurl":"https:\/\/www.dmitrymakarov.ru\/wp-admin\/admin-ajax.php","prefix":"urvanov-syntax-highlighter-","setting":"urvanov-syntax-highlighter-setting","selected":"urvanov-syntax-highlighter-setting-selected","changed":"urvanov-syntax-highlighter-setting-changed","special":"urvanov-syntax-highlighter-setting-special","orig_value":"data-orig-value","debug":""};
+var UrvanovSyntaxHighlighterSyntaxStrings = {"copy":"Copied to the clipboard","minimize":"Click To Expand Code"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="../../wp-content/plugins/urvanov-syntax-highlighter/js/min/urvanov_syntax_highlighter.min.js@ver=2.8.38" id="urvanov_syntax_highlighter_js-js"></script>
+
+			<!-- Customizer CSS -->
+
+			<style type="text/css">
+
+				body .site-header { background-color:#004235; }.social-menu.desktop { background-color:#004235; }.social-menu a:hover { color:#004235; }.social-menu a.active { color:#004235; }.mobile-menu-wrapper { background-color:#004235; }.social-menu.mobile { background-color:#004235; }.mobile-search.active { background-color:#004235; }
+			</style>
+
+			<!-- /Customizer CSS -->
+
+					<script>jQuery( 'html' ).removeClass( 'no-js' ).addClass( 'js' );</script>
+		<style type="text/css">.broken_link, a.broken_link {
+	text-decoration: line-through;
+}</style><style type="text/css" id="custom-background-css">
+body.custom-background { background-color: #fff9ef; }
+</style>
+	<link rel="icon" href="../../wp-content/uploads/2021/08/cropped-wp-favicon-512-32x32.png" sizes="32x32" />
+<link rel="icon" href="../../wp-content/uploads/2021/08/cropped-wp-favicon-512-192x192.png" sizes="192x192" />
+<link rel="apple-touch-icon" href="../../wp-content/uploads/2021/08/cropped-wp-favicon-512-180x180.png" />
+<meta name="msapplication-TileImage" content="https://www.dmitrymakarov.ru/wp-content/uploads/2021/08/cropped-wp-favicon-512-270x270.png" />
+
+	</head>
+
+	<body class="page-template page-template-full-width-page-template page-template-full-width-page-template-php page page-id-18502 page-child parent-pageid-1374 custom-background full-width-template">
+
+		
+		<a class="skip-link button" href="index.html#site-content">Перейти к содержимому</a>
+
+		<header class="site-header group">
+
+			
+			<p class="site-title"><a href="../../index.html" class="site-name">Машинное обучение</a></p>
+
+			
+			<div class="nav-toggle">
+				<div class="bar"></div>
+				<div class="bar"></div>
+			</div>
+
+			<div class="menu-wrapper">
+
+				<ul class="main-menu desktop">
+
+									</ul>
+
+			</div><!-- .menu-wrapper -->
+
+			
+				<div class="social-menu desktop">
+
+					<ul class="social-menu-inner">
+
+						<li class="social-search-wrapper"><a href="../../index.html@s=.html"></a></li>
+
+						
+					</ul><!-- .social-menu-inner -->
+
+				</div><!-- .social-menu -->
+
+			
+		</header><!-- header -->
+
+		<div class="mobile-menu-wrapper">
+
+			<ul class="main-menu mobile">
+									<li class="toggle-mobile-search-wrapper"><a href="index.html#" class="toggle-mobile-search">Поиск</a></li>
+							</ul><!-- .main-menu.mobile -->
+
+			
+		</div><!-- .mobile-menu-wrapper -->
+
+		
+			<div class="mobile-search">
+
+				<div class="untoggle-mobile-search"></div>
+
+				
+<form role="search" method="get" class="search-form" action="../../index.html">
+	<label class="screen-reader-text" for="search-form-67aa6223bcf36">Поиск:</label>
+	<input type="search" id="search-form-67aa6223bcf36" class="search-field" placeholder="Введите запрос" value="" name="s" autocomplete="off" />
+	</button>
+</form>
+
+				<div class="mobile-results">
+
+					<div class="results-wrapper"></div>
+
+				</div>
+
+			</div><!-- .mobile-search -->
+
+			<div class="search-overlay">
+
+				
+<form role="search" method="get" class="search-form" action="../../index.html">
+	<label class="screen-reader-text" for="search-form-67aa6223bcfda">Поиск:</label>
+	<input type="search" id="search-form-67aa6223bcfda" class="search-field" placeholder="Введите запрос" value="" name="s" autocomplete="off" />
+	</button>
+</form>
+
+			</div><!-- .search-overlay -->
+
+		
+		<main class="site-content" id="site-content">
+		<article class="post-18502 page type-page status-publish hentry missing-thumbnail">
+
+			
+			<header class="entry-header section-inner">
+
+				<h1 class="entry-title">Модуль random. Часть 2</h1>
+			</header><!-- .entry-header -->
+
+			<div class="entry-content section-inner">
+
+				
+<p class="has-light-gray-color has-text-color"><a href="../../index.html">Материалы</a> &gt; <a href="../index.html">Программирование на Питоне</a></p>
+
+
+
+<p>Во второй части перейдем к изучению вероятностного распределения дискретных случайных величин.</p>
+
+
+
+<p class="has-text-align-center has-white-color has-text-color has-background" style="background-color:#004235"><a href="https://colab.research.google.com/drive/1VX5VlmmBXhFqdY4uRxjE1a3uwAqNyNTh?usp=sharing" target="_blank" rel="noreferrer noopener">Продолжим работать в том же блокноте</a>⧉</p>
+
+
+
+<h2 class="wp-block-heading" id="0-diskretnye-i-nepreryvnye-sluchaynye-velichiny">Дискретные и непрерывные случайные величины</h2>
+
+
+
+<p>Случайные величины делятся на дискретные и непрерывные.</p>
+
+
+
+<h3 class="wp-block-heading" id="1-diskretnaya-sluchaynaya-velichina">Дискретная случайная величина</h3>
+
+
+
+<p>Дискретная случайная величина — это случайная величина, значения которой конечны и счетны.</p>
+
+
+
+<p>Помимо бросания игральной кости, классическими примерами дискретной случайной величины являются подбрасывания монеты или раздача колоды карт. Пример из повседневной жизни — количество автомобилей, проезжающих по улице города за сутки.</p>
+
+
+
+<p>На числовой прямой такая величина может быть отмечена только на определенных точках.</p>
+
+
+
+<figure class="wp-block-image size-full is-resized"><img fetchpriority="high" decoding="async" width="755" height="200" src="../../wp-content/uploads/2022/02/discrete-variable.png" alt="дискретная случайная величина" class="wp-image-10370" style="width:540px;height:143px" srcset="../../wp-content/uploads/2022/02/discrete-variable.png 755w, ../../wp-content/uploads/2022/02/discrete-variable-300x79.png 300w, ../../wp-content/uploads/2022/02/discrete-variable-600x159.png 600w" sizes="(max-width: 755px) 100vw, 755px" /></figure>
+
+
+
+<h3 class="wp-block-heading" id="2-nepreryvnaya-sluchaynaya-velichina">Непрерывная случайная величина</h3>
+
+
+
+<p>Непрерывная случайная величина может быть получена в результате измерений (например, рост человека, температура воздуха, время ожидания в очереди и так далее).</p>
+
+
+
+<p>На числовой прямой такая величина может принимать любое значение в пределах заданного интервала.</p>
+
+
+
+<figure class="wp-block-image size-full is-resized"><img decoding="async" width="754" height="202" src="../../wp-content/uploads/2022/02/continuous-variable.png" alt="непрерывная случайная величина" class="wp-image-10371" style="width:541px;height:145px" srcset="../../wp-content/uploads/2022/02/continuous-variable.png 754w, ../../wp-content/uploads/2022/02/continuous-variable-300x80.png 300w, ../../wp-content/uploads/2022/02/continuous-variable-600x161.png 600w" sizes="(max-width: 754px) 100vw, 754px" /></figure>
+
+
+
+<h2 class="wp-block-heading" id="3-veroyatnostnoe-raspredelenie">Вероятностное распределение</h2>
+
+
+
+<p>А теперь давайте попробуем провести множество подсчётов (для дискретной) и измерений (для непрерывной) случайной величины и вывести их на одном графике. Начнем с дискретных величин.</p>
+
+
+
+<h3 class="wp-block-heading" id="4-diskretnoe-veroyatnostnoe-raspredelenie">Дискретное вероятностное распределение</h3>
+
+
+
+<p>Мы снова будем бросать игральную кость, но на этот раз существенно увеличим количество испытаний.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa6223b687b225041714" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6223b687b225041714-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa6223b687b225041714-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6223b687b225041714-3">3</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa6223b687b225041714-4">4</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6223b687b225041714-5">5</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa6223b687b225041714-6">6</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6223b687b225041714-7">7</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa6223b687b225041714-8">8</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6223b687b225041714-1"><span class="crayon-c"># зададим точку отсчета</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa6223b687b225041714-2"><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-k ">random</span><span class="crayon-sy">.</span><span class="crayon-e">seed</span><span class="crayon-sy">(</span><span class="crayon-cn">42</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6223b687b225041714-3"><span class="crayon-h"> </span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa6223b687b225041714-4"><span class="crayon-c"># бросим кость 100 000 раз</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6223b687b225041714-5"><span class="crayon-v">dice</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-k ">random</span><span class="crayon-sy">.</span><span class="crayon-e">randint</span><span class="crayon-sy">(</span><span class="crayon-cn">1</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">7</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">100000</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa6223b687b225041714-6"><span class="crayon-h"> </span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6223b687b225041714-7"><span class="crayon-c"># выведем первые 10 результатов</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa6223b687b225041714-8"><span class="crayon-v">dice</span><span class="crayon-sy">[</span><span class="crayon-o">:</span><span class="crayon-cn">10</span><span class="crayon-sy">]</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0004 seconds] -->
+</div>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa6223b6884693633153" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6223b6884693633153-1">1</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6223b6884693633153-1">array([4, 5, 3, 5, 5, 2, 3, 3, 3, 5])</div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0000 seconds] -->
+</div>
+
+
+
+<p>С помощью&nbsp;<strong>функции np.unique()</strong>&nbsp;посчитаем, сколько раз выпадет каждый из шести возможных исходов.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa6223b6886618801495" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6223b6886618801495-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa6223b6886618801495-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6223b6886618801495-3">3</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa6223b6886618801495-4">4</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6223b6886618801495-5">5</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa6223b6886618801495-6">6</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6223b6886618801495-1"><span class="crayon-c"># функция np.unique() возвращает перечень уникальных элементов массива</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa6223b6886618801495-2"><span class="crayon-c"># и их количество при параметре return_counts = True</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6223b6886618801495-3"><span class="crayon-v">elements</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">counts</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-e">unique</span><span class="crayon-sy">(</span><span class="crayon-v">dice</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">return_counts</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-t">True</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa6223b6886618801495-4"><span class="crayon-h"> </span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6223b6886618801495-5"><span class="crayon-k ">print</span><span class="crayon-sy">(</span><span class="crayon-v">elements</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa6223b6886618801495-6"><span class="crayon-k ">print</span><span class="crayon-sy">(</span><span class="crayon-v">counts</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0002 seconds] -->
+</div>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa6223b6887067429722" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6223b6887067429722-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa6223b6887067429722-2">2</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6223b6887067429722-1">[1 2 3 4 5 6]</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa6223b6887067429722-2">[16592 16799 16390 16776 16810 16633]</div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0000 seconds] -->
+</div>
+
+
+
+<p>Теперь рассчитаем долю каждого исхода в общем количестве испытаний.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa6223b6888911522663" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6223b6888911522663-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa6223b6888911522663-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6223b6888911522663-3">3</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6223b6888911522663-1"><span class="crayon-c"># выполним поэлементное деление частоты каждого исхода на общее количество бросков </span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa6223b6888911522663-2"><span class="crayon-v">rel_freq</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-v">counts</span><span class="crayon-h"> </span><span class="crayon-o">/</span><span class="crayon-h"> </span><span class="crayon-k ">len</span><span class="crayon-sy">(</span><span class="crayon-v">dice</span><span class="crayon-sy">)</span><span class="crayon-sy">)</span><span class="crayon-sy">.</span><span class="crayon-k ">round</span><span class="crayon-sy">(</span><span class="crayon-cn">3</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6223b6888911522663-3"><span class="crayon-v">rel_freq</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0002 seconds] -->
+</div>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa6223b688a539621739" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6223b688a539621739-1">1</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6223b688a539621739-1">array([0.166, 0.168, 0.164, 0.168, 0.168, 0.166])</div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0000 seconds] -->
+</div>
+
+
+
+<p>Увидеть такое распределение можно с помощью&nbsp;столбчатой диаграммы.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa6223b688b692402755" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6223b688b692402755-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa6223b688b692402755-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6223b688b692402755-3">3</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa6223b688b692402755-4">4</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6223b688b692402755-5">5</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa6223b688b692402755-6">6</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6223b688b692402755-7">7</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6223b688b692402755-1"><span class="crayon-c"># зададим размер графика</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa6223b688b692402755-2"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">figure</span><span class="crayon-sy">(</span><span class="crayon-v">figsize</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-cn">7</span><span class="crayon-sy">,</span><span class="crayon-cn">5</span><span class="crayon-sy">)</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6223b688b692402755-3"><span class="crayon-h"> </span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa6223b688b692402755-4"><span class="crayon-c"># передадим в plt.bar() категории (элементы) и их относительную частоту</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6223b688b692402755-5"><span class="crayon-c"># зададим параметр width, который контролирует ширину столбца</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa6223b688b692402755-6"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">bar</span><span class="crayon-sy">(</span><span class="crayon-v">elements</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">rel_freq</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">width</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">0.98</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6223b688b692402755-7"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">show</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0003 seconds] -->
+</div>
+
+
+
+<figure class="wp-block-image size-full"><img decoding="async" width="434" height="303" src="../../wp-content/uploads/2022/02/uniform.png" alt="дискретное вероятностное распределение" class="wp-image-10304" srcset="../../wp-content/uploads/2022/02/uniform.png 434w, ../../wp-content/uploads/2022/02/uniform-300x209.png 300w" sizes="(max-width: 434px) 100vw, 434px" /></figure>
+
+
+
+<p>Обратите внимание, с помощью графика мы можем оценить вероятность каждого из исходов. Именно для этого и нужно вероятностное распределение. Мы можем оценить случайный процесс в целом.</p>
+
+
+
+<h4 class="wp-block-heading" id="5-ravnomernoe-diskretnoe-raspredelenie">Равномерное дискретное распределение</h4>
+
+
+
+<p>Как вы видите, вероятность наступления каждого исхода примерно одинакова. Такое распределение называется&nbsp;<strong>равномерным</strong>&nbsp;(discrete uniform distribution). Именно его и использует функция&nbsp;<strong>np.random.randint()</strong>&nbsp;при генерации чисел.</p>
+
+
+
+<p class="has-background" style="background-color:#ffe8c4">Небольшие расхождения вероятностей каждого из шести исходов объясняются тем, что мы используем эмпирическую, а не теоретическую вероятность. Теоретически эти вероятности одинаковы.</p>
+
+
+
+<p>Посмотрим на нотацию равномерного распределения</p>
+
+
+
+<p>$$ X \sim U(a, b) $$</p>
+
+
+
+<p>В данном случае $a$ и $b$ — минимальное и максимальное значения случайной величины $X$. При бросании кости $a$ и $b$ равны одному и шести соответственно.</p>
+
+
+
+<p>$$ X \sim U(1, 6) $$</p>
+
+
+
+<h4 class="wp-block-heading" id="6-funktsiya-veroyatnosti">Функция вероятности</h4>
+
+
+
+<p>Помимо графика, дискретное вероятностное распределение удобно описывать с помощью&nbsp;<strong>функции вероятности</strong>&nbsp;(probability mass function, pmf). Такая функция возвращает вероятность того, что случайная величина примет определенное значение.</p>
+
+
+
+<p>В случае равномерного распределения вероятность каждого исхода одинакова, а функция вероятности чрезвычайно проста.</p>
+
+
+
+<p>$$ pmf = \frac {1}{n} $$</p>
+
+
+
+<p>Параметр n можно рассчитать по формуле</p>
+
+
+
+<p>$$ n = b-a+1 $$</p>
+
+
+
+<p>Вероятность каждого исхода, таким образом, будет равна 1/6.</p>
+
+
+
+<p>$$ pmf = \frac{1}{6-1+1} = \frac{1}{6} $$</p>
+
+
+
+<p>Рассмотрим эту функцию на графике.</p>
+
+
+
+<figure class="wp-block-image size-full is-resized"><img loading="lazy" decoding="async" width="669" height="471" src="../../wp-content/uploads/2022/02/pmf-discrete-uniform.png" alt="функция вероятности (pmf)" class="wp-image-10388" style="width:483px;height:340px" srcset="../../wp-content/uploads/2022/02/pmf-discrete-uniform.png 669w, ../../wp-content/uploads/2022/02/pmf-discrete-uniform-300x211.png 300w, ../../wp-content/uploads/2022/02/pmf-discrete-uniform-600x422.png 600w" sizes="auto, (max-width: 669px) 100vw, 669px" /></figure>
+
+
+
+<p>Функцию вероятности рассматриваемой нами дискретной величины также можно представить в форме таблицы.</p>
+
+
+
+<figure class="wp-block-image size-large is-resized"><img loading="lazy" decoding="async" width="1024" height="131" src="../../wp-content/uploads/2022/02/pmf-1024x131.jpg" alt="таблица дискретного распределения" class="wp-image-10360" style="width:621px;height:79px" srcset="../../wp-content/uploads/2022/02/pmf-1024x131.jpg 1024w, ../../wp-content/uploads/2022/02/pmf-300x38.jpg 300w, ../../wp-content/uploads/2022/02/pmf-768x98.jpg 768w, ../../wp-content/uploads/2022/02/pmf-1536x197.jpg 1536w, ../../wp-content/uploads/2022/02/pmf-1200x154.jpg 1200w, ../../wp-content/uploads/2022/02/pmf-600x77.jpg 600w, ../../wp-content/uploads/2022/02/pmf.jpg 1788w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+<p>Еще раз обращу ваше внимание на то, что сумма вероятностей любого распределения равна единице.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa6223b688c599713083" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6223b688c599713083-1">1</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6223b688c599713083-1"><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-k ">sum</span><span class="crayon-sy">(</span><span class="crayon-v">rel_freq</span><span class="crayon-sy">)</span><span class="crayon-sy">.</span><span class="crayon-k ">round</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0001 seconds] -->
+</div>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa6223b688e854204299" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6223b688e854204299-1">1</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6223b688e854204299-1">1.0</div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0000 seconds] -->
+</div>
+
+
+
+<h4 class="wp-block-heading" id="7-funktsiya-raspredeleniya">Функция распределения</h4>
+
+
+
+<p>Одновременно, вероятностное распределение бывает удобно описать с помощью (кумулятивной, накопительной)&nbsp;<strong>функции распределения</strong>&nbsp;(cumulative distribution function, cdf). Эта функция возвращает вероятность того, что случайная величина примет значение меньше заданного. Говоря неформально, она показывает «накопившуюся» вероятность исходов.</p>
+
+
+
+<p>Для равномерного дискретного распределения функция распределения выглядит следующим образом</p>
+
+
+
+<p>$$ cdf(k; a, b) = \frac{[k]-a+1}{b-a+1} $$</p>
+
+
+
+<p>где $k$ — это возможный исход в границах между $a$ и $b$, то есть $k \in [a, b]$.</p>
+
+
+
+<p>Приведем пример. При бросании кости рассчитаем вероятность выпадения тройки или меньшего значения (то есть 1, 2 или 3).</p>
+
+
+
+<p>$$ cdf(3; 1, 6) = \frac{3-1+1}{6-1+1} = \frac{3}{6} = \frac{1}{2} $$</p>
+
+
+
+<p>Посмотрим на эту вероятность на графике функции распределения.</p>
+
+
+
+<figure class="wp-block-image size-full is-resized"><img loading="lazy" decoding="async" width="642" height="459" src="../../wp-content/uploads/2022/02/cdf-discrete-uniform.png" alt="функция распределения" class="wp-image-10392" style="width:467px;height:334px" srcset="../../wp-content/uploads/2022/02/cdf-discrete-uniform.png 642w, ../../wp-content/uploads/2022/02/cdf-discrete-uniform-300x214.png 300w, ../../wp-content/uploads/2022/02/cdf-discrete-uniform-600x429.png 600w" sizes="auto, (max-width: 642px) 100vw, 642px" /></figure>
+
+
+
+<h4 class="wp-block-heading" id="8-matematicheskoe-ozhidanie">Математическое ожидание</h4>
+
+
+
+<p>Кроме того, вероятностное распределение характеризуется&nbsp;<strong>математическим ожиданием</strong>&nbsp;(expected value). Матожидание — это среднее значение (mean value) случайной величины X, взвешенное по вероятности каждого из возможных значений.</p>
+
+
+
+<p>$$ {\mathbb E}[X] = \sum_{i=1}^{\infty} x_i p_i $$</p>
+
+
+
+<p>В случае бросания игральной кости расчет будет выглядеть следующим образом.</p>
+
+
+
+<p>$$ {\mathbb E}[X] = 1 \times \frac{1}{6} + 2 \times \frac{1}{6} + 3 \times \frac{1}{6} + 4 \times \frac{1}{6} + 5 \times \frac{1}{6} + 6 \times \frac{1}{6} = 3{,}5 $$</p>
+
+
+
+<p>Для равномерного распределения есть и сокращенная формула.</p>
+
+
+
+<p>$$ {\mathbb E}[X] = \frac{a+b}{2} = \frac{1+6}{2} = 3{,}5 $$</p>
+
+
+
+<p>На Питоне мы можем сложить результаты поэлементного умножения.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa6223b6891369841266" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6223b6891369841266-1">1</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6223b6891369841266-1"><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-k ">sum</span><span class="crayon-sy">(</span><span class="crayon-v">rel_freq</span><span class="crayon-h"> </span><span class="crayon-o">*</span><span class="crayon-h"> </span><span class="crayon-v">elements</span><span class="crayon-sy">)</span><span class="crayon-sy">.</span><span class="crayon-k ">round</span><span class="crayon-sy">(</span><span class="crayon-cn">2</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0002 seconds] -->
+</div>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa6223b6893064411376" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6223b6893064411376-1">1</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6223b6893064411376-1">3.5</div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0000 seconds] -->
+</div>
+
+
+
+<p>Кроме того, можно использовать скалярное произведение.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa6223b6894979459282" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6223b6894979459282-1">1</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6223b6894979459282-1"><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-e">dot</span><span class="crayon-sy">(</span><span class="crayon-v">rel_freq</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">elements</span><span class="crayon-sy">)</span><span class="crayon-sy">.</span><span class="crayon-k ">round</span><span class="crayon-sy">(</span><span class="crayon-cn">2</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0002 seconds] -->
+</div>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa6223b6895643393822" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6223b6895643393822-1">1</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6223b6895643393822-1">3.5</div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0000 seconds] -->
+</div>
+
+
+
+<p>Посмотрим на среднее значение сгенерированного распределения.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa6223b6896252734864" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6223b6896252734864-1">1</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6223b6896252734864-1"><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-e">mean</span><span class="crayon-sy">(</span><span class="crayon-v">dice</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0001 seconds] -->
+</div>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa6223b6898640585657" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6223b6898640585657-1">1</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6223b6898640585657-1">3.50312</div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0000 seconds] -->
+</div>
+
+
+
+<h4 class="wp-block-heading" id="9-dispersiya">Дисперсия</h4>
+
+
+
+<p>Еще одной характеристикой вероятностного распределения является&nbsp;<strong>дисперсия</strong>&nbsp;(variance). Для равномерного распределение она вычисляется по следующей формуле.</p>
+
+
+
+<p>$$ {\mathbb D}[X] = \frac{n^2-1}{12} $$</p>
+
+
+
+<p>В нашем случае дисперсия равна</p>
+
+
+
+<p>$$ {\mathbb D}[X] = \frac{6^{2}-1}{12} = \frac{35}{12} \approx 2{,}917 $$</p>
+
+
+
+<p>Сравним с нашим распределением</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa6223b6899916182630" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6223b6899916182630-1">1</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6223b6899916182630-1"><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-e">var</span><span class="crayon-sy">(</span><span class="crayon-v">dice</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0001 seconds] -->
+</div>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa6223b689a692704130" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6223b689a692704130-1">1</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6223b689a692704130-1">2.9156702656</div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0000 seconds] -->
+</div>
+
+
+
+<p>Впрочем, далеко не все дискретные распределения равномерны. Посмотрим на распределение Бернулли.</p>
+
+
+
+<h3 class="wp-block-heading" id="10-raspredelenie-bernulli">Распределение Бернулли</h3>
+
+
+
+<p>Многие случайные процессы характеризуются только двумя исходами. Это и выпадение орла или решки при подбрасывании монет, и успех или неудача клинического испытания. Такие процессы можно моделировать с помощью&nbsp;<strong>распределения Бернулли</strong>&nbsp;(Bernulli distribution).</p>
+
+
+
+<p>Давайте рассмотрим этот процесс на практике. На этот раз мы будем подбрасывать монету, но не обычную или симметричную монету (fair coin), а такую, в которой вероятность выпадения решки (обозначим ее p) равна 0,7, а вероятность орла — 0,3. Такую монету назвают неправильной или несимметричной (biased, unfair coin). После каждого подбрасывания запишем получившийся результат.</p>
+
+
+
+<p>В Numpy нет отдельной функции для распределения Бернулли, поэтому напишем собственную функцию.</p>
+
+
+
+<p class="has-background" style="background-color:#ffe8c4">В следующей главе я покажу, как можно использовать функцию биномиального распределения для имитации эксперимента Бернулли.</p>
+
+
+
+<ul class="wp-block-list">
+<li>Объявим функцию bernoulli() с двумя параметрами, p и iter. Первый параметр будет отвечать за выпадение орла, второй — за количество подбрасываний.</li>
+
+
+
+<li>С помощью&nbsp;<strong>функции np.random.rand()</strong>&nbsp;мы будем генерировать значение непрерывной равномерной величины (об этом опять же чуть ниже) и если получившееся значение меньше p, мы запишем, что выпала решка (1), в противном случае, что орел (0).</li>
+</ul>
+
+
+
+<p>Посмотрим на реализацию на Питоне.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa6223b689c399771742" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6223b689c399771742-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa6223b689c399771742-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6223b689c399771742-3">3</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa6223b689c399771742-4">4</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6223b689c399771742-5">5</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa6223b689c399771742-6">6</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6223b689c399771742-7">7</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa6223b689c399771742-8">8</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6223b689c399771742-9">9</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa6223b689c399771742-10">10</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6223b689c399771742-11">11</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa6223b689c399771742-12">12</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6223b689c399771742-13">13</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa6223b689c399771742-14">14</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6223b689c399771742-15">15</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa6223b689c399771742-16">16</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6223b689c399771742-17">17</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa6223b689c399771742-18">18</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6223b689c399771742-19">19</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa6223b689c399771742-20">20</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6223b689c399771742-21">21</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa6223b689c399771742-22">22</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6223b689c399771742-1"><span class="crayon-c"># объявим функцию bernoulli() с параметрами p, iter</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa6223b689c399771742-2"><span class="crayon-r">def</span><span class="crayon-h"> </span><span class="crayon-e">bernoulli</span><span class="crayon-sy">(</span><span class="crayon-v">p</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-k ">iter</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-sy">)</span><span class="crayon-o">:</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6223b689c399771742-3"><span class="crayon-h">&nbsp;&nbsp;</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa6223b689c399771742-4"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-c"># создадим пустой массив</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6223b689c399771742-5"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-v">result</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-k ">array</span><span class="crayon-sy">(</span><span class="crayon-sy">[</span><span class="crayon-sy">]</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa6223b689c399771742-6"><span class="crayon-h">&nbsp;&nbsp;</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6223b689c399771742-7"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-c"># в цикле с количеством итераций iter</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa6223b689c399771742-8"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-st">for</span><span class="crayon-h"> </span><span class="crayon-i">i</span><span class="crayon-h"> </span><span class="crayon-st">in</span><span class="crayon-h"> </span><span class="crayon-k ">range</span><span class="crayon-sy">(</span><span class="crayon-k ">iter</span><span class="crayon-sy">)</span><span class="crayon-o">:</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6223b689c399771742-9"><span class="crayon-h"> </span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa6223b689c399771742-10"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-c"># если значение np.random.rand() в диапазоне [0, 1) меньше или равно p</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6223b689c399771742-11"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-st">if</span><span class="crayon-h"> </span><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-k ">random</span><span class="crayon-sy">.</span><span class="crayon-e">rand</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-o">&lt;=</span><span class="crayon-h"> </span><span class="crayon-v">p</span><span class="crayon-o">:</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa6223b689c399771742-12"><span class="crayon-h"> </span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6223b689c399771742-13"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-c"># запишем в массив result единицу</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa6223b689c399771742-14"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">result</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-e">append</span><span class="crayon-sy">(</span><span class="crayon-v">result</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6223b689c399771742-15"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa6223b689c399771742-16"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-st">else</span><span class="crayon-o">:</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6223b689c399771742-17"><span class="crayon-h"> </span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa6223b689c399771742-18"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-c"># в противном случае, запишем ноль</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6223b689c399771742-19"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">result</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-e">append</span><span class="crayon-sy">(</span><span class="crayon-v">result</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">0</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa6223b689c399771742-20"><span class="crayon-h"> </span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6223b689c399771742-21"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-c"># в результате выполнения функции вернем массив result</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa6223b689c399771742-22"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-st">return</span><span class="crayon-h"> </span><span class="crayon-v">result</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0008 seconds] -->
+</div>
+
+
+
+<p>Вызовем эту функцию с параметрами p и iter, равными 0,7 и 10000 соответственно.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa6223b689e515287398" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6223b689e515287398-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa6223b689e515287398-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6223b689e515287398-3">3</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa6223b689e515287398-4">4</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6223b689e515287398-5">5</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa6223b689e515287398-6">6</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6223b689e515287398-7">7</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa6223b689e515287398-8">8</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6223b689e515287398-1"><span class="crayon-c"># вызовем функцию</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa6223b689e515287398-2"><span class="crayon-v">res</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-e">bernoulli</span><span class="crayon-sy">(</span><span class="crayon-cn">0.7</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">10000</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6223b689e515287398-3">&nbsp;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa6223b689e515287398-4"><span class="crayon-c"># выясним количество нулей и единиц в получившемся массиве</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6223b689e515287398-5"><span class="crayon-v">values</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">counts</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-e">unique</span><span class="crayon-sy">(</span><span class="crayon-v">res</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">return_counts</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-t">True</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa6223b689e515287398-6">&nbsp;</div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6223b689e515287398-7"><span class="crayon-c"># выведем значения, частоту и относительную частоту</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa6223b689e515287398-8"><span class="crayon-v">values</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">counts</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">counts</span><span class="crayon-h"> </span><span class="crayon-o">/</span><span class="crayon-h"> </span><span class="crayon-k ">len</span><span class="crayon-sy">(</span><span class="crayon-v">res</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0004 seconds] -->
+</div>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa6223b689f472000421" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6223b689f472000421-1">1</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6223b689f472000421-1">(array([0., 1.]), array([3055, 6945]), array([0.3055, 0.6945]))</div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0000 seconds] -->
+</div>
+
+
+
+<p>Посмотрим на распределение Бернулли на графике. Воспользуемся&nbsp;<a href="../../intro/stats/index.html">столбчатой диаграммой</a>.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa6223b68a0365617098" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6223b68a0365617098-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa6223b68a0365617098-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6223b68a0365617098-3">3</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa6223b68a0365617098-4">4</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6223b68a0365617098-1"><span class="crayon-c"># в качестве названия столбцов передадим '0' и '1' в формате строки,</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa6223b68a0365617098-2"><span class="crayon-c"># в качестве высоты - относительную частоту значений</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6223b68a0365617098-3"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">bar</span><span class="crayon-sy">(</span><span class="crayon-sy">[</span><span class="crayon-s">'0'</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-s">'1'</span><span class="crayon-sy">]</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">counts</span><span class="crayon-h"> </span><span class="crayon-o">/</span><span class="crayon-h"> </span><span class="crayon-k ">len</span><span class="crayon-sy">(</span><span class="crayon-v">res</span><span class="crayon-sy">)</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">width</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">0.98</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa6223b68a0365617098-4"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">show</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0003 seconds] -->
+</div>
+
+
+
+<figure class="wp-block-image size-full"><img loading="lazy" decoding="async" width="372" height="248" src="../../wp-content/uploads/2022/02/bernoulli.png" alt="распределение Бернулли" class="wp-image-10405" srcset="../../wp-content/uploads/2022/02/bernoulli.png 372w, ../../wp-content/uploads/2022/02/bernoulli-300x200.png 300w" sizes="auto, (max-width: 372px) 100vw, 372px" /></figure>
+
+
+
+<h3 class="wp-block-heading" id="11-binomialnoe-raspredelenie">Биномиальное распределение</h3>
+
+
+
+<h4 class="wp-block-heading" id="12-primer-s-odinakovoy-veroyatnostyu">Пример с одинаковой вероятностью</h4>
+
+
+
+<p>Продолжим подбрасывать монеты, но уже не по одному разу, а по три, и каждый раз записывать результат. Всего для каждой серии испытаний (по три подбрасывания в каждой) возможны восемь исходов.</p>
+
+
+
+<p>Обозначим решку через H (head), а орла через T (tail).</p>
+
+
+
+<figure class="wp-block-image size-large is-resized"><img loading="lazy" decoding="async" width="712" height="1024" src="../../wp-content/uploads/2022/03/equal-tree-712x1024.jpg" alt="биномиальное распределение" class="wp-image-11014" style="width:356px;height:512px" srcset="../../wp-content/uploads/2022/03/equal-tree-712x1024.jpg 712w, ../../wp-content/uploads/2022/03/equal-tree-209x300.jpg 209w, ../../wp-content/uploads/2022/03/equal-tree-768x1104.jpg 768w, ../../wp-content/uploads/2022/03/equal-tree-600x862.jpg 600w, ../../wp-content/uploads/2022/03/equal-tree.jpg 892w" sizes="auto, (max-width: 712px) 100vw, 712px" /></figure>
+
+
+
+<p>Вероятность каждой из комбинаций равна 1/8, так как при одном подбрасывании вероятность выпадения орла или решки одинакова (монета симметрична).</p>
+
+
+
+<p>$$ P = \frac{1}{2} \times \frac{1}{2} \times \frac{1}{2} = \frac{1}{8} $$</p>
+
+
+
+<p>Какова вероятность выпадения двух решек (вне зависимости от порядка, в котором они выпадали)? Вначале нам нужно посмотреть, в скольких комбинациях оказалось две решки (назовем такие испытания «успехами», successes).</p>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" decoding="async" width="1024" height="592" src="../../wp-content/uploads/2022/03/equal-tree-prob-1024x592.jpg" alt="вероятности биномиального распределения" class="wp-image-11015" srcset="../../wp-content/uploads/2022/03/equal-tree-prob-1024x592.jpg 1024w, ../../wp-content/uploads/2022/03/equal-tree-prob-300x174.jpg 300w, ../../wp-content/uploads/2022/03/equal-tree-prob-768x444.jpg 768w, ../../wp-content/uploads/2022/03/equal-tree-prob-1536x889.jpg 1536w, ../../wp-content/uploads/2022/03/equal-tree-prob-2048x1185.jpg 2048w, ../../wp-content/uploads/2022/03/equal-tree-prob-1200x694.jpg 1200w, ../../wp-content/uploads/2022/03/equal-tree-prob-600x347.jpg 600w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+<p>Таких комбинаций три (HHT, HTH, THH). Осталось количество «успехов» умножить на вероятность каждого исхода.</p>
+
+
+
+<p>$$ P(X = 2) = 3 \times \frac{1}{8} = \frac{3}{8} $$</p>
+
+
+
+<p>Очевидно, таким образом мы можем посчитать вероятность выпадения любого количества решек. Например, у нас только один случай выпадения всех орлов, и соответственно вероятность остаться без решек составляет</p>
+
+
+
+<p>$$ P(X = 0) = 1 \times \frac{1}{8} = \frac{1}{8} $$</p>
+
+
+
+<p>Вероятность одного и трех решек после трех испытаний равна</p>
+
+
+
+<p>$$ P(X = 1) = 3 \times \frac{1}{8} = \frac{3}{8} $$</p>
+
+
+
+<p>$$ P(X = 3) = 1 \times \frac{1}{8} = \frac{1}{8} $$</p>
+
+
+
+<p class="has-background" style="background-color:#ffe8c4">Для полноты картины замечу, что, например, $P(X = 3)$ читается как вероятность $(P)$ того, что случайная величина $(X)$ примет значение три.</p>
+
+
+
+<p>Теперь давайте выведем эти вероятности на график. По оси $x$ разместим возможные значения случайной величины $X$, а по оси $y$ соответствующие вероятности $P(X = x)$. У нас получился график биномиального распределения.</p>
+
+
+
+<figure class="wp-block-image size-large is-resized"><img loading="lazy" decoding="async" width="1024" height="682" src="../../wp-content/uploads/2022/03/sim-dicrete-dist-1024x682.jpg" alt="биномиальное распределение с одинаковой вероятностью (гистограмма)" class="wp-image-11017" style="width:526px;height:350px" srcset="../../wp-content/uploads/2022/03/sim-dicrete-dist-1024x682.jpg 1024w, ../../wp-content/uploads/2022/03/sim-dicrete-dist-300x200.jpg 300w, ../../wp-content/uploads/2022/03/sim-dicrete-dist-768x512.jpg 768w, ../../wp-content/uploads/2022/03/sim-dicrete-dist-1200x800.jpg 1200w, ../../wp-content/uploads/2022/03/sim-dicrete-dist-600x400.jpg 600w, ../../wp-content/uploads/2022/03/sim-dicrete-dist.jpg 1526w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+<p class="has-background" style="background-color:#ffe8c4">Таким образом, <strong>биномиальное распределение</strong> (binomial distribution) показывает вероятность количества успехов каждой из возможных комбинаций исходов в&nbsp;<em>серии</em>&nbsp;одинаковых независимых испытаний Бернулли.</p>
+
+
+
+<h4 class="wp-block-heading" id="13-primer-s-raznoy-veroyatnostyu">Пример с разной вероятностью</h4>
+
+
+
+<p>Давайте немного изменим условия эксперимента. На этот раз монета будет неправильной и вероятность выпадения решки составит $0{,}7$, а орла — $0{,}3$. Построим дерево вероятностей (tree diagram).</p>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" decoding="async" width="1024" height="570" src="../../wp-content/uploads/2024/04/image-11-1024x570.png" alt="биномиальное распределение с разной вероятностью (дерево вероятностей)" class="wp-image-26513" srcset="../../wp-content/uploads/2024/04/image-11-1024x570.png 1024w, ../../wp-content/uploads/2024/04/image-11-300x167.png 300w, ../../wp-content/uploads/2024/04/image-11-768x427.png 768w, ../../wp-content/uploads/2024/04/image-11-1536x855.png 1536w, ../../wp-content/uploads/2024/04/image-11-2048x1139.png 2048w, ../../wp-content/uploads/2024/04/image-11-1200x668.png 1200w, ../../wp-content/uploads/2024/04/image-11-600x334.png 600w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+<p>Обратите внимание, несимметричность монеты повлияла на результат. Рассчитаем вероятности выпадения одного и двух решек.</p>
+
+
+
+<p>$$ P(X = 1) = 3 \times 0{,}063 = 0{,}189 $$</p>
+
+
+
+<p>$$ P(X = 2) = 3 \times 0{,}147 = 0{,}441 $$</p>
+
+
+
+<p>Аналогично рассчитаем вероятность того, что решка вообще не выпала и что выпали только решки.</p>
+
+
+
+<p>$$ P(X = 0) = 0{,}027 $$</p>
+
+
+
+<p>$$ P(X = 3) = 0{,}343 $$</p>
+
+
+
+<p>Построим такое биномиальное распределение на графике.</p>
+
+
+
+<figure class="wp-block-image size-large is-resized"><img loading="lazy" decoding="async" width="1024" height="687" src="../../wp-content/uploads/2022/03/skewed-binomial-1024x687.jpg" alt="биномиальное распределение с разной вероятностью (гистограмма)" class="wp-image-11096" style="width:535px;height:358px" srcset="../../wp-content/uploads/2022/03/skewed-binomial-1024x687.jpg 1024w, ../../wp-content/uploads/2022/03/skewed-binomial-300x201.jpg 300w, ../../wp-content/uploads/2022/03/skewed-binomial-768x515.jpg 768w, ../../wp-content/uploads/2022/03/skewed-binomial-1200x805.jpg 1200w, ../../wp-content/uploads/2022/03/skewed-binomial-600x403.jpg 600w, ../../wp-content/uploads/2022/03/skewed-binomial.jpg 1510w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+<p>Обратите внимание, распределение несимметрично с более пологой частью слева. Еще говорят, что распределение скошено влево (skewed left). Если бы вероятность выпадения решки была $0{,}3$, а орла — $0{,}7$, то распределение имело бы обратную форму и было скошено вправо (skewed right).</p>
+
+
+
+<h4 class="wp-block-heading" id="14-formula-binomialnogo-raspredeleniya">Формула биномиального распределения</h4>
+
+
+
+<p>Пока мы бросали монету по три раза, то вероятность любой комбинации исходов несложно посчитать с помощью дерева вероятностей. При этом если подбрасывать, например, 10 раз, количество вариантов достигнет $2^{10} = 1024.$ Для такого распределения понадобится формула.</p>
+
+
+
+<p>Возможно вы обратили внимание, что для выведения формулы нам нужно два компонента:</p>
+
+
+
+<ol class="wp-block-list">
+<li>количество возможных комбинаций;</li>
+
+
+
+<li>вероятность каждой из них.</li>
+</ol>
+
+
+
+<p><strong>Количество каждой из возможных комбинаций</strong>&nbsp;можно найти с помощью треугольника Паскаля. Например, при трех подбрасываниях ($n = 3$), мы видим, что количество возможных комбинаций будет равно {1, 3, 3, 1}, что соответствует нашему дереву вероятностей.</p>
+
+
+
+<figure class="wp-block-image size-large is-resized"><img loading="lazy" decoding="async" width="1024" height="615" src="../../wp-content/uploads/2022/03/pascal-triangle-1024x615.jpg" alt="треугольник Паскаля" class="wp-image-11099" style="width:435px;height:261px" srcset="../../wp-content/uploads/2022/03/pascal-triangle-1024x615.jpg 1024w, ../../wp-content/uploads/2022/03/pascal-triangle-300x180.jpg 300w, ../../wp-content/uploads/2022/03/pascal-triangle-768x461.jpg 768w, ../../wp-content/uploads/2022/03/pascal-triangle-1200x721.jpg 1200w, ../../wp-content/uploads/2022/03/pascal-triangle-600x360.jpg 600w, ../../wp-content/uploads/2022/03/pascal-triangle.jpg 1249w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+<p>Можно также воспользоваться формулой биномиальных коэффициентов, в которой через $n$ мы обозначим количество подбрасываний, а через $k$ — количество «успехов» (выпадений орлов).</p>
+
+
+
+<p>$$ \binom{n}{k} = \frac{n!}{k!(n-k)!} $$</p>
+
+
+
+<p>Например, убедимся, что выпадение двух орлов ($k = 2$) при трех подбрасываниях ($n = 3$) возможно в трех комбинациях.</p>
+
+
+
+<p>$$ \binom{3}{2} = \frac{3!}{2!(3-2)!} = 3 $$</p>
+
+
+
+<p>Одновременно, нам нужно понимать&nbsp;<strong>вероятность каждой комбинации</strong>. Ее можно рассчитать по формуле</p>
+
+
+
+<p>$$ p^k (1-p)^{n-k} $$</p>
+
+
+
+<p>В данном случае мы возводим вероятность успеха ($p$) в степень количества успехов ($k$) и вероятность неудачи ($1−p$) в степень количества неудач ($n−k$). Например, если вероятность выпадения орла ($p$) равна $0{,}7$, то вероятность выпадения двух орлов ($k = 2$) в трех бросках ($n = 3$) равна</p>
+
+
+
+<p>$$ 0{,}7^2 (1-0{,}7)^{3-2} = 0{,}49 \times 0{,}3 = 0{,}147 $$</p>
+
+
+
+<p>Остается перемножить количество комбинаций и вероятность каждой из них</p>
+
+
+
+<p>$$ P(X = 2) = 3 \times 0{,}147 = 0{,}441 $$</p>
+
+
+
+<p>Таким образом, вся формула целиком выглядит так</p>
+
+
+
+<p>$$ P(X = k) = \binom{n}{k} p^k (1-p)^{n-k} $$</p>
+
+
+
+<p>Эта же формула описывает <em>функцию вероятности</em> (probability mass function, pmf) биномиального распределения.</p>
+
+
+
+<h4 class="wp-block-heading" id="15-binom-nyutona">Бином Ньютона</h4>
+
+
+
+<p>В целом все вероятности $P$ случайной величины $X$ можно представить в виде бинома Ньютона (отсюда и название распределения).</p>
+
+
+
+<figure class="wp-block-image size-large is-resized"><img loading="lazy" decoding="async" width="1024" height="563" src="../../wp-content/uploads/2024/06/image-1024x563.png" alt="" class="wp-image-27722" style="width:719px;height:auto" srcset="../../wp-content/uploads/2024/06/image-1024x563.png 1024w, ../../wp-content/uploads/2024/06/image-300x165.png 300w, ../../wp-content/uploads/2024/06/image-768x422.png 768w, ../../wp-content/uploads/2024/06/image-1536x844.png 1536w, ../../wp-content/uploads/2024/06/image-1200x659.png 1200w, ../../wp-content/uploads/2024/06/image-600x330.png 600w, ../../wp-content/uploads/2024/06/image.png 1975w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+<p>Событием $A$ при этом будет выпадение $X = 2$ решек.</p>
+
+
+
+<h4 class="wp-block-heading" id="16-matozhidanie-i-dispersiya">Матожидание и дисперсия</h4>
+
+
+
+<p>Матожидание рассчитывается по формуле</p>
+
+
+
+<p>$$ {\mathbb E}[X] = np $$</p>
+
+
+
+<p>Например, после трех бросков мы можем ожидать, что в среднем орел выпадет $3 \times 0{,}7 = 2{,}1$ раза. Дисперсию можно рассчитать через</p>
+
+
+
+<p>$$ {\mathbb D}[X] = np(1-p) \rightarrow {\mathbb D}[X] = 3 \times 0{,}7 \times (1-0{,}7) = 0{,}63 $$</p>
+
+
+
+<h4 class="wp-block-heading" id="17-binomialnoe-raspredelenie-na-pitone">Биномиальное распределение на Питоне</h4>
+
+
+
+<p>Выполним эти же расчеты с помощью Питона. Функция&nbsp;<strong>np.random.binomial()</strong>&nbsp;принимает три параметра:</p>
+
+
+
+<ul class="wp-block-list">
+<li>n — количество испытаний в одном эксперименте (например, подбрасываний монеты)</li>
+
+
+
+<li>p — вероятность успеха (например, выпадения орла)</li>
+
+
+
+<li>size — количество экспериментов (серий по n подбрасываний)</li>
+</ul>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa6223b68a2788817789" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6223b68a2788817789-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa6223b68a2788817789-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6223b68a2788817789-3">3</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa6223b68a2788817789-4">4</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6223b68a2788817789-5">5</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa6223b68a2788817789-6">6</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6223b68a2788817789-7">7</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa6223b68a2788817789-8">8</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6223b68a2788817789-9">9</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6223b68a2788817789-1"><span class="crayon-c"># зададим точку отсчета</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa6223b68a2788817789-2"><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-k ">random</span><span class="crayon-sy">.</span><span class="crayon-e">seed</span><span class="crayon-sy">(</span><span class="crayon-cn">42</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6223b68a2788817789-3"><span class="crayon-h"> </span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa6223b68a2788817789-4"><span class="crayon-c"># и проведем 1 000 000 экспериментов (size) по три подбрасывания монеты (n)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6223b68a2788817789-5"><span class="crayon-c"># с вероятностью выпадения орла 0,7 (p)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa6223b68a2788817789-6"><span class="crayon-v">res</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-k ">random</span><span class="crayon-sy">.</span><span class="crayon-e">binomial</span><span class="crayon-sy">(</span><span class="crayon-v">n</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">3</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">p</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">0.7</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">size</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">1000000</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6223b68a2788817789-7"><span class="crayon-h"> </span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa6223b68a2788817789-8"><span class="crayon-c"># посмотрим на первые 10 значений</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6223b68a2788817789-9"><span class="crayon-v">res</span><span class="crayon-sy">[</span><span class="crayon-o">:</span><span class="crayon-cn">10</span><span class="crayon-sy">]</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0004 seconds] -->
+</div>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa6223b68ae300437507" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6223b68ae300437507-1">1</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6223b68ae300437507-1">array([2, 1, 2, 2, 3, 3, 3, 1, 2, 2])</div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0000 seconds] -->
+</div>
+
+
+
+<p>Теперь посмотрим, сколько раз выпали ноль, один, два или три орла и рассчитаем относительную частоту каждого из значений.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa6223b68af612215156" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6223b68af612215156-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa6223b68af612215156-2">2</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6223b68af612215156-1"><span class="crayon-v">_</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">counts</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-e">unique</span><span class="crayon-sy">(</span><span class="crayon-v">res</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">return_counts</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-t">True</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa6223b68af612215156-2"><span class="crayon-v">counts</span><span class="crayon-h"> </span><span class="crayon-o">/</span><span class="crayon-h"> </span><span class="crayon-k ">len</span><span class="crayon-sy">(</span><span class="crayon-v">res</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0002 seconds] -->
+</div>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa6223b68b0146090040" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6223b68b0146090040-1">1</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6223b68b0146090040-1">array([0.027142, 0.188935, 0.441131, 0.342792])</div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0000 seconds] -->
+</div>
+
+
+
+<p>Как вы видите, при достаточно большом количестве экспериментов эмпирическая вероятность приблизилась к рассчитанной выше теоретической вероятности.</p>
+
+
+
+<p>Посмотрим на распределение на графике.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa6223b68b1984558865" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6223b68b1984558865-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa6223b68b1984558865-2">2</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6223b68b1984558865-1"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">bar</span><span class="crayon-sy">(</span><span class="crayon-sy">[</span><span class="crayon-s">'0'</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-s">'1'</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-s">'2'</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-s">'3'</span><span class="crayon-sy">]</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">counts</span><span class="crayon-h"> </span><span class="crayon-o">/</span><span class="crayon-h"> </span><span class="crayon-k ">len</span><span class="crayon-sy">(</span><span class="crayon-v">res</span><span class="crayon-sy">)</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">width</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">0.98</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa6223b68b1984558865-2"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">show</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0003 seconds] -->
+</div>
+
+
+
+<figure class="wp-block-image size-full"><img loading="lazy" decoding="async" width="372" height="248" src="../../wp-content/uploads/2022/03/binomial-numpy.png" alt="биномиальное распределение на Питоне" class="wp-image-11112" srcset="../../wp-content/uploads/2022/03/binomial-numpy.png 372w, ../../wp-content/uploads/2022/03/binomial-numpy-300x200.png 300w" sizes="auto, (max-width: 372px) 100vw, 372px" /></figure>
+
+
+
+<p>Рассчитаем среднее значение и дисперсию.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa6223b68b3385432526" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6223b68b3385432526-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa6223b68b3385432526-2">2</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6223b68b3385432526-1"><span class="crayon-c"># рассчитаем среднее значение</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa6223b68b3385432526-2"><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-e">mean</span><span class="crayon-sy">(</span><span class="crayon-v">res</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0001 seconds] -->
+</div>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa6223b68b4308089487" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6223b68b4308089487-1">1</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6223b68b4308089487-1">2.099573</div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0000 seconds] -->
+</div>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa6223b68b5279137267" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6223b68b5279137267-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa6223b68b5279137267-2">2</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6223b68b5279137267-1"><span class="crayon-c"># рассчитаем дисперсию</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa6223b68b5279137267-2"><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-e">var</span><span class="crayon-sy">(</span><span class="crayon-v">res</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0001 seconds] -->
+</div>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa6223b68b6972907871" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6223b68b6972907871-1">1</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6223b68b6972907871-1">0.6303802176710002</div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0000 seconds] -->
+</div>
+
+
+
+<p>Дополнительно, как и обещал, покажу, как можно повторить эксперимент Бернулли с помощью функции&nbsp;<strong>np.random.binomial()</strong>. Для этого достаточно указать параметр n = 1 (то есть только одно подбрасывание).</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa6223b68b7350138664" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6223b68b7350138664-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa6223b68b7350138664-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6223b68b7350138664-3">3</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa6223b68b7350138664-4">4</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6223b68b7350138664-5">5</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa6223b68b7350138664-6">6</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6223b68b7350138664-7">7</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa6223b68b7350138664-8">8</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6223b68b7350138664-9">9</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa6223b68b7350138664-10">10</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6223b68b7350138664-1"><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-k ">random</span><span class="crayon-sy">.</span><span class="crayon-e">seed</span><span class="crayon-sy">(</span><span class="crayon-cn">42</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa6223b68b7350138664-2"><span class="crayon-h"> </span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6223b68b7350138664-3"><span class="crayon-c"># вызовем функцию с параметром n = 1</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa6223b68b7350138664-4"><span class="crayon-v">res</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-k ">random</span><span class="crayon-sy">.</span><span class="crayon-e">binomial</span><span class="crayon-sy">(</span><span class="crayon-v">n</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">p</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">0.7</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">size</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">1000000</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6223b68b7350138664-5"><span class="crayon-h"> </span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa6223b68b7350138664-6"><span class="crayon-c"># выясним количество нулей и единиц в получившемся массиве</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6223b68b7350138664-7"><span class="crayon-v">_</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">counts</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-e">unique</span><span class="crayon-sy">(</span><span class="crayon-v">res</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">return_counts</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-t">True</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa6223b68b7350138664-8"><span class="crayon-h"> </span></div><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6223b68b7350138664-9"><span class="crayon-c"># посмотрим на относительную частоту значений</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa6223b68b7350138664-10"><span class="crayon-v">counts</span><span class="crayon-h"> </span><span class="crayon-o">/</span><span class="crayon-h"> </span><span class="crayon-k ">len</span><span class="crayon-sy">(</span><span class="crayon-v">res</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0005 seconds] -->
+</div>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa6223b68b8431871102" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6223b68b8431871102-1">1</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6223b68b8431871102-1">array([0.30021, 0.69979])</div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0000 seconds] -->
+</div>
+
+
+
+<p>Выведем распределение на графике.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.8.38 -->
+
+		<div id="urvanov-syntax-highlighter-67aa6223b68ba183616278" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-67aa6223b68ba183616278-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-67aa6223b68ba183616278-2">2</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-67aa6223b68ba183616278-1"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">bar</span><span class="crayon-sy">(</span><span class="crayon-sy">[</span><span class="crayon-s">'0'</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-s">'1'</span><span class="crayon-sy">]</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">counts</span><span class="crayon-h"> </span><span class="crayon-o">/</span><span class="crayon-h"> </span><span class="crayon-k ">len</span><span class="crayon-sy">(</span><span class="crayon-v">res</span><span class="crayon-sy">)</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">width</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">0.98</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-67aa6223b68ba183616278-2"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">show</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0003 seconds] -->
+</div>
+
+
+
+<figure class="wp-block-image size-full"><img loading="lazy" decoding="async" width="372" height="248" src="../../wp-content/uploads/2022/03/bernoulli-numpy.png" alt="распределение Бернулли на Питоне" class="wp-image-11117" srcset="../../wp-content/uploads/2022/03/bernoulli-numpy.png 372w, ../../wp-content/uploads/2022/03/bernoulli-numpy-300x200.png 300w" sizes="auto, (max-width: 372px) 100vw, 372px" /></figure>
+
+
+
+<p>Существуют и другие дискретные вероятностные распределения, например, геометрическое распределение или <a href="../../data/data/index.html">распределение Пуассона</a>.</p>
+
+			</div> <!-- .content -->
+
+			
+		</div> <!-- .post -->
+
+					<footer class="site-footer section-inner">
+
+				<p class="copyright">&copy; 2025 <a href="../../index.html" class="site-name"><!--Машинное обучение--></a></p>
+
+			</footer> <!-- footer -->
+
+		</main>
+		
+		<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js?ver=6.7.1" id="mathjax-js"></script>
+<script type="text/javascript" src="../../wp-includes/js/imagesloaded.min.js@ver=5.0.0" id="imagesloaded-js"></script>
+<script type="text/javascript" src="../../wp-includes/js/masonry.min.js@ver=4.2.2" id="masonry-js"></script>
+<script type="text/javascript" id="mcluhan_global-js-extra">
+/* <![CDATA[ */
+var mcluhan_ajaxpagination = {"ajaxurl":"https:\/\/www.dmitrymakarov.ru\/wp-admin\/admin-ajax.php","query_vars":"{\"page\":\"\",\"pagename\":\"python\\\/random-02\"}"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="../../wp-content/themes/mcluhan/assets/js/global.js@ver=2.1.1" id="mcluhan_global-js"></script>
+			
+	</body>
+</html>

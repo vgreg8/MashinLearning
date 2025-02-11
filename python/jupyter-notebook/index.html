@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+
+<html class="no-js" lang="ru-RU">
+
+	<head>
+
+		<meta http-equiv="content-type" content="text/html" charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" >
+
+		<link rel="profile" href="http://gmpg.org/xfn/11">
+
+		<meta name='robots' content='index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' />
+	<style>img:is([sizes="auto" i], [sizes^="auto," i]) { contain-intrinsic-size: 3000px 1500px }</style>
+	
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$','$'],['\\(','\\)']], 
+    processEscapes: true
+  },
+  options: {
+    ignoreHtmlClass: 'tex2jax_ignore|editor-rich-text'
+  }
+};
+
+</script>
+
+	<!-- This site is optimized with the Yoast SEO plugin v24.4 - https://yoast.com/wordpress/plugins/seo/ -->
+	<title>Jupyter Notebook. Часть 1 | Программирование на Питоне</title>
+	<meta name="description" content="Сегодня мы изучим Jupyter Notebook, ключевой инструмент специалиста по ML. Кроме того, мы поговорим про дистрибутив Anaconda." />
+	<link rel="canonical" href="index.html" />
+	<meta property="og:locale" content="ru_RU" />
+	<meta property="og:type" content="article" />
+	<meta property="og:title" content="Jupyter Notebook. Часть 1 | Программирование на Питоне" />
+	<meta property="og:description" content="Сегодня мы изучим Jupyter Notebook, ключевой инструмент специалиста по ML. Кроме того, мы поговорим про дистрибутив Anaconda." />
+	<meta property="og:url" content="https://www.dmitrymakarov.ru/python/jupyter-notebook/" />
+	<meta property="og:site_name" content="Машинное обучение" />
+	<meta property="article:modified_time" content="2025-02-09T10:31:37+00:00" />
+	<meta property="og:image" content="https://www.dmitrymakarov.ru/wp-content/uploads/2022/05/jupyter-notebook-window-scaled.jpg" />
+	<meta property="og:image:width" content="2560" />
+	<meta property="og:image:height" content="1591" />
+	<meta property="og:image:type" content="image/jpeg" />
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:label1" content="Примерное время для чтения" />
+	<meta name="twitter:data1" content="48 минут" />
+	<script type="application/ld+json" class="yoast-schema-graph">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.dmitrymakarov.ru/python/jupyter-notebook/","url":"https://www.dmitrymakarov.ru/python/jupyter-notebook/","name":"Jupyter Notebook. Часть 1 | Программирование на Питоне","isPartOf":{"@id":"https://www.dmitrymakarov.ru/#website"},"primaryImageOfPage":{"@id":"https://www.dmitrymakarov.ru/python/jupyter-notebook/#primaryimage"},"image":{"@id":"https://www.dmitrymakarov.ru/python/jupyter-notebook/#primaryimage"},"thumbnailUrl":"https://www.dmitrymakarov.ru/wp-content/uploads/2022/05/jupyter-notebook-window-1024x637.jpg","datePublished":"2022-02-16T10:42:13+00:00","dateModified":"2025-02-09T10:31:37+00:00","description":"Сегодня мы изучим Jupyter Notebook, ключевой инструмент специалиста по ML. Кроме того, мы поговорим про дистрибутив Anaconda.","breadcrumb":{"@id":"https://www.dmitrymakarov.ru/python/jupyter-notebook/#breadcrumb"},"inLanguage":"ru-RU","potentialAction":[{"@type":"ReadAction","target":["https://www.dmitrymakarov.ru/python/jupyter-notebook/"]}]},{"@type":"ImageObject","inLanguage":"ru-RU","@id":"https://www.dmitrymakarov.ru/python/jupyter-notebook/#primaryimage","url":"https://www.dmitrymakarov.ru/wp-content/uploads/2022/05/jupyter-notebook-window-1024x637.jpg","contentUrl":"https://www.dmitrymakarov.ru/wp-content/uploads/2022/05/jupyter-notebook-window-1024x637.jpg"},{"@type":"BreadcrumbList","@id":"https://www.dmitrymakarov.ru/python/jupyter-notebook/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная страница","item":"https://www.dmitrymakarov.ru/"},{"@type":"ListItem","position":2,"name":"Программирование на Питоне","item":"https://www.dmitrymakarov.ru/python/"},{"@type":"ListItem","position":3,"name":"Jupyter Notebook. Часть 1"}]},{"@type":"WebSite","@id":"https://www.dmitrymakarov.ru/#website","url":"https://www.dmitrymakarov.ru/","name":"Машинное обучение","description":"","publisher":{"@id":"https://www.dmitrymakarov.ru/#/schema/person/3fc221e2d391cc5cfd9d31c9c251c2a4"},"potentialAction":[{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://www.dmitrymakarov.ru/?s={search_term_string}"},"query-input":{"@type":"PropertyValueSpecification","valueRequired":true,"valueName":"search_term_string"}}],"inLanguage":"ru-RU"},{"@type":["Person","Organization"],"@id":"https://www.dmitrymakarov.ru/#/schema/person/3fc221e2d391cc5cfd9d31c9c251c2a4","name":"DmitryMakarov","image":{"@type":"ImageObject","inLanguage":"ru-RU","@id":"https://www.dmitrymakarov.ru/#/schema/person/image/","url":"https://secure.gravatar.com/avatar/2c5f922d990c667feffc00f99517cc0e?s=96&d=mm&r=g","contentUrl":"https://secure.gravatar.com/avatar/2c5f922d990c667feffc00f99517cc0e?s=96&d=mm&r=g","caption":"DmitryMakarov"},"logo":{"@id":"https://www.dmitrymakarov.ru/#/schema/person/image/"}}]}</script>
+	<!-- / Yoast SEO plugin. -->
+
+
+<link rel='dns-prefetch' href='https://cdn.jsdelivr.net/' />
+<link rel="alternate" type="application/rss+xml" title="Машинное обучение &raquo; Лента" href="../../feed/index.html" />
+<link rel="alternate" type="application/rss+xml" title="Машинное обучение &raquo; Лента комментариев" href="../../comments/feed/index.html" />
+<script type="text/javascript">
+/* <![CDATA[ */
+window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15.0.3\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15.0.3\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/www.dmitrymakarov.ru\/wp-includes\/js\/wp-emoji-release.min.js?ver=6.7.1"}};
+/*! This file is auto-generated */
+!function(i,n){var o,s,e;function c(e){try{var t={supportTests:e,timestamp:(new Date).valueOf()};sessionStorage.setItem(o,JSON.stringify(t))}catch(e){}}function p(e,t,n){e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(t,0,0);var t=new Uint32Array(e.getImageData(0,0,e.canvas.width,e.canvas.height).data),r=(e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(n,0,0),new Uint32Array(e.getImageData(0,0,e.canvas.width,e.canvas.height).data));return t.every(function(e,t){return e===r[t]})}function u(e,t,n){switch(t){case"flag":return n(e,"\ud83c\udff3\ufe0f\u200d\u26a7\ufe0f","\ud83c\udff3\ufe0f\u200b\u26a7\ufe0f")?!1:!n(e,"\ud83c\uddfa\ud83c\uddf3","\ud83c\uddfa\u200b\ud83c\uddf3")&&!n(e,"\ud83c\udff4\udb40\udc67\udb40\udc62\udb40\udc65\udb40\udc6e\udb40\udc67\udb40\udc7f","\ud83c\udff4\u200b\udb40\udc67\u200b\udb40\udc62\u200b\udb40\udc65\u200b\udb40\udc6e\u200b\udb40\udc67\u200b\udb40\udc7f");case"emoji":return!n(e,"\ud83d\udc26\u200d\u2b1b","\ud83d\udc26\u200b\u2b1b")}return!1}function f(e,t,n){var r="undefined"!=typeof WorkerGlobalScope&&self instanceof WorkerGlobalScope?new OffscreenCanvas(300,150):i.createElement("canvas"),a=r.getContext("2d",{willReadFrequently:!0}),o=(a.textBaseline="top",a.font="600 32px Arial",{});return e.forEach(function(e){o[e]=t(a,e,n)}),o}function t(e){var t=i.createElement("script");t.src=e,t.defer=!0,i.head.appendChild(t)}"undefined"!=typeof Promise&&(o="wpEmojiSettingsSupports",s=["flag","emoji"],n.supports={everything:!0,everythingExceptFlag:!0},e=new Promise(function(e){i.addEventListener("DOMContentLoaded",e,{once:!0})}),new Promise(function(t){var n=function(){try{var e=JSON.parse(sessionStorage.getItem(o));if("object"==typeof e&&"number"==typeof e.timestamp&&(new Date).valueOf()<e.timestamp+604800&&"object"==typeof e.supportTests)return e.supportTests}catch(e){}return null}();if(!n){if("undefined"!=typeof Worker&&"undefined"!=typeof OffscreenCanvas&&"undefined"!=typeof URL&&URL.createObjectURL&&"undefined"!=typeof Blob)try{var e="postMessage("+f.toString()+"("+[JSON.stringify(s),u.toString(),p.toString()].join(",")+"));",r=new Blob([e],{type:"text/javascript"}),a=new Worker(URL.createObjectURL(r),{name:"wpTestEmojiSupports"});return void(a.onmessage=function(e){c(n=e.data),a.terminate(),t(n)})}catch(e){}c(n=f(s,u,p))}t(n)}).then(function(e){for(var t in e)n.supports[t]=e[t],n.supports.everything=n.supports.everything&&n.supports[t],"flag"!==t&&(n.supports.everythingExceptFlag=n.supports.everythingExceptFlag&&n.supports[t]);n.supports.everythingExceptFlag=n.supports.everythingExceptFlag&&!n.supports.flag,n.DOMReady=!1,n.readyCallback=function(){n.DOMReady=!0}}).then(function(){return e}).then(function(){var e;n.supports.everything||(n.readyCallback(),(e=n.source||{}).concatemoji?t(e.concatemoji):e.wpemoji&&e.twemoji&&(t(e.twemoji),t(e.wpemoji)))}))}((window,document),window._wpemojiSettings);
+/* ]]> */
+</script>
+<link rel='stylesheet' id='urvanov_syntax_highlighter-css' href='../../wp-content/plugins/urvanov-syntax-highlighter/css/min/urvanov_syntax_highlighter.min.css@ver=2.8.38.css' type='text/css' media='all' />
+<link rel='stylesheet' id='crayon-theme-familiar-my-copy-css' href='../../wp-content/uploads/urvanov-syntax-highlighter/themes/familiar-my-copy/familiar-my-copy.css@ver=2.8.38.css' type='text/css' media='all' />
+<link rel='stylesheet' id='crayon-font-consolas-css' href='../../wp-content/plugins/urvanov-syntax-highlighter/fonts/consolas.css@ver=2.8.38.css' type='text/css' media='all' />
+<style id='wp-emoji-styles-inline-css' type='text/css'>
+
+	img.wp-smiley, img.emoji {
+		display: inline !important;
+		border: none !important;
+		box-shadow: none !important;
+		height: 1em !important;
+		width: 1em !important;
+		margin: 0 0.07em !important;
+		vertical-align: -0.1em !important;
+		background: none !important;
+		padding: 0 !important;
+	}
+</style>
+<link rel='stylesheet' id='wp-block-library-css' href='../../wp-includes/css/dist/block-library/style.min.css@ver=6.7.1.css' type='text/css' media='all' />
+<style id='filebird-block-filebird-gallery-style-inline-css' type='text/css'>
+ul.filebird-block-filebird-gallery{margin:auto!important;padding:0!important;width:100%}ul.filebird-block-filebird-gallery.layout-grid{display:grid;grid-gap:20px;align-items:stretch;grid-template-columns:repeat(var(--columns),1fr);justify-items:stretch}ul.filebird-block-filebird-gallery.layout-grid li img{border:1px solid #ccc;box-shadow:2px 2px 6px 0 rgba(0,0,0,.3);height:100%;max-width:100%;-o-object-fit:cover;object-fit:cover;width:100%}ul.filebird-block-filebird-gallery.layout-masonry{-moz-column-count:var(--columns);-moz-column-gap:var(--space);column-gap:var(--space);-moz-column-width:var(--min-width);columns:var(--min-width) var(--columns);display:block;overflow:auto}ul.filebird-block-filebird-gallery.layout-masonry li{margin-bottom:var(--space)}ul.filebird-block-filebird-gallery li{list-style:none}ul.filebird-block-filebird-gallery li figure{height:100%;margin:0;padding:0;position:relative;width:100%}ul.filebird-block-filebird-gallery li figure figcaption{background:linear-gradient(0deg,rgba(0,0,0,.7),rgba(0,0,0,.3) 70%,transparent);bottom:0;box-sizing:border-box;color:#fff;font-size:.8em;margin:0;max-height:100%;overflow:auto;padding:3em .77em .7em;position:absolute;text-align:center;width:100%;z-index:2}ul.filebird-block-filebird-gallery li figure figcaption a{color:inherit}
+
+</style>
+<style id='classic-theme-styles-inline-css' type='text/css'>
+/*! This file is auto-generated */
+.wp-block-button__link{color:#fff;background-color:#32373c;border-radius:9999px;box-shadow:none;text-decoration:none;padding:calc(.667em + 2px) calc(1.333em + 2px);font-size:1.125em}.wp-block-file__button{background:#32373c;color:#fff;text-decoration:none}
+</style>
+<style id='global-styles-inline-css' type='text/css'>
+:root{--wp--preset--aspect-ratio--square: 1;--wp--preset--aspect-ratio--4-3: 4/3;--wp--preset--aspect-ratio--3-4: 3/4;--wp--preset--aspect-ratio--3-2: 3/2;--wp--preset--aspect-ratio--2-3: 2/3;--wp--preset--aspect-ratio--16-9: 16/9;--wp--preset--aspect-ratio--9-16: 9/16;--wp--preset--color--black: #121212;--wp--preset--color--cyan-bluish-gray: #abb8c3;--wp--preset--color--white: #fff;--wp--preset--color--pale-pink: #f78da7;--wp--preset--color--vivid-red: #cf2e2e;--wp--preset--color--luminous-vivid-orange: #ff6900;--wp--preset--color--luminous-vivid-amber: #fcb900;--wp--preset--color--light-green-cyan: #7bdcb5;--wp--preset--color--vivid-green-cyan: #00d084;--wp--preset--color--pale-cyan-blue: #8ed1fc;--wp--preset--color--vivid-cyan-blue: #0693e3;--wp--preset--color--vivid-purple: #9b51e0;--wp--preset--color--dark-gray: #333;--wp--preset--color--medium-gray: #555;--wp--preset--color--light-gray: #777;--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg,rgba(6,147,227,1) 0%,rgb(155,81,224) 100%);--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg,rgb(122,220,180) 0%,rgb(0,208,130) 100%);--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg,rgba(252,185,0,1) 0%,rgba(255,105,0,1) 100%);--wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg,rgba(255,105,0,1) 0%,rgb(207,46,46) 100%);--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg,rgb(238,238,238) 0%,rgb(169,184,195) 100%);--wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg,rgb(74,234,220) 0%,rgb(151,120,209) 20%,rgb(207,42,186) 40%,rgb(238,44,130) 60%,rgb(251,105,98) 80%,rgb(254,248,76) 100%);--wp--preset--gradient--blush-light-purple: linear-gradient(135deg,rgb(255,206,236) 0%,rgb(152,150,240) 100%);--wp--preset--gradient--blush-bordeaux: linear-gradient(135deg,rgb(254,205,165) 0%,rgb(254,45,45) 50%,rgb(107,0,62) 100%);--wp--preset--gradient--luminous-dusk: linear-gradient(135deg,rgb(255,203,112) 0%,rgb(199,81,192) 50%,rgb(65,88,208) 100%);--wp--preset--gradient--pale-ocean: linear-gradient(135deg,rgb(255,245,203) 0%,rgb(182,227,212) 50%,rgb(51,167,181) 100%);--wp--preset--gradient--electric-grass: linear-gradient(135deg,rgb(202,248,128) 0%,rgb(113,206,126) 100%);--wp--preset--gradient--midnight: linear-gradient(135deg,rgb(2,3,129) 0%,rgb(40,116,252) 100%);--wp--preset--font-size--small: 16px;--wp--preset--font-size--medium: 20px;--wp--preset--font-size--large: 24px;--wp--preset--font-size--x-large: 42px;--wp--preset--font-size--normal: 18px;--wp--preset--font-size--larger: 28px;--wp--preset--spacing--20: 0.44rem;--wp--preset--spacing--30: 0.67rem;--wp--preset--spacing--40: 1rem;--wp--preset--spacing--50: 1.5rem;--wp--preset--spacing--60: 2.25rem;--wp--preset--spacing--70: 3.38rem;--wp--preset--spacing--80: 5.06rem;--wp--preset--shadow--natural: 6px 6px 9px rgba(0, 0, 0, 0.2);--wp--preset--shadow--deep: 12px 12px 50px rgba(0, 0, 0, 0.4);--wp--preset--shadow--sharp: 6px 6px 0px rgba(0, 0, 0, 0.2);--wp--preset--shadow--outlined: 6px 6px 0px -3px rgba(255, 255, 255, 1), 6px 6px rgba(0, 0, 0, 1);--wp--preset--shadow--crisp: 6px 6px 0px rgba(0, 0, 0, 1);}:where(.is-layout-flex){gap: 0.5em;}:where(.is-layout-grid){gap: 0.5em;}body .is-layout-flex{display: flex;}.is-layout-flex{flex-wrap: wrap;align-items: center;}.is-layout-flex > :is(*, div){margin: 0;}body .is-layout-grid{display: grid;}.is-layout-grid > :is(*, div){margin: 0;}:where(.wp-block-columns.is-layout-flex){gap: 2em;}:where(.wp-block-columns.is-layout-grid){gap: 2em;}:where(.wp-block-post-template.is-layout-flex){gap: 1.25em;}:where(.wp-block-post-template.is-layout-grid){gap: 1.25em;}.has-black-color{color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-color{color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-color{color: var(--wp--preset--color--white) !important;}.has-pale-pink-color{color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-color{color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-color{color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-color{color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-color{color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-color{color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-color{color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-color{color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-color{color: var(--wp--preset--color--vivid-purple) !important;}.has-black-background-color{background-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-background-color{background-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-background-color{background-color: var(--wp--preset--color--white) !important;}.has-pale-pink-background-color{background-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-background-color{background-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-background-color{background-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-background-color{background-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-background-color{background-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-background-color{background-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-background-color{background-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-background-color{background-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-background-color{background-color: var(--wp--preset--color--vivid-purple) !important;}.has-black-border-color{border-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-border-color{border-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-border-color{border-color: var(--wp--preset--color--white) !important;}.has-pale-pink-border-color{border-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-border-color{border-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-border-color{border-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-border-color{border-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-border-color{border-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-border-color{border-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-border-color{border-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-border-color{border-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-border-color{border-color: var(--wp--preset--color--vivid-purple) !important;}.has-vivid-cyan-blue-to-vivid-purple-gradient-background{background: var(--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple) !important;}.has-light-green-cyan-to-vivid-green-cyan-gradient-background{background: var(--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan) !important;}.has-luminous-vivid-amber-to-luminous-vivid-orange-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange) !important;}.has-luminous-vivid-orange-to-vivid-red-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-orange-to-vivid-red) !important;}.has-very-light-gray-to-cyan-bluish-gray-gradient-background{background: var(--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray) !important;}.has-cool-to-warm-spectrum-gradient-background{background: var(--wp--preset--gradient--cool-to-warm-spectrum) !important;}.has-blush-light-purple-gradient-background{background: var(--wp--preset--gradient--blush-light-purple) !important;}.has-blush-bordeaux-gradient-background{background: var(--wp--preset--gradient--blush-bordeaux) !important;}.has-luminous-dusk-gradient-background{background: var(--wp--preset--gradient--luminous-dusk) !important;}.has-pale-ocean-gradient-background{background: var(--wp--preset--gradient--pale-ocean) !important;}.has-electric-grass-gradient-background{background: var(--wp--preset--gradient--electric-grass) !important;}.has-midnight-gradient-background{background: var(--wp--preset--gradient--midnight) !important;}.has-small-font-size{font-size: var(--wp--preset--font-size--small) !important;}.has-medium-font-size{font-size: var(--wp--preset--font-size--medium) !important;}.has-large-font-size{font-size: var(--wp--preset--font-size--large) !important;}.has-x-large-font-size{font-size: var(--wp--preset--font-size--x-large) !important;}
+:where(.wp-block-post-template.is-layout-flex){gap: 1.25em;}:where(.wp-block-post-template.is-layout-grid){gap: 1.25em;}
+:where(.wp-block-columns.is-layout-flex){gap: 2em;}:where(.wp-block-columns.is-layout-grid){gap: 2em;}
+:root :where(.wp-block-pullquote){font-size: 1.5em;line-height: 1.6;}
+</style>
+<link rel='stylesheet' id='mcluhan-fonts-css' href='../../wp-content/themes/mcluhan/assets/css/fonts.css@ver=6.7.1.css' type='text/css' media='all' />
+<link rel='stylesheet' id='fontawesome-css' href='../../wp-content/themes/mcluhan/assets/css/font-awesome.css@ver=6.7.1.css' type='text/css' media='all' />
+<link rel='stylesheet' id='mcluhan-style-css' href='../../wp-content/themes/mcluhan/style.css@ver=2.1.1.css' type='text/css' media='all' />
+<script type="text/javascript" src="../../wp-includes/js/jquery/jquery.min.js@ver=3.7.1" id="jquery-core-js"></script>
+<script type="text/javascript" src="../../wp-includes/js/jquery/jquery-migrate.min.js@ver=3.4.1" id="jquery-migrate-js"></script>
+<script type="text/javascript" id="urvanov_syntax_highlighter_js-js-extra">
+/* <![CDATA[ */
+var UrvanovSyntaxHighlighterSyntaxSettings = {"version":"2.8.38","is_admin":"0","ajaxurl":"https:\/\/www.dmitrymakarov.ru\/wp-admin\/admin-ajax.php","prefix":"urvanov-syntax-highlighter-","setting":"urvanov-syntax-highlighter-setting","selected":"urvanov-syntax-highlighter-setting-selected","changed":"urvanov-syntax-highlighter-setting-changed","special":"urvanov-syntax-highlighter-setting-special","orig_value":"data-orig-value","debug":""};
+var UrvanovSyntaxHighlighterSyntaxStrings = {"copy":"Copied to the clipboard","minimize":"Click To Expand Code"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="../../wp-content/plugins/urvanov-syntax-highlighter/js/min/urvanov_syntax_highlighter.min.js@ver=2.8.38" id="urvanov_syntax_highlighter_js-js"></script>
+
+			<!-- Customizer CSS -->
+
+			<style type="text/css">
+
+				body .site-header { background-color:#004235; }.social-menu.desktop { background-color:#004235; }.social-menu a:hover { color:#004235; }.social-menu a.active { color:#004235; }.mobile-menu-wrapper { background-color:#004235; }.social-menu.mobile { background-color:#004235; }.mobile-search.active { background-color:#004235; }
+			</style>
+
+			<!-- /Customizer CSS -->
+
+					<script>jQuery( 'html' ).removeClass( 'no-js' ).addClass( 'js' );</script>
+		<style type="text/css">.broken_link, a.broken_link {
+	text-decoration: line-through;
+}</style><style type="text/css" id="custom-background-css">
+body.custom-background { background-color: #fff9ef; }
+</style>
+	<link rel="icon" href="../../wp-content/uploads/2021/08/cropped-wp-favicon-512-32x32.png" sizes="32x32" />
+<link rel="icon" href="../../wp-content/uploads/2021/08/cropped-wp-favicon-512-192x192.png" sizes="192x192" />
+<link rel="apple-touch-icon" href="../../wp-content/uploads/2021/08/cropped-wp-favicon-512-180x180.png" />
+<meta name="msapplication-TileImage" content="https://www.dmitrymakarov.ru/wp-content/uploads/2021/08/cropped-wp-favicon-512-270x270.png" />
+
+	</head>
+
+	<body class="page-template page-template-full-width-page-template page-template-full-width-page-template-php page page-id-10047 page-child parent-pageid-1374 custom-background full-width-template">
+
+		
+		<a class="skip-link button" href="index.html#site-content">Перейти к содержимому</a>
+
+		<header class="site-header group">
+
+			
+			<p class="site-title"><a href="../../index.html" class="site-name">Машинное обучение</a></p>
+
+			
+			<div class="nav-toggle">
+				<div class="bar"></div>
+				<div class="bar"></div>
+			</div>
+
+			<div class="menu-wrapper">
+
+				<ul class="main-menu desktop">
+
+									</ul>
+
+			</div><!-- .menu-wrapper -->
+
+			
+				<div class="social-menu desktop">
+
+					<ul class="social-menu-inner">
+
+						<li class="social-search-wrapper"><a href="../../index.html@s=.html"></a></li>
+
+						
+					</ul><!-- .social-menu-inner -->
+
+				</div><!-- .social-menu -->
+
+			
+		</header><!-- header -->
+
+		<div class="mobile-menu-wrapper">
+
+			<ul class="main-menu mobile">
+									<li class="toggle-mobile-search-wrapper"><a href="index.html#" class="toggle-mobile-search">Поиск</a></li>
+							</ul><!-- .main-menu.mobile -->
+
+			
+		</div><!-- .mobile-menu-wrapper -->
+
+		
+			<div class="mobile-search">
+
+				<div class="untoggle-mobile-search"></div>
+
+				
+<form role="search" method="get" class="search-form" action="../../index.html">
+	<label class="screen-reader-text" for="search-form-67aa625486fd6">Поиск:</label>
+	<input type="search" id="search-form-67aa625486fd6" class="search-field" placeholder="Введите запрос" value="" name="s" autocomplete="off" />
+	</button>
+</form>
+
+				<div class="mobile-results">
+
+					<div class="results-wrapper"></div>
+
+				</div>
+
+			</div><!-- .mobile-search -->
+
+			<div class="search-overlay">
+
+				
+<form role="search" method="get" class="search-form" action="../../index.html">
+	<label class="screen-reader-text" for="search-form-67aa62548706e">Поиск:</label>
+	<input type="search" id="search-form-67aa62548706e" class="search-field" placeholder="Введите запрос" value="" name="s" autocomplete="off" />
+	</button>
+</form>
+
+			</div><!-- .search-overlay -->
+
+		
+		<main class="site-content" id="site-content">
+		<article class="post-10047 page type-page status-publish hentry missing-thumbnail">
+
+			
+			<header class="entry-header section-inner">
+
+				<h1 class="entry-title">Jupyter Notebook. Часть 1</h1>
+			</header><!-- .entry-header -->
+
+			<div class="entry-content section-inner">
+
+				
+<p class="has-light-gray-color has-text-color"><a href="../../index.html">Материалы</a> &gt; <a href="../index.html">Программирование на Питоне</a></p>
+
+
+
+<p>Программа <strong>Jupyter Notebook</strong> &#8212; это локальная программа, которая открывается в браузере и позволяет интерактивно исполнять код на Питоне, записанный в последовательности ячеек.</p>
+
+
+
+<figure class="wp-block-image size-large is-resized"><img fetchpriority="high" decoding="async" width="1024" height="637" src="../../wp-content/uploads/2022/05/jupyter-notebook-window-1024x637.jpg" alt="jupyter notebook" class="wp-image-13258" style="width:638px;height:auto" srcset="../../wp-content/uploads/2022/05/jupyter-notebook-window-1024x637.jpg 1024w, ../../wp-content/uploads/2022/05/jupyter-notebook-window-300x186.jpg 300w, ../../wp-content/uploads/2022/05/jupyter-notebook-window-768x477.jpg 768w, ../../wp-content/uploads/2022/05/jupyter-notebook-window-1536x955.jpg 1536w, ../../wp-content/uploads/2022/05/jupyter-notebook-window-2048x1273.jpg 2048w, ../../wp-content/uploads/2022/05/jupyter-notebook-window-1200x746.jpg 1200w, ../../wp-content/uploads/2022/05/jupyter-notebook-window-600x373.jpg 600w" sizes="(max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+<p>Облачной версией Jupyter Notobook является <a href="../../intro/software/index.html">программа Google Colab</a>, которой мы уже давно пользуемся на наших занятиях.</p>
+
+
+
+<p>Начнем с установки Jupyter Notebook.</p>
+
+
+
+<h2 class="wp-block-heading" id="0-%D0%BA%D0%B0%D0%BA-%D1%83%D1%81%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%B8%D1%82%D1%8C-jupyter-notebook">Как установить Jupyter Notebook</h2>
+
+
+
+<p><strong>Способ 1</strong>. Если на вашем компьютере уже <a href="../script/index.html">установлен Питон</a>, то установить Jupyter Notebook можно через менеджер пакетов pip.</p>
+
+
+
+<p><strong>Способ 2</strong> (рекомендуется). Кроме того, Jupyter Notebook входит в дистрибутив Питона под названием Anaconda.</p>
+
+
+
+<p>На сегодняшнем занятии мы рассмотрим именно второй вариант установки.</p>
+
+
+
+<h2 class="wp-block-heading" id="1-anaconda">Anaconda</h2>
+
+
+
+<p>Anaconda &#8212; это дистрибутив Питона и репозиторий пакетов, специально предназначенных для анализа данных и машинного обучения. Основу дистрибутива Anaconda составляет система управления пакетами и окружениями <strong>conda</strong>.</p>
+
+
+
+<p>Conda можно управлять двумя способами, а именно через <strong>Anaconda Prompt</strong> &#8212; программу, аналогичную <a href="../script/index.html">командной строке Windows</a>, или через <strong>Anaconda Navigator</strong> &#8212; понятный графический интерфейс.</p>
+
+
+
+<p>Кроме того, в дистрибутив Anaconda входит несколько полезных программ:</p>
+
+
+
+<ul class="wp-block-list">
+<li><strong>Jupyter Notebook</strong> и <strong>JupyterLab</strong> &#8212; это программы, позволяющие исполнять код на Питоне (и, как мы увидим, на других языках) и обрабатывать данные;</li>
+</ul>
+
+
+
+<ul class="wp-block-list">
+<li><strong>Spyder</strong> и <strong>PyCharm</strong> представляют собой так называемую интегрированную среду разработки (Integrated Development Environment, IDE); IDE &#8212; это редактор кода наподобие программы Atom или Sublime Text с дополнительными возможностями автодополнения, компиляции и интерпретации, анализа ошибок, отладки (debugging), подключения к базам данных и др.;</li>
+</ul>
+
+
+
+<ul class="wp-block-list">
+<li><strong>RStudio</strong> &#8212; интегрированная среда разработки для программирования на R.</li>
+</ul>
+
+
+
+<p>На схеме структура Anaconda выглядит следующим образом:</p>
+
+
+
+<figure class="wp-block-image size-large"><img decoding="async" width="1024" height="614" src="../../wp-content/uploads/2022/05/anaconda-overview-1024x614.png" alt="компоненты Anaconda" class="wp-image-13469" srcset="../../wp-content/uploads/2022/05/anaconda-overview-1024x614.png 1024w, ../../wp-content/uploads/2022/05/anaconda-overview-300x180.png 300w, ../../wp-content/uploads/2022/05/anaconda-overview-768x460.png 768w, ../../wp-content/uploads/2022/05/anaconda-overview-600x360.png 600w, ../../wp-content/uploads/2022/05/anaconda-overview.png 1113w" sizes="(max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+<h2 class="wp-block-heading" id="2-%D1%83%D1%81%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%BA%D0%B0-anaconda-%D0%BD%D0%B0-windows">Установка Anaconda на Windows</h2>
+
+
+
+<p>Шаг 1. <a href="https://www.anaconda.com/download" target="_blank" rel="noreferrer noopener">Скачайте Anaconda</a>⧉ с официального сайта.</p>
+
+
+
+<p>Шаг 2. Запустите установщик.</p>
+
+
+
+<p>На одном из шагов установки вам предложат поставить две галочки, в частности (1) добавить Anaconda в переменную path и (2) сделать дистрибутив Anaconda версией, которую Windows обнаруживает по умолчанию.</p>
+
+
+
+<figure class="wp-block-image size-full"><img decoding="async" width="672" height="533" src="../../wp-content/uploads/2022/02/uncheck-anaconda.png" alt="установка дистрибутива Anaconda" class="wp-image-10559" srcset="../../wp-content/uploads/2022/02/uncheck-anaconda.png 672w, ../../wp-content/uploads/2022/02/uncheck-anaconda-300x238.png 300w, ../../wp-content/uploads/2022/02/uncheck-anaconda-600x476.png 600w" sizes="(max-width: 672px) 100vw, 672px" /></figure>
+
+
+
+<p class="has-background" style="background-color:#ffe8c4"><strong>Не отмечайте</strong> ни один из пунктов!</p>
+
+
+
+<p>Так вы сможете использовать два дистрибутива Питона, первый дистрибутив мы установили на <a href="../script/index.html">прошлом занятии</a>, второй &#8212; установим сейчас.</p>
+
+
+
+<h2 class="wp-block-heading" id="3-%D0%BA%D0%B0%D0%BA-%D0%B7%D0%B0%D0%BF%D1%83%D1%81%D1%82%D0%B8%D1%82%D1%8C-jupyter-notebook">Как запустить Jupyter Notebook</h2>
+
+
+
+<p>После того как вы скачали и установили Anaconda, можно переходить к запуску блокнота.</p>
+
+
+
+<h3 class="wp-block-heading" id="4-%D1%88%D0%B0%D0%B3-1-%D0%BE%D1%82%D0%BA%D1%80%D0%BE%D0%B9%D1%82%D0%B5-anaconda-navidator">Шаг 1. Откройте Anaconda Navidator</h3>
+
+
+
+<p>Открыть Anaconda Navigator можно двумя способами.</p>
+
+
+
+<p id="5-%D1%81%D0%BF%D0%BE%D1%81%D0%BE%D0%B1-1-%D0%B7%D0%B0%D0%BF%D1%83%D1%81%D0%BA-%D0%B8%D0%B7-%D0%BC%D0%B5%D0%BD%D1%8E-%D0%BF%D1%83%D1%81%D0%BA"><strong>Способ 1</strong>. Запуск из меню &#171;Пуск&#187;. Просто перейдите в меню &#171;Пуск&#187; и выберите Anaconda Navigator.</p>
+
+
+
+<figure class="wp-block-image size-full is-resized"><img loading="lazy" decoding="async" width="407" height="658" src="../../wp-content/uploads/2022/02/anaconda-start-navigator.png" alt="как открыть Anaconda Navigator" class="wp-image-10562" style="width:369px;height:auto" srcset="../../wp-content/uploads/2022/02/anaconda-start-navigator.png 407w, ../../wp-content/uploads/2022/02/anaconda-start-navigator-186x300.png 186w" sizes="auto, (max-width: 407px) 100vw, 407px" /></figure>
+
+
+
+<p id="5-%D1%81%D0%BF%D0%BE%D1%81%D0%BE%D0%B1-2-%D0%B7%D0%B0%D0%BF%D1%83%D1%81%D0%BA-%D1%87%D0%B5%D1%80%D0%B5%D0%B7-anaconda-prompt"><strong>Способ 2</strong>. Запуск через Anaconda Prompt. Также из меню &#171;Пуск&#187; откройте терминал Anaconda Prompt.</p>
+
+
+
+<figure class="wp-block-image size-full is-resized"><img loading="lazy" decoding="async" width="401" height="655" src="../../wp-content/uploads/2022/02/anaconda-start-prompt.png" alt="как открыть Anaconda Navigator через Anaconda Prompt" class="wp-image-10563" style="width:367px;height:auto" srcset="../../wp-content/uploads/2022/02/anaconda-start-prompt.png 401w, ../../wp-content/uploads/2022/02/anaconda-start-prompt-184x300.png 184w" sizes="auto, (max-width: 401px) 100vw, 401px" /></figure>
+
+
+
+<p id="5-%D1%81%D0%BF%D0%BE%D1%81%D0%BE%D0%B1-2-%D0%B7%D0%B0%D0%BF%D1%83%D1%81%D0%BA-%D1%87%D0%B5%D1%80%D0%B5%D0%B7-anaconda-prompt">Введите команду 
+			<span id="urvanov-syntax-highlighter-67aa62547e29f490871549" class="urvanov-syntax-highlighter-syntax urvanov-syntax-highlighter-syntax-inline  crayon-theme-familiar-my-copy crayon-theme-familiar-my-copy-inline urvanov-syntax-highlighter-font-consolas" style="font-size: 16px !important; line-height: 22px !important;font-size: 16px !important;"><span class="crayon-pre urvanov-syntax-highlighter-code" style="font-size: 16px !important; line-height: 22px !important;font-size: 16px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;">anaconda-navigator</span></span>.</p>
+
+
+
+<figure class="wp-block-image size-full is-resized"><img loading="lazy" decoding="async" width="820" height="273" src="../../wp-content/uploads/2022/02/anaconda-prompt.png" alt="команда anaconda-navigator в Anaconda Prompt" class="wp-image-10565" style="width:727px;height:auto" srcset="../../wp-content/uploads/2022/02/anaconda-prompt.png 820w, ../../wp-content/uploads/2022/02/anaconda-prompt-300x100.png 300w, ../../wp-content/uploads/2022/02/anaconda-prompt-768x256.png 768w, ../../wp-content/uploads/2022/02/anaconda-prompt-600x200.png 600w" sizes="auto, (max-width: 820px) 100vw, 820px" /></figure>
+
+
+
+<p>В результате должно появиться вот такое окно.</p>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" decoding="async" width="1024" height="725" src="../../wp-content/uploads/2022/02/anaconda-navigator-1024x725.png" alt="интерфейс Anaconda Navigator" class="wp-image-10567" srcset="../../wp-content/uploads/2022/02/anaconda-navigator-1024x725.png 1024w, ../../wp-content/uploads/2022/02/anaconda-navigator-300x212.png 300w, ../../wp-content/uploads/2022/02/anaconda-navigator-768x544.png 768w, ../../wp-content/uploads/2022/02/anaconda-navigator-1200x850.png 1200w, ../../wp-content/uploads/2022/02/anaconda-navigator-600x425.png 600w, ../../wp-content/uploads/2022/02/anaconda-navigator.png 1257w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+<h3 class="wp-block-heading" id="5-%D1%88%D0%B0%D0%B3-2-%D0%BE%D1%82%D0%BA%D1%80%D0%BE%D0%B9%D1%82%D0%B5-jupyter-notebook">Шаг 2. Откройте Jupyter Notebook</h3>
+
+
+
+<p>Теперь выберите Jupyter Notebook и нажмите <strong>Launch</strong> (&#171;Запустить&#187;).</p>
+
+
+
+<figure class="wp-block-image size-full"><img loading="lazy" decoding="async" width="880" height="682" src="../../wp-content/uploads/2022/02/anaconda-navigator-launch-jn.png" alt="запуск Jupyter Notebook через Anaconda Navigator" class="wp-image-10568" srcset="../../wp-content/uploads/2022/02/anaconda-navigator-launch-jn.png 880w, ../../wp-content/uploads/2022/02/anaconda-navigator-launch-jn-300x233.png 300w, ../../wp-content/uploads/2022/02/anaconda-navigator-launch-jn-768x595.png 768w, ../../wp-content/uploads/2022/02/anaconda-navigator-launch-jn-600x465.png 600w" sizes="auto, (max-width: 880px) 100vw, 880px" /></figure>
+
+
+
+<p class="has-background" style="background-color:#ffe8c4">Замечу, что Jupyter Notebook можно открыть не только из Anaconda Navigator, но и через меню &#171;Пуск&#187;, а также введя в терминале Anaconda Prompt команду 
+			<span id="urvanov-syntax-highlighter-67aa62547e2ac460649033" class="urvanov-syntax-highlighter-syntax urvanov-syntax-highlighter-syntax-inline  crayon-theme-familiar-my-copy crayon-theme-familiar-my-copy-inline urvanov-syntax-highlighter-font-consolas" style="font-size: 16px !important; line-height: 22px !important;font-size: 16px !important;"><span class="crayon-pre urvanov-syntax-highlighter-code" style="font-size: 16px !important; line-height: 22px !important;font-size: 16px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;">jupyter-notebook</span></span>.</p>
+
+
+
+<p>В результате должен запуститься локальный сервер, и в браузере откроется перечень папок вашего компьютера.</p>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" decoding="async" width="1024" height="770" src="../../wp-content/uploads/2022/02/jupyter-directory-1024x770.png" alt="список директорий при запуске Anaconda Navigator" class="wp-image-10571" srcset="../../wp-content/uploads/2022/02/jupyter-directory-1024x770.png 1024w, ../../wp-content/uploads/2022/02/jupyter-directory-300x226.png 300w, ../../wp-content/uploads/2022/02/jupyter-directory-768x577.png 768w, ../../wp-content/uploads/2022/02/jupyter-directory-1200x902.png 1200w, ../../wp-content/uploads/2022/02/jupyter-directory-600x451.png 600w, ../../wp-content/uploads/2022/02/jupyter-directory.png 1305w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+<h3 class="wp-block-heading" id="6-%D1%88%D0%B0%D0%B3-3-%D0%B2%D1%8B%D0%B1%D0%B5%D1%80%D0%B8%D1%82%D0%B5-%D0%BF%D0%B0%D0%BF%D0%BA%D1%83-%D0%B8-%D1%81%D0%BE%D0%B7%D0%B4%D0%B0%D0%B9%D1%82%D0%B5-%D0%B1%D0%BB%D0%BE%D0%BA%D0%BD%D0%BE%D1%82">Шаг 3. Выберите папку и создайте блокнот</h3>
+
+
+
+<p>Выберите папку, в которой хотите создать блокнот. В моем случае я выберу <strong>Рабочий стол</strong> (Desktop).</p>
+
+
+
+<p>Теперь в правом верхнем углу нажмите <strong>New → Python 3</strong>.</p>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" decoding="async" width="1024" height="550" src="../../wp-content/uploads/2022/02/create-jupyter-notebook-1024x550.png" alt="создание Jupyter Notebook с ядром на Питоне" class="wp-image-10572" srcset="../../wp-content/uploads/2022/02/create-jupyter-notebook-1024x550.png 1024w, ../../wp-content/uploads/2022/02/create-jupyter-notebook-300x161.png 300w, ../../wp-content/uploads/2022/02/create-jupyter-notebook-768x413.png 768w, ../../wp-content/uploads/2022/02/create-jupyter-notebook-600x322.png 600w, ../../wp-content/uploads/2022/02/create-jupyter-notebook.png 1197w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+<p>Мы готовы писать и исполнять код точно так же, как мы это делаем в Google Colab.</p>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" decoding="async" width="1024" height="443" src="../../wp-content/uploads/2022/02/untitled-jupyter-notebook-1024x443.png" alt="ячейка с кодом Jupyter Notebook" class="wp-image-10573" srcset="../../wp-content/uploads/2022/02/untitled-jupyter-notebook-1024x443.png 1024w, ../../wp-content/uploads/2022/02/untitled-jupyter-notebook-300x130.png 300w, ../../wp-content/uploads/2022/02/untitled-jupyter-notebook-768x333.png 768w, ../../wp-content/uploads/2022/02/untitled-jupyter-notebook-1200x520.png 1200w, ../../wp-content/uploads/2022/02/untitled-jupyter-notebook-600x260.png 600w, ../../wp-content/uploads/2022/02/untitled-jupyter-notebook.png 1300w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+<p>Импортируем библиотеку Numpy и создадим массив.</p>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" decoding="async" width="1024" height="586" src="../../wp-content/uploads/2022/03/numpy-in-jn-1024x586.png" alt="импорт библиотеки Numpy в Jupyter Notebook" class="wp-image-10826" srcset="../../wp-content/uploads/2022/03/numpy-in-jn-1024x586.png 1024w, ../../wp-content/uploads/2022/03/numpy-in-jn-300x172.png 300w, ../../wp-content/uploads/2022/03/numpy-in-jn-768x440.png 768w, ../../wp-content/uploads/2022/03/numpy-in-jn-1200x687.png 1200w, ../../wp-content/uploads/2022/03/numpy-in-jn-600x343.png 600w, ../../wp-content/uploads/2022/03/numpy-in-jn.png 1366w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+<h3 class="wp-block-heading" id="7-%D1%88%D0%B0%D0%B3-4-%D1%81%D0%BE%D1%85%D1%80%D0%B0%D0%BD%D0%B8%D1%82%D0%B5-%D0%B1%D0%BB%D0%BE%D0%BA%D0%BD%D0%BE%D1%82-%D0%B8-%D0%B7%D0%B0%D0%BA%D1%80%D0%BE%D0%B9%D1%82%D0%B5-jupyter-notebook">Шаг 4. Сохраните блокнот и закройте Jupyter Notebook</h3>
+
+
+
+<p>Переименуйте блокнот в <strong>mynotebook</strong> (для этого, как и в Google Colab, отредактируйте само название непосредственно в окне блокнота). Сохранить файл можно через <strong>File → Save and Checkpoint</strong>.</p>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" decoding="async" width="1024" height="588" src="../../wp-content/uploads/2022/03/save-and-checkpoint-1024x588.png" alt="сохранение ноутбука" class="wp-image-10827" srcset="../../wp-content/uploads/2022/03/save-and-checkpoint-1024x588.png 1024w, ../../wp-content/uploads/2022/03/save-and-checkpoint-300x172.png 300w, ../../wp-content/uploads/2022/03/save-and-checkpoint-768x441.png 768w, ../../wp-content/uploads/2022/03/save-and-checkpoint-1200x689.png 1200w, ../../wp-content/uploads/2022/03/save-and-checkpoint-600x345.png 600w, ../../wp-content/uploads/2022/03/save-and-checkpoint.png 1365w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+<p>Обратите внимание, помимо файла mynotebook.ipynb, Jupyter Notebook создал скрытую папку .ipynb_checkpoints. В ней хранятся файлы, которые позволяют вернуться к предыдущей сохраненной версии блокнота (предыдущему check point). Сделать это можно, нажав <strong>File → Revert to Checkpoint</strong> и выбрав дату и время предыдущей сохраненной версии кода.</p>
+
+
+
+<p>Когда вы закончили работу, закройте вкладку с блокнотом. Остается прервать работу локального сервера, нажав <strong>Quit</strong> в правом верхнем углу.</p>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" decoding="async" width="1024" height="443" src="../../wp-content/uploads/2022/03/quit-jupyter-1024x443.png" alt="остановка локального сервера Jupyter Notebook" class="wp-image-10828" srcset="../../wp-content/uploads/2022/03/quit-jupyter-1024x443.png 1024w, ../../wp-content/uploads/2022/03/quit-jupyter-300x130.png 300w, ../../wp-content/uploads/2022/03/quit-jupyter-768x332.png 768w, ../../wp-content/uploads/2022/03/quit-jupyter-1200x519.png 1200w, ../../wp-content/uploads/2022/03/quit-jupyter-600x259.png 600w, ../../wp-content/uploads/2022/03/quit-jupyter.png 1363w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure>
+
+			</div> <!-- .content -->
+
+			
+		</div> <!-- .post -->
+
+					<footer class="site-footer section-inner">
+
+				<p class="copyright">&copy; 2025 <a href="../../index.html" class="site-name"><!--Машинное обучение--></a></p>
+
+			</footer> <!-- footer -->
+
+		</main>
+		
+		<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js?ver=6.7.1" id="mathjax-js"></script>
+<script type="text/javascript" src="../../wp-includes/js/imagesloaded.min.js@ver=5.0.0" id="imagesloaded-js"></script>
+<script type="text/javascript" src="../../wp-includes/js/masonry.min.js@ver=4.2.2" id="masonry-js"></script>
+<script type="text/javascript" id="mcluhan_global-js-extra">
+/* <![CDATA[ */
+var mcluhan_ajaxpagination = {"ajaxurl":"https:\/\/www.dmitrymakarov.ru\/wp-admin\/admin-ajax.php","query_vars":"{\"page\":\"\",\"pagename\":\"python\\\/jupyter-notebook\"}"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="../../wp-content/themes/mcluhan/assets/js/global.js@ver=2.1.1" id="mcluhan_global-js"></script>
+			
+	</body>
+</html>
