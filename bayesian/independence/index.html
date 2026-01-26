@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+
+<html class="no-js" lang="ru-RU">
+
+	<head>
+
+		<meta http-equiv="content-type" content="text/html" charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" >
+
+		<link rel="profile" href="http://gmpg.org/xfn/11">
+
+		<meta name='robots' content='index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' />
+
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$','$'],['\\(','\\)']], 
+    processEscapes: true
+  },
+  options: {
+    ignoreHtmlClass: 'tex2jax_ignore|editor-rich-text'
+  }
+};
+
+</script>
+
+	<!-- This site is optimized with the Yoast SEO plugin v26.8 - https://yoast.com/product/yoast-seo-wordpress/ -->
+	<title>Независимость событий</title>
+	<meta name="description" content="Рассмотрим независимость событий, совместную и условную вероятность, а также рассчитаем вероятность быть больным при положительном тесте." />
+	<link rel="canonical" href="index.html" />
+	<meta property="og:locale" content="ru_RU" />
+	<meta property="og:type" content="article" />
+	<meta property="og:title" content="Независимость событий" />
+	<meta property="og:description" content="Рассмотрим независимость событий, совместную и условную вероятность, а также рассчитаем вероятность быть больным при положительном тесте." />
+	<meta property="og:url" content="https://www.dmitrymakarov.ru/bayesian/independence/" />
+	<meta property="og:site_name" content="Дмитрий Макаров" />
+	<meta property="article:modified_time" content="2025-08-27T09:30:46+00:00" />
+	<meta property="og:image" content="https://www.dmitrymakarov.ru/wp-content/uploads/2025/08/joint_prob.jpg" />
+	<meta property="og:image:width" content="1158" />
+	<meta property="og:image:height" content="1376" />
+	<meta property="og:image:type" content="image/jpeg" />
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:label1" content="Примерное время для чтения" />
+	<meta name="twitter:data1" content="3 минуты" />
+	<script type="application/ld+json" class="yoast-schema-graph">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.dmitrymakarov.ru/bayesian/independence/","url":"https://www.dmitrymakarov.ru/bayesian/independence/","name":"Независимость событий","isPartOf":{"@id":"https://www.dmitrymakarov.ru/#website"},"primaryImageOfPage":{"@id":"https://www.dmitrymakarov.ru/bayesian/independence/#primaryimage"},"image":{"@id":"https://www.dmitrymakarov.ru/bayesian/independence/#primaryimage"},"thumbnailUrl":"https://www.dmitrymakarov.ru/wp-content/uploads/2025/08/joint_prob-862x1024.jpg","datePublished":"2025-08-27T09:30:45+00:00","dateModified":"2025-08-27T09:30:46+00:00","description":"Рассмотрим независимость событий, совместную и условную вероятность, а также рассчитаем вероятность быть больным при положительном тесте.","breadcrumb":{"@id":"https://www.dmitrymakarov.ru/bayesian/independence/#breadcrumb"},"inLanguage":"ru-RU","potentialAction":[{"@type":"ReadAction","target":["https://www.dmitrymakarov.ru/bayesian/independence/"]}]},{"@type":"ImageObject","inLanguage":"ru-RU","@id":"https://www.dmitrymakarov.ru/bayesian/independence/#primaryimage","url":"https://www.dmitrymakarov.ru/wp-content/uploads/2025/08/joint_prob.jpg","contentUrl":"https://www.dmitrymakarov.ru/wp-content/uploads/2025/08/joint_prob.jpg","width":1158,"height":1376},{"@type":"BreadcrumbList","@id":"https://www.dmitrymakarov.ru/bayesian/independence/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная страница","item":"https://www.dmitrymakarov.ru/"},{"@type":"ListItem","position":2,"name":"Байесовская статистика","item":"https://www.dmitrymakarov.ru/bayesian/"},{"@type":"ListItem","position":3,"name":"Независимость событий"}]},{"@type":"WebSite","@id":"https://www.dmitrymakarov.ru/#website","url":"https://www.dmitrymakarov.ru/","name":"Машинное обучение","description":"","publisher":{"@id":"https://www.dmitrymakarov.ru/#/schema/person/3fc221e2d391cc5cfd9d31c9c251c2a4"},"potentialAction":[{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://www.dmitrymakarov.ru/?s={search_term_string}"},"query-input":{"@type":"PropertyValueSpecification","valueRequired":true,"valueName":"search_term_string"}}],"inLanguage":"ru-RU"},{"@type":["Person","Organization"],"@id":"https://www.dmitrymakarov.ru/#/schema/person/3fc221e2d391cc5cfd9d31c9c251c2a4","name":"DmitryMakarov","image":{"@type":"ImageObject","inLanguage":"ru-RU","@id":"https://www.dmitrymakarov.ru/#/schema/person/image/","url":"https://secure.gravatar.com/avatar/17fb646123c8fccd118e1f2da611da3de8d8e72250637fb08b246e33d4c95395?s=96&d=mm&r=g","contentUrl":"https://secure.gravatar.com/avatar/17fb646123c8fccd118e1f2da611da3de8d8e72250637fb08b246e33d4c95395?s=96&d=mm&r=g","caption":"DmitryMakarov"},"logo":{"@id":"https://www.dmitrymakarov.ru/#/schema/person/image/"}}]}</script>
+	<!-- / Yoast SEO plugin. -->
+
+
+<link rel='dns-prefetch' href='https://cdn.jsdelivr.net/' />
+<link rel="alternate" type="application/rss+xml" title="Дмитрий Макаров &raquo; Лента" href="../../feed/index.html" />
+<link rel="alternate" type="application/rss+xml" title="Дмитрий Макаров &raquo; Лента комментариев" href="../../comments/feed/index.html" />
+<style id='wp-img-auto-sizes-contain-inline-css' type='text/css'>
+img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
+/*# sourceURL=wp-img-auto-sizes-contain-inline-css */
+</style>
+
+<link rel='stylesheet' id='urvanov_syntax_highlighter-css' href='../../wp-content/plugins/urvanov-syntax-highlighter/css/min/urvanov_syntax_highlighter.min.css@ver=2.9.0.css' type='text/css' media='all' />
+<style id='wp-emoji-styles-inline-css' type='text/css'>
+
+	img.wp-smiley, img.emoji {
+		display: inline !important;
+		border: none !important;
+		box-shadow: none !important;
+		height: 1em !important;
+		width: 1em !important;
+		margin: 0 0.07em !important;
+		vertical-align: -0.1em !important;
+		background: none !important;
+		padding: 0 !important;
+	}
+/*# sourceURL=wp-emoji-styles-inline-css */
+</style>
+<link rel='stylesheet' id='wp-block-library-css' href='../../wp-includes/css/dist/block-library/style.min.css@ver=6.9.css' type='text/css' media='all' />
+<style id='wp-block-heading-inline-css' type='text/css'>
+h1:where(.wp-block-heading).has-background,h2:where(.wp-block-heading).has-background,h3:where(.wp-block-heading).has-background,h4:where(.wp-block-heading).has-background,h5:where(.wp-block-heading).has-background,h6:where(.wp-block-heading).has-background{padding:1.25em 2.375em}h1.has-text-align-left[style*=writing-mode]:where([style*=vertical-lr]),h1.has-text-align-right[style*=writing-mode]:where([style*=vertical-rl]),h2.has-text-align-left[style*=writing-mode]:where([style*=vertical-lr]),h2.has-text-align-right[style*=writing-mode]:where([style*=vertical-rl]),h3.has-text-align-left[style*=writing-mode]:where([style*=vertical-lr]),h3.has-text-align-right[style*=writing-mode]:where([style*=vertical-rl]),h4.has-text-align-left[style*=writing-mode]:where([style*=vertical-lr]),h4.has-text-align-right[style*=writing-mode]:where([style*=vertical-rl]),h5.has-text-align-left[style*=writing-mode]:where([style*=vertical-lr]),h5.has-text-align-right[style*=writing-mode]:where([style*=vertical-rl]),h6.has-text-align-left[style*=writing-mode]:where([style*=vertical-lr]),h6.has-text-align-right[style*=writing-mode]:where([style*=vertical-rl]){rotate:180deg}
+/*# sourceURL=https://www.dmitrymakarov.ru/wp-includes/blocks/heading/style.min.css */
+</style>
+<style id='wp-block-image-inline-css' type='text/css'>
+.wp-block-image>a,.wp-block-image>figure>a{display:inline-block}.wp-block-image img{box-sizing:border-box;height:auto;max-width:100%;vertical-align:bottom}@media not (prefers-reduced-motion){.wp-block-image img.hide{visibility:hidden}.wp-block-image img.show{animation:show-content-image .4s}}.wp-block-image[style*=border-radius] img,.wp-block-image[style*=border-radius]>a{border-radius:inherit}.wp-block-image.has-custom-border img{box-sizing:border-box}.wp-block-image.aligncenter{text-align:center}.wp-block-image.alignfull>a,.wp-block-image.alignwide>a{width:100%}.wp-block-image.alignfull img,.wp-block-image.alignwide img{height:auto;width:100%}.wp-block-image .aligncenter,.wp-block-image .alignleft,.wp-block-image .alignright,.wp-block-image.aligncenter,.wp-block-image.alignleft,.wp-block-image.alignright{display:table}.wp-block-image .aligncenter>figcaption,.wp-block-image .alignleft>figcaption,.wp-block-image .alignright>figcaption,.wp-block-image.aligncenter>figcaption,.wp-block-image.alignleft>figcaption,.wp-block-image.alignright>figcaption{caption-side:bottom;display:table-caption}.wp-block-image .alignleft{float:left;margin:.5em 1em .5em 0}.wp-block-image .alignright{float:right;margin:.5em 0 .5em 1em}.wp-block-image .aligncenter{margin-left:auto;margin-right:auto}.wp-block-image :where(figcaption){margin-bottom:1em;margin-top:.5em}.wp-block-image.is-style-circle-mask img{border-radius:9999px}@supports ((-webkit-mask-image:none) or (mask-image:none)) or (-webkit-mask-image:none){.wp-block-image.is-style-circle-mask img{border-radius:0;-webkit-mask-image:url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="50"/></svg>');mask-image:url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="50"/></svg>');mask-mode:alpha;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-size:contain;mask-size:contain}}:root :where(.wp-block-image.is-style-rounded img,.wp-block-image .is-style-rounded img){border-radius:9999px}.wp-block-image figure{margin:0}.wp-lightbox-container{display:flex;flex-direction:column;position:relative}.wp-lightbox-container img{cursor:zoom-in}.wp-lightbox-container img:hover+button{opacity:1}.wp-lightbox-container button{align-items:center;backdrop-filter:blur(16px) saturate(180%);background-color:#5a5a5a40;border:none;border-radius:4px;cursor:zoom-in;display:flex;height:20px;justify-content:center;opacity:0;padding:0;position:absolute;right:16px;text-align:center;top:16px;width:20px;z-index:100}@media not (prefers-reduced-motion){.wp-lightbox-container button{transition:opacity .2s ease}}.wp-lightbox-container button:focus-visible{outline:3px auto #5a5a5a40;outline:3px auto -webkit-focus-ring-color;outline-offset:3px}.wp-lightbox-container button:hover{cursor:pointer;opacity:1}.wp-lightbox-container button:focus{opacity:1}.wp-lightbox-container button:focus,.wp-lightbox-container button:hover,.wp-lightbox-container button:not(:hover):not(:active):not(.has-background){background-color:#5a5a5a40;border:none}.wp-lightbox-overlay{box-sizing:border-box;cursor:zoom-out;height:100vh;left:0;overflow:hidden;position:fixed;top:0;visibility:hidden;width:100%;z-index:100000}.wp-lightbox-overlay .close-button{align-items:center;cursor:pointer;display:flex;justify-content:center;min-height:40px;min-width:40px;padding:0;position:absolute;right:calc(env(safe-area-inset-right) + 16px);top:calc(env(safe-area-inset-top) + 16px);z-index:5000000}.wp-lightbox-overlay .close-button:focus,.wp-lightbox-overlay .close-button:hover,.wp-lightbox-overlay .close-button:not(:hover):not(:active):not(.has-background){background:none;border:none}.wp-lightbox-overlay .lightbox-image-container{height:var(--wp--lightbox-container-height);left:50%;overflow:hidden;position:absolute;top:50%;transform:translate(-50%,-50%);transform-origin:top left;width:var(--wp--lightbox-container-width);z-index:9999999999}.wp-lightbox-overlay .wp-block-image{align-items:center;box-sizing:border-box;display:flex;height:100%;justify-content:center;margin:0;position:relative;transform-origin:0 0;width:100%;z-index:3000000}.wp-lightbox-overlay .wp-block-image img{height:var(--wp--lightbox-image-height);min-height:var(--wp--lightbox-image-height);min-width:var(--wp--lightbox-image-width);width:var(--wp--lightbox-image-width)}.wp-lightbox-overlay .wp-block-image figcaption{display:none}.wp-lightbox-overlay button{background:none;border:none}.wp-lightbox-overlay .scrim{background-color:#fff;height:100%;opacity:.9;position:absolute;width:100%;z-index:2000000}.wp-lightbox-overlay.active{visibility:visible}@media not (prefers-reduced-motion){.wp-lightbox-overlay.active{animation:turn-on-visibility .25s both}.wp-lightbox-overlay.active img{animation:turn-on-visibility .35s both}.wp-lightbox-overlay.show-closing-animation:not(.active){animation:turn-off-visibility .35s both}.wp-lightbox-overlay.show-closing-animation:not(.active) img{animation:turn-off-visibility .25s both}.wp-lightbox-overlay.zoom.active{animation:none;opacity:1;visibility:visible}.wp-lightbox-overlay.zoom.active .lightbox-image-container{animation:lightbox-zoom-in .4s}.wp-lightbox-overlay.zoom.active .lightbox-image-container img{animation:none}.wp-lightbox-overlay.zoom.active .scrim{animation:turn-on-visibility .4s forwards}.wp-lightbox-overlay.zoom.show-closing-animation:not(.active){animation:none}.wp-lightbox-overlay.zoom.show-closing-animation:not(.active) .lightbox-image-container{animation:lightbox-zoom-out .4s}.wp-lightbox-overlay.zoom.show-closing-animation:not(.active) .lightbox-image-container img{animation:none}.wp-lightbox-overlay.zoom.show-closing-animation:not(.active) .scrim{animation:turn-off-visibility .4s forwards}}@keyframes show-content-image{0%{visibility:hidden}99%{visibility:hidden}to{visibility:visible}}@keyframes turn-on-visibility{0%{opacity:0}to{opacity:1}}@keyframes turn-off-visibility{0%{opacity:1;visibility:visible}99%{opacity:0;visibility:visible}to{opacity:0;visibility:hidden}}@keyframes lightbox-zoom-in{0%{transform:translate(calc((-100vw + var(--wp--lightbox-scrollbar-width))/2 + var(--wp--lightbox-initial-left-position)),calc(-50vh + var(--wp--lightbox-initial-top-position))) scale(var(--wp--lightbox-scale))}to{transform:translate(-50%,-50%) scale(1)}}@keyframes lightbox-zoom-out{0%{transform:translate(-50%,-50%) scale(1);visibility:visible}99%{visibility:visible}to{transform:translate(calc((-100vw + var(--wp--lightbox-scrollbar-width))/2 + var(--wp--lightbox-initial-left-position)),calc(-50vh + var(--wp--lightbox-initial-top-position))) scale(var(--wp--lightbox-scale));visibility:hidden}}
+/*# sourceURL=https://www.dmitrymakarov.ru/wp-includes/blocks/image/style.min.css */
+</style>
+<style id='wp-block-list-inline-css' type='text/css'>
+ol,ul{box-sizing:border-box}:root :where(.wp-block-list.has-background){padding:1.25em 2.375em}
+/*# sourceURL=https://www.dmitrymakarov.ru/wp-includes/blocks/list/style.min.css */
+</style>
+<style id='wp-block-paragraph-inline-css' type='text/css'>
+.is-small-text{font-size:.875em}.is-regular-text{font-size:1em}.is-large-text{font-size:2.25em}.is-larger-text{font-size:3em}.has-drop-cap:not(:focus):first-letter{float:left;font-size:8.4em;font-style:normal;font-weight:100;line-height:.68;margin:.05em .1em 0 0;text-transform:uppercase}body.rtl .has-drop-cap:not(:focus):first-letter{float:none;margin-left:.1em}p.has-drop-cap.has-background{overflow:hidden}:root :where(p.has-background){padding:1.25em 2.375em}:where(p.has-text-color:not(.has-link-color)) a{color:inherit}p.has-text-align-left[style*="writing-mode:vertical-lr"],p.has-text-align-right[style*="writing-mode:vertical-rl"]{rotate:180deg}
+/*# sourceURL=https://www.dmitrymakarov.ru/wp-includes/blocks/paragraph/style.min.css */
+</style>
+<style id='global-styles-inline-css' type='text/css'>
+:root{--wp--preset--aspect-ratio--square: 1;--wp--preset--aspect-ratio--4-3: 4/3;--wp--preset--aspect-ratio--3-4: 3/4;--wp--preset--aspect-ratio--3-2: 3/2;--wp--preset--aspect-ratio--2-3: 2/3;--wp--preset--aspect-ratio--16-9: 16/9;--wp--preset--aspect-ratio--9-16: 9/16;--wp--preset--color--black: #121212;--wp--preset--color--cyan-bluish-gray: #abb8c3;--wp--preset--color--white: #fff;--wp--preset--color--pale-pink: #f78da7;--wp--preset--color--vivid-red: #cf2e2e;--wp--preset--color--luminous-vivid-orange: #ff6900;--wp--preset--color--luminous-vivid-amber: #fcb900;--wp--preset--color--light-green-cyan: #7bdcb5;--wp--preset--color--vivid-green-cyan: #00d084;--wp--preset--color--pale-cyan-blue: #8ed1fc;--wp--preset--color--vivid-cyan-blue: #0693e3;--wp--preset--color--vivid-purple: #9b51e0;--wp--preset--color--dark-gray: #333;--wp--preset--color--medium-gray: #555;--wp--preset--color--light-gray: #777;--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg,rgb(6,147,227) 0%,rgb(155,81,224) 100%);--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg,rgb(122,220,180) 0%,rgb(0,208,130) 100%);--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg,rgb(252,185,0) 0%,rgb(255,105,0) 100%);--wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg,rgb(255,105,0) 0%,rgb(207,46,46) 100%);--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg,rgb(238,238,238) 0%,rgb(169,184,195) 100%);--wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg,rgb(74,234,220) 0%,rgb(151,120,209) 20%,rgb(207,42,186) 40%,rgb(238,44,130) 60%,rgb(251,105,98) 80%,rgb(254,248,76) 100%);--wp--preset--gradient--blush-light-purple: linear-gradient(135deg,rgb(255,206,236) 0%,rgb(152,150,240) 100%);--wp--preset--gradient--blush-bordeaux: linear-gradient(135deg,rgb(254,205,165) 0%,rgb(254,45,45) 50%,rgb(107,0,62) 100%);--wp--preset--gradient--luminous-dusk: linear-gradient(135deg,rgb(255,203,112) 0%,rgb(199,81,192) 50%,rgb(65,88,208) 100%);--wp--preset--gradient--pale-ocean: linear-gradient(135deg,rgb(255,245,203) 0%,rgb(182,227,212) 50%,rgb(51,167,181) 100%);--wp--preset--gradient--electric-grass: linear-gradient(135deg,rgb(202,248,128) 0%,rgb(113,206,126) 100%);--wp--preset--gradient--midnight: linear-gradient(135deg,rgb(2,3,129) 0%,rgb(40,116,252) 100%);--wp--preset--font-size--small: 16px;--wp--preset--font-size--medium: 20px;--wp--preset--font-size--large: 24px;--wp--preset--font-size--x-large: 42px;--wp--preset--font-size--normal: 18px;--wp--preset--font-size--larger: 28px;--wp--preset--spacing--20: 0.44rem;--wp--preset--spacing--30: 0.67rem;--wp--preset--spacing--40: 1rem;--wp--preset--spacing--50: 1.5rem;--wp--preset--spacing--60: 2.25rem;--wp--preset--spacing--70: 3.38rem;--wp--preset--spacing--80: 5.06rem;--wp--preset--shadow--natural: 6px 6px 9px rgba(0, 0, 0, 0.2);--wp--preset--shadow--deep: 12px 12px 50px rgba(0, 0, 0, 0.4);--wp--preset--shadow--sharp: 6px 6px 0px rgba(0, 0, 0, 0.2);--wp--preset--shadow--outlined: 6px 6px 0px -3px rgb(255, 255, 255), 6px 6px rgb(0, 0, 0);--wp--preset--shadow--crisp: 6px 6px 0px rgb(0, 0, 0);}:where(.is-layout-flex){gap: 0.5em;}:where(.is-layout-grid){gap: 0.5em;}body .is-layout-flex{display: flex;}.is-layout-flex{flex-wrap: wrap;align-items: center;}.is-layout-flex > :is(*, div){margin: 0;}body .is-layout-grid{display: grid;}.is-layout-grid > :is(*, div){margin: 0;}:where(.wp-block-columns.is-layout-flex){gap: 2em;}:where(.wp-block-columns.is-layout-grid){gap: 2em;}:where(.wp-block-post-template.is-layout-flex){gap: 1.25em;}:where(.wp-block-post-template.is-layout-grid){gap: 1.25em;}.has-black-color{color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-color{color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-color{color: var(--wp--preset--color--white) !important;}.has-pale-pink-color{color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-color{color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-color{color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-color{color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-color{color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-color{color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-color{color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-color{color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-color{color: var(--wp--preset--color--vivid-purple) !important;}.has-black-background-color{background-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-background-color{background-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-background-color{background-color: var(--wp--preset--color--white) !important;}.has-pale-pink-background-color{background-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-background-color{background-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-background-color{background-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-background-color{background-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-background-color{background-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-background-color{background-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-background-color{background-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-background-color{background-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-background-color{background-color: var(--wp--preset--color--vivid-purple) !important;}.has-black-border-color{border-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-border-color{border-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-border-color{border-color: var(--wp--preset--color--white) !important;}.has-pale-pink-border-color{border-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-border-color{border-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-border-color{border-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-border-color{border-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-border-color{border-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-border-color{border-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-border-color{border-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-border-color{border-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-border-color{border-color: var(--wp--preset--color--vivid-purple) !important;}.has-vivid-cyan-blue-to-vivid-purple-gradient-background{background: var(--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple) !important;}.has-light-green-cyan-to-vivid-green-cyan-gradient-background{background: var(--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan) !important;}.has-luminous-vivid-amber-to-luminous-vivid-orange-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange) !important;}.has-luminous-vivid-orange-to-vivid-red-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-orange-to-vivid-red) !important;}.has-very-light-gray-to-cyan-bluish-gray-gradient-background{background: var(--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray) !important;}.has-cool-to-warm-spectrum-gradient-background{background: var(--wp--preset--gradient--cool-to-warm-spectrum) !important;}.has-blush-light-purple-gradient-background{background: var(--wp--preset--gradient--blush-light-purple) !important;}.has-blush-bordeaux-gradient-background{background: var(--wp--preset--gradient--blush-bordeaux) !important;}.has-luminous-dusk-gradient-background{background: var(--wp--preset--gradient--luminous-dusk) !important;}.has-pale-ocean-gradient-background{background: var(--wp--preset--gradient--pale-ocean) !important;}.has-electric-grass-gradient-background{background: var(--wp--preset--gradient--electric-grass) !important;}.has-midnight-gradient-background{background: var(--wp--preset--gradient--midnight) !important;}.has-small-font-size{font-size: var(--wp--preset--font-size--small) !important;}.has-medium-font-size{font-size: var(--wp--preset--font-size--medium) !important;}.has-large-font-size{font-size: var(--wp--preset--font-size--large) !important;}.has-x-large-font-size{font-size: var(--wp--preset--font-size--x-large) !important;}
+/*# sourceURL=global-styles-inline-css */
+</style>
+
+<style id='classic-theme-styles-inline-css' type='text/css'>
+/*! This file is auto-generated */
+.wp-block-button__link{color:#fff;background-color:#32373c;border-radius:9999px;box-shadow:none;text-decoration:none;padding:calc(.667em + 2px) calc(1.333em + 2px);font-size:1.125em}.wp-block-file__button{background:#32373c;color:#fff;text-decoration:none}
+/*# sourceURL=/wp-includes/css/classic-themes.min.css */
+</style>
+<link rel='stylesheet' id='mcluhan-fonts-css' href='../../wp-content/themes/mcluhan/assets/css/fonts.css@ver=6.9.css' type='text/css' media='all' />
+<link rel='stylesheet' id='fontawesome-css' href='../../wp-content/themes/mcluhan/assets/css/font-awesome.css@ver=6.9.css' type='text/css' media='all' />
+<link rel='stylesheet' id='mcluhan-style-css' href='../../wp-content/themes/mcluhan/style.css@ver=2.1.1.css' type='text/css' media='all' />
+<script type="text/javascript" src="../../wp-includes/js/jquery/jquery.min.js@ver=3.7.1" id="jquery-core-js"></script>
+<script type="text/javascript" src="../../wp-includes/js/jquery/jquery-migrate.min.js@ver=3.4.1" id="jquery-migrate-js"></script>
+<script type="text/javascript" id="urvanov_syntax_highlighter_js-js-extra">
+/* <![CDATA[ */
+var UrvanovSyntaxHighlighterSyntaxSettings = {"version":"2.9.0","is_admin":"0","ajaxurl":"https://www.dmitrymakarov.ru/wp-admin/admin-ajax.php","prefix":"urvanov-syntax-highlighter-","setting":"urvanov-syntax-highlighter-setting","selected":"urvanov-syntax-highlighter-setting-selected","changed":"urvanov-syntax-highlighter-setting-changed","special":"urvanov-syntax-highlighter-setting-special","orig_value":"data-orig-value","debug":""};
+var UrvanovSyntaxHighlighterSyntaxStrings = {"copy":"Copied to the clipboard","minimize":"Click To Expand Code"};
+//# sourceURL=urvanov_syntax_highlighter_js-js-extra
+/* ]]> */
+</script>
+<script type="text/javascript" src="../../wp-content/plugins/urvanov-syntax-highlighter/js/min/urvanov_syntax_highlighter.min.js@ver=2.9.0" id="urvanov_syntax_highlighter_js-js"></script>
+
+			<!-- Customizer CSS -->
+
+			<style type="text/css">
+
+				body .site-header { background-color:#004235; }.social-menu.desktop { background-color:#004235; }.social-menu a:hover { color:#004235; }.social-menu a.active { color:#004235; }.mobile-menu-wrapper { background-color:#004235; }.social-menu.mobile { background-color:#004235; }.mobile-search.active { background-color:#004235; }
+			</style>
+
+			<!-- /Customizer CSS -->
+
+					<script>jQuery( 'html' ).removeClass( 'no-js' ).addClass( 'js' );</script>
+		<style type="text/css" id="custom-background-css">
+body.custom-background { background-color: #fff9ef; }
+</style>
+	<link rel="icon" href="../../wp-content/uploads/2021/08/cropped-wp-favicon-512-32x32.png" sizes="32x32" />
+<link rel="icon" href="../../wp-content/uploads/2021/08/cropped-wp-favicon-512-192x192.png" sizes="192x192" />
+<link rel="apple-touch-icon" href="../../wp-content/uploads/2021/08/cropped-wp-favicon-512-180x180.png" />
+<meta name="msapplication-TileImage" content="https://www.dmitrymakarov.ru/wp-content/uploads/2021/08/cropped-wp-favicon-512-270x270.png" />
+
+	</head>
+
+	<body class="wp-singular page-template page-template-full-width-page-template page-template-full-width-page-template-php page page-id-41540 page-child parent-pageid-41534 custom-background wp-theme-mcluhan full-width-template">
+
+		
+		<a class="skip-link button" href="index.html#site-content">Перейти к содержимому</a>
+
+		<header class="site-header group">
+
+			
+			<p class="site-title"><a href="../../index.html" class="site-name">Дмитрий Макаров</a></p>
+
+			
+			<div class="nav-toggle">
+				<div class="bar"></div>
+				<div class="bar"></div>
+			</div>
+
+			<div class="menu-wrapper">
+
+				<ul class="main-menu desktop">
+
+					<li id="menu-item-36690" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home menu-item-36690"><a href="../../index.html">Материалы</a></li>
+<li id="menu-item-36691" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-36691"><a href="../../about/index.html">Об авторе</a></li>
+				</ul>
+
+			</div><!-- .menu-wrapper -->
+
+			
+				<div class="social-menu desktop">
+
+					<ul class="social-menu-inner">
+
+						<li class="social-search-wrapper"><a href="../../index.html@s=.html"></a></li>
+
+						
+					</ul><!-- .social-menu-inner -->
+
+				</div><!-- .social-menu -->
+
+			
+		</header><!-- header -->
+
+		<div class="mobile-menu-wrapper">
+
+			<ul class="main-menu mobile">
+				<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home menu-item-36690"><a href="../../index.html">Материалы</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-36691"><a href="../../about/index.html">Об авторе</a></li>
+					<li class="toggle-mobile-search-wrapper"><a href="index.html#" class="toggle-mobile-search">Поиск</a></li>
+							</ul><!-- .main-menu.mobile -->
+
+			
+		</div><!-- .mobile-menu-wrapper -->
+
+		
+			<div class="mobile-search">
+
+				<div class="untoggle-mobile-search"></div>
+
+				
+<form role="search" method="get" class="search-form" action="../../index.html">
+	<label class="screen-reader-text" for="search-form-697701dd1de5c">Поиск:</label>
+	<input type="search" id="search-form-697701dd1de5c" class="search-field" placeholder="Введите запрос" value="" name="s" autocomplete="off" />
+	</button>
+</form>
+
+				<div class="mobile-results">
+
+					<div class="results-wrapper"></div>
+
+				</div>
+
+			</div><!-- .mobile-search -->
+
+			<div class="search-overlay">
+
+				
+<form role="search" method="get" class="search-form" action="../../index.html">
+	<label class="screen-reader-text" for="search-form-697701dd1dee2">Поиск:</label>
+	<input type="search" id="search-form-697701dd1dee2" class="search-field" placeholder="Введите запрос" value="" name="s" autocomplete="off" />
+	</button>
+</form>
+
+			</div><!-- .search-overlay -->
+
+		
+		<main class="site-content" id="site-content">
+		<article class="post-41540 page type-page status-publish hentry missing-thumbnail">
+
+			
+			<header class="entry-header section-inner">
+
+				<h1 class="entry-title">Независимость событий</h1>
+			</header><!-- .entry-header -->
+
+			<div class="entry-content section-inner">
+
+				
+<p class="has-light-gray-color has-text-color"><a href="../../index.html">Материалы</a> &gt; <a href="../index.html">Байесовская статистика</a></p>
+
+
+
+<p>Статистика делится на описательную статистику и статистический вывод.</p>
+
+
+
+<p><strong>Статистика вывода</strong> (statistical inference) стремится сделать обоснованное предположение о параметрах генеральной совокупности на основе ограниченного набора данных (выборки).</p>
+
+
+
+<p><strong>Байесовская статистика</strong> (Bayesian inference), как один из подходов статистики вывода, использует формулу или теорему Томаса Байеса для того, чтобы уточнить изначальное представление о неизвестном параметре.</p>
+
+
+
+<h3 class="wp-block-heading">Независимые события</h3>
+
+
+
+<p><strong>Совместная вероятность</strong>. Найдем вероятность одновременного наступления двух независимых событий $A$ и $B.$</p>
+
+
+
+<p>Также говорят про вероятность <strong>пересечения</strong> (intersection) событий или <strong>совместную вероятность</strong> (joint probability) и обозначают $P(A \cap B)$ или $P(A, B).$</p>
+
+
+
+<p>Предположим, что события $A$ и $B$ означают выпадение решки (Head, H) при двукратном подбрасывании симметричной монеты. Монета одна и та же, события независимы, вероятность решки или орла равна $0{,}5.$</p>
+
+
+
+<p><strong>Интуитивное объяснение</strong>. Интуитивно речь идет об отношении количества благоприятствующих событию $A \cap B$ исходов (такой исход один) к количеству всех возможных исходов (их четыре).</p>
+
+
+<div class="wp-block-image">
+<figure class="aligncenter size-large is-resized"><img fetchpriority="high" decoding="async" width="862" height="1024" src="../../wp-content/uploads/2025/08/joint_prob-862x1024.jpg" alt="совместная вероятность" class="wp-image-41594" style="width:270px;height:auto" srcset="../../wp-content/uploads/2025/08/joint_prob-862x1024.jpg 862w, ../../wp-content/uploads/2025/08/joint_prob-252x300.jpg 252w, ../../wp-content/uploads/2025/08/joint_prob-768x913.jpg 768w, ../../wp-content/uploads/2025/08/joint_prob-600x713.jpg 600w, ../../wp-content/uploads/2025/08/joint_prob.jpg 1158w" sizes="(max-width: 862px) 100vw, 862px" /></figure>
+</div>
+
+
+<p><strong>Теорема умножения вероятностей</strong>. С другой стороны, если событию $A$ благоприятствуют один из двух исходов и событию $B$ также благоприятствуют один из двух исходов, то событиям $A$ и $B,$ то есть $A \cap B,$ благоприятствуют один из четырех исходов.</p>
+
+
+
+<p>$$ \frac{1}{2} \cdot \frac{1}{2} = \frac{1}{4} $$</p>
+
+
+
+<p>С точки зрения вероятности этих событий можно записать, что</p>
+
+
+
+<p>$$ P(H_1 \cap H_2) = P(H_1) \cdot P(H_2) = 0{,}5 \cdot 0{,}5 = 0{,}25 $$</p>
+
+
+
+<p>Таким образом, общая формула для совместной вероятности независимых событий выглядит так</p>
+
+
+
+<p>$$ P(A \cap B) = P(A) \cdot P(B) $$</p>
+
+
+
+<p>Эту формулу называют <strong>теоремой умножения вероятностей</strong> (probability multiplication rule).</p>
+
+
+
+<p><strong>Биномиальное распределение</strong>. Случайную величину такого испытания можно также описать с помощью биномиального распределения, в котором $n = 2,$ $p=q=0{,}5,$ а событие $A \cap B$ означает, что случайная величина $X$ дважды примет значение решки, то есть $X = 2.$</p>
+
+
+
+<p>Тогда по формуле бинома Ньютона</p>
+
+
+
+<p>$$ \binom{2}{0} p^{2-0} q^0 + \binom{2}{1} p^{2-1} q^{1} + \binom{2}{2} p^{2-2} q^{2} = $$</p>
+
+
+
+<p>$$ \binom{2}{0} 0{,}5^{2} \cdot 0{,}5^0 + \binom{2}{1} 0{,}5^{1} \cdot 0{,}5^{1} + \binom{2}{2} 0{,}5^{0} \cdot 0{,}5^{2} = $$</p>
+
+
+
+<p>$$ 1 \cdot 0{,}25 + 2 \cdot 0{,}25 + 1 \cdot 0{,}25 = 0{,}25 + 0{,}5 + 0{,}25 = 1 $$</p>
+
+
+
+<p>Первый член бинома как раз соответствует вероятности выпадения двух решек. Приведем график и таблицу распределения.</p>
+
+
+
+<figure class="wp-block-image size-large"><img decoding="async" width="1024" height="446" src="../../wp-content/uploads/2025/08/binom_same-1024x446.jpg" alt="биномиальное распределение: одинаковые вероятности" class="wp-image-41595" srcset="../../wp-content/uploads/2025/08/binom_same-1024x446.jpg 1024w, ../../wp-content/uploads/2025/08/binom_same-300x131.jpg 300w, ../../wp-content/uploads/2025/08/binom_same-768x334.jpg 768w, ../../wp-content/uploads/2025/08/binom_same-1536x669.jpg 1536w, ../../wp-content/uploads/2025/08/binom_same-2048x892.jpg 2048w, ../../wp-content/uploads/2025/08/binom_same-1200x523.jpg 1200w, ../../wp-content/uploads/2025/08/binom_same-600x261.jpg 600w" sizes="(max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+<p><strong>Разные вероятности</strong>. Теперь дополним картину разной вероятностью выпадения решки и орла. Например, $0{,}4$ и $0{,}6.$ По формуле совместной вероятности найдем, что</p>
+
+
+
+<p>$$ P(H_1 \cap H_2) = P(H_1) \cdot P(H_2) = 0{,}4 \cdot 0{,}6 = 0{,}16 $$</p>
+
+
+
+<figure class="wp-block-image size-large"><img decoding="async" width="1024" height="455" src="../../wp-content/uploads/2025/08/binom_diff-1024x455.jpg" alt="биномиальное распределение: разные вероятности" class="wp-image-41596" srcset="../../wp-content/uploads/2025/08/binom_diff-1024x455.jpg 1024w, ../../wp-content/uploads/2025/08/binom_diff-300x133.jpg 300w, ../../wp-content/uploads/2025/08/binom_diff-768x341.jpg 768w, ../../wp-content/uploads/2025/08/binom_diff-1536x682.jpg 1536w, ../../wp-content/uploads/2025/08/binom_diff-2048x910.jpg 2048w, ../../wp-content/uploads/2025/08/binom_diff-1200x533.jpg 1200w, ../../wp-content/uploads/2025/08/binom_diff-600x267.jpg 600w" sizes="(max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+<p>По формуле бинома</p>
+
+
+
+<p>$$ \binom{2}{0} 0{,}4^{2} \cdot 0{,}6^0 + \binom{2}{1} 0{,}4^{1} \cdot 0{,}6^{1} + \binom{2}{2} 0{,}4^{0} \cdot 0{,}6^{2} = $$</p>
+
+
+
+<p>$$ 1 \cdot 0{,}16 + 2 \cdot 0{,}4 \cdot 0{,}6 + 1 \cdot 0{,}36 = 0{,}16 + 0{,}48 + 0{,}36 = 1 $$</p>
+
+
+
+<p>Изменим условия испытаний.</p>
+
+
+
+<h3 class="wp-block-heading">Зависимые события</h3>
+
+
+
+<p>Одинаковые вероятности. Рассмотрим подбрасывание двух разных монет с вероятностью выпадения решки на каждой из них, равной $0{,}5.$</p>
+
+
+<div class="wp-block-image">
+<figure class="aligncenter size-large is-resized"><img loading="lazy" decoding="async" width="653" height="1024" src="../../wp-content/uploads/2025/08/dependent_tree-653x1024.jpg" alt="зависимые события" class="wp-image-41597" style="width:237px;height:auto" srcset="../../wp-content/uploads/2025/08/dependent_tree-653x1024.jpg 653w, ../../wp-content/uploads/2025/08/dependent_tree-191x300.jpg 191w, ../../wp-content/uploads/2025/08/dependent_tree-768x1205.jpg 768w, ../../wp-content/uploads/2025/08/dependent_tree-600x942.jpg 600w, ../../wp-content/uploads/2025/08/dependent_tree.jpg 873w" sizes="auto, (max-width: 653px) 100vw, 653px" /></figure>
+</div>
+
+
+<p>На этот раз предположим, что эти события зависимы. Другими словами, вообразим, что исход подбрасывания второй монеты зависит от исхода подбрасывания первой.</p>
+
+
+
+<p>Примерами зависимых событий в реальной жизни будут вероятность получения штрафа в зависимости от стиля езды или получения хорошей оценки на экзамене в зависимости от уровня подготовки.</p>
+
+
+
+<p>Для наглядности представим, что мы сделали двадцать серий из двух бросков каждой монеты и записали результаты в <strong>таблицу сопряженности</strong> (contingency table) как в виде абсолютных значений, так и в виде вероятностей.</p>
+
+
+<div class="wp-block-image">
+<figure class="aligncenter size-large is-resized"><img loading="lazy" decoding="async" width="1024" height="667" src="../../wp-content/uploads/2025/08/dependent_table-1024x667.jpg" alt="зависимые события: таблица сопряженности" class="wp-image-41598" style="width:629px;height:auto" srcset="../../wp-content/uploads/2025/08/dependent_table-1024x667.jpg 1024w, ../../wp-content/uploads/2025/08/dependent_table-300x196.jpg 300w, ../../wp-content/uploads/2025/08/dependent_table-768x501.jpg 768w, ../../wp-content/uploads/2025/08/dependent_table-1536x1001.jpg 1536w, ../../wp-content/uploads/2025/08/dependent_table-2048x1335.jpg 2048w, ../../wp-content/uploads/2025/08/dependent_table-1200x782.jpg 1200w, ../../wp-content/uploads/2025/08/dependent_table-600x391.jpg 600w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure>
+</div>
+
+
+<p>В таблице хорошо видно, что для каждой из монет M1 и M2 мы получили по 10 решек и орлов. Это так называемые маргинальные частоты или вероятности (marginal probabilities), поскольку они находятся &#171;на полях&#187; (от англ. margin) таблицы, а не в ее центре.</p>
+
+
+
+<p>Поясним, что</p>
+
+
+
+<ul class="wp-block-list">
+<li>маргинальные частоты по строке показывают результат подбрасывания первой монеты M1;</li>
+
+
+
+<li>маргинальные частоты по столбцу показывают результат подбрасывания M2.</li>
+</ul>
+
+
+
+<p>Так как выпавшие на первой монете M1 10 решек также распределяются поровну при подбрасывании второй монеты, то совместная вероятность $P(A \cap B)$ будет также равна</p>
+
+
+
+<p>$$ P(A \cap B) = \frac{10}{20} \cdot \frac{5}{10} = \frac{1}{2} \cdot \frac{1}{2} = \frac{1}{4} = 0{,}25, $$</p>
+
+
+
+<p>что соответствует теореме умножения вероятностей $ P(A \cap B) = 0{,}5 \cdot 0{,}5 = 0{,}25 .$</p>
+
+
+
+<p><strong>Условная вероятность</strong>. Однако можно сказать, что мы считали выпадения решки на второй монете $(H_2)$ при условии выпадения решки на первой $(H_1).$ Такая вероятность называется <strong>условной</strong> (conditional) и записывается как $P(H_2 \mid H_1).$ То есть</p>
+
+
+
+<p>$$ P(A \cap B) = P(H_1) \cdot P(H_2 \mid H_1) $$</p>
+
+
+
+<p>Отсюда несложно вывести общую формулу</p>
+
+
+
+<p>$$ P(A \cap B) = P(A) \cdot P(B \mid A) $$</p>
+
+
+
+<p>Геометрически, из общего числа бросков первой монеты мы взяли только те, при которых выпала решка (их было 10), и внутри этого вероятностного пространства на второй монете решка выпала также в половине случаев (или пять раз).</p>
+
+
+<div class="wp-block-image">
+<figure class="aligncenter size-large is-resized"><img loading="lazy" decoding="async" width="1024" height="444" src="../../wp-content/uploads/2025/08/conditional_same-1024x444.jpg" alt="условная вероятность" class="wp-image-41604" style="width:706px;height:auto" srcset="../../wp-content/uploads/2025/08/conditional_same-1024x444.jpg 1024w, ../../wp-content/uploads/2025/08/conditional_same-300x130.jpg 300w, ../../wp-content/uploads/2025/08/conditional_same-768x333.jpg 768w, ../../wp-content/uploads/2025/08/conditional_same-1536x666.jpg 1536w, ../../wp-content/uploads/2025/08/conditional_same-2048x888.jpg 2048w, ../../wp-content/uploads/2025/08/conditional_same-1200x521.jpg 1200w, ../../wp-content/uploads/2025/08/conditional_same-600x260.jpg 600w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure>
+</div>
+
+
+<p>Можно представить, что вероятности события $A$ &#171;ограничивают&#187; пространство исходов $\Omega$ (весь квадрат) и вероятности события $B$ &#171;довольствуются&#187; тем, что осталось в каждой из половинок. Мы как бы сокращаем варианты выбора для второй монеты подбрасыванием первой монеты $\Omega^{\prime}$, а затем берем &#171;половину от половины&#187; $\Omega^{\prime\prime}.$</p>
+
+
+
+<p>Примечание. Заметим, что если события независимы, то вероятность события $B$ при условии $A$ равна просто вероятности события $B,$ $ P(B \mid A) = P(B) .$</p>
+
+
+
+<p>Теперь, так как у нас две монеты, поэкспериментируем с разными вероятностями выпадения решки или орла на каждой из них.</p>
+
+
+
+<p><strong>Разные вероятности</strong>. Зададим новые условия:</p>
+
+
+
+<ul class="wp-block-list">
+<li>пусть вначале мы подбрасываем монету, которая выпадает решкой с вероятностью $0{,}4,$ а орлом соответственно с вероятностью $0{,}6$;</li>
+
+
+
+<li>после этого мы подбрасываем обычную симметричную монету с вероятностями $0{,}5.$</li>
+</ul>
+
+
+
+<p>Поставим задачу найти вероятность того, что на второй монете выпала решка $(H_2),$ при условии, что на первой монете выпал орел $(T_1).$ Другими словами, найти вероятность $P(T_1 \cap H_2) $ или, если использовать запись условной вероятности, $P(T_1) \cdot P(H_2 \mid T_1).$</p>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" decoding="async" width="1024" height="568" src="../../wp-content/uploads/2025/08/conditional_diff_tree_table-1024x568.jpg" alt="разные вероятности: диаграмма и таблица" class="wp-image-41605" srcset="../../wp-content/uploads/2025/08/conditional_diff_tree_table-1024x568.jpg 1024w, ../../wp-content/uploads/2025/08/conditional_diff_tree_table-300x166.jpg 300w, ../../wp-content/uploads/2025/08/conditional_diff_tree_table-768x426.jpg 768w, ../../wp-content/uploads/2025/08/conditional_diff_tree_table-1536x852.jpg 1536w, ../../wp-content/uploads/2025/08/conditional_diff_tree_table-2048x1136.jpg 2048w, ../../wp-content/uploads/2025/08/conditional_diff_tree_table-1200x665.jpg 1200w, ../../wp-content/uploads/2025/08/conditional_diff_tree_table-600x333.jpg 600w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+<p>Посмотрим, как это отразилось на пространстве исходов.</p>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" decoding="async" width="1024" height="444" src="../../wp-content/uploads/2025/08/conditional_diff_space-1024x444.jpg" alt="разные вероятности: пространство исходов" class="wp-image-41606" srcset="../../wp-content/uploads/2025/08/conditional_diff_space-1024x444.jpg 1024w, ../../wp-content/uploads/2025/08/conditional_diff_space-300x130.jpg 300w, ../../wp-content/uploads/2025/08/conditional_diff_space-768x333.jpg 768w, ../../wp-content/uploads/2025/08/conditional_diff_space-1536x666.jpg 1536w, ../../wp-content/uploads/2025/08/conditional_diff_space-2048x888.jpg 2048w, ../../wp-content/uploads/2025/08/conditional_diff_space-1200x520.jpg 1200w, ../../wp-content/uploads/2025/08/conditional_diff_space-600x260.jpg 600w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+<p>Несложно рассчитать, что</p>
+
+
+
+<p>$$ P(T_1 \cap H_2) = P(T_1) \cdot P(H_2 \mid T_1) = 0{,}6 \cdot 0{,}5 = 0{,}30 $$</p>
+
+
+
+<p>Как мы видим, вероятность уже не равна $0{,}25,$ на совместную вероятность двух событий повлияло то, что первая монета несимметрична. Геометрически после выпадения второй монеты мы нашли половину от большей площади пространства исходов $\Omega.$</p>
+
+
+
+<p>Пойдем дальше в наших экспериментах и предположим, что</p>
+
+
+
+<ul class="wp-block-list">
+<li>на первой монете решка выпадает с вероятностью 0,2, а на второй монете вероятности решки и орла равны 0,8 и 0,2 соответственно; а вот</li>
+
+
+
+<li>если выпадает орел на первой монете (с вероятностью 0,8), то наоборот, вероятности решки и орла на второй равны 0,2 и 0,8.</li>
+</ul>
+
+
+
+<p>Приведем диаграмму. Найдем вероятность выпадения двух решек $P(H_1, H_2).$<br>$$ P(H_1 \cap H_2) = P(H_1) \cdot P(H_2 \mid H_1) = 0{,}2 \cdot 0{,}8 = 0{,}16 $$</p>
+
+
+<div class="wp-block-image">
+<figure class="aligncenter size-large is-resized"><img loading="lazy" decoding="async" width="1024" height="982" src="../../wp-content/uploads/2025/08/conditional_diff_2_tree-1024x982.jpg" alt="разные вероятности 2: диаграмма" class="wp-image-41607" style="width:375px;height:auto" srcset="../../wp-content/uploads/2025/08/conditional_diff_2_tree-1024x982.jpg 1024w, ../../wp-content/uploads/2025/08/conditional_diff_2_tree-300x288.jpg 300w, ../../wp-content/uploads/2025/08/conditional_diff_2_tree-768x737.jpg 768w, ../../wp-content/uploads/2025/08/conditional_diff_2_tree-1200x1151.jpg 1200w, ../../wp-content/uploads/2025/08/conditional_diff_2_tree-600x576.jpg 600w, ../../wp-content/uploads/2025/08/conditional_diff_2_tree.jpg 1470w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure>
+</div>
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" decoding="async" width="1024" height="441" src="../../wp-content/uploads/2025/08/conditional_diff_2_space-1024x441.jpg" alt="разные вероятности 2: таблица" class="wp-image-41608" srcset="../../wp-content/uploads/2025/08/conditional_diff_2_space-1024x441.jpg 1024w, ../../wp-content/uploads/2025/08/conditional_diff_2_space-300x129.jpg 300w, ../../wp-content/uploads/2025/08/conditional_diff_2_space-768x330.jpg 768w, ../../wp-content/uploads/2025/08/conditional_diff_2_space-1536x661.jpg 1536w, ../../wp-content/uploads/2025/08/conditional_diff_2_space-2048x881.jpg 2048w, ../../wp-content/uploads/2025/08/conditional_diff_2_space-1200x516.jpg 1200w, ../../wp-content/uploads/2025/08/conditional_diff_2_space-600x258.jpg 600w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+<p>Примечательно, что хотя вероятность выпадения решки на второй монете очень велика (0,8), такое событие как подбрасывание второй монеты после решки на первой в принципе маловероятно (0,2).</p>
+
+
+
+<p>Геометрически, небольшая вероятность выпадения решки при первом подбрасывании существенно ограничивает вероятность выпадения решки при втором и здесь, вне зависимости от величины этой вероятности, пусть даже 0,99, совместная вероятность двух событий будет существенно ниже.</p>
+
+
+
+<h4 class="wp-block-heading">Пример с медицинскими тестами</h4>
+
+
+
+<p>Это интересное свойство совместной вероятности зависимых событий часто иллюстрируют с помощью медицинских тестов. Рассмотрим некоторое заболевание (какое именно значения не имеет), для диагностики которого разработан медицинский тест.</p>
+
+
+
+<p><strong>Матрица ошибок</strong>. Мы знаем, что классификатор может делать:</p>
+
+
+
+<ul class="wp-block-list">
+<li>истинно положительные (TP);</li>
+
+
+
+<li>истинно отрицательные (TN);</li>
+
+
+
+<li>ложно положительные (FN); и наконец</li>
+
+
+
+<li>ложно отрицательные (FP) прогнозы.</li>
+</ul>
+
+
+
+<p>Эти результаты мы объединили в <strong>матрицу ошибок</strong> (confusion matrix).</p>
+
+
+<div class="wp-block-image">
+<figure class="aligncenter size-large is-resized"><img loading="lazy" decoding="async" width="1024" height="418" src="../../wp-content/uploads/2025/08/confusion_matrix-1024x418.jpg" alt="матрица ошибок" class="wp-image-41609" style="width:522px;height:auto" srcset="../../wp-content/uploads/2025/08/confusion_matrix-1024x418.jpg 1024w, ../../wp-content/uploads/2025/08/confusion_matrix-300x123.jpg 300w, ../../wp-content/uploads/2025/08/confusion_matrix-768x314.jpg 768w, ../../wp-content/uploads/2025/08/confusion_matrix-1536x628.jpg 1536w, ../../wp-content/uploads/2025/08/confusion_matrix-2048x837.jpg 2048w, ../../wp-content/uploads/2025/08/confusion_matrix-1200x490.jpg 1200w, ../../wp-content/uploads/2025/08/confusion_matrix-600x245.jpg 600w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure>
+</div>
+
+
+<p>Качество медицинских тестов принято оценивать по двум критериям, которые можно рассчитать с помощью показателей этой матрицы.</p>
+
+
+
+<p><strong>Чувствительность теста</strong>. Во-первых, <strong>чувствительность</strong> (sensitivity) теста или доля истинно положительных результатов (true positive rate, $TPR$) определяется способностью выдавать положительный прогноз в случае, когда человек действительно болен. С точки зрения матрицы ошибок речь идет об отношении $TP$ к $TP + FN.$</p>
+
+
+
+<p>$$ TPR = \frac{TP}{TP + FN} $$</p>
+
+
+<div class="wp-block-image">
+<figure class="aligncenter size-large is-resized"><img loading="lazy" decoding="async" width="1024" height="514" src="../../wp-content/uploads/2025/08/TPR_table-1024x514.jpg" alt="чувствительность теста: матрица ошибок" class="wp-image-41611" style="width:550px;height:auto" srcset="../../wp-content/uploads/2025/08/TPR_table-1024x514.jpg 1024w, ../../wp-content/uploads/2025/08/TPR_table-300x151.jpg 300w, ../../wp-content/uploads/2025/08/TPR_table-768x386.jpg 768w, ../../wp-content/uploads/2025/08/TPR_table-1536x771.jpg 1536w, ../../wp-content/uploads/2025/08/TPR_table-2048x1028.jpg 2048w, ../../wp-content/uploads/2025/08/TPR_table-1200x602.jpg 1200w, ../../wp-content/uploads/2025/08/TPR_table-600x301.jpg 600w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure>
+</div>
+
+
+<p>Другими словами, мы сравниваем тех, кто действительно болен и показал истинно положительный тест $TP$ с суммой этих людей, а также тех, для кого тест показал ложноотрицательный результат $TP + FN,$ поскольку они тоже больны.</p>
+
+
+
+<p>Почему это важно? Если этот показатель будет низким, то мы не сможем выявить многих действительно заболевших и не начнем лечение.</p>
+
+
+
+<p>Заметим, что если рассматривать матрицу ошибок как таблицу сопряженности, то фактически чувствительность теста это отношение тех, у кого положительный тест к маргинальной вероятности тех, кто действительно болен.</p>
+
+
+
+<p>Таким образом, с точки зрения теории вероятностей чувствительность &#8212; это совместная вероятность быть больным (первая монета из примера выше) и одновременно показать положительный результат на тесте (вторая монета).</p>
+
+
+
+<p>$$ P (\text{чувствительность}) = P (\text{болен} \cap + ) = P (\text{болен}) \cdot P(+ \mid \text{болен}) $$</p>
+
+
+
+<p>Посмотрим на диаграмму.</p>
+
+
+<div class="wp-block-image">
+<figure class="aligncenter size-large is-resized"><img loading="lazy" decoding="async" width="1024" height="790" src="../../wp-content/uploads/2025/08/TPR_tree-1024x790.jpg" alt="чувствительность теста: диаграмма" class="wp-image-41612" style="width:477px;height:auto" srcset="../../wp-content/uploads/2025/08/TPR_tree-1024x790.jpg 1024w, ../../wp-content/uploads/2025/08/TPR_tree-300x231.jpg 300w, ../../wp-content/uploads/2025/08/TPR_tree-768x593.jpg 768w, ../../wp-content/uploads/2025/08/TPR_tree-1536x1185.jpg 1536w, ../../wp-content/uploads/2025/08/TPR_tree-1200x926.jpg 1200w, ../../wp-content/uploads/2025/08/TPR_tree-600x463.jpg 600w, ../../wp-content/uploads/2025/08/TPR_tree.jpg 1576w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure>
+</div>
+
+
+<p><strong>Специфичность теста</strong>. Во-вторых, <strong>специфичность</strong> (specificity) теста или доля истинно отрицательных результатов (true negative rate, $TNR$) &#8212; это способность теста показывать отрицательный результат, в случае когда человек действительно здоров.</p>
+
+
+
+<p>$$ TNR = \frac{TN}{TN + FP} $$</p>
+
+
+<div class="wp-block-image">
+<figure class="aligncenter size-large is-resized"><img loading="lazy" decoding="async" width="1024" height="513" src="../../wp-content/uploads/2025/08/TNR_table-1024x513.jpg" alt="специфичность теста: матрица ошибок" class="wp-image-41613" style="width:565px;height:auto" srcset="../../wp-content/uploads/2025/08/TNR_table-1024x513.jpg 1024w, ../../wp-content/uploads/2025/08/TNR_table-300x150.jpg 300w, ../../wp-content/uploads/2025/08/TNR_table-768x385.jpg 768w, ../../wp-content/uploads/2025/08/TNR_table-1536x770.jpg 1536w, ../../wp-content/uploads/2025/08/TNR_table-2048x1027.jpg 2048w, ../../wp-content/uploads/2025/08/TNR_table-1200x602.jpg 1200w, ../../wp-content/uploads/2025/08/TNR_table-600x301.jpg 600w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure>
+</div>
+
+
+<p>Говоря простыми словами, это способность теста не поднимать лишнюю панику. Если у теста низкая специфичность, положительные результаты будут часто получать как больные, так и здоровые люди.</p>
+
+
+
+<p>Тогда,</p>
+
+
+
+<p>$$ P (\text{специфичность}) = P (\text{не болен} \cap-) = P (\text{не болен}) \cdot P(-\mid \text{не болен}) $$</p>
+
+
+<div class="wp-block-image">
+<figure class="aligncenter size-large is-resized"><img loading="lazy" decoding="async" width="1024" height="802" src="../../wp-content/uploads/2025/08/TNR_tree-1024x802.jpg" alt="специфичность теста: диаграмма" class="wp-image-41614" style="width:460px;height:auto" srcset="../../wp-content/uploads/2025/08/TNR_tree-1024x802.jpg 1024w, ../../wp-content/uploads/2025/08/TNR_tree-300x235.jpg 300w, ../../wp-content/uploads/2025/08/TNR_tree-768x601.jpg 768w, ../../wp-content/uploads/2025/08/TNR_tree-1200x939.jpg 1200w, ../../wp-content/uploads/2025/08/TNR_tree-600x470.jpg 600w, ../../wp-content/uploads/2025/08/TNR_tree.jpg 1520w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure>
+</div>
+
+
+<p><strong>Распространенность заболевания</strong>. Наконец, <strong>распространенность</strong> (prevalence) заболевания определяется, говоря упрощенно, как доля заболевших к численности населения.</p>
+
+
+
+<p>Почему это важно в наших расчетах? Распространенность будет играть роль первой монеты. Это вероятность того, что человек болен до сдачи теста. Вторая монета &#8212; это тест, вернее его чувствительность и специфичность.</p>
+
+
+<div class="wp-block-image">
+<figure class="aligncenter size-large is-resized"><img loading="lazy" decoding="async" width="1024" height="966" src="../../wp-content/uploads/2025/08/prevalence-1024x966.jpg" alt="распространенность заболевания" class="wp-image-41615" style="width:437px;height:auto" srcset="../../wp-content/uploads/2025/08/prevalence-1024x966.jpg 1024w, ../../wp-content/uploads/2025/08/prevalence-300x283.jpg 300w, ../../wp-content/uploads/2025/08/prevalence-768x725.jpg 768w, ../../wp-content/uploads/2025/08/prevalence-1536x1449.jpg 1536w, ../../wp-content/uploads/2025/08/prevalence-1200x1132.jpg 1200w, ../../wp-content/uploads/2025/08/prevalence-600x566.jpg 600w, ../../wp-content/uploads/2025/08/prevalence.jpg 1558w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure>
+</div>
+
+
+<p><strong>Вероятность оказаться больным</strong>. Рассмотрим конкретный пример. Пусть</p>
+
+
+
+<ul class="wp-block-list">
+<li>распространенность заболевания ограничена пятью процентами населения;</li>
+
+
+
+<li>чувствительность теста составляет 90 процентов; а</li>
+
+
+
+<li>специфичность &#8212; 80 процентов.</li>
+</ul>
+
+
+
+<p>Найдем вероятность того, что случайный человек, получивший положительный результат теста окажется действительно болен, то есть $P(\text{болен} \mid +).$ Вначале заполним диаграмму полученными вероятностями.</p>
+
+
+<div class="wp-block-image">
+<figure class="aligncenter size-large is-resized"><img loading="lazy" decoding="async" width="1024" height="874" src="../../wp-content/uploads/2025/08/sick_prob-1024x874.jpg" alt="вероятность оказаться больным" class="wp-image-41616" style="width:482px;height:auto" srcset="../../wp-content/uploads/2025/08/sick_prob-1024x874.jpg 1024w, ../../wp-content/uploads/2025/08/sick_prob-300x256.jpg 300w, ../../wp-content/uploads/2025/08/sick_prob-768x655.jpg 768w, ../../wp-content/uploads/2025/08/sick_prob-1536x1311.jpg 1536w, ../../wp-content/uploads/2025/08/sick_prob-1200x1024.jpg 1200w, ../../wp-content/uploads/2025/08/sick_prob-600x512.jpg 600w, ../../wp-content/uploads/2025/08/sick_prob.jpg 1727w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure>
+</div>
+
+
+<p>Логично, что для того чтобы найти вероятность быть больным при положительном тесте, нужно найти отношение совместной вероятности быть больным и получить положительный тест к вероятности получить положительный тест (ведь положительный тест получают не только больные, но и здоровые люди). Другими словами,</p>
+
+
+
+<p>$$ P(\text{болен} \mid +) = \frac{P( \text{болен} \cap + )}{P(+)} $$</p>
+
+
+
+<p>Начнем с числителя. По сути, речь идет о чувствительности теста.</p>
+
+
+
+<p>$$ P( \text{болен} \cap + ) = P (\text{болен}) \cdot P(+ \mid \text{болен}) = 0{,}05 \cdot 0{,}90 $$</p>
+
+
+
+<p>Теперь найдем знаменатель или всех тех, кто получил положительный тест. Механически можно проследить ветви диаграммы</p>
+
+
+<div class="wp-block-image">
+<figure class="aligncenter size-large is-resized"><img loading="lazy" decoding="async" width="1024" height="831" src="../../wp-content/uploads/2025/08/sick_prob_tree-1024x831.jpg" alt="вероятность оказаться больным 2" class="wp-image-41617" style="width:495px;height:auto" srcset="../../wp-content/uploads/2025/08/sick_prob_tree-1024x831.jpg 1024w, ../../wp-content/uploads/2025/08/sick_prob_tree-300x243.jpg 300w, ../../wp-content/uploads/2025/08/sick_prob_tree-768x623.jpg 768w, ../../wp-content/uploads/2025/08/sick_prob_tree-1536x1247.jpg 1536w, ../../wp-content/uploads/2025/08/sick_prob_tree-1200x974.jpg 1200w, ../../wp-content/uploads/2025/08/sick_prob_tree-600x487.jpg 600w, ../../wp-content/uploads/2025/08/sick_prob_tree.jpg 1794w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure>
+</div>
+
+
+<p>и перемножить соответствующие вероятности</p>
+
+
+
+<p>$$ P(+) = 0{,}05 \cdot 0{,}90 + 0{,}95 \cdot 0{,}20. $$</p>
+
+
+
+<p>С точки зрения смысла речь идет о тех,</p>
+
+
+
+<ul class="wp-block-list">
+<li>кто получил положительный тест и действительно болен, то есть $ P( \text{болен} \cap + ) $ или $P (\text{болен}) \cdot P(+ \mid \text{болен})$; а также о тех,</li>
+
+
+
+<li>кто получил положительный тест и при этом не болен, то есть $P( \text{не болен} \cap + )$ или $P (\text{не болен}) \cdot P(+ \mid \text{не болен}).$</li>
+</ul>
+
+
+
+<p>Соберем все это в общую формулу</p>
+
+
+
+<p>$$ P(\text{болен} \mid +) = \frac{P( \text{болен} \cap + )}{P(+)} $$</p>
+
+
+
+<p>$$ P(\text{болен} \mid +) = \frac{P( \text{болен} \cap + )}{ P( \text{болен} \cap +) + P( \text{не болен} \cap + ) } $$</p>
+
+
+
+<p>$$ P(\text{болен} \mid +) = \frac{P (\text{болен}) \cdot P(+ \mid \text{болен}) }{P (\text{болен}) \cdot P(+ \mid \text{болен}) + P(\text{не болен}) \cdot P(+ \mid \text{не болен} )} $$</p>
+
+
+
+<p>Для наглядности свяжем термины с вероятностями.</p>
+
+
+<div class="wp-block-image">
+<figure class="aligncenter size-large"><img loading="lazy" decoding="async" width="1024" height="369" src="../../wp-content/uploads/2025/08/terms_1-1024x369.jpg" alt="вероятность быть больным при положительном тесте: терминология" class="wp-image-41635" srcset="../../wp-content/uploads/2025/08/terms_1-1024x369.jpg 1024w, ../../wp-content/uploads/2025/08/terms_1-300x108.jpg 300w, ../../wp-content/uploads/2025/08/terms_1-768x277.jpg 768w, ../../wp-content/uploads/2025/08/terms_1-1536x553.jpg 1536w, ../../wp-content/uploads/2025/08/terms_1-2048x738.jpg 2048w, ../../wp-content/uploads/2025/08/terms_1-1200x432.jpg 1200w, ../../wp-content/uploads/2025/08/terms_1-600x216.jpg 600w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure>
+</div>
+
+<div class="wp-block-image">
+<figure class="aligncenter size-large is-resized"><img loading="lazy" decoding="async" width="1024" height="406" src="../../wp-content/uploads/2025/08/terms_2-1024x406.jpg" alt="вероятность быть больным при положительном тесте: терминология 2" class="wp-image-41636" style="width:588px;height:auto" srcset="../../wp-content/uploads/2025/08/terms_2-1024x406.jpg 1024w, ../../wp-content/uploads/2025/08/terms_2-300x119.jpg 300w, ../../wp-content/uploads/2025/08/terms_2-768x305.jpg 768w, ../../wp-content/uploads/2025/08/terms_2-1536x609.jpg 1536w, ../../wp-content/uploads/2025/08/terms_2-2048x813.jpg 2048w, ../../wp-content/uploads/2025/08/terms_2-1200x476.jpg 1200w, ../../wp-content/uploads/2025/08/terms_2-600x238.jpg 600w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure>
+</div>
+
+
+<p>Остается вычислить вероятность</p>
+
+
+
+<p>$$ P(\text{болен} \mid +) = \frac{0{,}05 \cdot 0{,}90}{ 0{,}05 \cdot 0{,}90 + 0{,}95 \cdot 0{,}20 } \approx 0{,}19 $$</p>
+
+
+
+<p>Мы получили неожиданный результат. При чувствительности теста в 90 процентов, его положительный результат означает, что человек действительно болен лишь с вероятностью около 19 процентов.</p>
+
+
+
+<p>Обратимся к квадрату пространства исходов. Вначале найдем числитель.</p>
+
+
+
+<p>$$ P (\text{болен}) \cdot P(+ \mid \text{болен}) $$</p>
+
+
+<div class="wp-block-image">
+<figure class="aligncenter size-large is-resized"><img loading="lazy" decoding="async" width="1011" height="1024" src="../../wp-content/uploads/2025/08/space_numerator-1011x1024.jpg" alt="вероятность быть больным при положительном тесте: пространство исходов, числитель" class="wp-image-41619" style="width:422px;height:auto" srcset="../../wp-content/uploads/2025/08/space_numerator-1011x1024.jpg 1011w, ../../wp-content/uploads/2025/08/space_numerator-296x300.jpg 296w, ../../wp-content/uploads/2025/08/space_numerator-768x778.jpg 768w, ../../wp-content/uploads/2025/08/space_numerator-1516x1536.jpg 1516w, ../../wp-content/uploads/2025/08/space_numerator-1200x1216.jpg 1200w, ../../wp-content/uploads/2025/08/space_numerator-600x608.jpg 600w, ../../wp-content/uploads/2025/08/space_numerator.jpg 1544w" sizes="auto, (max-width: 1011px) 100vw, 1011px" /></figure>
+</div>
+
+
+<p>Теперь знаменатель.</p>
+
+
+
+<p>$$ P (\text{болен}) \cdot P(+ \mid \text{болен}) + P(\text{не болен}) \cdot P(+ \mid \text{не болен} ) $$</p>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" decoding="async" width="1024" height="558" src="../../wp-content/uploads/2025/08/space_denominator-1024x558.jpg" alt="вероятность быть больным при положительном тесте: пространство исходов, знаменатель" class="wp-image-41620" srcset="../../wp-content/uploads/2025/08/space_denominator-1024x558.jpg 1024w, ../../wp-content/uploads/2025/08/space_denominator-300x163.jpg 300w, ../../wp-content/uploads/2025/08/space_denominator-768x418.jpg 768w, ../../wp-content/uploads/2025/08/space_denominator-1536x837.jpg 1536w, ../../wp-content/uploads/2025/08/space_denominator-2048x1115.jpg 2048w, ../../wp-content/uploads/2025/08/space_denominator-1200x654.jpg 1200w, ../../wp-content/uploads/2025/08/space_denominator-600x327.jpg 600w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+<p>Посмотрим на общую геометрию формулы.</p>
+
+
+<div class="wp-block-image">
+<figure class="aligncenter size-large is-resized"><img loading="lazy" decoding="async" width="1024" height="618" src="../../wp-content/uploads/2025/08/sick_prob_space-1024x618.jpg" alt="вероятность быть больным при положительном тесте: общая геометрия формулы" class="wp-image-41625" style="width:485px;height:auto" srcset="../../wp-content/uploads/2025/08/sick_prob_space-1024x618.jpg 1024w, ../../wp-content/uploads/2025/08/sick_prob_space-300x181.jpg 300w, ../../wp-content/uploads/2025/08/sick_prob_space-768x464.jpg 768w, ../../wp-content/uploads/2025/08/sick_prob_space-1536x927.jpg 1536w, ../../wp-content/uploads/2025/08/sick_prob_space-2048x1236.jpg 2048w, ../../wp-content/uploads/2025/08/sick_prob_space-1200x724.jpg 1200w, ../../wp-content/uploads/2025/08/sick_prob_space-600x362.jpg 600w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure>
+</div>
+
+
+<h3 class="wp-block-heading">Формула полной вероятности</h3>
+
+
+
+<p><strong>Формула в общем виде</strong>. Еще раз рассмотрим знаменатель в формуле выше</p>
+
+
+
+<p>$$ P(+) = P( \text{болен} \cap +) + P( \text{не болен} \cap + ) $$</p>
+
+
+
+<p>$$ P(+) = P (\text{болен}) \cdot P(+ \mid \text{болен}) + P(\text{не болен}) \cdot P(+ \mid \text{не болен} ) $$</p>
+
+
+
+<p>Его принято называть <strong>формулой полной вероятности</strong> (law of total probability). Запишем эту формулу в общем виде. Назовем:</p>
+
+
+
+<ul class="wp-block-list">
+<li>возможность заболеть событием $A,$
+<ul class="wp-block-list">
+<li>тогда событием $A_1$ будет то, что человек болен; а</li>
+
+
+
+<li>событием $A_2$ &#8212; то, что человек здоров; при этом</li>
+</ul>
+</li>
+
+
+
+<li>положительный тест обозначим событием $B.$</li>
+</ul>
+
+
+<div class="wp-block-image">
+<figure class="aligncenter size-large is-resized"><img loading="lazy" decoding="async" width="1024" height="736" src="../../wp-content/uploads/2025/08/total_prob-1024x736.jpg" alt="формула полной вероятности" class="wp-image-41626" style="width:526px;height:auto" srcset="../../wp-content/uploads/2025/08/total_prob-1024x736.jpg 1024w, ../../wp-content/uploads/2025/08/total_prob-300x216.jpg 300w, ../../wp-content/uploads/2025/08/total_prob-768x552.jpg 768w, ../../wp-content/uploads/2025/08/total_prob-1536x1104.jpg 1536w, ../../wp-content/uploads/2025/08/total_prob-1200x862.jpg 1200w, ../../wp-content/uploads/2025/08/total_prob-600x431.jpg 600w, ../../wp-content/uploads/2025/08/total_prob.jpg 1808w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure>
+</div>
+
+
+<p>Примечание: событие B включает только случаи положительного теста, при этом событие А включает как случаи заболевания $A_1,$ так и его отсутствия $A_2.$</p>
+
+
+
+<p>В этом случае</p>
+
+
+
+<p>$$ P(B) = \sum_n A_n \cap B $$</p>
+
+
+
+<p>Или, что то же самое</p>
+
+
+
+<p>$$ P(B) = P(A_1) \cdot P(B \mid A_1) + P(A_2) \cdot P(B \mid A_2) $$</p>
+
+
+
+<p>$$ P(B) = \sum_n P(A_n) \cdot P(B \mid A_n) $$</p>
+
+
+
+<p><strong>Вопрос нотации</strong>. Часто недопонимание формул возникает из-за неуточненной нотации. В частности, какое событие считать событием $A,$ а какое событием $B.$ Если событием $B$ считать факт заболевания, а событием $A$ &#8212; результат теста, то формула полной вероятности будет выглядеть так</p>
+
+
+
+<p>$$ P(A) = \sum_n A \cap B_n $$</p>
+
+
+
+<p>$$ P(A) = \sum_n P(A \mid B_n) \cdot P(B_n)$$</p>
+
+
+
+<p>Кроме того, обратите внимание, что во второй формуле мы поменяли множители местами. От этого результат никак не изменится.</p>
+
+
+
+<p>В примере с медицинскими тестами нас интересовала вероятность того, что человек болен, при условии положительного теста $P (\text{болен}) \cdot P(+ \mid \text{болен}).$ Знаменатель нормализовывал это значение, включив те случаи, когда как больные, так и здоровые люди получали положительный результат $P(+).$</p>
+
+
+
+<p>Если бы мы хотели сравнить вероятность, что человек болен при условии положительного теста, с вероятностью того, что он не болен при условии также положительного теста, то формулы в развернутом виде выглядели бы так</p>
+
+
+
+<p>$$ P(\text{болен} \mid +) = \frac{P (\text{болен}) \cdot P(+ \mid \text{болен}) }{P (\text{болен}) \cdot P(+ \mid \text{болен}) + P(\text{не болен}) \cdot P(+ \mid \text{не болен} )} $$</p>
+
+
+
+<p>$$ P(\text{не болен} \mid +) = \frac{P (\text{не болен}) \cdot P(+ \mid \text{не болен}) }{P (\text{болен}) \cdot P(+ \mid \text{болен}) + P(\text{не болен}) \cdot P(+ \mid \text{не болен} )} $$</p>
+
+
+
+<p>В обоих случаях знаменатель был бы одинаковый, $P(+),$ или как еще говорят, играл роль нормализующей константы, $const,$ а значит он никак не повлиял бы на сравнение.</p>
+
+
+
+<p>Вначале вычислим вероятности с учетом знаменателя</p>
+
+
+
+<p>$$ P(\text{болен} \mid +) = \frac{0{,}05 \cdot 0{,}90}{ 0{,}05 \cdot 0{,}90 + 0{,}95 \cdot 0{,}20 } \approx 0{,}19 $$</p>
+
+
+
+<p>$$ P(\text{не болен} \mid +) = \frac{0{,}95 \cdot 0{,}20}{ 0{,}05 \cdot 0{,}90 + 0{,}95 \cdot 0{,}20 } \approx 0{,}81 $$</p>
+
+
+
+<p>Теперь сравним только числители, которые будут пропорциональны этим вероятностям</p>
+
+
+
+<p>$$ \begin{align} P(\text{болен} \mid +) &amp;\propto 0{,}05 \cdot 0{,}90 = 0{,}045 \\[0.5ex] P(\text{не болен} \mid +) &amp;\propto 0{,}95 \cdot 0{,}20 = 0{,}19 \end{align} $$</p>
+
+
+
+<p>В некоторых ситуациях, как мы увидим позднее, от вычисления знаменателя (т.е. формулы полной вероятности) бывает удобно отказаться.</p>
+
+			</div> <!-- .content -->
+
+			
+		</div> <!-- .post -->
+
+					<footer class="site-footer section-inner">
+
+				<p class="copyright">&copy; 2026 <a href="../../index.html" class="site-name"><!--Дмитрий Макаров-->Дмитрий Макаров</a></p>
+
+			</footer> <!-- footer -->
+
+		</main>
+		
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript" >
+   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+   m[i].l=1*new Date();
+   for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+   k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+   (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+   ym(100123342, "init", {
+        clickmap:true,
+        trackLinks:true,
+        accurateTrackBounce:true
+   });
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/100123342" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+
+		<script type="speculationrules">
+{"prefetch":[{"source":"document","where":{"and":[{"href_matches":"/*"},{"not":{"href_matches":["/wp-*.php","/wp-admin/*","/wp-content/uploads/*","/wp-content/*","/wp-content/plugins/*","/wp-content/themes/mcluhan/*","/*\\?(.+)"]}},{"not":{"selector_matches":"a[rel~=\"nofollow\"]"}},{"not":{"selector_matches":".no-prefetch, .no-prefetch a"}}]},"eagerness":"conservative"}]}
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js?ver=6.9" id="mathjax-js"></script>
+<script type="text/javascript" src="../../wp-includes/js/imagesloaded.min.js@ver=5.0.0" id="imagesloaded-js"></script>
+<script type="text/javascript" src="../../wp-includes/js/masonry.min.js@ver=4.2.2" id="masonry-js"></script>
+<script type="text/javascript" id="mcluhan_global-js-extra">
+/* <![CDATA[ */
+var mcluhan_ajaxpagination = {"ajaxurl":"https://www.dmitrymakarov.ru/wp-admin/admin-ajax.php","query_vars":"{\"page\":\"\",\"pagename\":\"bayesian\\/independence\"}"};
+//# sourceURL=mcluhan_global-js-extra
+/* ]]> */
+</script>
+<script type="text/javascript" src="../../wp-content/themes/mcluhan/assets/js/global.js@ver=2.1.1" id="mcluhan_global-js"></script>
+<script id="wp-emoji-settings" type="application/json">
+{"baseUrl":"https://s.w.org/images/core/emoji/17.0.2/72x72/","ext":".png","svgUrl":"https://s.w.org/images/core/emoji/17.0.2/svg/","svgExt":".svg","source":{"concatemoji":"https://www.dmitrymakarov.ru/wp-includes/js/wp-emoji-release.min.js?ver=6.9"}}
+</script>
+<script type="module">
+/* <![CDATA[ */
+/*! This file is auto-generated */
+const a=JSON.parse(document.getElementById("wp-emoji-settings").textContent),o=(window._wpemojiSettings=a,"wpEmojiSettingsSupports"),s=["flag","emoji"];function i(e){try{var t={supportTests:e,timestamp:(new Date).valueOf()};sessionStorage.setItem(o,JSON.stringify(t))}catch(e){}}function c(e,t,n){e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(t,0,0);t=new Uint32Array(e.getImageData(0,0,e.canvas.width,e.canvas.height).data);e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(n,0,0);const a=new Uint32Array(e.getImageData(0,0,e.canvas.width,e.canvas.height).data);return t.every((e,t)=>e===a[t])}function p(e,t){e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(t,0,0);var n=e.getImageData(16,16,1,1);for(let e=0;e<n.data.length;e++)if(0!==n.data[e])return!1;return!0}function u(e,t,n,a){switch(t){case"flag":return n(e,"\ud83c\udff3\ufe0f\u200d\u26a7\ufe0f","\ud83c\udff3\ufe0f\u200b\u26a7\ufe0f")?!1:!n(e,"\ud83c\udde8\ud83c\uddf6","\ud83c\udde8\u200b\ud83c\uddf6")&&!n(e,"\ud83c\udff4\udb40\udc67\udb40\udc62\udb40\udc65\udb40\udc6e\udb40\udc67\udb40\udc7f","\ud83c\udff4\u200b\udb40\udc67\u200b\udb40\udc62\u200b\udb40\udc65\u200b\udb40\udc6e\u200b\udb40\udc67\u200b\udb40\udc7f");case"emoji":return!a(e,"\ud83e\u1fac8")}return!1}function f(e,t,n,a){let r;const o=(r="undefined"!=typeof WorkerGlobalScope&&self instanceof WorkerGlobalScope?new OffscreenCanvas(300,150):document.createElement("canvas")).getContext("2d",{willReadFrequently:!0}),s=(o.textBaseline="top",o.font="600 32px Arial",{});return e.forEach(e=>{s[e]=t(o,e,n,a)}),s}function r(e){var t=document.createElement("script");t.src=e,t.defer=!0,document.head.appendChild(t)}a.supports={everything:!0,everythingExceptFlag:!0},new Promise(t=>{let n=function(){try{var e=JSON.parse(sessionStorage.getItem(o));if("object"==typeof e&&"number"==typeof e.timestamp&&(new Date).valueOf()<e.timestamp+604800&&"object"==typeof e.supportTests)return e.supportTests}catch(e){}return null}();if(!n){if("undefined"!=typeof Worker&&"undefined"!=typeof OffscreenCanvas&&"undefined"!=typeof URL&&URL.createObjectURL&&"undefined"!=typeof Blob)try{var e="postMessage("+f.toString()+"("+[JSON.stringify(s),u.toString(),c.toString(),p.toString()].join(",")+"));",a=new Blob([e],{type:"text/javascript"});const r=new Worker(URL.createObjectURL(a),{name:"wpTestEmojiSupports"});return void(r.onmessage=e=>{i(n=e.data),r.terminate(),t(n)})}catch(e){}i(n=f(s,u,c,p))}t(n)}).then(e=>{for(const n in e)a.supports[n]=e[n],a.supports.everything=a.supports.everything&&a.supports[n],"flag"!==n&&(a.supports.everythingExceptFlag=a.supports.everythingExceptFlag&&a.supports[n]);var t;a.supports.everythingExceptFlag=a.supports.everythingExceptFlag&&!a.supports.flag,a.supports.everything||((t=a.source||{}).concatemoji?r(t.concatemoji):t.wpemoji&&t.twemoji&&(r(t.twemoji),r(t.wpemoji)))});
+//# sourceURL=https://www.dmitrymakarov.ru/wp-includes/js/wp-emoji-loader.min.js
+/* ]]> */
+</script>
+			
+	</body>
+</html>
+
+
+<!-- Page supported by LiteSpeed Cache 7.7 on 2026-01-26 08:55:41 -->

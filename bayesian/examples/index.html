@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+
+<html class="no-js" lang="ru-RU">
+
+	<head>
+
+		<meta http-equiv="content-type" content="text/html" charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" >
+
+		<link rel="profile" href="http://gmpg.org/xfn/11">
+
+		<meta name='robots' content='index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' />
+
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$','$'],['\\(','\\)']], 
+    processEscapes: true
+  },
+  options: {
+    ignoreHtmlClass: 'tex2jax_ignore|editor-rich-text'
+  }
+};
+
+</script>
+
+	<!-- This site is optimized with the Yoast SEO plugin v26.8 - https://yoast.com/product/yoast-seo-wordpress/ -->
+	<title>Примеры</title>
+	<meta name="description" content="Приведем примеры использования формулы Байеса и рассмотрим оценку с помощью апостериорного максимума и метода максимального правдоподобия." />
+	<link rel="canonical" href="index.html" />
+	<meta property="og:locale" content="ru_RU" />
+	<meta property="og:type" content="article" />
+	<meta property="og:title" content="Примеры" />
+	<meta property="og:description" content="Приведем примеры использования формулы Байеса и рассмотрим оценку с помощью апостериорного максимума и метода максимального правдоподобия." />
+	<meta property="og:url" content="https://www.dmitrymakarov.ru/bayesian/examples/" />
+	<meta property="og:site_name" content="Дмитрий Макаров" />
+	<meta property="og:image" content="https://www.dmitrymakarov.ru/wp-content/uploads/2025/08/cards.jpg" />
+	<meta property="og:image:width" content="1481" />
+	<meta property="og:image:height" content="981" />
+	<meta property="og:image:type" content="image/jpeg" />
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:label1" content="Примерное время для чтения" />
+	<meta name="twitter:data1" content="5 минут" />
+	<script type="application/ld+json" class="yoast-schema-graph">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.dmitrymakarov.ru/bayesian/examples/","url":"https://www.dmitrymakarov.ru/bayesian/examples/","name":"Примеры","isPartOf":{"@id":"https://www.dmitrymakarov.ru/#website"},"primaryImageOfPage":{"@id":"https://www.dmitrymakarov.ru/bayesian/examples/#primaryimage"},"image":{"@id":"https://www.dmitrymakarov.ru/bayesian/examples/#primaryimage"},"thumbnailUrl":"https://www.dmitrymakarov.ru/wp-content/uploads/2025/08/cards-1024x678.jpg","datePublished":"2025-08-27T09:30:52+00:00","description":"Приведем примеры использования формулы Байеса и рассмотрим оценку с помощью апостериорного максимума и метода максимального правдоподобия.","breadcrumb":{"@id":"https://www.dmitrymakarov.ru/bayesian/examples/#breadcrumb"},"inLanguage":"ru-RU","potentialAction":[{"@type":"ReadAction","target":["https://www.dmitrymakarov.ru/bayesian/examples/"]}]},{"@type":"ImageObject","inLanguage":"ru-RU","@id":"https://www.dmitrymakarov.ru/bayesian/examples/#primaryimage","url":"https://www.dmitrymakarov.ru/wp-content/uploads/2025/08/cards.jpg","contentUrl":"https://www.dmitrymakarov.ru/wp-content/uploads/2025/08/cards.jpg","width":1481,"height":981},{"@type":"BreadcrumbList","@id":"https://www.dmitrymakarov.ru/bayesian/examples/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная страница","item":"https://www.dmitrymakarov.ru/"},{"@type":"ListItem","position":2,"name":"Байесовская статистика","item":"https://www.dmitrymakarov.ru/bayesian/"},{"@type":"ListItem","position":3,"name":"Примеры"}]},{"@type":"WebSite","@id":"https://www.dmitrymakarov.ru/#website","url":"https://www.dmitrymakarov.ru/","name":"Машинное обучение","description":"","publisher":{"@id":"https://www.dmitrymakarov.ru/#/schema/person/3fc221e2d391cc5cfd9d31c9c251c2a4"},"potentialAction":[{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://www.dmitrymakarov.ru/?s={search_term_string}"},"query-input":{"@type":"PropertyValueSpecification","valueRequired":true,"valueName":"search_term_string"}}],"inLanguage":"ru-RU"},{"@type":["Person","Organization"],"@id":"https://www.dmitrymakarov.ru/#/schema/person/3fc221e2d391cc5cfd9d31c9c251c2a4","name":"DmitryMakarov","image":{"@type":"ImageObject","inLanguage":"ru-RU","@id":"https://www.dmitrymakarov.ru/#/schema/person/image/","url":"https://secure.gravatar.com/avatar/17fb646123c8fccd118e1f2da611da3de8d8e72250637fb08b246e33d4c95395?s=96&d=mm&r=g","contentUrl":"https://secure.gravatar.com/avatar/17fb646123c8fccd118e1f2da611da3de8d8e72250637fb08b246e33d4c95395?s=96&d=mm&r=g","caption":"DmitryMakarov"},"logo":{"@id":"https://www.dmitrymakarov.ru/#/schema/person/image/"}}]}</script>
+	<!-- / Yoast SEO plugin. -->
+
+
+<link rel='dns-prefetch' href='https://cdn.jsdelivr.net/' />
+<link rel="alternate" type="application/rss+xml" title="Дмитрий Макаров &raquo; Лента" href="../../feed/index.html" />
+<link rel="alternate" type="application/rss+xml" title="Дмитрий Макаров &raquo; Лента комментариев" href="../../comments/feed/index.html" />
+<style id='wp-img-auto-sizes-contain-inline-css' type='text/css'>
+img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
+/*# sourceURL=wp-img-auto-sizes-contain-inline-css */
+</style>
+
+<link rel='stylesheet' id='urvanov_syntax_highlighter-css' href='../../wp-content/plugins/urvanov-syntax-highlighter/css/min/urvanov_syntax_highlighter.min.css@ver=2.9.0.css' type='text/css' media='all' />
+<link rel='stylesheet' id='crayon-theme-familiar-my-copy-css' href='../../wp-content/uploads/urvanov-syntax-highlighter/themes/familiar-my-copy/familiar-my-copy.css@ver=2.9.0.css' type='text/css' media='all' />
+<link rel='stylesheet' id='crayon-font-consolas-css' href='../../wp-content/plugins/urvanov-syntax-highlighter/fonts/consolas.css@ver=2.9.0.css' type='text/css' media='all' />
+<style id='wp-emoji-styles-inline-css' type='text/css'>
+
+	img.wp-smiley, img.emoji {
+		display: inline !important;
+		border: none !important;
+		box-shadow: none !important;
+		height: 1em !important;
+		width: 1em !important;
+		margin: 0 0.07em !important;
+		vertical-align: -0.1em !important;
+		background: none !important;
+		padding: 0 !important;
+	}
+/*# sourceURL=wp-emoji-styles-inline-css */
+</style>
+<link rel='stylesheet' id='wp-block-library-css' href='../../wp-includes/css/dist/block-library/style.min.css@ver=6.9.css' type='text/css' media='all' />
+<style id='wp-block-heading-inline-css' type='text/css'>
+h1:where(.wp-block-heading).has-background,h2:where(.wp-block-heading).has-background,h3:where(.wp-block-heading).has-background,h4:where(.wp-block-heading).has-background,h5:where(.wp-block-heading).has-background,h6:where(.wp-block-heading).has-background{padding:1.25em 2.375em}h1.has-text-align-left[style*=writing-mode]:where([style*=vertical-lr]),h1.has-text-align-right[style*=writing-mode]:where([style*=vertical-rl]),h2.has-text-align-left[style*=writing-mode]:where([style*=vertical-lr]),h2.has-text-align-right[style*=writing-mode]:where([style*=vertical-rl]),h3.has-text-align-left[style*=writing-mode]:where([style*=vertical-lr]),h3.has-text-align-right[style*=writing-mode]:where([style*=vertical-rl]),h4.has-text-align-left[style*=writing-mode]:where([style*=vertical-lr]),h4.has-text-align-right[style*=writing-mode]:where([style*=vertical-rl]),h5.has-text-align-left[style*=writing-mode]:where([style*=vertical-lr]),h5.has-text-align-right[style*=writing-mode]:where([style*=vertical-rl]),h6.has-text-align-left[style*=writing-mode]:where([style*=vertical-lr]),h6.has-text-align-right[style*=writing-mode]:where([style*=vertical-rl]){rotate:180deg}
+/*# sourceURL=https://www.dmitrymakarov.ru/wp-includes/blocks/heading/style.min.css */
+</style>
+<style id='wp-block-image-inline-css' type='text/css'>
+.wp-block-image>a,.wp-block-image>figure>a{display:inline-block}.wp-block-image img{box-sizing:border-box;height:auto;max-width:100%;vertical-align:bottom}@media not (prefers-reduced-motion){.wp-block-image img.hide{visibility:hidden}.wp-block-image img.show{animation:show-content-image .4s}}.wp-block-image[style*=border-radius] img,.wp-block-image[style*=border-radius]>a{border-radius:inherit}.wp-block-image.has-custom-border img{box-sizing:border-box}.wp-block-image.aligncenter{text-align:center}.wp-block-image.alignfull>a,.wp-block-image.alignwide>a{width:100%}.wp-block-image.alignfull img,.wp-block-image.alignwide img{height:auto;width:100%}.wp-block-image .aligncenter,.wp-block-image .alignleft,.wp-block-image .alignright,.wp-block-image.aligncenter,.wp-block-image.alignleft,.wp-block-image.alignright{display:table}.wp-block-image .aligncenter>figcaption,.wp-block-image .alignleft>figcaption,.wp-block-image .alignright>figcaption,.wp-block-image.aligncenter>figcaption,.wp-block-image.alignleft>figcaption,.wp-block-image.alignright>figcaption{caption-side:bottom;display:table-caption}.wp-block-image .alignleft{float:left;margin:.5em 1em .5em 0}.wp-block-image .alignright{float:right;margin:.5em 0 .5em 1em}.wp-block-image .aligncenter{margin-left:auto;margin-right:auto}.wp-block-image :where(figcaption){margin-bottom:1em;margin-top:.5em}.wp-block-image.is-style-circle-mask img{border-radius:9999px}@supports ((-webkit-mask-image:none) or (mask-image:none)) or (-webkit-mask-image:none){.wp-block-image.is-style-circle-mask img{border-radius:0;-webkit-mask-image:url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="50"/></svg>');mask-image:url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="50"/></svg>');mask-mode:alpha;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-size:contain;mask-size:contain}}:root :where(.wp-block-image.is-style-rounded img,.wp-block-image .is-style-rounded img){border-radius:9999px}.wp-block-image figure{margin:0}.wp-lightbox-container{display:flex;flex-direction:column;position:relative}.wp-lightbox-container img{cursor:zoom-in}.wp-lightbox-container img:hover+button{opacity:1}.wp-lightbox-container button{align-items:center;backdrop-filter:blur(16px) saturate(180%);background-color:#5a5a5a40;border:none;border-radius:4px;cursor:zoom-in;display:flex;height:20px;justify-content:center;opacity:0;padding:0;position:absolute;right:16px;text-align:center;top:16px;width:20px;z-index:100}@media not (prefers-reduced-motion){.wp-lightbox-container button{transition:opacity .2s ease}}.wp-lightbox-container button:focus-visible{outline:3px auto #5a5a5a40;outline:3px auto -webkit-focus-ring-color;outline-offset:3px}.wp-lightbox-container button:hover{cursor:pointer;opacity:1}.wp-lightbox-container button:focus{opacity:1}.wp-lightbox-container button:focus,.wp-lightbox-container button:hover,.wp-lightbox-container button:not(:hover):not(:active):not(.has-background){background-color:#5a5a5a40;border:none}.wp-lightbox-overlay{box-sizing:border-box;cursor:zoom-out;height:100vh;left:0;overflow:hidden;position:fixed;top:0;visibility:hidden;width:100%;z-index:100000}.wp-lightbox-overlay .close-button{align-items:center;cursor:pointer;display:flex;justify-content:center;min-height:40px;min-width:40px;padding:0;position:absolute;right:calc(env(safe-area-inset-right) + 16px);top:calc(env(safe-area-inset-top) + 16px);z-index:5000000}.wp-lightbox-overlay .close-button:focus,.wp-lightbox-overlay .close-button:hover,.wp-lightbox-overlay .close-button:not(:hover):not(:active):not(.has-background){background:none;border:none}.wp-lightbox-overlay .lightbox-image-container{height:var(--wp--lightbox-container-height);left:50%;overflow:hidden;position:absolute;top:50%;transform:translate(-50%,-50%);transform-origin:top left;width:var(--wp--lightbox-container-width);z-index:9999999999}.wp-lightbox-overlay .wp-block-image{align-items:center;box-sizing:border-box;display:flex;height:100%;justify-content:center;margin:0;position:relative;transform-origin:0 0;width:100%;z-index:3000000}.wp-lightbox-overlay .wp-block-image img{height:var(--wp--lightbox-image-height);min-height:var(--wp--lightbox-image-height);min-width:var(--wp--lightbox-image-width);width:var(--wp--lightbox-image-width)}.wp-lightbox-overlay .wp-block-image figcaption{display:none}.wp-lightbox-overlay button{background:none;border:none}.wp-lightbox-overlay .scrim{background-color:#fff;height:100%;opacity:.9;position:absolute;width:100%;z-index:2000000}.wp-lightbox-overlay.active{visibility:visible}@media not (prefers-reduced-motion){.wp-lightbox-overlay.active{animation:turn-on-visibility .25s both}.wp-lightbox-overlay.active img{animation:turn-on-visibility .35s both}.wp-lightbox-overlay.show-closing-animation:not(.active){animation:turn-off-visibility .35s both}.wp-lightbox-overlay.show-closing-animation:not(.active) img{animation:turn-off-visibility .25s both}.wp-lightbox-overlay.zoom.active{animation:none;opacity:1;visibility:visible}.wp-lightbox-overlay.zoom.active .lightbox-image-container{animation:lightbox-zoom-in .4s}.wp-lightbox-overlay.zoom.active .lightbox-image-container img{animation:none}.wp-lightbox-overlay.zoom.active .scrim{animation:turn-on-visibility .4s forwards}.wp-lightbox-overlay.zoom.show-closing-animation:not(.active){animation:none}.wp-lightbox-overlay.zoom.show-closing-animation:not(.active) .lightbox-image-container{animation:lightbox-zoom-out .4s}.wp-lightbox-overlay.zoom.show-closing-animation:not(.active) .lightbox-image-container img{animation:none}.wp-lightbox-overlay.zoom.show-closing-animation:not(.active) .scrim{animation:turn-off-visibility .4s forwards}}@keyframes show-content-image{0%{visibility:hidden}99%{visibility:hidden}to{visibility:visible}}@keyframes turn-on-visibility{0%{opacity:0}to{opacity:1}}@keyframes turn-off-visibility{0%{opacity:1;visibility:visible}99%{opacity:0;visibility:visible}to{opacity:0;visibility:hidden}}@keyframes lightbox-zoom-in{0%{transform:translate(calc((-100vw + var(--wp--lightbox-scrollbar-width))/2 + var(--wp--lightbox-initial-left-position)),calc(-50vh + var(--wp--lightbox-initial-top-position))) scale(var(--wp--lightbox-scale))}to{transform:translate(-50%,-50%) scale(1)}}@keyframes lightbox-zoom-out{0%{transform:translate(-50%,-50%) scale(1);visibility:visible}99%{visibility:visible}to{transform:translate(calc((-100vw + var(--wp--lightbox-scrollbar-width))/2 + var(--wp--lightbox-initial-left-position)),calc(-50vh + var(--wp--lightbox-initial-top-position))) scale(var(--wp--lightbox-scale));visibility:hidden}}
+/*# sourceURL=https://www.dmitrymakarov.ru/wp-includes/blocks/image/style.min.css */
+</style>
+<style id='wp-block-list-inline-css' type='text/css'>
+ol,ul{box-sizing:border-box}:root :where(.wp-block-list.has-background){padding:1.25em 2.375em}
+/*# sourceURL=https://www.dmitrymakarov.ru/wp-includes/blocks/list/style.min.css */
+</style>
+<style id='wp-block-paragraph-inline-css' type='text/css'>
+.is-small-text{font-size:.875em}.is-regular-text{font-size:1em}.is-large-text{font-size:2.25em}.is-larger-text{font-size:3em}.has-drop-cap:not(:focus):first-letter{float:left;font-size:8.4em;font-style:normal;font-weight:100;line-height:.68;margin:.05em .1em 0 0;text-transform:uppercase}body.rtl .has-drop-cap:not(:focus):first-letter{float:none;margin-left:.1em}p.has-drop-cap.has-background{overflow:hidden}:root :where(p.has-background){padding:1.25em 2.375em}:where(p.has-text-color:not(.has-link-color)) a{color:inherit}p.has-text-align-left[style*="writing-mode:vertical-lr"],p.has-text-align-right[style*="writing-mode:vertical-rl"]{rotate:180deg}
+/*# sourceURL=https://www.dmitrymakarov.ru/wp-includes/blocks/paragraph/style.min.css */
+</style>
+<style id='global-styles-inline-css' type='text/css'>
+:root{--wp--preset--aspect-ratio--square: 1;--wp--preset--aspect-ratio--4-3: 4/3;--wp--preset--aspect-ratio--3-4: 3/4;--wp--preset--aspect-ratio--3-2: 3/2;--wp--preset--aspect-ratio--2-3: 2/3;--wp--preset--aspect-ratio--16-9: 16/9;--wp--preset--aspect-ratio--9-16: 9/16;--wp--preset--color--black: #121212;--wp--preset--color--cyan-bluish-gray: #abb8c3;--wp--preset--color--white: #fff;--wp--preset--color--pale-pink: #f78da7;--wp--preset--color--vivid-red: #cf2e2e;--wp--preset--color--luminous-vivid-orange: #ff6900;--wp--preset--color--luminous-vivid-amber: #fcb900;--wp--preset--color--light-green-cyan: #7bdcb5;--wp--preset--color--vivid-green-cyan: #00d084;--wp--preset--color--pale-cyan-blue: #8ed1fc;--wp--preset--color--vivid-cyan-blue: #0693e3;--wp--preset--color--vivid-purple: #9b51e0;--wp--preset--color--dark-gray: #333;--wp--preset--color--medium-gray: #555;--wp--preset--color--light-gray: #777;--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg,rgb(6,147,227) 0%,rgb(155,81,224) 100%);--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg,rgb(122,220,180) 0%,rgb(0,208,130) 100%);--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg,rgb(252,185,0) 0%,rgb(255,105,0) 100%);--wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg,rgb(255,105,0) 0%,rgb(207,46,46) 100%);--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg,rgb(238,238,238) 0%,rgb(169,184,195) 100%);--wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg,rgb(74,234,220) 0%,rgb(151,120,209) 20%,rgb(207,42,186) 40%,rgb(238,44,130) 60%,rgb(251,105,98) 80%,rgb(254,248,76) 100%);--wp--preset--gradient--blush-light-purple: linear-gradient(135deg,rgb(255,206,236) 0%,rgb(152,150,240) 100%);--wp--preset--gradient--blush-bordeaux: linear-gradient(135deg,rgb(254,205,165) 0%,rgb(254,45,45) 50%,rgb(107,0,62) 100%);--wp--preset--gradient--luminous-dusk: linear-gradient(135deg,rgb(255,203,112) 0%,rgb(199,81,192) 50%,rgb(65,88,208) 100%);--wp--preset--gradient--pale-ocean: linear-gradient(135deg,rgb(255,245,203) 0%,rgb(182,227,212) 50%,rgb(51,167,181) 100%);--wp--preset--gradient--electric-grass: linear-gradient(135deg,rgb(202,248,128) 0%,rgb(113,206,126) 100%);--wp--preset--gradient--midnight: linear-gradient(135deg,rgb(2,3,129) 0%,rgb(40,116,252) 100%);--wp--preset--font-size--small: 16px;--wp--preset--font-size--medium: 20px;--wp--preset--font-size--large: 24px;--wp--preset--font-size--x-large: 42px;--wp--preset--font-size--normal: 18px;--wp--preset--font-size--larger: 28px;--wp--preset--spacing--20: 0.44rem;--wp--preset--spacing--30: 0.67rem;--wp--preset--spacing--40: 1rem;--wp--preset--spacing--50: 1.5rem;--wp--preset--spacing--60: 2.25rem;--wp--preset--spacing--70: 3.38rem;--wp--preset--spacing--80: 5.06rem;--wp--preset--shadow--natural: 6px 6px 9px rgba(0, 0, 0, 0.2);--wp--preset--shadow--deep: 12px 12px 50px rgba(0, 0, 0, 0.4);--wp--preset--shadow--sharp: 6px 6px 0px rgba(0, 0, 0, 0.2);--wp--preset--shadow--outlined: 6px 6px 0px -3px rgb(255, 255, 255), 6px 6px rgb(0, 0, 0);--wp--preset--shadow--crisp: 6px 6px 0px rgb(0, 0, 0);}:where(.is-layout-flex){gap: 0.5em;}:where(.is-layout-grid){gap: 0.5em;}body .is-layout-flex{display: flex;}.is-layout-flex{flex-wrap: wrap;align-items: center;}.is-layout-flex > :is(*, div){margin: 0;}body .is-layout-grid{display: grid;}.is-layout-grid > :is(*, div){margin: 0;}:where(.wp-block-columns.is-layout-flex){gap: 2em;}:where(.wp-block-columns.is-layout-grid){gap: 2em;}:where(.wp-block-post-template.is-layout-flex){gap: 1.25em;}:where(.wp-block-post-template.is-layout-grid){gap: 1.25em;}.has-black-color{color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-color{color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-color{color: var(--wp--preset--color--white) !important;}.has-pale-pink-color{color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-color{color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-color{color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-color{color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-color{color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-color{color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-color{color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-color{color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-color{color: var(--wp--preset--color--vivid-purple) !important;}.has-black-background-color{background-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-background-color{background-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-background-color{background-color: var(--wp--preset--color--white) !important;}.has-pale-pink-background-color{background-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-background-color{background-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-background-color{background-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-background-color{background-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-background-color{background-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-background-color{background-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-background-color{background-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-background-color{background-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-background-color{background-color: var(--wp--preset--color--vivid-purple) !important;}.has-black-border-color{border-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-border-color{border-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-border-color{border-color: var(--wp--preset--color--white) !important;}.has-pale-pink-border-color{border-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-border-color{border-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-border-color{border-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-border-color{border-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-border-color{border-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-border-color{border-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-border-color{border-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-border-color{border-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-border-color{border-color: var(--wp--preset--color--vivid-purple) !important;}.has-vivid-cyan-blue-to-vivid-purple-gradient-background{background: var(--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple) !important;}.has-light-green-cyan-to-vivid-green-cyan-gradient-background{background: var(--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan) !important;}.has-luminous-vivid-amber-to-luminous-vivid-orange-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange) !important;}.has-luminous-vivid-orange-to-vivid-red-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-orange-to-vivid-red) !important;}.has-very-light-gray-to-cyan-bluish-gray-gradient-background{background: var(--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray) !important;}.has-cool-to-warm-spectrum-gradient-background{background: var(--wp--preset--gradient--cool-to-warm-spectrum) !important;}.has-blush-light-purple-gradient-background{background: var(--wp--preset--gradient--blush-light-purple) !important;}.has-blush-bordeaux-gradient-background{background: var(--wp--preset--gradient--blush-bordeaux) !important;}.has-luminous-dusk-gradient-background{background: var(--wp--preset--gradient--luminous-dusk) !important;}.has-pale-ocean-gradient-background{background: var(--wp--preset--gradient--pale-ocean) !important;}.has-electric-grass-gradient-background{background: var(--wp--preset--gradient--electric-grass) !important;}.has-midnight-gradient-background{background: var(--wp--preset--gradient--midnight) !important;}.has-small-font-size{font-size: var(--wp--preset--font-size--small) !important;}.has-medium-font-size{font-size: var(--wp--preset--font-size--medium) !important;}.has-large-font-size{font-size: var(--wp--preset--font-size--large) !important;}.has-x-large-font-size{font-size: var(--wp--preset--font-size--x-large) !important;}
+/*# sourceURL=global-styles-inline-css */
+</style>
+
+<style id='classic-theme-styles-inline-css' type='text/css'>
+/*! This file is auto-generated */
+.wp-block-button__link{color:#fff;background-color:#32373c;border-radius:9999px;box-shadow:none;text-decoration:none;padding:calc(.667em + 2px) calc(1.333em + 2px);font-size:1.125em}.wp-block-file__button{background:#32373c;color:#fff;text-decoration:none}
+/*# sourceURL=/wp-includes/css/classic-themes.min.css */
+</style>
+<link rel='stylesheet' id='mcluhan-fonts-css' href='../../wp-content/themes/mcluhan/assets/css/fonts.css@ver=6.9.css' type='text/css' media='all' />
+<link rel='stylesheet' id='fontawesome-css' href='../../wp-content/themes/mcluhan/assets/css/font-awesome.css@ver=6.9.css' type='text/css' media='all' />
+<link rel='stylesheet' id='mcluhan-style-css' href='../../wp-content/themes/mcluhan/style.css@ver=2.1.1.css' type='text/css' media='all' />
+<script type="text/javascript" src="../../wp-includes/js/jquery/jquery.min.js@ver=3.7.1" id="jquery-core-js"></script>
+<script type="text/javascript" src="../../wp-includes/js/jquery/jquery-migrate.min.js@ver=3.4.1" id="jquery-migrate-js"></script>
+<script type="text/javascript" id="urvanov_syntax_highlighter_js-js-extra">
+/* <![CDATA[ */
+var UrvanovSyntaxHighlighterSyntaxSettings = {"version":"2.9.0","is_admin":"0","ajaxurl":"https://www.dmitrymakarov.ru/wp-admin/admin-ajax.php","prefix":"urvanov-syntax-highlighter-","setting":"urvanov-syntax-highlighter-setting","selected":"urvanov-syntax-highlighter-setting-selected","changed":"urvanov-syntax-highlighter-setting-changed","special":"urvanov-syntax-highlighter-setting-special","orig_value":"data-orig-value","debug":""};
+var UrvanovSyntaxHighlighterSyntaxStrings = {"copy":"Copied to the clipboard","minimize":"Click To Expand Code"};
+//# sourceURL=urvanov_syntax_highlighter_js-js-extra
+/* ]]> */
+</script>
+<script type="text/javascript" src="../../wp-content/plugins/urvanov-syntax-highlighter/js/min/urvanov_syntax_highlighter.min.js@ver=2.9.0" id="urvanov_syntax_highlighter_js-js"></script>
+
+			<!-- Customizer CSS -->
+
+			<style type="text/css">
+
+				body .site-header { background-color:#004235; }.social-menu.desktop { background-color:#004235; }.social-menu a:hover { color:#004235; }.social-menu a.active { color:#004235; }.mobile-menu-wrapper { background-color:#004235; }.social-menu.mobile { background-color:#004235; }.mobile-search.active { background-color:#004235; }
+			</style>
+
+			<!-- /Customizer CSS -->
+
+					<script>jQuery( 'html' ).removeClass( 'no-js' ).addClass( 'js' );</script>
+		<style type="text/css" id="custom-background-css">
+body.custom-background { background-color: #fff9ef; }
+</style>
+	<link rel="icon" href="../../wp-content/uploads/2021/08/cropped-wp-favicon-512-32x32.png" sizes="32x32" />
+<link rel="icon" href="../../wp-content/uploads/2021/08/cropped-wp-favicon-512-192x192.png" sizes="192x192" />
+<link rel="apple-touch-icon" href="../../wp-content/uploads/2021/08/cropped-wp-favicon-512-180x180.png" />
+<meta name="msapplication-TileImage" content="https://www.dmitrymakarov.ru/wp-content/uploads/2021/08/cropped-wp-favicon-512-270x270.png" />
+
+	</head>
+
+	<body class="wp-singular page-template page-template-full-width-page-template page-template-full-width-page-template-php page page-id-41546 page-child parent-pageid-41534 custom-background wp-theme-mcluhan full-width-template">
+
+		
+		<a class="skip-link button" href="index.html#site-content">Перейти к содержимому</a>
+
+		<header class="site-header group">
+
+			
+			<p class="site-title"><a href="../../index.html" class="site-name">Дмитрий Макаров</a></p>
+
+			
+			<div class="nav-toggle">
+				<div class="bar"></div>
+				<div class="bar"></div>
+			</div>
+
+			<div class="menu-wrapper">
+
+				<ul class="main-menu desktop">
+
+					<li id="menu-item-36690" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home menu-item-36690"><a href="../../index.html">Материалы</a></li>
+<li id="menu-item-36691" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-36691"><a href="../../about/index.html">Об авторе</a></li>
+				</ul>
+
+			</div><!-- .menu-wrapper -->
+
+			
+				<div class="social-menu desktop">
+
+					<ul class="social-menu-inner">
+
+						<li class="social-search-wrapper"><a href="../../index.html@s=.html"></a></li>
+
+						
+					</ul><!-- .social-menu-inner -->
+
+				</div><!-- .social-menu -->
+
+			
+		</header><!-- header -->
+
+		<div class="mobile-menu-wrapper">
+
+			<ul class="main-menu mobile">
+				<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home menu-item-36690"><a href="../../index.html">Материалы</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-36691"><a href="../../about/index.html">Об авторе</a></li>
+					<li class="toggle-mobile-search-wrapper"><a href="index.html#" class="toggle-mobile-search">Поиск</a></li>
+							</ul><!-- .main-menu.mobile -->
+
+			
+		</div><!-- .mobile-menu-wrapper -->
+
+		
+			<div class="mobile-search">
+
+				<div class="untoggle-mobile-search"></div>
+
+				
+<form role="search" method="get" class="search-form" action="../../index.html">
+	<label class="screen-reader-text" for="search-form-697701db49e51">Поиск:</label>
+	<input type="search" id="search-form-697701db49e51" class="search-field" placeholder="Введите запрос" value="" name="s" autocomplete="off" />
+	</button>
+</form>
+
+				<div class="mobile-results">
+
+					<div class="results-wrapper"></div>
+
+				</div>
+
+			</div><!-- .mobile-search -->
+
+			<div class="search-overlay">
+
+				
+<form role="search" method="get" class="search-form" action="../../index.html">
+	<label class="screen-reader-text" for="search-form-697701db49ed1">Поиск:</label>
+	<input type="search" id="search-form-697701db49ed1" class="search-field" placeholder="Введите запрос" value="" name="s" autocomplete="off" />
+	</button>
+</form>
+
+			</div><!-- .search-overlay -->
+
+		
+		<main class="site-content" id="site-content">
+		<article class="post-41546 page type-page status-publish hentry missing-thumbnail">
+
+			
+			<header class="entry-header section-inner">
+
+				<h1 class="entry-title">Примеры</h1>
+			</header><!-- .entry-header -->
+
+			<div class="entry-content section-inner">
+
+				
+<p class="has-light-gray-color has-text-color"><a href="../../index.html">Материалы</a> &gt; <a href="../index.html">Байесовская статистика</a></p>
+
+
+
+<p>Рассмотрим несколько примеров для закрепления пройденного материала, а также введем новые термины и понятия.</p>
+
+
+
+<h3 class="wp-block-heading">Колоды карт</h3>
+
+
+
+<p>Перед нами две <strong>колоды карт</strong> (deck of cards):</p>
+
+
+
+<ul class="wp-block-list">
+<li>одна полная колода из 52-х карт $D_\text{full};$ и</li>
+
+
+
+<li>одна сокращенная, состоящая только из &#171;красных мастей&#187; (черви и бубны) $D_\text{red}$ и, как следствие, 26-ти карт.</li>
+</ul>
+
+
+
+<p>Наугад достанем карту из одной из колод (из какой именно мы не знаем). Пусть это будет тройка червей, $3d,$ от англ. three of diamonds.</p>
+
+
+<div class="wp-block-image">
+<figure class="aligncenter size-large is-resized"><img fetchpriority="high" decoding="async" width="1024" height="678" src="../../wp-content/uploads/2025/08/cards-1024x678.jpg" alt="колоды карт" class="wp-image-41704" style="width:459px;height:auto" srcset="../../wp-content/uploads/2025/08/cards-1024x678.jpg 1024w, ../../wp-content/uploads/2025/08/cards-300x199.jpg 300w, ../../wp-content/uploads/2025/08/cards-768x509.jpg 768w, ../../wp-content/uploads/2025/08/cards-1200x795.jpg 1200w, ../../wp-content/uploads/2025/08/cards-600x397.jpg 600w, ../../wp-content/uploads/2025/08/cards.jpg 1481w" sizes="(max-width: 1024px) 100vw, 1024px" /></figure>
+</div>
+
+
+<p>Какова вероятность, что тройка червей лежала в полной колоде? Другими словами, нам нужно найти $P(D_\text{full} \mid 3d).$ Начнем с априорной вероятности, то есть выбора колоды. Колода выбирается случайно, а значит</p>
+
+
+
+<p>$$ P(D_\text{full}) = P(D_\text{red}) = \frac{1}{2} $$</p>
+
+
+
+<p>Далее необходимо найти условные вероятности (правдоподобие) выбора тройки червей из каждой колоды. Вполне очевидно, что вероятность выбрать такую карту из полной колоды ниже, поскольку в ней больше карт.</p>
+
+
+
+<p>$$ P( 3d \mid D_\text{full} ) = \frac{1}{52} $$</p>
+
+
+
+<p>$$ P( 3d \mid D_\text{red} ) = \frac{1}{26} $$</p>
+
+
+
+<p>Теперь по формуле полной вероятности найдем вероятность выпадения тройки червей $P(3d).$ Напомню, это сумма совместных вероятностей</p>
+
+
+
+<ul class="wp-block-list">
+<li>выбора полной колоды и условной вероятности достать из нее тройку червей, $P(D_\text{full}) \cdot P( 3d \mid D_\text{full} );$ и</li>
+
+
+
+<li>выбора красной колоды и условной вероятности достать из нее ту же карту, $P(D_\text{red}) \cdot P( 3d \mid D_\text{red} ).$</li>
+</ul>
+
+
+
+<p>Таким образом,</p>
+
+
+
+<p>$$ \begin{align} P(3d) =&amp; \; P(D_\text{full}) \cdot P( 3d \mid D_\text{full} ) + P(D_\text{red}) \cdot P( 3d \mid D_\text{red} ) \\[0.5ex] =&amp; \; \frac{1}{2} \cdot \frac{1}{52} + \frac{1}{2} \cdot \frac{1}{26} = \frac{3}{104} \end{align} $$</p>
+
+
+
+<p>Подставим значения в формулу Байеса.</p>
+
+
+
+<p>$$ P(D_\text{full} \mid 3d) = \frac{ P(D_\text{full}) \cdot P( 3d \mid D_\text{full} ) }{ P(3d) } = \frac{ \frac{1}{2} \cdot \frac{1}{52} }{ \frac{3}{104} } = \frac{1}{3} $$</p>
+
+
+
+<p>Такой результат вполне логичен. В полной колоде в два раза больше карт, чем в красной, а значит и вероятность того, что это именно полная колода, должна быть в два раза меньше.</p>
+
+
+
+<p>Если перевести вероятности в шансы, то получим</p>
+
+
+
+<p>$$ O(D_\text{full} \mid 3d) : O(D_\text{red} \mid 3d) = \frac{1}{3} : \frac{2}{3} = 1 : 2 $$</p>
+
+
+
+<p>И коэффициент Байеса равен</p>
+
+
+
+<p>$$ BF_{ D_\text{full} \mid 3d } = \frac{ P( 3d \mid D_\text{full} ) }{ P( 3d \mid D_\text{red} ) } = \frac{\tfrac{1}{52}}{\tfrac{1}{26}} = \frac{1}{2} $$</p>
+
+
+
+<p>Еще раз поясним словами. Коэффициент Байеса или отношение правдоподобия того, что тройка червей взята из полной колоды равен 0,5, а значит шансы такого действия равны $\tfrac{1}{2} : 1 $ или (умножив на 2) $ 1 : 2,$ что мы и получили выше.</p>
+
+
+
+<p>При умножении коэффициента Байеса, выраженного в шансах, на априорные шансы, мы получим апостериорные шансы. Так как априорная вероятность для каждой колоды равна $\tfrac{1}{2},$ то шансы будут $1 : 1,$ а значит не повлияют на апостериорные шансы.</p>
+
+
+
+<p>$$ O(D_\text{full} \mid 3d) = (1 : 1) \times (1 : 2) = 1 : 2 $$</p>
+
+
+
+<p>При переводе в вероятность получим $P(D_\text{full} \mid 3d) = \tfrac{1}{1+2} = \tfrac{1}{3} .$</p>
+
+
+
+<h3 class="wp-block-heading">Игральные кости</h3>
+
+
+
+<p>Вместо колоды карт рассмотрим три игральные кости (dice), имеющие четыре $(D1),$ шесть $(D2)$ и восемь $(D3)$ граней.</p>
+
+
+<div class="wp-block-image">
+<figure class="aligncenter size-full is-resized"><img decoding="async" width="1024" height="448" src="../../wp-content/uploads/2025/08/dice.jpg" alt="игральные кости" class="wp-image-41712" style="width:313px;height:auto" srcset="../../wp-content/uploads/2025/08/dice.jpg 1024w, ../../wp-content/uploads/2025/08/dice-300x131.jpg 300w, ../../wp-content/uploads/2025/08/dice-768x336.jpg 768w, ../../wp-content/uploads/2025/08/dice-600x263.jpg 600w" sizes="(max-width: 1024px) 100vw, 1024px" /></figure>
+</div>
+
+
+<p>Предположим, что кто-то выбирает одну из костей и бросает три раза, каждый раз сообщая нам результат броска, но не показывая саму кость. Наша задача &#8212; после трех бросков догадаться, какая именно кость была брошена.</p>
+
+
+
+<h4 class="wp-block-heading">Расчет вручную</h4>
+
+
+
+<p>Изначально мы ничего не знаем о выбранной кости, поэтому наши априорные вероятности будут одинаковыми.</p>
+
+
+
+<p>$$ P(D1) = P(D2) = P(D3) = \frac{1}{3} $$</p>
+
+
+
+<p>Попросим нашего помощника бросить кость.</p>
+
+
+
+<p><strong>Первый бросок</strong>. Предположим, что в первый раз выпала четверка. Обозначим этот факт как $r4$ (от англ. to roll 4 on a dice). Найдем правдоподобие такого результата для каждой из костей:</p>
+
+
+
+<ul class="wp-block-list">
+<li>на первой кости четыре грани, значит $P(r4 \mid D1) = \frac{1}{4}; $</li>
+
+
+
+<li>на второй кости шесть, $P(r4 \mid D2) = \frac{1}{6}; $</li>
+
+
+
+<li>на третьей &#8212; восемь, $P(r4 \mid D3) = \frac{1}{8}. $</li>
+</ul>
+
+
+
+<p>Также найдем полную вероятность выпадения четверки или данные, $P(r4).$ Она будет состоять из суммы совместных вероятностей выпадения четверки на каждой из костей.</p>
+
+
+
+<p>$$ P(r4) = P(D1) \cdot P(r4 \mid D1) + P(D2) \cdot P(r4 \mid D2) + P(D3) \cdot P(r4 \mid D3) = $$</p>
+
+
+
+<p>$$ \frac{1}{3} \cdot \frac{1}{4} + \frac{1}{3} \cdot \frac{1}{6} + \frac{1}{3} \cdot \frac{1}{8} = \frac{13}{72} $$</p>
+
+
+
+<p>Остается найти апостериорные вероятности.</p>
+
+
+
+<p>$$ \begin{align} P(D1 \mid r4) &amp;= \frac{ P(D1) \cdot P(r4 \mid D1) }{ P(r4) } = \frac{ \frac{1}{3} \cdot \frac{1}{4} }{ \frac{13}{72} } = \frac{6}{13} \approx 0{,}46 \\ P(D2 \mid r4) &amp;= \frac{ P(D2) \cdot P(r4 \mid D2) }{ P(r4) } = \frac{ \frac{1}{3} \cdot \frac{1}{6} }{ \frac{13}{72} } = \frac{4}{13} \approx 0{,}31 \\ P(D3 \mid r4) &amp;= \frac{ P(D3) \cdot P(r4 \mid D3) }{ P(r4) } = \frac{ \frac{1}{3} \cdot \frac{1}{8} }{ \frac{13}{72} } = \frac{3}{13} \approx 0{,}23 \end{align} $$</p>
+
+
+
+<p>Опять же, такой результат вполне ожидаем. На первой кости только четыре грани и вероятность (правдоподобие) выпадения значений от одного до четырех здесь наиболее высокая.</p>
+
+
+
+<p><strong>Второй бросок</strong>. Пусть в этот раз выпадет двойка. Апостериорная вероятность станет новой априорной.</p>
+
+
+
+<p>$$ P(D1 \mid r4) = \frac{6}{13}, \quad P(D2 \mid r4) = \frac{4}{13}, \quad P(D3 \mid r4) = \frac{3}{13} $$</p>
+
+
+
+<p>Правдоподобие будет тем же.</p>
+
+
+
+<p>$$ P(r2 \mid D1) = \frac{1}{4}, \quad P(r2 \mid D2) = \frac{1}{6}, \quad P(r2 \mid D3) = \frac{1}{8} $$</p>
+
+
+
+<p>Полная вероятность $P(r2)$ теперь должна учитывать новую априорную вероятность.</p>
+
+
+
+<p>$$ \begin{align} P(r2) =&amp; \; P(D1 \mid r4) \cdot P(r2 \mid D1) + P(D2 \mid r4) \cdot P(r2 \mid D2) \\ &amp; \; + \; P(D3 \mid r4) \cdot P(r2 \mid D3) \\[1ex] =&amp; \; \frac{6}{13} \cdot \frac{1}{4} + \frac{4}{13} \cdot \frac{1}{6} + \frac{3}{13} \cdot \frac{1}{8} = \frac{61}{312} \end{align} $$</p>
+
+
+
+<p>Найдем апостериорные вероятности при втором броске.</p>
+
+
+
+<p>$$ \begin{align} P(D1 \mid r2) &amp;= \frac{ P(D1 \mid r4) \cdot P(r2 \mid D1) }{ P(r2) } = \frac{ \frac{6}{13} \cdot \frac{1}{4} }{ \frac{61}{312} } = \frac{36}{61} \approx 0{,}59 \\[0.5ex] P(D2 \mid r2) &amp;= \frac{ P(D2 \mid r4) \cdot P(r2 \mid D2) }{ P(r2) } = \frac{ \frac{4}{13} \cdot \frac{1}{6} }{ \frac{61}{312} } = \frac{16}{61} \approx 0{,}26 \\[0.5ex] P(D3 \mid r2) &amp;= \frac{ P(D3 \mid r4) \cdot P(r2 \mid D3) }{ P(r2) } = \frac{ \frac{3}{13} \cdot \frac{1}{8} }{ \frac{61}{312} } = \frac{9}{61} \approx 0{,}15 \end{align} $$</p>
+
+
+
+<p>Так как правдоподобие двойки на первой кости снова самое высокое, мы только укрепились во мнении, что речь идет о первой кости.</p>
+
+
+
+<p><strong>Третий бросок</strong>. При третьем броске выпадает пятерка. Найдем апостериорные вероятности.</p>
+
+
+
+<p>$$ \begin{align} P(D1 \mid r5) &amp;= \frac{ P(D1 \mid (r4,r2)) \cdot P(r5 \mid D1) }{ P(r5) } = \frac{ \frac{36}{61} \cdot 0 }{ \frac{91}{1464} } = 0 \\[0.5ex] P(D2 \mid r5) &amp;= \frac{ P(D2 \mid (r4,r2)) \cdot P(r5 \mid D2) }{ P(r5) } = \frac{ \frac{16}{61} \cdot \frac{1}{6} }{ \frac{91}{1464} } = \frac{64}{91} \approx 0{,}70 \\[0.5ex] P(D3 \mid r5) &amp;= \frac{ P(D3 \mid (r4,r2)) \cdot P(r5 \mid D3) }{ P(r5) } = \frac{ \frac{9}{61} \cdot \frac{1}{8} }{ \frac{91}{1464} } = \frac{27}{91} \approx 0{,}30 \end{align} $$</p>
+
+
+
+<p>Обратим внимание, что правдоподобие выпадения пяти на первой кости равно нулю (такой грани там нет), а значит все это время речь шла о второй или третьей костях.</p>
+
+
+
+<p>Более того, так как новая априорная вероятность также равна нулю, вне зависимости от того, какая грань выпадет следующей (пусть даже от 1 до 4), вероятность первой кости всегда будет нулевой.</p>
+
+
+
+<p>Из оставшихся двух вариантов на такую высокую вероятность второй кости повлияло два фактора:</p>
+
+
+
+<ul class="wp-block-list">
+<li>во-первых, выпадение пятерки на ней более правдоподобно, $\tfrac{1}{6}$ против $\tfrac{1}{8};$</li>
+
+
+
+<li>во-вторых, за первые два броска накопилась более высокая априорная вероятность, $\tfrac{16}{61}$ против $\tfrac{9}{61}.$</li>
+</ul>
+
+
+
+<h4 class="wp-block-heading">Методы оценки</h4>
+
+
+
+<p>Оценка в данном случае означает выбор одной из гипотез или, в нашем примере, одной из трех костей. Еще на первом занятии мы сказали, что знаменатель здесь роли не играет. Остается два компонента: априорная вероятность и правдоподобие.</p>
+
+
+
+<p>$$ P(\theta \mid X) = \frac{ P(\theta) \cdot P(X \mid \theta) }{ P(X) } $$</p>
+
+
+
+<p>$$ P(\theta \mid X) \propto P(\theta) \cdot P(X \mid \theta) $$</p>
+
+
+
+<p><strong>Апостериорный максимум</strong>. Если выбирать гипотезу исходя из обоих компонентов, то мы по сути основываемся на оценке с помощью <strong>апостериорного максимума</strong> (maximum a posteriori, MAP). После трех бросков максимальная апостериорная вероятность у второй кости, ее мы и выбираем.</p>
+
+
+
+<p>$$ \theta_{MAP} = D_2 $$</p>
+
+
+<div class="wp-block-image">
+<figure class="aligncenter size-large is-resized"><img decoding="async" width="1024" height="683" src="../../wp-content/uploads/2025/08/MAP-1024x683.jpg" alt="апостериорный максимум" class="wp-image-41715" style="width:504px;height:auto" srcset="../../wp-content/uploads/2025/08/MAP-1024x683.jpg 1024w, ../../wp-content/uploads/2025/08/MAP-300x200.jpg 300w, ../../wp-content/uploads/2025/08/MAP-768x512.jpg 768w, ../../wp-content/uploads/2025/08/MAP-1536x1025.jpg 1536w, ../../wp-content/uploads/2025/08/MAP-1200x801.jpg 1200w, ../../wp-content/uploads/2025/08/MAP-600x400.jpg 600w, ../../wp-content/uploads/2025/08/MAP.jpg 1941w" sizes="(max-width: 1024px) 100vw, 1024px" /></figure>
+</div>
+
+
+<p>В общем виде: $\theta_{MAP} = \underset{\theta}{\text{argmax }} P(\theta) \cdot P(X \mid \theta) $</p>
+
+
+
+<p>Примечание. <strong>Аргумент максимизации</strong> (argument of the maxima)</p>
+
+
+
+<p>$$\underset{x}{\text{argmax }}f(x)$$</p>
+
+
+
+<p>&#8212; это такое значение $x,$ при котором $f(x)$ принимает наибольшее значение.</p>
+
+
+
+<p><strong>Метод максимального правдоподобия</strong>. Если же не учитывать априорную вероятность и оценивать $\theta$ только через правдоподобие, то наиболее вероятной в первых двух бросках является первая кость $\tfrac{1}{4},$ а при третьем броске &#8212; вторая $\tfrac{1}{6}.$</p>
+
+
+
+<p>Посмотрим на оценку правдоподобия после первого броска.</p>
+
+
+<div class="wp-block-image">
+<figure class="aligncenter size-large is-resized"><img loading="lazy" decoding="async" width="1024" height="672" src="../../wp-content/uploads/2025/08/MLE-1024x672.jpg" alt="метод максимального правдоподобия" class="wp-image-41726" style="width:489px;height:auto" srcset="../../wp-content/uploads/2025/08/MLE-1024x672.jpg 1024w, ../../wp-content/uploads/2025/08/MLE-300x197.jpg 300w, ../../wp-content/uploads/2025/08/MLE-768x504.jpg 768w, ../../wp-content/uploads/2025/08/MLE-1536x1008.jpg 1536w, ../../wp-content/uploads/2025/08/MLE-1200x788.jpg 1200w, ../../wp-content/uploads/2025/08/MLE-600x394.jpg 600w, ../../wp-content/uploads/2025/08/MLE.jpg 1840w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure>
+</div>
+
+
+<p>В этом случае говорят, что мы оцениваем параметр с помощью <strong>метода максимального правдоподобия</strong> (maximum likelihood estimation, MLE).</p>
+
+
+
+<p>$$ \theta_{MLE} = \underset{\theta}{\text{argmax }} P(X \mid \theta) $$</p>
+
+
+
+<p>Интересно, что если априорная вероятность для каждой из гипотез или для каждого $\theta$ одинакова (можно считать, что она представляет собой константу), то обе оценки дают одинаковый результат.</p>
+
+
+
+<p>Формально,</p>
+
+
+
+<p>$$ \theta_{MAP} = \underset{\theta}{\text{argmax }} const \cdot P(X \mid \theta) = \underset{\theta}{\text{argmax }} P(X \mid \theta) = \theta_{MLE} $$</p>
+
+
+
+<p>Так было, в частности, после первого броска кости. Так как все априорные вероятности были одинаковыми и равнялись $\tfrac{1}{3},$ то единственным, что влияло на результат было правдоподобие. Приведем расчеты еще раз.</p>
+
+
+
+<p>$$ P(D1 \mid r4) = \frac{ P(D1) \cdot P(r4 \mid D1) }{ P(r4) } = \frac{ \frac{1}{3} \cdot \frac{1}{4} }{ \frac{13}{72} } = \frac{6}{13} \approx 0{,}46 $$</p>
+
+
+
+<p>$$ P(D2 \mid r4) = \frac{ P(D2) \cdot P(r4 \mid D2) }{ P(r4) } = \frac{ \frac{1}{3} \cdot \frac{1}{6} }{ \frac{13}{72} } = \frac{4}{13} \approx 0{,}31 $$</p>
+
+
+
+<p>$$ P(D3 \mid r4) = \frac{ P(D3) \cdot P(r4 \mid D3) }{ P(r4) } = \frac{ \frac{1}{3} \cdot \frac{1}{8} }{ \frac{13}{72} } = \frac{3}{13} \approx 0{,}23$$</p>
+
+
+
+<p>Максимальным правдоподобие было у первой кости $\tfrac{1}{4} = 0{,}25$ (оценка методом максимального правдоподобия) и именно эта кость показала наибольшую апостериорную вероятность $ \tfrac{6}{13} \approx 0{,}46 $ (оценка с помощью апостериорного максимума).</p>
+
+
+
+<p>В случае если априорная вероятность и правдоподобие существенно расходятся, MAP и MLE-оценки могут не совпадать.</p>
+
+
+
+<p>Таким образом, оценка методом максимального правдоподобия является частным случаем оценки с помощью апостериорного максимума при одинаковой априорной вероятности каждой из гипотез.</p>
+
+
+
+<h4 class="wp-block-heading">Расчет с помощью Питона</h4>
+
+
+
+<p>Расчет апостериорной вероятности вручную довольно кропотлив. Доверим эту работу компьютеру.</p>
+
+
+
+<p class="has-text-align-center has-white-color has-text-color has-background" style="background-color:#004235"><a href="https://colab.research.google.com/drive/1nmvoN2CMMtmHBeDd18tQ2nUNF4-cfITv?usp=sharing" target="_blank" rel="noreferrer noopener">Откроем блокнот к этому занятию</a>⧉</p>
+
+
+
+<p>Вначале повторим те результаты, которые мы получили в примере выше.</p>
+
+
+
+<p><strong>Три броска</strong>. Начнем с одного броска и выпадения четверки.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.9.0 -->
+
+		<div id="urvanov-syntax-highlighter-697701db43d10573752653" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701db43d10573752653-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701db43d10573752653-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701db43d10573752653-3">3</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701db43d10573752653-4">4</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-697701db43d10573752653-1"><span class="crayon-v">likelihood</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-k ">array</span><span class="crayon-sy">(</span><span class="crayon-sy">[</span><span class="crayon-cn">1</span><span class="crayon-o">/</span><span class="crayon-cn">4</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-o">/</span><span class="crayon-cn">6</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-o">/</span><span class="crayon-cn">8</span><span class="crayon-sy">]</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701db43d10573752653-2"><span class="crayon-v">prior</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-k ">array</span><span class="crayon-sy">(</span><span class="crayon-sy">[</span><span class="crayon-cn">1</span><span class="crayon-o">/</span><span class="crayon-cn">3</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-o">/</span><span class="crayon-cn">3</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-o">/</span><span class="crayon-cn">3</span><span class="crayon-sy">]</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-697701db43d10573752653-3">&nbsp;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701db43d10573752653-4"><span class="crayon-sy">(</span><span class="crayon-v">likelihood</span><span class="crayon-h"> </span><span class="crayon-o">*</span><span class="crayon-h"> </span><span class="crayon-v">prior</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-o">/</span><span class="crayon-h"> </span><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-e">dot</span><span class="crayon-sy">(</span><span class="crayon-v">likelihood</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">prior</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0004 seconds] -->
+</div>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.9.0 -->
+
+		<div id="urvanov-syntax-highlighter-697701db43d1f635681203" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701db43d1f635681203-1">1</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-697701db43d1f635681203-1">array([0.46153846, 0.30769231, 0.23076923])</div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0000 seconds] -->
+</div>
+
+
+
+<p>Теперь выполним три броска с выпадением четверки, двойки и пятерки.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.9.0 -->
+
+		<div id="urvanov-syntax-highlighter-697701db43d22373943547" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701db43d22373943547-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701db43d22373943547-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701db43d22373943547-3">3</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701db43d22373943547-4">4</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701db43d22373943547-5">5</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701db43d22373943547-6">6</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701db43d22373943547-7">7</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701db43d22373943547-8">8</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701db43d22373943547-9">9</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701db43d22373943547-10">10</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701db43d22373943547-11">11</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701db43d22373943547-12">12</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701db43d22373943547-13">13</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701db43d22373943547-14">14</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701db43d22373943547-15">15</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701db43d22373943547-16">16</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701db43d22373943547-17">17</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701db43d22373943547-18">18</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701db43d22373943547-19">19</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701db43d22373943547-20">20</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701db43d22373943547-21">21</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701db43d22373943547-22">22</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701db43d22373943547-23">23</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701db43d22373943547-24">24</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701db43d22373943547-25">25</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701db43d22373943547-26">26</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-697701db43d22373943547-1"><span class="crayon-c"># зададим априорную вероятность перед первым броском и</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701db43d22373943547-2"><span class="crayon-v">prior</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-k ">array</span><span class="crayon-sy">(</span><span class="crayon-sy">[</span><span class="crayon-cn">1</span><span class="crayon-o">/</span><span class="crayon-cn">3</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-o">/</span><span class="crayon-cn">3</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-o">/</span><span class="crayon-cn">3</span><span class="crayon-sy">]</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-697701db43d22373943547-3"><span class="crayon-c"># результаты бросков</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701db43d22373943547-4"><span class="crayon-v">rolls</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-k ">array</span><span class="crayon-sy">(</span><span class="crayon-sy">[</span><span class="crayon-cn">4</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">2</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">5</span><span class="crayon-sy">]</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-697701db43d22373943547-5">&nbsp;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701db43d22373943547-6"><span class="crayon-c"># начнем бросать кость</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-697701db43d22373943547-7"><span class="crayon-st">for</span><span class="crayon-h"> </span><span class="crayon-i">r</span><span class="crayon-h"> </span><span class="crayon-st">in</span><span class="crayon-h"> </span><span class="crayon-v">rolls</span><span class="crayon-o">:</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701db43d22373943547-8">&nbsp;</div><div class="crayon-line" id="urvanov-syntax-highlighter-697701db43d22373943547-9"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-c"># зададим правдоподобие каждой из костей</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701db43d22373943547-10"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-v">likelihood</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-k ">array</span><span class="crayon-sy">(</span><span class="crayon-sy">[</span><span class="crayon-cn">1</span><span class="crayon-o">/</span><span class="crayon-cn">4</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-o">/</span><span class="crayon-cn">6</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-o">/</span><span class="crayon-cn">8</span><span class="crayon-sy">]</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-697701db43d22373943547-11">&nbsp;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701db43d22373943547-12"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-c"># с тем условием, что если число больше четырех,</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-697701db43d22373943547-13"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-st">if</span><span class="crayon-h"> </span><span class="crayon-v">r</span><span class="crayon-h"> </span><span class="crayon-o">&gt;</span><span class="crayon-h"> </span><span class="crayon-cn">4</span><span class="crayon-o">:</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701db43d22373943547-14"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-c"># это не может быть первая кость</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-697701db43d22373943547-15"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">likelihood</span><span class="crayon-sy">[</span><span class="crayon-cn">0</span><span class="crayon-sy">]</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">0</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701db43d22373943547-16"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-c"># если число больше шести,</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-697701db43d22373943547-17"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-st">if</span><span class="crayon-h"> </span><span class="crayon-v">r</span><span class="crayon-h"> </span><span class="crayon-o">&gt;</span><span class="crayon-h"> </span><span class="crayon-cn">6</span><span class="crayon-o">:</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701db43d22373943547-18"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-c"># это не может быть вторая</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-697701db43d22373943547-19"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">likelihood</span><span class="crayon-sy">[</span><span class="crayon-cn">1</span><span class="crayon-sy">]</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">0</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701db43d22373943547-20">&nbsp;</div><div class="crayon-line" id="urvanov-syntax-highlighter-697701db43d22373943547-21"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-c"># найдем апостериорную вероятность</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701db43d22373943547-22"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-v">posterior</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-v">likelihood</span><span class="crayon-h"> </span><span class="crayon-o">*</span><span class="crayon-h"> </span><span class="crayon-v">prior</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-o">/</span><span class="crayon-h"> </span><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-e">dot</span><span class="crayon-sy">(</span><span class="crayon-v">likelihood</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">prior</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-697701db43d22373943547-23"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-c"># выведем апостериорную вероятность после каждого броска</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701db43d22373943547-24"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-k ">print</span><span class="crayon-sy">(</span><span class="crayon-v">posterior</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-697701db43d22373943547-25"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-c"># сделаем ее новой априорной вероятностью</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701db43d22373943547-26"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-v">prior</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">posterior</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0007 seconds] -->
+</div>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.9.0 -->
+
+		<div id="urvanov-syntax-highlighter-697701db43d25096600437" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701db43d25096600437-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701db43d25096600437-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701db43d25096600437-3">3</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-697701db43d25096600437-1">[0.46153846 0.30769231 0.23076923]</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701db43d25096600437-2">[0.59016393 0.26229508 0.14754098]</div><div class="crayon-line" id="urvanov-syntax-highlighter-697701db43d25096600437-3">[0.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.7032967 0.2967033]</div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0000 seconds] -->
+</div>
+
+
+
+<p><strong>MAP и MLE</strong>. Найдем оценки MAP и MLE для случаев одинаковой и разной априорной вероятности при выпадении четверки. Случай одинаковой априорной оценки полностью повторяет первый бросок в примере выше.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.9.0 -->
+
+		<div id="urvanov-syntax-highlighter-697701db43d28928968580" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701db43d28928968580-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701db43d28928968580-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701db43d28928968580-3">3</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701db43d28928968580-4">4</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701db43d28928968580-5">5</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701db43d28928968580-6">6</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701db43d28928968580-7">7</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701db43d28928968580-8">8</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701db43d28928968580-9">9</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701db43d28928968580-10">10</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701db43d28928968580-11">11</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701db43d28928968580-12">12</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-697701db43d28928968580-1"><span class="crayon-v">likelihood</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-k ">array</span><span class="crayon-sy">(</span><span class="crayon-sy">[</span><span class="crayon-cn">1</span><span class="crayon-o">/</span><span class="crayon-cn">4</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-o">/</span><span class="crayon-cn">6</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-o">/</span><span class="crayon-cn">8</span><span class="crayon-sy">]</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701db43d28928968580-2"><span class="crayon-v">prior</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-k ">array</span><span class="crayon-sy">(</span><span class="crayon-sy">[</span><span class="crayon-cn">1</span><span class="crayon-o">/</span><span class="crayon-cn">3</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-o">/</span><span class="crayon-cn">3</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-o">/</span><span class="crayon-cn">3</span><span class="crayon-sy">]</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-697701db43d28928968580-3">&nbsp;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701db43d28928968580-4"><span class="crayon-v">posterior</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-v">likelihood</span><span class="crayon-h"> </span><span class="crayon-o">*</span><span class="crayon-h"> </span><span class="crayon-v">prior</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-o">/</span><span class="crayon-h"> </span><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-e">dot</span><span class="crayon-sy">(</span><span class="crayon-v">likelihood</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">prior</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-697701db43d28928968580-5">&nbsp;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701db43d28928968580-6"><span class="crayon-c"># найдем оценки MAP и MLE</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-697701db43d28928968580-7"><span class="crayon-c"># "+1" добавлен, чтобы нумерация костей</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701db43d28928968580-8"><span class="crayon-c"># начиналась с единицы, а не с нуля</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-697701db43d28928968580-9"><span class="crayon-k ">MAP</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-e">argmax</span><span class="crayon-sy">(</span><span class="crayon-v">posterior</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-o">+</span><span class="crayon-h"> </span><span class="crayon-cn">1</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701db43d28928968580-10"><span class="crayon-v">MLE</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-e">argmax</span><span class="crayon-sy">(</span><span class="crayon-v">likelihood</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-o">+</span><span class="crayon-h"> </span><span class="crayon-cn">1</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-697701db43d28928968580-11">&nbsp;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701db43d28928968580-12"><span class="crayon-v">posterior</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-k ">MAP</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">MLE</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0005 seconds] -->
+</div>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.9.0 -->
+
+		<div id="urvanov-syntax-highlighter-697701db43d2a411900552" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701db43d2a411900552-1">1</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-697701db43d2a411900552-1">(array([0.46153846, 0.30769231, 0.23076923]), 1, 1)</div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0000 seconds] -->
+</div>
+
+
+
+<p>Если предположить, что априорная вероятность первой кости меньше остальных (например, $\tfrac{1}{5}$ против $\tfrac{2}{5}$ у второй и третьей кости), то MAP и MLE не совпадут.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.9.0 -->
+
+		<div id="urvanov-syntax-highlighter-697701db43d2c766235025" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701db43d2c766235025-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701db43d2c766235025-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701db43d2c766235025-3">3</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701db43d2c766235025-4">4</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701db43d2c766235025-5">5</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701db43d2c766235025-6">6</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701db43d2c766235025-7">7</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701db43d2c766235025-8">8</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-697701db43d2c766235025-1"><span class="crayon-v">likelihood</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-k ">array</span><span class="crayon-sy">(</span><span class="crayon-sy">[</span><span class="crayon-cn">1</span><span class="crayon-o">/</span><span class="crayon-cn">4</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-o">/</span><span class="crayon-cn">6</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-o">/</span><span class="crayon-cn">8</span><span class="crayon-sy">]</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701db43d2c766235025-2"><span class="crayon-v">prior</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-k ">array</span><span class="crayon-sy">(</span><span class="crayon-sy">[</span><span class="crayon-cn">1</span><span class="crayon-o">/</span><span class="crayon-cn">5</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">2</span><span class="crayon-o">/</span><span class="crayon-cn">5</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">2</span><span class="crayon-o">/</span><span class="crayon-cn">5</span><span class="crayon-sy">]</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-697701db43d2c766235025-3">&nbsp;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701db43d2c766235025-4"><span class="crayon-v">posterior</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-v">likelihood</span><span class="crayon-h"> </span><span class="crayon-o">*</span><span class="crayon-h"> </span><span class="crayon-v">prior</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-o">/</span><span class="crayon-h"> </span><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-e">dot</span><span class="crayon-sy">(</span><span class="crayon-v">likelihood</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">prior</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-697701db43d2c766235025-5"><span class="crayon-k ">MAP</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-e">argmax</span><span class="crayon-sy">(</span><span class="crayon-v">posterior</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-o">+</span><span class="crayon-h"> </span><span class="crayon-cn">1</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701db43d2c766235025-6"><span class="crayon-v">MLE</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-e">argmax</span><span class="crayon-sy">(</span><span class="crayon-v">likelihood</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-o">+</span><span class="crayon-h"> </span><span class="crayon-cn">1</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-697701db43d2c766235025-7">&nbsp;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701db43d2c766235025-8"><span class="crayon-v">posterior</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-k ">MAP</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">MLE</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0005 seconds] -->
+</div>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.9.0 -->
+
+		<div id="urvanov-syntax-highlighter-697701db43d2f223198523" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701db43d2f223198523-1">1</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-697701db43d2f223198523-1">(array([0.3, 0.4, 0.3]), 2, 1)</div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0000 seconds] -->
+</div>
+
+
+
+<p><strong>Отгадывание кости</strong>. Поместим код выше в функцию, которая будет оценивать уже четыре вида игральных костей с четырьмя, шестью, восьмью и двенадцатью гранями и после произвольного числа бросков отгадывать, о какой кости идет речь.</p>
+
+
+
+<p>Такого рода программы, которые последовательно исследуют &#171;мир&#187; (world) и делают выводы называют <strong>интеллектуальными агентами</strong> (intelligent agent) или просто агентами.</p>
+
+
+
+<p>В нашем примере мир &#8212; это результаты бросания одной из четырех костей, а вывод &#8212; MAP-оценка того, о какой кости идет речь.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.9.0 -->
+
+		<div id="urvanov-syntax-highlighter-697701db43d31566110576" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701db43d31566110576-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701db43d31566110576-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701db43d31566110576-3">3</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701db43d31566110576-4">4</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701db43d31566110576-5">5</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701db43d31566110576-6">6</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701db43d31566110576-7">7</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701db43d31566110576-8">8</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701db43d31566110576-9">9</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701db43d31566110576-10">10</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701db43d31566110576-11">11</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701db43d31566110576-12">12</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701db43d31566110576-13">13</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701db43d31566110576-14">14</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701db43d31566110576-15">15</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701db43d31566110576-16">16</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701db43d31566110576-17">17</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701db43d31566110576-18">18</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-697701db43d31566110576-1"><span class="crayon-r">def</span><span class="crayon-h"> </span><span class="crayon-e">dice_agent</span><span class="crayon-sy">(</span><span class="crayon-v">prior</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">rolls</span><span class="crayon-sy">)</span><span class="crayon-o">:</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701db43d31566110576-2">&nbsp;</div><div class="crayon-line" id="urvanov-syntax-highlighter-697701db43d31566110576-3"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-st">for</span><span class="crayon-h"> </span><span class="crayon-i">r</span><span class="crayon-h"> </span><span class="crayon-st">in</span><span class="crayon-h"> </span><span class="crayon-v">rolls</span><span class="crayon-o">:</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701db43d31566110576-4">&nbsp;</div><div class="crayon-line" id="urvanov-syntax-highlighter-697701db43d31566110576-5"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">likelihood</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-k ">array</span><span class="crayon-sy">(</span><span class="crayon-sy">[</span><span class="crayon-cn">1</span><span class="crayon-o">/</span><span class="crayon-cn">4</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-o">/</span><span class="crayon-cn">6</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-o">/</span><span class="crayon-cn">8</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-o">/</span><span class="crayon-cn">12</span><span class="crayon-sy">]</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701db43d31566110576-6">&nbsp;</div><div class="crayon-line" id="urvanov-syntax-highlighter-697701db43d31566110576-7"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-st">if</span><span class="crayon-h"> </span><span class="crayon-v">r</span><span class="crayon-h"> </span><span class="crayon-o">&gt;</span><span class="crayon-h"> </span><span class="crayon-cn">4</span><span class="crayon-o">:</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701db43d31566110576-8"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">likelihood</span><span class="crayon-sy">[</span><span class="crayon-cn">0</span><span class="crayon-sy">]</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">0</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-697701db43d31566110576-9"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-st">if</span><span class="crayon-h"> </span><span class="crayon-v">r</span><span class="crayon-h"> </span><span class="crayon-o">&gt;</span><span class="crayon-h"> </span><span class="crayon-cn">6</span><span class="crayon-o">:</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701db43d31566110576-10"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">likelihood</span><span class="crayon-sy">[</span><span class="crayon-cn">1</span><span class="crayon-sy">]</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">0</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-697701db43d31566110576-11"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-st">if</span><span class="crayon-h"> </span><span class="crayon-v">r</span><span class="crayon-h"> </span><span class="crayon-o">&gt;</span><span class="crayon-h"> </span><span class="crayon-cn">8</span><span class="crayon-o">:</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701db43d31566110576-12"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">likelihood</span><span class="crayon-sy">[</span><span class="crayon-cn">2</span><span class="crayon-sy">]</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">0</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-697701db43d31566110576-13">&nbsp;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701db43d31566110576-14"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">posterior</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-v">likelihood</span><span class="crayon-h"> </span><span class="crayon-o">*</span><span class="crayon-h"> </span><span class="crayon-v">prior</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-o">/</span><span class="crayon-h"> </span><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-e">dot</span><span class="crayon-sy">(</span><span class="crayon-v">likelihood</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">prior</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-697701db43d31566110576-15"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">prior</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-i">posterior</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701db43d31566110576-16">&nbsp;</div><div class="crayon-line" id="urvanov-syntax-highlighter-697701db43d31566110576-17"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-c"># функция будет возвращать апостериорные вероятности и MAP-оценку</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701db43d31566110576-18"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-st">return</span><span class="crayon-h"> </span><span class="crayon-v">posterior</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-e">argmax</span><span class="crayon-sy">(</span><span class="crayon-v">posterior</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-o">+</span><span class="crayon-h"> </span><span class="crayon-cn">1</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0007 seconds] -->
+</div>
+
+
+
+<p>Бросим первую кость с четырьмя гранями пять раз.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.9.0 -->
+
+		<div id="urvanov-syntax-highlighter-697701db43d34924155483" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701db43d34924155483-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701db43d34924155483-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701db43d34924155483-3">3</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701db43d34924155483-4">4</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701db43d34924155483-5">5</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701db43d34924155483-6">6</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-697701db43d34924155483-1"><span class="crayon-v">prior</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-k ">array</span><span class="crayon-sy">(</span><span class="crayon-sy">[</span><span class="crayon-cn">1</span><span class="crayon-o">/</span><span class="crayon-cn">4</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-o">/</span><span class="crayon-cn">4</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-o">/</span><span class="crayon-cn">4</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-o">/</span><span class="crayon-cn">4</span><span class="crayon-sy">]</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701db43d34924155483-2">&nbsp;</div><div class="crayon-line" id="urvanov-syntax-highlighter-697701db43d34924155483-3"><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-k ">random</span><span class="crayon-sy">.</span><span class="crayon-e">seed</span><span class="crayon-sy">(</span><span class="crayon-cn">42</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701db43d34924155483-4"><span class="crayon-v">rolls</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-k ">random</span><span class="crayon-sy">.</span><span class="crayon-e">randint</span><span class="crayon-sy">(</span><span class="crayon-cn">1</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">5</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">size</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">5</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-697701db43d34924155483-5">&nbsp;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701db43d34924155483-6"><span class="crayon-e">dice_agent</span><span class="crayon-sy">(</span><span class="crayon-v">prior</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">rolls</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0003 seconds] -->
+</div>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.9.0 -->
+
+		<div id="urvanov-syntax-highlighter-697701db43d36095241766" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701db43d36095241766-1">1</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-697701db43d36095241766-1">(array([0.8568595 , 0.11283747, 0.02677686, 0.00352617]), 1)</div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0000 seconds] -->
+</div>
+
+
+
+<p>Усложним задачу. Будем бросать вторую кость только три раза и изменим априорную вероятность не в пользу этого варианта.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.9.0 -->
+
+		<div id="urvanov-syntax-highlighter-697701db43d39424112854" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701db43d39424112854-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701db43d39424112854-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701db43d39424112854-3">3</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701db43d39424112854-4">4</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701db43d39424112854-5">5</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701db43d39424112854-6">6</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-697701db43d39424112854-1"><span class="crayon-v">prior</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-k ">array</span><span class="crayon-sy">(</span><span class="crayon-sy">[</span><span class="crayon-cn">1</span><span class="crayon-o">/</span><span class="crayon-cn">3</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-o">/</span><span class="crayon-cn">6</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-o">/</span><span class="crayon-cn">6</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-o">/</span><span class="crayon-cn">3</span><span class="crayon-sy">]</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701db43d39424112854-2">&nbsp;</div><div class="crayon-line" id="urvanov-syntax-highlighter-697701db43d39424112854-3"><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-k ">random</span><span class="crayon-sy">.</span><span class="crayon-e">seed</span><span class="crayon-sy">(</span><span class="crayon-cn">42</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701db43d39424112854-4"><span class="crayon-v">rolls</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-k ">random</span><span class="crayon-sy">.</span><span class="crayon-e">randint</span><span class="crayon-sy">(</span><span class="crayon-cn">1</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">7</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">size</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">3</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-697701db43d39424112854-5">&nbsp;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701db43d39424112854-6"><span class="crayon-e">dice_agent</span><span class="crayon-sy">(</span><span class="crayon-v">prior</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">rolls</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0003 seconds] -->
+</div>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.9.0 -->
+
+		<div id="urvanov-syntax-highlighter-697701db43d3b284523680" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701db43d3b284523680-1">1</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-697701db43d3b284523680-1">(array([0.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;, 0.59813084, 0.25233645, 0.14953271]), 2)</div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0000 seconds] -->
+</div>
+
+
+
+<p>Как мы видим, агент в обоих случаях успешно справился с поставленной задачей.</p>
+
+			</div> <!-- .content -->
+
+			
+		</div> <!-- .post -->
+
+					<footer class="site-footer section-inner">
+
+				<p class="copyright">&copy; 2026 <a href="../../index.html" class="site-name"><!--Дмитрий Макаров-->Дмитрий Макаров</a></p>
+
+			</footer> <!-- footer -->
+
+		</main>
+		
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript" >
+   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+   m[i].l=1*new Date();
+   for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+   k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+   (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+   ym(100123342, "init", {
+        clickmap:true,
+        trackLinks:true,
+        accurateTrackBounce:true
+   });
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/100123342" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+
+		<script type="speculationrules">
+{"prefetch":[{"source":"document","where":{"and":[{"href_matches":"/*"},{"not":{"href_matches":["/wp-*.php","/wp-admin/*","/wp-content/uploads/*","/wp-content/*","/wp-content/plugins/*","/wp-content/themes/mcluhan/*","/*\\?(.+)"]}},{"not":{"selector_matches":"a[rel~=\"nofollow\"]"}},{"not":{"selector_matches":".no-prefetch, .no-prefetch a"}}]},"eagerness":"conservative"}]}
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js?ver=6.9" id="mathjax-js"></script>
+<script type="text/javascript" src="../../wp-includes/js/imagesloaded.min.js@ver=5.0.0" id="imagesloaded-js"></script>
+<script type="text/javascript" src="../../wp-includes/js/masonry.min.js@ver=4.2.2" id="masonry-js"></script>
+<script type="text/javascript" id="mcluhan_global-js-extra">
+/* <![CDATA[ */
+var mcluhan_ajaxpagination = {"ajaxurl":"https://www.dmitrymakarov.ru/wp-admin/admin-ajax.php","query_vars":"{\"page\":\"\",\"pagename\":\"bayesian\\/examples\"}"};
+//# sourceURL=mcluhan_global-js-extra
+/* ]]> */
+</script>
+<script type="text/javascript" src="../../wp-content/themes/mcluhan/assets/js/global.js@ver=2.1.1" id="mcluhan_global-js"></script>
+<script id="wp-emoji-settings" type="application/json">
+{"baseUrl":"https://s.w.org/images/core/emoji/17.0.2/72x72/","ext":".png","svgUrl":"https://s.w.org/images/core/emoji/17.0.2/svg/","svgExt":".svg","source":{"concatemoji":"https://www.dmitrymakarov.ru/wp-includes/js/wp-emoji-release.min.js?ver=6.9"}}
+</script>
+<script type="module">
+/* <![CDATA[ */
+/*! This file is auto-generated */
+const a=JSON.parse(document.getElementById("wp-emoji-settings").textContent),o=(window._wpemojiSettings=a,"wpEmojiSettingsSupports"),s=["flag","emoji"];function i(e){try{var t={supportTests:e,timestamp:(new Date).valueOf()};sessionStorage.setItem(o,JSON.stringify(t))}catch(e){}}function c(e,t,n){e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(t,0,0);t=new Uint32Array(e.getImageData(0,0,e.canvas.width,e.canvas.height).data);e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(n,0,0);const a=new Uint32Array(e.getImageData(0,0,e.canvas.width,e.canvas.height).data);return t.every((e,t)=>e===a[t])}function p(e,t){e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(t,0,0);var n=e.getImageData(16,16,1,1);for(let e=0;e<n.data.length;e++)if(0!==n.data[e])return!1;return!0}function u(e,t,n,a){switch(t){case"flag":return n(e,"\ud83c\udff3\ufe0f\u200d\u26a7\ufe0f","\ud83c\udff3\ufe0f\u200b\u26a7\ufe0f")?!1:!n(e,"\ud83c\udde8\ud83c\uddf6","\ud83c\udde8\u200b\ud83c\uddf6")&&!n(e,"\ud83c\udff4\udb40\udc67\udb40\udc62\udb40\udc65\udb40\udc6e\udb40\udc67\udb40\udc7f","\ud83c\udff4\u200b\udb40\udc67\u200b\udb40\udc62\u200b\udb40\udc65\u200b\udb40\udc6e\u200b\udb40\udc67\u200b\udb40\udc7f");case"emoji":return!a(e,"\ud83e\u1fac8")}return!1}function f(e,t,n,a){let r;const o=(r="undefined"!=typeof WorkerGlobalScope&&self instanceof WorkerGlobalScope?new OffscreenCanvas(300,150):document.createElement("canvas")).getContext("2d",{willReadFrequently:!0}),s=(o.textBaseline="top",o.font="600 32px Arial",{});return e.forEach(e=>{s[e]=t(o,e,n,a)}),s}function r(e){var t=document.createElement("script");t.src=e,t.defer=!0,document.head.appendChild(t)}a.supports={everything:!0,everythingExceptFlag:!0},new Promise(t=>{let n=function(){try{var e=JSON.parse(sessionStorage.getItem(o));if("object"==typeof e&&"number"==typeof e.timestamp&&(new Date).valueOf()<e.timestamp+604800&&"object"==typeof e.supportTests)return e.supportTests}catch(e){}return null}();if(!n){if("undefined"!=typeof Worker&&"undefined"!=typeof OffscreenCanvas&&"undefined"!=typeof URL&&URL.createObjectURL&&"undefined"!=typeof Blob)try{var e="postMessage("+f.toString()+"("+[JSON.stringify(s),u.toString(),c.toString(),p.toString()].join(",")+"));",a=new Blob([e],{type:"text/javascript"});const r=new Worker(URL.createObjectURL(a),{name:"wpTestEmojiSupports"});return void(r.onmessage=e=>{i(n=e.data),r.terminate(),t(n)})}catch(e){}i(n=f(s,u,c,p))}t(n)}).then(e=>{for(const n in e)a.supports[n]=e[n],a.supports.everything=a.supports.everything&&a.supports[n],"flag"!==n&&(a.supports.everythingExceptFlag=a.supports.everythingExceptFlag&&a.supports[n]);var t;a.supports.everythingExceptFlag=a.supports.everythingExceptFlag&&!a.supports.flag,a.supports.everything||((t=a.source||{}).concatemoji?r(t.concatemoji):t.wpemoji&&t.twemoji&&(r(t.twemoji),r(t.wpemoji)))});
+//# sourceURL=https://www.dmitrymakarov.ru/wp-includes/js/wp-emoji-loader.min.js
+/* ]]> */
+</script>
+			
+	</body>
+</html>
+
+
+<!-- Page supported by LiteSpeed Cache 7.7 on 2026-01-26 08:55:39 -->

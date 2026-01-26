@@ -1,0 +1,1415 @@
+<!DOCTYPE html>
+
+<html class="no-js" lang="ru-RU">
+
+	<head>
+
+		<meta http-equiv="content-type" content="text/html" charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" >
+
+		<link rel="profile" href="http://gmpg.org/xfn/11">
+
+		<meta name='robots' content='index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' />
+
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$','$'],['\\(','\\)']], 
+    processEscapes: true
+  },
+  options: {
+    ignoreHtmlClass: 'tex2jax_ignore|editor-rich-text'
+  }
+};
+
+</script>
+
+	<!-- This site is optimized with the Yoast SEO plugin v26.8 - https://yoast.com/product/yoast-seo-wordpress/ -->
+	<title>Биномиальное и бета-распределение</title>
+	<meta name="description" content="Рассмотрим биномиальное и бета-распределение, свойство сопряженности двух распределений, а также понятие предсказательного распределения." />
+	<link rel="canonical" href="index.html" />
+	<meta property="og:locale" content="ru_RU" />
+	<meta property="og:type" content="article" />
+	<meta property="og:title" content="Биномиальное и бета-распределение" />
+	<meta property="og:description" content="Рассмотрим биномиальное и бета-распределение, свойство сопряженности двух распределений, а также понятие предсказательного распределения." />
+	<meta property="og:url" content="https://www.dmitrymakarov.ru/bayesian/binom/" />
+	<meta property="og:site_name" content="Дмитрий Макаров" />
+	<meta property="article:modified_time" content="2026-01-19T18:45:51+00:00" />
+	<meta property="og:image" content="https://www.dmitrymakarov.ru/wp-content/uploads/2025/08/beta_dist_family.png" />
+	<meta property="og:image:width" content="554" />
+	<meta property="og:image:height" content="456" />
+	<meta property="og:image:type" content="image/png" />
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:label1" content="Примерное время для чтения" />
+	<meta name="twitter:data1" content="10 минут" />
+	<script type="application/ld+json" class="yoast-schema-graph">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.dmitrymakarov.ru/bayesian/binom/","url":"https://www.dmitrymakarov.ru/bayesian/binom/","name":"Биномиальное и бета-распределение","isPartOf":{"@id":"https://www.dmitrymakarov.ru/#website"},"primaryImageOfPage":{"@id":"https://www.dmitrymakarov.ru/bayesian/binom/#primaryimage"},"image":{"@id":"https://www.dmitrymakarov.ru/bayesian/binom/#primaryimage"},"thumbnailUrl":"https://www.dmitrymakarov.ru/wp-content/uploads/2025/08/beta_dist_family.png","datePublished":"2025-08-27T09:31:22+00:00","dateModified":"2026-01-19T18:45:51+00:00","description":"Рассмотрим биномиальное и бета-распределение, свойство сопряженности двух распределений, а также понятие предсказательного распределения.","breadcrumb":{"@id":"https://www.dmitrymakarov.ru/bayesian/binom/#breadcrumb"},"inLanguage":"ru-RU","potentialAction":[{"@type":"ReadAction","target":["https://www.dmitrymakarov.ru/bayesian/binom/"]}]},{"@type":"ImageObject","inLanguage":"ru-RU","@id":"https://www.dmitrymakarov.ru/bayesian/binom/#primaryimage","url":"https://www.dmitrymakarov.ru/wp-content/uploads/2025/08/beta_dist_family.png","contentUrl":"https://www.dmitrymakarov.ru/wp-content/uploads/2025/08/beta_dist_family.png","width":554,"height":456},{"@type":"BreadcrumbList","@id":"https://www.dmitrymakarov.ru/bayesian/binom/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная страница","item":"https://www.dmitrymakarov.ru/"},{"@type":"ListItem","position":2,"name":"Байесовская статистика","item":"https://www.dmitrymakarov.ru/bayesian/"},{"@type":"ListItem","position":3,"name":"Биномиальное и бета-распределение"}]},{"@type":"WebSite","@id":"https://www.dmitrymakarov.ru/#website","url":"https://www.dmitrymakarov.ru/","name":"Машинное обучение","description":"","publisher":{"@id":"https://www.dmitrymakarov.ru/#/schema/person/3fc221e2d391cc5cfd9d31c9c251c2a4"},"potentialAction":[{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://www.dmitrymakarov.ru/?s={search_term_string}"},"query-input":{"@type":"PropertyValueSpecification","valueRequired":true,"valueName":"search_term_string"}}],"inLanguage":"ru-RU"},{"@type":["Person","Organization"],"@id":"https://www.dmitrymakarov.ru/#/schema/person/3fc221e2d391cc5cfd9d31c9c251c2a4","name":"DmitryMakarov","image":{"@type":"ImageObject","inLanguage":"ru-RU","@id":"https://www.dmitrymakarov.ru/#/schema/person/image/","url":"https://secure.gravatar.com/avatar/17fb646123c8fccd118e1f2da611da3de8d8e72250637fb08b246e33d4c95395?s=96&d=mm&r=g","contentUrl":"https://secure.gravatar.com/avatar/17fb646123c8fccd118e1f2da611da3de8d8e72250637fb08b246e33d4c95395?s=96&d=mm&r=g","caption":"DmitryMakarov"},"logo":{"@id":"https://www.dmitrymakarov.ru/#/schema/person/image/"}}]}</script>
+	<!-- / Yoast SEO plugin. -->
+
+
+<link rel='dns-prefetch' href='https://cdn.jsdelivr.net/' />
+<link rel="alternate" type="application/rss+xml" title="Дмитрий Макаров &raquo; Лента" href="../../feed/index.html" />
+<link rel="alternate" type="application/rss+xml" title="Дмитрий Макаров &raquo; Лента комментариев" href="../../comments/feed/index.html" />
+<style id='wp-img-auto-sizes-contain-inline-css' type='text/css'>
+img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
+/*# sourceURL=wp-img-auto-sizes-contain-inline-css */
+</style>
+
+<link rel='stylesheet' id='urvanov_syntax_highlighter-css' href='../../wp-content/plugins/urvanov-syntax-highlighter/css/min/urvanov_syntax_highlighter.min.css@ver=2.9.0.css' type='text/css' media='all' />
+<link rel='stylesheet' id='crayon-theme-familiar-my-copy-css' href='../../wp-content/uploads/urvanov-syntax-highlighter/themes/familiar-my-copy/familiar-my-copy.css@ver=2.9.0.css' type='text/css' media='all' />
+<link rel='stylesheet' id='crayon-font-consolas-css' href='../../wp-content/plugins/urvanov-syntax-highlighter/fonts/consolas.css@ver=2.9.0.css' type='text/css' media='all' />
+<style id='wp-emoji-styles-inline-css' type='text/css'>
+
+	img.wp-smiley, img.emoji {
+		display: inline !important;
+		border: none !important;
+		box-shadow: none !important;
+		height: 1em !important;
+		width: 1em !important;
+		margin: 0 0.07em !important;
+		vertical-align: -0.1em !important;
+		background: none !important;
+		padding: 0 !important;
+	}
+/*# sourceURL=wp-emoji-styles-inline-css */
+</style>
+<link rel='stylesheet' id='wp-block-library-css' href='../../wp-includes/css/dist/block-library/style.min.css@ver=6.9.css' type='text/css' media='all' />
+<style id='wp-block-heading-inline-css' type='text/css'>
+h1:where(.wp-block-heading).has-background,h2:where(.wp-block-heading).has-background,h3:where(.wp-block-heading).has-background,h4:where(.wp-block-heading).has-background,h5:where(.wp-block-heading).has-background,h6:where(.wp-block-heading).has-background{padding:1.25em 2.375em}h1.has-text-align-left[style*=writing-mode]:where([style*=vertical-lr]),h1.has-text-align-right[style*=writing-mode]:where([style*=vertical-rl]),h2.has-text-align-left[style*=writing-mode]:where([style*=vertical-lr]),h2.has-text-align-right[style*=writing-mode]:where([style*=vertical-rl]),h3.has-text-align-left[style*=writing-mode]:where([style*=vertical-lr]),h3.has-text-align-right[style*=writing-mode]:where([style*=vertical-rl]),h4.has-text-align-left[style*=writing-mode]:where([style*=vertical-lr]),h4.has-text-align-right[style*=writing-mode]:where([style*=vertical-rl]),h5.has-text-align-left[style*=writing-mode]:where([style*=vertical-lr]),h5.has-text-align-right[style*=writing-mode]:where([style*=vertical-rl]),h6.has-text-align-left[style*=writing-mode]:where([style*=vertical-lr]),h6.has-text-align-right[style*=writing-mode]:where([style*=vertical-rl]){rotate:180deg}
+/*# sourceURL=https://www.dmitrymakarov.ru/wp-includes/blocks/heading/style.min.css */
+</style>
+<style id='wp-block-image-inline-css' type='text/css'>
+.wp-block-image>a,.wp-block-image>figure>a{display:inline-block}.wp-block-image img{box-sizing:border-box;height:auto;max-width:100%;vertical-align:bottom}@media not (prefers-reduced-motion){.wp-block-image img.hide{visibility:hidden}.wp-block-image img.show{animation:show-content-image .4s}}.wp-block-image[style*=border-radius] img,.wp-block-image[style*=border-radius]>a{border-radius:inherit}.wp-block-image.has-custom-border img{box-sizing:border-box}.wp-block-image.aligncenter{text-align:center}.wp-block-image.alignfull>a,.wp-block-image.alignwide>a{width:100%}.wp-block-image.alignfull img,.wp-block-image.alignwide img{height:auto;width:100%}.wp-block-image .aligncenter,.wp-block-image .alignleft,.wp-block-image .alignright,.wp-block-image.aligncenter,.wp-block-image.alignleft,.wp-block-image.alignright{display:table}.wp-block-image .aligncenter>figcaption,.wp-block-image .alignleft>figcaption,.wp-block-image .alignright>figcaption,.wp-block-image.aligncenter>figcaption,.wp-block-image.alignleft>figcaption,.wp-block-image.alignright>figcaption{caption-side:bottom;display:table-caption}.wp-block-image .alignleft{float:left;margin:.5em 1em .5em 0}.wp-block-image .alignright{float:right;margin:.5em 0 .5em 1em}.wp-block-image .aligncenter{margin-left:auto;margin-right:auto}.wp-block-image :where(figcaption){margin-bottom:1em;margin-top:.5em}.wp-block-image.is-style-circle-mask img{border-radius:9999px}@supports ((-webkit-mask-image:none) or (mask-image:none)) or (-webkit-mask-image:none){.wp-block-image.is-style-circle-mask img{border-radius:0;-webkit-mask-image:url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="50"/></svg>');mask-image:url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="50"/></svg>');mask-mode:alpha;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-size:contain;mask-size:contain}}:root :where(.wp-block-image.is-style-rounded img,.wp-block-image .is-style-rounded img){border-radius:9999px}.wp-block-image figure{margin:0}.wp-lightbox-container{display:flex;flex-direction:column;position:relative}.wp-lightbox-container img{cursor:zoom-in}.wp-lightbox-container img:hover+button{opacity:1}.wp-lightbox-container button{align-items:center;backdrop-filter:blur(16px) saturate(180%);background-color:#5a5a5a40;border:none;border-radius:4px;cursor:zoom-in;display:flex;height:20px;justify-content:center;opacity:0;padding:0;position:absolute;right:16px;text-align:center;top:16px;width:20px;z-index:100}@media not (prefers-reduced-motion){.wp-lightbox-container button{transition:opacity .2s ease}}.wp-lightbox-container button:focus-visible{outline:3px auto #5a5a5a40;outline:3px auto -webkit-focus-ring-color;outline-offset:3px}.wp-lightbox-container button:hover{cursor:pointer;opacity:1}.wp-lightbox-container button:focus{opacity:1}.wp-lightbox-container button:focus,.wp-lightbox-container button:hover,.wp-lightbox-container button:not(:hover):not(:active):not(.has-background){background-color:#5a5a5a40;border:none}.wp-lightbox-overlay{box-sizing:border-box;cursor:zoom-out;height:100vh;left:0;overflow:hidden;position:fixed;top:0;visibility:hidden;width:100%;z-index:100000}.wp-lightbox-overlay .close-button{align-items:center;cursor:pointer;display:flex;justify-content:center;min-height:40px;min-width:40px;padding:0;position:absolute;right:calc(env(safe-area-inset-right) + 16px);top:calc(env(safe-area-inset-top) + 16px);z-index:5000000}.wp-lightbox-overlay .close-button:focus,.wp-lightbox-overlay .close-button:hover,.wp-lightbox-overlay .close-button:not(:hover):not(:active):not(.has-background){background:none;border:none}.wp-lightbox-overlay .lightbox-image-container{height:var(--wp--lightbox-container-height);left:50%;overflow:hidden;position:absolute;top:50%;transform:translate(-50%,-50%);transform-origin:top left;width:var(--wp--lightbox-container-width);z-index:9999999999}.wp-lightbox-overlay .wp-block-image{align-items:center;box-sizing:border-box;display:flex;height:100%;justify-content:center;margin:0;position:relative;transform-origin:0 0;width:100%;z-index:3000000}.wp-lightbox-overlay .wp-block-image img{height:var(--wp--lightbox-image-height);min-height:var(--wp--lightbox-image-height);min-width:var(--wp--lightbox-image-width);width:var(--wp--lightbox-image-width)}.wp-lightbox-overlay .wp-block-image figcaption{display:none}.wp-lightbox-overlay button{background:none;border:none}.wp-lightbox-overlay .scrim{background-color:#fff;height:100%;opacity:.9;position:absolute;width:100%;z-index:2000000}.wp-lightbox-overlay.active{visibility:visible}@media not (prefers-reduced-motion){.wp-lightbox-overlay.active{animation:turn-on-visibility .25s both}.wp-lightbox-overlay.active img{animation:turn-on-visibility .35s both}.wp-lightbox-overlay.show-closing-animation:not(.active){animation:turn-off-visibility .35s both}.wp-lightbox-overlay.show-closing-animation:not(.active) img{animation:turn-off-visibility .25s both}.wp-lightbox-overlay.zoom.active{animation:none;opacity:1;visibility:visible}.wp-lightbox-overlay.zoom.active .lightbox-image-container{animation:lightbox-zoom-in .4s}.wp-lightbox-overlay.zoom.active .lightbox-image-container img{animation:none}.wp-lightbox-overlay.zoom.active .scrim{animation:turn-on-visibility .4s forwards}.wp-lightbox-overlay.zoom.show-closing-animation:not(.active){animation:none}.wp-lightbox-overlay.zoom.show-closing-animation:not(.active) .lightbox-image-container{animation:lightbox-zoom-out .4s}.wp-lightbox-overlay.zoom.show-closing-animation:not(.active) .lightbox-image-container img{animation:none}.wp-lightbox-overlay.zoom.show-closing-animation:not(.active) .scrim{animation:turn-off-visibility .4s forwards}}@keyframes show-content-image{0%{visibility:hidden}99%{visibility:hidden}to{visibility:visible}}@keyframes turn-on-visibility{0%{opacity:0}to{opacity:1}}@keyframes turn-off-visibility{0%{opacity:1;visibility:visible}99%{opacity:0;visibility:visible}to{opacity:0;visibility:hidden}}@keyframes lightbox-zoom-in{0%{transform:translate(calc((-100vw + var(--wp--lightbox-scrollbar-width))/2 + var(--wp--lightbox-initial-left-position)),calc(-50vh + var(--wp--lightbox-initial-top-position))) scale(var(--wp--lightbox-scale))}to{transform:translate(-50%,-50%) scale(1)}}@keyframes lightbox-zoom-out{0%{transform:translate(-50%,-50%) scale(1);visibility:visible}99%{visibility:visible}to{transform:translate(calc((-100vw + var(--wp--lightbox-scrollbar-width))/2 + var(--wp--lightbox-initial-left-position)),calc(-50vh + var(--wp--lightbox-initial-top-position))) scale(var(--wp--lightbox-scale));visibility:hidden}}
+/*# sourceURL=https://www.dmitrymakarov.ru/wp-includes/blocks/image/style.min.css */
+</style>
+<style id='wp-block-list-inline-css' type='text/css'>
+ol,ul{box-sizing:border-box}:root :where(.wp-block-list.has-background){padding:1.25em 2.375em}
+/*# sourceURL=https://www.dmitrymakarov.ru/wp-includes/blocks/list/style.min.css */
+</style>
+<style id='wp-block-paragraph-inline-css' type='text/css'>
+.is-small-text{font-size:.875em}.is-regular-text{font-size:1em}.is-large-text{font-size:2.25em}.is-larger-text{font-size:3em}.has-drop-cap:not(:focus):first-letter{float:left;font-size:8.4em;font-style:normal;font-weight:100;line-height:.68;margin:.05em .1em 0 0;text-transform:uppercase}body.rtl .has-drop-cap:not(:focus):first-letter{float:none;margin-left:.1em}p.has-drop-cap.has-background{overflow:hidden}:root :where(p.has-background){padding:1.25em 2.375em}:where(p.has-text-color:not(.has-link-color)) a{color:inherit}p.has-text-align-left[style*="writing-mode:vertical-lr"],p.has-text-align-right[style*="writing-mode:vertical-rl"]{rotate:180deg}
+/*# sourceURL=https://www.dmitrymakarov.ru/wp-includes/blocks/paragraph/style.min.css */
+</style>
+<style id='global-styles-inline-css' type='text/css'>
+:root{--wp--preset--aspect-ratio--square: 1;--wp--preset--aspect-ratio--4-3: 4/3;--wp--preset--aspect-ratio--3-4: 3/4;--wp--preset--aspect-ratio--3-2: 3/2;--wp--preset--aspect-ratio--2-3: 2/3;--wp--preset--aspect-ratio--16-9: 16/9;--wp--preset--aspect-ratio--9-16: 9/16;--wp--preset--color--black: #121212;--wp--preset--color--cyan-bluish-gray: #abb8c3;--wp--preset--color--white: #fff;--wp--preset--color--pale-pink: #f78da7;--wp--preset--color--vivid-red: #cf2e2e;--wp--preset--color--luminous-vivid-orange: #ff6900;--wp--preset--color--luminous-vivid-amber: #fcb900;--wp--preset--color--light-green-cyan: #7bdcb5;--wp--preset--color--vivid-green-cyan: #00d084;--wp--preset--color--pale-cyan-blue: #8ed1fc;--wp--preset--color--vivid-cyan-blue: #0693e3;--wp--preset--color--vivid-purple: #9b51e0;--wp--preset--color--dark-gray: #333;--wp--preset--color--medium-gray: #555;--wp--preset--color--light-gray: #777;--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg,rgb(6,147,227) 0%,rgb(155,81,224) 100%);--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg,rgb(122,220,180) 0%,rgb(0,208,130) 100%);--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg,rgb(252,185,0) 0%,rgb(255,105,0) 100%);--wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg,rgb(255,105,0) 0%,rgb(207,46,46) 100%);--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg,rgb(238,238,238) 0%,rgb(169,184,195) 100%);--wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg,rgb(74,234,220) 0%,rgb(151,120,209) 20%,rgb(207,42,186) 40%,rgb(238,44,130) 60%,rgb(251,105,98) 80%,rgb(254,248,76) 100%);--wp--preset--gradient--blush-light-purple: linear-gradient(135deg,rgb(255,206,236) 0%,rgb(152,150,240) 100%);--wp--preset--gradient--blush-bordeaux: linear-gradient(135deg,rgb(254,205,165) 0%,rgb(254,45,45) 50%,rgb(107,0,62) 100%);--wp--preset--gradient--luminous-dusk: linear-gradient(135deg,rgb(255,203,112) 0%,rgb(199,81,192) 50%,rgb(65,88,208) 100%);--wp--preset--gradient--pale-ocean: linear-gradient(135deg,rgb(255,245,203) 0%,rgb(182,227,212) 50%,rgb(51,167,181) 100%);--wp--preset--gradient--electric-grass: linear-gradient(135deg,rgb(202,248,128) 0%,rgb(113,206,126) 100%);--wp--preset--gradient--midnight: linear-gradient(135deg,rgb(2,3,129) 0%,rgb(40,116,252) 100%);--wp--preset--font-size--small: 16px;--wp--preset--font-size--medium: 20px;--wp--preset--font-size--large: 24px;--wp--preset--font-size--x-large: 42px;--wp--preset--font-size--normal: 18px;--wp--preset--font-size--larger: 28px;--wp--preset--spacing--20: 0.44rem;--wp--preset--spacing--30: 0.67rem;--wp--preset--spacing--40: 1rem;--wp--preset--spacing--50: 1.5rem;--wp--preset--spacing--60: 2.25rem;--wp--preset--spacing--70: 3.38rem;--wp--preset--spacing--80: 5.06rem;--wp--preset--shadow--natural: 6px 6px 9px rgba(0, 0, 0, 0.2);--wp--preset--shadow--deep: 12px 12px 50px rgba(0, 0, 0, 0.4);--wp--preset--shadow--sharp: 6px 6px 0px rgba(0, 0, 0, 0.2);--wp--preset--shadow--outlined: 6px 6px 0px -3px rgb(255, 255, 255), 6px 6px rgb(0, 0, 0);--wp--preset--shadow--crisp: 6px 6px 0px rgb(0, 0, 0);}:where(.is-layout-flex){gap: 0.5em;}:where(.is-layout-grid){gap: 0.5em;}body .is-layout-flex{display: flex;}.is-layout-flex{flex-wrap: wrap;align-items: center;}.is-layout-flex > :is(*, div){margin: 0;}body .is-layout-grid{display: grid;}.is-layout-grid > :is(*, div){margin: 0;}:where(.wp-block-columns.is-layout-flex){gap: 2em;}:where(.wp-block-columns.is-layout-grid){gap: 2em;}:where(.wp-block-post-template.is-layout-flex){gap: 1.25em;}:where(.wp-block-post-template.is-layout-grid){gap: 1.25em;}.has-black-color{color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-color{color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-color{color: var(--wp--preset--color--white) !important;}.has-pale-pink-color{color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-color{color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-color{color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-color{color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-color{color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-color{color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-color{color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-color{color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-color{color: var(--wp--preset--color--vivid-purple) !important;}.has-black-background-color{background-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-background-color{background-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-background-color{background-color: var(--wp--preset--color--white) !important;}.has-pale-pink-background-color{background-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-background-color{background-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-background-color{background-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-background-color{background-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-background-color{background-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-background-color{background-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-background-color{background-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-background-color{background-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-background-color{background-color: var(--wp--preset--color--vivid-purple) !important;}.has-black-border-color{border-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-border-color{border-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-border-color{border-color: var(--wp--preset--color--white) !important;}.has-pale-pink-border-color{border-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-border-color{border-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-border-color{border-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-border-color{border-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-border-color{border-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-border-color{border-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-border-color{border-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-border-color{border-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-border-color{border-color: var(--wp--preset--color--vivid-purple) !important;}.has-vivid-cyan-blue-to-vivid-purple-gradient-background{background: var(--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple) !important;}.has-light-green-cyan-to-vivid-green-cyan-gradient-background{background: var(--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan) !important;}.has-luminous-vivid-amber-to-luminous-vivid-orange-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange) !important;}.has-luminous-vivid-orange-to-vivid-red-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-orange-to-vivid-red) !important;}.has-very-light-gray-to-cyan-bluish-gray-gradient-background{background: var(--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray) !important;}.has-cool-to-warm-spectrum-gradient-background{background: var(--wp--preset--gradient--cool-to-warm-spectrum) !important;}.has-blush-light-purple-gradient-background{background: var(--wp--preset--gradient--blush-light-purple) !important;}.has-blush-bordeaux-gradient-background{background: var(--wp--preset--gradient--blush-bordeaux) !important;}.has-luminous-dusk-gradient-background{background: var(--wp--preset--gradient--luminous-dusk) !important;}.has-pale-ocean-gradient-background{background: var(--wp--preset--gradient--pale-ocean) !important;}.has-electric-grass-gradient-background{background: var(--wp--preset--gradient--electric-grass) !important;}.has-midnight-gradient-background{background: var(--wp--preset--gradient--midnight) !important;}.has-small-font-size{font-size: var(--wp--preset--font-size--small) !important;}.has-medium-font-size{font-size: var(--wp--preset--font-size--medium) !important;}.has-large-font-size{font-size: var(--wp--preset--font-size--large) !important;}.has-x-large-font-size{font-size: var(--wp--preset--font-size--x-large) !important;}
+/*# sourceURL=global-styles-inline-css */
+</style>
+
+<style id='classic-theme-styles-inline-css' type='text/css'>
+/*! This file is auto-generated */
+.wp-block-button__link{color:#fff;background-color:#32373c;border-radius:9999px;box-shadow:none;text-decoration:none;padding:calc(.667em + 2px) calc(1.333em + 2px);font-size:1.125em}.wp-block-file__button{background:#32373c;color:#fff;text-decoration:none}
+/*# sourceURL=/wp-includes/css/classic-themes.min.css */
+</style>
+<link rel='stylesheet' id='mcluhan-fonts-css' href='../../wp-content/themes/mcluhan/assets/css/fonts.css@ver=6.9.css' type='text/css' media='all' />
+<link rel='stylesheet' id='fontawesome-css' href='../../wp-content/themes/mcluhan/assets/css/font-awesome.css@ver=6.9.css' type='text/css' media='all' />
+<link rel='stylesheet' id='mcluhan-style-css' href='../../wp-content/themes/mcluhan/style.css@ver=2.1.1.css' type='text/css' media='all' />
+<script type="text/javascript" src="../../wp-includes/js/jquery/jquery.min.js@ver=3.7.1" id="jquery-core-js"></script>
+<script type="text/javascript" src="../../wp-includes/js/jquery/jquery-migrate.min.js@ver=3.4.1" id="jquery-migrate-js"></script>
+<script type="text/javascript" id="urvanov_syntax_highlighter_js-js-extra">
+/* <![CDATA[ */
+var UrvanovSyntaxHighlighterSyntaxSettings = {"version":"2.9.0","is_admin":"0","ajaxurl":"https://www.dmitrymakarov.ru/wp-admin/admin-ajax.php","prefix":"urvanov-syntax-highlighter-","setting":"urvanov-syntax-highlighter-setting","selected":"urvanov-syntax-highlighter-setting-selected","changed":"urvanov-syntax-highlighter-setting-changed","special":"urvanov-syntax-highlighter-setting-special","orig_value":"data-orig-value","debug":""};
+var UrvanovSyntaxHighlighterSyntaxStrings = {"copy":"Copied to the clipboard","minimize":"Click To Expand Code"};
+//# sourceURL=urvanov_syntax_highlighter_js-js-extra
+/* ]]> */
+</script>
+<script type="text/javascript" src="../../wp-content/plugins/urvanov-syntax-highlighter/js/min/urvanov_syntax_highlighter.min.js@ver=2.9.0" id="urvanov_syntax_highlighter_js-js"></script>
+
+			<!-- Customizer CSS -->
+
+			<style type="text/css">
+
+				body .site-header { background-color:#004235; }.social-menu.desktop { background-color:#004235; }.social-menu a:hover { color:#004235; }.social-menu a.active { color:#004235; }.mobile-menu-wrapper { background-color:#004235; }.social-menu.mobile { background-color:#004235; }.mobile-search.active { background-color:#004235; }
+			</style>
+
+			<!-- /Customizer CSS -->
+
+					<script>jQuery( 'html' ).removeClass( 'no-js' ).addClass( 'js' );</script>
+		<style type="text/css" id="custom-background-css">
+body.custom-background { background-color: #fff9ef; }
+</style>
+	<link rel="icon" href="../../wp-content/uploads/2021/08/cropped-wp-favicon-512-32x32.png" sizes="32x32" />
+<link rel="icon" href="../../wp-content/uploads/2021/08/cropped-wp-favicon-512-192x192.png" sizes="192x192" />
+<link rel="apple-touch-icon" href="../../wp-content/uploads/2021/08/cropped-wp-favicon-512-180x180.png" />
+<meta name="msapplication-TileImage" content="https://www.dmitrymakarov.ru/wp-content/uploads/2021/08/cropped-wp-favicon-512-270x270.png" />
+
+	</head>
+
+	<body class="wp-singular page-template page-template-full-width-page-template page-template-full-width-page-template-php page page-id-41548 page-child parent-pageid-41534 custom-background wp-theme-mcluhan full-width-template">
+
+		
+		<a class="skip-link button" href="index.html#site-content">Перейти к содержимому</a>
+
+		<header class="site-header group">
+
+			
+			<p class="site-title"><a href="../../index.html" class="site-name">Дмитрий Макаров</a></p>
+
+			
+			<div class="nav-toggle">
+				<div class="bar"></div>
+				<div class="bar"></div>
+			</div>
+
+			<div class="menu-wrapper">
+
+				<ul class="main-menu desktop">
+
+					<li id="menu-item-36690" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home menu-item-36690"><a href="../../index.html">Материалы</a></li>
+<li id="menu-item-36691" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-36691"><a href="../../about/index.html">Об авторе</a></li>
+				</ul>
+
+			</div><!-- .menu-wrapper -->
+
+			
+				<div class="social-menu desktop">
+
+					<ul class="social-menu-inner">
+
+						<li class="social-search-wrapper"><a href="../../index.html@s=.html"></a></li>
+
+						
+					</ul><!-- .social-menu-inner -->
+
+				</div><!-- .social-menu -->
+
+			
+		</header><!-- header -->
+
+		<div class="mobile-menu-wrapper">
+
+			<ul class="main-menu mobile">
+				<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home menu-item-36690"><a href="../../index.html">Материалы</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-36691"><a href="../../about/index.html">Об авторе</a></li>
+					<li class="toggle-mobile-search-wrapper"><a href="index.html#" class="toggle-mobile-search">Поиск</a></li>
+							</ul><!-- .main-menu.mobile -->
+
+			
+		</div><!-- .mobile-menu-wrapper -->
+
+		
+			<div class="mobile-search">
+
+				<div class="untoggle-mobile-search"></div>
+
+				
+<form role="search" method="get" class="search-form" action="../../index.html">
+	<label class="screen-reader-text" for="search-form-697701d6bf3dc">Поиск:</label>
+	<input type="search" id="search-form-697701d6bf3dc" class="search-field" placeholder="Введите запрос" value="" name="s" autocomplete="off" />
+	</button>
+</form>
+
+				<div class="mobile-results">
+
+					<div class="results-wrapper"></div>
+
+				</div>
+
+			</div><!-- .mobile-search -->
+
+			<div class="search-overlay">
+
+				
+<form role="search" method="get" class="search-form" action="../../index.html">
+	<label class="screen-reader-text" for="search-form-697701d6bf458">Поиск:</label>
+	<input type="search" id="search-form-697701d6bf458" class="search-field" placeholder="Введите запрос" value="" name="s" autocomplete="off" />
+	</button>
+</form>
+
+			</div><!-- .search-overlay -->
+
+		
+		<main class="site-content" id="site-content">
+		<article class="post-41548 page type-page status-publish hentry missing-thumbnail">
+
+			
+			<header class="entry-header section-inner">
+
+				<h1 class="entry-title">Биномиальное и бета-распределение</h1>
+			</header><!-- .entry-header -->
+
+			<div class="entry-content section-inner">
+
+				
+<p class="has-light-gray-color has-text-color"><a href="../../index.html">Материалы</a> &gt; <a href="../index.html">Байесовская статистика</a></p>
+
+
+
+<p>Теперь посмотрим, как можно построить непрерывное апостериорное распределение и при этом избежать вычисления интеграла.</p>
+
+
+
+<h3 class="wp-block-heading">Бета-распределение</h3>
+
+
+
+<p>Рассмотрим <strong>бета-распределение</strong> (beta distribution) с вещественными положительными параметрами $\alpha$ и $\beta.$</p>
+
+
+
+<p>$$ X \sim Beta(\alpha, \beta) $$</p>
+
+
+
+<p><strong>Функция плотности</strong>. Функция плотности бета-распределения имеет вид</p>
+
+
+
+<p>$$ f(\theta; \alpha, \beta) = \frac{\theta^{\alpha-1} (1-\theta)^{\beta-1} }{\int^1_0 \theta^{\alpha-1} (1-\theta)^{\beta-1} d \theta} $$</p>
+
+
+
+<p>Знаменатель распределения представляет собой нормализующую константу и называется бета-функцией (beta function, $B$), которая и дала название самому распределению.</p>
+
+
+
+<p>$$ \begin{align} f(\theta ; \alpha, \beta) &amp;= const \cdot \theta^{\alpha-1} (1-\theta)^{\beta-1} \\ &amp;= \frac{1}{ B( \alpha, \beta) } \theta^{\alpha-1} (1-\theta)^{\beta-1} \end{align} $$</p>
+
+
+
+<p>Одновременно бета-функция может быть определена через гамма-функцию $\Gamma$ с теми же параметрами.</p>
+
+
+
+<p>$$ f(\theta ; \alpha, \beta) = \frac{ \Gamma(\alpha + \beta) }{ \Gamma(\alpha) \Gamma(\beta) } \theta^{\alpha-1} (1-\theta)^{\beta-1} $$</p>
+
+
+
+<p><strong>Гамма-функция</strong>. Гамма-функция (gamma function, $\Gamma$) является обобщением понятия факториала на множества действительных и комплексных значений, и для нее справедливо, что</p>
+
+
+
+<p>$$ \Gamma(z) = (z-1)! $$</p>
+
+
+
+<p>или, по свойству $ \Gamma(z+1) = z \Gamma(z),$</p>
+
+
+
+<p>$$ \Gamma(z+1) = z \Gamma(z) = z(z-1)! = z! $$</p>
+
+
+
+<p><strong>Семейство распределений</strong>. Распределения характеризуются параметрами, которые влияют на вид или форму этого распределения.</p>
+
+
+
+<p>Например, в биномиальном распределении вероятность успеха, параметр $p,$ влияет на матожидание, коэффициент ассиметрии и другие свойства распределения. В нормальном распределении на него влияют матожидание $\mu$ и дисперсия $\sigma^2.$ В бета-распределении &#8212; параметры $\alpha$ и $\beta.$</p>
+
+
+
+<p>Совокупность распределений со всеми возможными значениями данных параметров называется <strong>семейством распределений</strong> (distribution family).</p>
+
+
+
+<p>Более формально речь идет о множестве распределений $\mathcal{P},$ в которых параметр $\theta$ отдельного распределения $\mathcal{P}_{\theta}$ принадлежит множеству $\Theta \subseteq \mathbb{R}^s.$</p>
+
+
+
+<p>$$ \mathcal{P} = { \mathcal{P}_{\theta} : \theta \in \Theta \subseteq \mathbb{R}^s }$$</p>
+
+
+
+<p>Таким образом, можно говорить о семействе биномиальных, нормальных, бета- и других распределений.</p>
+
+
+
+<p><strong>Особенности распределения</strong>. В частности, бета-распределение представляет собой семейство распределений, ограниченное на промежутке $\theta \in [0, 1]$ (<strong>носитель</strong> (support) распределения) и в зависимости от значений параметров $\alpha$ и $\beta$ может быть достаточно разнообразным.</p>
+
+
+
+<p>Приведем несколько примеров.</p>
+
+
+
+<p class="has-text-align-center has-white-color has-text-color has-background" style="background-color:#004235"><a href="https://colab.research.google.com/drive/15BOn9lH2hi8EDpukldkhTuqptc5v6Dlg?usp=sharing" target="_blank" rel="noreferrer noopener">Откроем блокнот к этому занятию</a>⧉</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.9.0 -->
+
+		<div id="urvanov-syntax-highlighter-697701d6b8bbe577735203" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701d6b8bbe577735203-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701d6b8bbe577735203-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701d6b8bbe577735203-3">3</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701d6b8bbe577735203-4">4</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701d6b8bbe577735203-5">5</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701d6b8bbe577735203-6">6</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701d6b8bbe577735203-7">7</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701d6b8bbe577735203-8">8</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701d6b8bbe577735203-9">9</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701d6b8bbe577735203-10">10</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701d6b8bbe577735203-11">11</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701d6b8bbe577735203-12">12</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701d6b8bbe577735203-13">13</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-697701d6b8bbe577735203-1"><span class="crayon-st">from</span><span class="crayon-h"> </span><span class="crayon-v">scipy</span><span class="crayon-sy">.</span><span class="crayon-e">stats </span><span class="crayon-r">import</span><span class="crayon-h"> </span><span class="crayon-v">beta</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-e">binom</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701d6b8bbe577735203-2"><span class="crayon-v">theta</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-e">linspace</span><span class="crayon-sy">(</span><span class="crayon-cn">0</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">100</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-697701d6b8bbe577735203-3">&nbsp;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701d6b8bbe577735203-4"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">plot</span><span class="crayon-sy">(</span><span class="crayon-v">theta</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">beta</span><span class="crayon-sy">.</span><span class="crayon-e">pdf</span><span class="crayon-sy">(</span><span class="crayon-v">theta</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">0.2</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">0.4</span><span class="crayon-sy">)</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">label</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-i">r</span><span class="crayon-s">'$\alpha = 0{,}2, \beta = 0{,}4$'</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-697701d6b8bbe577735203-5"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">plot</span><span class="crayon-sy">(</span><span class="crayon-v">theta</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">beta</span><span class="crayon-sy">.</span><span class="crayon-e">pdf</span><span class="crayon-sy">(</span><span class="crayon-v">theta</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-sy">)</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">label</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-i">r</span><span class="crayon-s">'$\alpha = 1, \beta = 1$'</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701d6b8bbe577735203-6"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">plot</span><span class="crayon-sy">(</span><span class="crayon-v">theta</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">beta</span><span class="crayon-sy">.</span><span class="crayon-e">pdf</span><span class="crayon-sy">(</span><span class="crayon-v">theta</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">2</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">5</span><span class="crayon-sy">)</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">label</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-i">r</span><span class="crayon-s">'$\alpha = 5, \beta = 2$'</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-697701d6b8bbe577735203-7"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">plot</span><span class="crayon-sy">(</span><span class="crayon-v">theta</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">beta</span><span class="crayon-sy">.</span><span class="crayon-e">pdf</span><span class="crayon-sy">(</span><span class="crayon-v">theta</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">21</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">7</span><span class="crayon-sy">)</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">label</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-i">r</span><span class="crayon-s">'$\alpha = 21, \beta = 7$'</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701d6b8bbe577735203-8"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">legend</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-697701d6b8bbe577735203-9"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">title</span><span class="crayon-sy">(</span><span class="crayon-i">r</span><span class="crayon-s">'Beta distribution family'</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701d6b8bbe577735203-10"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">xlabel</span><span class="crayon-sy">(</span><span class="crayon-i">r</span><span class="crayon-s">'$\theta$'</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-697701d6b8bbe577735203-11"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">ylabel</span><span class="crayon-sy">(</span><span class="crayon-s">'PDF'</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701d6b8bbe577735203-12"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">grid</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-697701d6b8bbe577735203-13"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">show</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0009 seconds] -->
+</div>
+
+
+
+<figure class="wp-block-image size-full"><img fetchpriority="high" decoding="async" width="554" height="456" src="../../wp-content/uploads/2025/08/beta_dist_family.png" alt="семейство бета-распределений" class="wp-image-41808" srcset="../../wp-content/uploads/2025/08/beta_dist_family.png 554w, ../../wp-content/uploads/2025/08/beta_dist_family-300x247.png 300w" sizes="(max-width: 554px) 100vw, 554px" /></figure>
+
+
+
+<p>Обратим внимание на три момента:</p>
+
+
+
+<ul class="wp-block-list">
+<li>бета-распределение с параметрами $ Beta(1, 1) $ идентично равномерному распределению $U(0,1)$ (оранжевая кривая); кроме того,</li>
+
+
+
+<li>при увеличении $\beta$ основная плотность вероятности смещается к нулю, при увеличении $\alpha$ &#8212; к единице (например, зеленая кривая); и что особенно важно</li>
+
+
+
+<li>с ростом $\alpha$ и $\beta$ &#171;уверенность&#187; в определенном значении $\theta$ (высота пика) возрастает (сравните зеленую и красную кривые).</li>
+</ul>
+
+
+
+<p>Также отметим, что бета-распределение не может быть бимодальным (иметь более одного пика).</p>
+
+
+
+<p>Вывод напрашивается сам собой. Бета-распределение удобно использовать в качестве априорного распределения в связке с биномиальным правдоподобием, а параметры $\alpha$ и $\beta$ считать &#171;успехами&#187; или &#171;неудачами&#187; до того, как мы начали собирать данные.</p>
+
+
+
+<h3 class="wp-block-heading">Бета- и биномиальное сопряженные распределения</h3>
+
+
+
+<h4 class="wp-block-heading">Понятие сопряженности</h4>
+
+
+
+<p>Более того, если в формуле Байеса &#171;соединить&#187; априорное бета-распределение и биномиальное правдоподобие, то апостериорным будет распределение из семейства бета-распределений, но уже с новыми параметрами $\alpha$ и $\beta.$</p>
+
+
+
+<p>Другими словами,</p>
+
+
+
+<ul class="wp-block-list">
+<li>если правдоподобие распределено как $\mathcal{L} ( n, k \mid \theta ) \sim Binom (n, \theta)$;</li>
+
+
+
+<li>априорное распределение как $P (\theta \mid \alpha, \beta) \sim Beta (\alpha, \beta)$; то</li>
+
+
+
+<li>апостериорным распределением будет $P(\theta \mid k, n, \alpha, \beta ) \sim Beta (\alpha + k, \beta + n-k).$</li>
+</ul>
+
+
+
+<p>По сути мы прибавляем априорные успехи к успехам в полученных данных, а априорные неудачи соответственно к неудачам.</p>
+
+
+
+<p>Такое свойство, когда априорное и апостериорное распределения принадлежат к одному семейству, называется <strong>сопряженностью</strong> (conjugacy) распределения и правдоподобия.</p>
+
+
+
+<p>При этом бета-распределение и биномиальное распределение также называют <strong>парой сопряженных распределений</strong> (conjugate pair).</p>
+
+
+
+<p>Вернемся к примеру с появлением двух белых и одного черного шара, и равномерным априорным распределением.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.9.0 -->
+
+		<div id="urvanov-syntax-highlighter-697701d6b8bce190986730" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701d6b8bce190986730-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701d6b8bce190986730-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701d6b8bce190986730-3">3</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701d6b8bce190986730-4">4</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701d6b8bce190986730-5">5</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701d6b8bce190986730-6">6</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701d6b8bce190986730-7">7</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701d6b8bce190986730-8">8</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701d6b8bce190986730-9">9</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701d6b8bce190986730-10">10</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701d6b8bce190986730-11">11</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701d6b8bce190986730-12">12</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701d6b8bce190986730-13">13</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701d6b8bce190986730-14">14</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701d6b8bce190986730-15">15</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701d6b8bce190986730-16">16</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701d6b8bce190986730-17">17</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701d6b8bce190986730-18">18</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701d6b8bce190986730-19">19</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701d6b8bce190986730-20">20</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701d6b8bce190986730-21">21</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701d6b8bce190986730-22">22</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701d6b8bce190986730-23">23</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-697701d6b8bce190986730-1"><span class="crayon-c"># сохраним параметры априорного распределения</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701d6b8bce190986730-2"><span class="crayon-v">a</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">b</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">1</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-697701d6b8bce190986730-3"><span class="crayon-c"># и биномиального испытания</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701d6b8bce190986730-4"><span class="crayon-v">k</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">n</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">2</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">3</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-697701d6b8bce190986730-5">&nbsp;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701d6b8bce190986730-6"><span class="crayon-c"># найдем априорное и апостериорное бета-распределения</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-697701d6b8bce190986730-7"><span class="crayon-v">prior</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">beta</span><span class="crayon-sy">.</span><span class="crayon-e">pdf</span><span class="crayon-sy">(</span><span class="crayon-v">theta</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">a</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">b</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701d6b8bce190986730-8"><span class="crayon-v">posterior</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">beta</span><span class="crayon-sy">.</span><span class="crayon-e">pdf</span><span class="crayon-sy">(</span><span class="crayon-v">theta</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">a</span><span class="crayon-o">+</span><span class="crayon-v">k</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">b</span><span class="crayon-o">+</span><span class="crayon-v">n</span><span class="crayon-o">-</span><span class="crayon-v">k</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-697701d6b8bce190986730-9">&nbsp;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701d6b8bce190986730-10"><span class="crayon-c"># выведем эти распределения</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-697701d6b8bce190986730-11"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">plot</span><span class="crayon-sy">(</span><span class="crayon-v">theta</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">prior</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">label</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-s">'prior'</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701d6b8bce190986730-12"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">plot</span><span class="crayon-sy">(</span><span class="crayon-v">theta</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">posterior</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">label</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-s">'posterior'</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-697701d6b8bce190986730-13">&nbsp;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701d6b8bce190986730-14"><span class="crayon-c"># найдем апостериорный максимум</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-697701d6b8bce190986730-15"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">vlines</span><span class="crayon-sy">(</span><span class="crayon-v">x</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">posterior</span><span class="crayon-sy">.</span><span class="crayon-e">argmax</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span><span class="crayon-o">/</span><span class="crayon-k ">len</span><span class="crayon-sy">(</span><span class="crayon-v">theta</span><span class="crayon-sy">)</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">ymin</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">0</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">ymax</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">1.78</span><span class="crayon-sy">,</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701d6b8bce190986730-16"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-v">colors</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-s">'r'</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">label</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-i">r</span><span class="crayon-s">'$\theta_{MAP}$'</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-697701d6b8bce190986730-17">&nbsp;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701d6b8bce190986730-18"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">title</span><span class="crayon-sy">(</span><span class="crayon-s">'Beta prior and posterior distributions, wwb'</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-697701d6b8bce190986730-19"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">xlabel</span><span class="crayon-sy">(</span><span class="crayon-i">r</span><span class="crayon-s">'$\theta$'</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701d6b8bce190986730-20"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">ylabel</span><span class="crayon-sy">(</span><span class="crayon-i">r</span><span class="crayon-s">'$f(\theta)$'</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-697701d6b8bce190986730-21">&nbsp;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701d6b8bce190986730-22"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">legend</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-697701d6b8bce190986730-23"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">show</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0007 seconds] -->
+</div>
+
+
+
+<figure class="wp-block-image size-full"><img decoding="async" width="578" height="456" src="../../wp-content/uploads/2025/08/beta_wwb.png" alt="бета- и биномиальное сопряженные распределения" class="wp-image-41809" srcset="../../wp-content/uploads/2025/08/beta_wwb.png 578w, ../../wp-content/uploads/2025/08/beta_wwb-300x237.png 300w" sizes="(max-width: 578px) 100vw, 578px" /></figure>
+
+
+
+<p>Вновь найдем вероятность $\theta \geq 0{,}5,$ но уже используя свойство сопряженности.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.9.0 -->
+
+		<div id="urvanov-syntax-highlighter-697701d6b8bd4738978262" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701d6b8bd4738978262-1">1</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-697701d6b8bd4738978262-1"><span class="crayon-cn">1</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-h"> </span><span class="crayon-v">beta</span><span class="crayon-sy">.</span><span class="crayon-e">cdf</span><span class="crayon-sy">(</span><span class="crayon-cn">0.5</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">a</span><span class="crayon-o">+</span><span class="crayon-v">k</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">b</span><span class="crayon-o">+</span><span class="crayon-v">n</span><span class="crayon-o">-</span><span class="crayon-v">k</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0002 seconds] -->
+</div>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.9.0 -->
+
+		<div id="urvanov-syntax-highlighter-697701d6b8bd8352867827" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701d6b8bd8352867827-1">1</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-697701d6b8bd8352867827-1">0.6875</div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0000 seconds] -->
+</div>
+
+
+
+<p>Как мы видим, результаты (в частности, апостериорный максимум и вероятность $ \theta \geq 0{,}5 $) идентичны предыдущим вычислениям &#171;вручную&#187;.</p>
+
+
+
+<p>Посмотрим, почему это работает. Приведем вначале интуитивное, а затем более строгое доказательство сопряженности бета- и биномиального распределений.</p>
+
+
+
+<h4 class="wp-block-heading">Интуитивное доказательство</h4>
+
+
+
+<p>Вновь выпишем априорное бета-распределение</p>
+
+
+
+<p>$$ Beta(\alpha, \beta) = \frac{ 1 }{ B(\alpha, \beta) } \cdot \theta^{\alpha-1} (1-\theta)^{\beta-1} $$</p>
+
+
+
+<p>Так как первый множитель &#8212; это константа, то</p>
+
+
+
+<p>$$ \begin{align} Beta(\alpha, \beta) &amp;= const \cdot \theta^{\alpha-1} (1-\theta)^{\beta-1} \\ &amp;\propto \theta^{\alpha-1} (1-\theta)^{\beta-1} \end{align} $$</p>
+
+
+
+<p>и биномиальное правдоподобие</p>
+
+
+
+<p>$$ P (X \mid \theta) \propto \theta^k (1-\theta)^{n-k} $$</p>
+
+
+
+<p>Вспомним, что формулу Байеса можно записать как</p>
+
+
+
+<p>$$ P( \theta \mid X ) = \frac{P( X \mid \theta ) \cdot P (\theta)}{P(X)} \propto P( X \mid \theta ) \cdot P(\theta) $$</p>
+
+
+
+<p>Подставим соответствующие априорное распределение и правдоподобие</p>
+
+
+
+<p>$$ \begin{align} P( \theta \mid X ) &amp;\propto \theta^{\alpha-1} (1-\theta)^{\beta-1} \cdot \theta^k (1-\theta)^{n-k} \\ &amp;\propto \theta^{\alpha+k-1} (1-\theta)^{n+\beta-k-1} \end{align} $$</p>
+
+
+
+<p>Если положить $\alpha&#8217; = \alpha + k $ и $\beta&#8217; = n+\beta-k,$ то получим</p>
+
+
+
+<p>$$ Beta(\alpha&#8217;, \beta&#8217;) = \frac{ \theta^{\alpha&#8217;-1} (1-\theta)^{\beta&#8217;-1} }{ B(\alpha&#8217;, \beta&#8217;) }, $$</p>
+
+
+
+<p>что очевидно также является бета-распределением.</p>
+
+
+
+<h4 class="wp-block-heading">Более строгое доказательство</h4>
+
+
+
+<p>Приведем полное доказательство.</p>
+
+
+
+<p><strong>Числитель формулы Байеса</strong>. Вспомним, что числитель формулы Байеса есть совместная вероятность данных $X$ и параметра $\theta.$ Тогда, для непрерывной случайной величины, знаменатель будет интегралом совместных вероятностей всех возможных значений параметра и полученных данных.</p>
+
+
+
+<p>$$ P( \theta \mid X ) = \frac{P( X \mid \theta ) \cdot P (\theta)}{P(X)} = \frac{ P(X, \theta) }{ \int^1_0 P(X, \theta) } $$</p>
+
+
+
+<p>Биномиальное правдоподобие будет равно</p>
+
+
+
+<p>$$ P( X \mid \theta ) = \binom{n}{k} \theta^k (1-\theta)^{n-k} = \frac{n!}{(n-k)!k!} \cdot \theta^k (1-\theta)^{n-k} $$</p>
+
+
+
+<p>Поскольку $\Gamma(z+1) = z!,$ то</p>
+
+
+
+<p>$$ \binom{n}{k} = \frac{n!}{(n-k)!k!} = \frac{\Gamma(n+1)}{ \Gamma(n-k+1) \Gamma(k+1) } $$</p>
+
+
+
+<p>Априорное распределение, выраженное через гамма-функцию, будет иметь вид</p>
+
+
+
+<p>$$ P(\theta) = \frac{ \Gamma(\alpha + \beta) }{ \Gamma(\alpha) \Gamma(\beta) } \cdot \theta^{\alpha-1} (1-\theta)^{\beta-1} $$</p>
+
+
+
+<p>В этом случае совместную вероятность данных $X$ и параметра $\theta$ (числитель формулы Байеса) можно выразить как</p>
+
+
+
+<p>$$ P(X, \theta) = \frac{ \Gamma(n+1) }{ \Gamma(n-k+1) \Gamma(k+1) } \cdot \frac{ \Gamma(\alpha + \beta)}{\Gamma(\alpha) \Gamma(\beta)} \cdot \theta^{\alpha+k-1} (1-\theta)^{n+\beta-k-1} $$</p>
+
+
+
+<p><strong>Знаменатель формулы Байеса</strong>. Найдем вероятность данных $P(X)$ (знаменатель). Обозначим первые два множителя через $\gamma.$</p>
+
+
+
+<p>$$ \gamma = \frac{ \Gamma(n+1) }{ \Gamma(n-k+1) \Gamma(k+1) } \cdot \frac{ \Gamma(\alpha + \beta)}{\Gamma(\alpha) \Gamma(\beta)} $$</p>
+
+
+
+<p>Тогда,</p>
+
+
+
+<p>$$ P(X, \theta) = \gamma \cdot \theta^{\alpha+k-1} (1-\theta)^{n+\beta-k-1} $$</p>
+
+
+
+<p>Положим $\alpha&#8217; = \alpha + k $ и $\beta&#8217; = n+\beta-k$</p>
+
+
+
+<p>$$ P(X, \theta) = \gamma \cdot \theta^{\alpha&#8217;-1} (1-\theta)^{\beta&#8217;-1} $$</p>
+
+
+
+<p>Умножим это выражение на $ \frac{ \Gamma( \alpha&#8217; + \beta&#8217; ) }{ \Gamma(a&#8217;) \Gamma(b&#8217;) } \cdot \frac{ \Gamma(a&#8217;) \Gamma(b&#8217;) }{ \Gamma( \alpha&#8217; + \beta&#8217; ) } $ так, чтобы</p>
+
+
+
+<p>$$ P(X, \theta) = \frac{ \Gamma( \alpha&#8217; + \beta&#8217; ) }{ \Gamma(\alpha&#8217;) \Gamma(\beta&#8217;) } \cdot \theta^{\alpha&#8217;-1} (1-\theta)^{\beta&#8217;-1} \cdot \gamma \cdot \frac{ \Gamma(\alpha&#8217;) \Gamma(\beta&#8217;) }{ \Gamma( \alpha&#8217; + \beta&#8217; ) } $$</p>
+
+
+
+<p>При этом вспомним, что мы хотим найти вероятность данных $P(X),$ то есть интеграл всех возможных значений $\theta.$ Другими словами,</p>
+
+
+
+<p>$$ \begin{align} P(X) &amp;= \int^1_0 P(X, \theta) d \theta \\ &amp;= \int^1_0 \left( \frac{ \Gamma( \alpha&#8217; + \beta&#8217; ) }{ \Gamma(\alpha&#8217;) \Gamma(\beta&#8217;) } \cdot \theta^{\alpha&#8217;-1} (1-\theta)^{\beta&#8217;-1} \cdot \gamma \cdot \frac{ \Gamma(\alpha&#8217;) \Gamma(\beta&#8217;) }{ \Gamma( \alpha&#8217; + \beta&#8217; ) } \right) d \theta \end{align} $$</p>
+
+
+
+<p>Вторые два множителя при интегрировании относительно $\theta$ являются константой.</p>
+
+
+
+<p>$$ \gamma \cdot \frac{ \Gamma(\alpha&#8217;) \Gamma(\beta&#8217;) }{ \Gamma( \alpha&#8217; + \beta&#8217; ) } \cdot \int^1_0 \left( \frac{ \Gamma( \alpha&#8217; + \beta&#8217; ) }{ \Gamma(\alpha&#8217;) \Gamma(\beta&#8217;) } \cdot \theta^{\alpha&#8217;-1} (1-\theta)^{\beta&#8217;-1} \right) d \theta $$</p>
+
+
+
+<p>Одновременно первые два множителя &#8212; есть интеграл бета-распределения $Beta(\alpha&#8217;, \beta&#8217;),$ который по определению равен единице.</p>
+
+
+
+<p>$$ \int^1_0 \left( \frac{ \Gamma( \alpha&#8217; + \beta&#8217; ) }{ \Gamma(\alpha&#8217;) \Gamma(\beta&#8217;) } \cdot \theta^{\alpha&#8217;-1} (1-\theta)^{\beta&#8217;-1} \right) d \theta = 1 $$</p>
+
+
+
+<p>Тогда,</p>
+
+
+
+<p>$$ P(X) = \gamma \cdot \frac{ \Gamma(\alpha&#8217;) \Gamma(\beta&#8217;) }{ \Gamma( \alpha&#8217; + \beta&#8217; ) } $$</p>
+
+
+
+<p><strong>Апостериорная вероятность</strong>. Подставим результаты в формулу апостериорной вероятности.</p>
+
+
+
+<p>$$ \begin{align} P(\theta \mid X) &amp;= \frac{ \gamma \cdot \theta^{\alpha&#8217;-1} (1-\theta)^{\beta&#8217;-1} }{ \gamma \cdot \frac{ \Gamma(\alpha&#8217;) \Gamma(\beta&#8217;) }{ \Gamma( \alpha&#8217; + \beta&#8217; ) } } \\ &amp;= \frac{ \Gamma( \alpha&#8217; + \beta&#8217; ) }{ \Gamma(\alpha&#8217;) \Gamma(\beta&#8217;) } \cdot \theta^{\alpha&#8217;-1} (1-\theta)^{\beta&#8217;-1} \\ &amp;= \frac{ \theta^{\alpha&#8217;-1} (1-\theta)^{\beta&#8217;-1} }{ B(\alpha&#8217;, \beta&#8217;) } = Beta(\alpha&#8217;, \beta&#8217;) \end{align} $$</p>
+
+
+
+<h3 class="wp-block-heading">Бета-биномиальное распределение</h3>
+
+
+
+<p>Сопряженность бета- и биномиального распределений можно продемонстрировать иначе.</p>
+
+
+
+<p><strong>Числитель формулы Байеса</strong>. Вернем выражение, которое мы обозначили через $\gamma.$</p>
+
+
+
+<p>$$ P(X, \theta) = \frac{ \Gamma(n+1) }{ \Gamma(n-k+1) \Gamma(k+1) } \cdot \frac{ \Gamma(\alpha + \beta)}{\Gamma(\alpha) \Gamma(\beta)} \cdot \theta^{\alpha+k-1} (1-\theta)^{n+\beta-k-1} $$</p>
+
+
+
+<p>Вспомним, что</p>
+
+
+
+<p>$$ P(X, \theta) = \underbrace{ \frac{ \Gamma(n+1) }{ \Gamma(n-k+1) \Gamma(k+1) } }_{ \binom{n}{k} } \cdot \underbrace{ \frac{ \Gamma(\alpha + \beta) }{ \Gamma(\alpha) \Gamma(\beta) } }_{ \frac{1}{ B(\alpha, \beta)} } \cdot \theta^{\alpha+k-1} (1-\theta)^{n+\beta-k-1} $$</p>
+
+
+
+<p>Тогда,</p>
+
+
+
+<p>$$ P(X, \theta) = \binom{n}{k} \frac{ \theta^{\alpha+k-1} (1-\theta)^{n+\beta-k-1} }{ B(\alpha, \beta) } $$</p>
+
+
+
+<p><strong>Знаменатель формулы Байеса</strong>. Проделаем аналогичную работу со знаменателем.</p>
+
+
+
+<p>$$ P(X) = \gamma \cdot \frac{ \Gamma(\alpha&#8217;) \Gamma(\beta&#8217;) }{ \Gamma( \alpha&#8217; + \beta&#8217; ) } $$</p>
+
+
+
+<p>$$ P(X) = \underbrace{ \frac{ \Gamma(n+1) }{ \Gamma(n-k+1) \Gamma(k+1) } }_{ \binom{n}{k} } \cdot \underbrace{ \frac{ \Gamma(\alpha + \beta) }{ \Gamma(\alpha) \Gamma(\beta) } }_{ \frac{1}{ B(\alpha, \beta)} } \cdot \underbrace{ \frac{ \Gamma(\alpha&#8217;) \Gamma(\beta&#8217;) }{ \Gamma( \alpha&#8217; + \beta&#8217; ) } }_{B(\alpha&#8217;, \beta&#8217; )} $$</p>
+
+
+
+<p>Таким образом, если вернуть $\alpha&#8217; = \alpha + k $ и $\beta&#8217; = n+\beta-k,$</p>
+
+
+
+<p>$$ P(X) = \binom{n}{k} \frac{ B(\alpha + k, n+\beta-k) }{ B(\alpha, \beta) } $$</p>
+
+
+
+<p>Интересно, что знаменатель $ P(X) $ в данном случае является самостоятельным дискретным распределением, называемым <strong>бета-биномиальным распределением</strong> (beta-binomial distribution)</p>
+
+
+
+<p>$$ BetaBinom(k \mid n, \alpha, \beta) = \binom{n}{k} \frac{ B(\alpha + k, n+\beta-k) }{ B(\alpha, \beta) }, $$</p>
+
+
+
+<p>показывающим вероятность $k$ успехов в $n$ испытаниях, при условии, что вероятность успеха $p$ (она же $\theta$) следует бета-распределению $Beta(\alpha, \beta).$</p>
+
+
+
+<p>Например, рассмотрим серию из $ n = 6 $ испытаний, в которых параметр $p$ следует $Beta(2, 2).$ Вначале построим график бета-распределения.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.9.0 -->
+
+		<div id="urvanov-syntax-highlighter-697701d6b8bdb660844496" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701d6b8bdb660844496-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701d6b8bdb660844496-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701d6b8bdb660844496-3">3</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701d6b8bdb660844496-4">4</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701d6b8bdb660844496-5">5</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-697701d6b8bdb660844496-1"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">plot</span><span class="crayon-sy">(</span><span class="crayon-v">theta</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">beta</span><span class="crayon-sy">.</span><span class="crayon-e">pdf</span><span class="crayon-sy">(</span><span class="crayon-v">theta</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">2</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">2</span><span class="crayon-sy">)</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">label</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-i">r</span><span class="crayon-s">''</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701d6b8bdb660844496-2"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">title</span><span class="crayon-sy">(</span><span class="crayon-s">'Beta (2, 2)'</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-697701d6b8bdb660844496-3"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">xlabel</span><span class="crayon-sy">(</span><span class="crayon-i">r</span><span class="crayon-s">'$\theta$'</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701d6b8bdb660844496-4"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">ylabel</span><span class="crayon-sy">(</span><span class="crayon-i">r</span><span class="crayon-s">'$f(\theta)$'</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-697701d6b8bdb660844496-5"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">show</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0003 seconds] -->
+</div>
+
+
+
+<figure class="wp-block-image size-full"><img decoding="async" width="569" height="456" src="../../wp-content/uploads/2025/08/beta_2_2.png" alt="Beta(2, 2)" class="wp-image-41810" srcset="../../wp-content/uploads/2025/08/beta_2_2.png 569w, ../../wp-content/uploads/2025/08/beta_2_2-300x240.png 300w" sizes="(max-width: 569px) 100vw, 569px" /></figure>
+
+
+
+<p>Теперь выведем соответствующее бета-биномиальное распределение.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.9.0 -->
+
+		<div id="urvanov-syntax-highlighter-697701d6b8be6570527334" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701d6b8be6570527334-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701d6b8be6570527334-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701d6b8be6570527334-3">3</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701d6b8be6570527334-4">4</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701d6b8be6570527334-5">5</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701d6b8be6570527334-6">6</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701d6b8be6570527334-7">7</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701d6b8be6570527334-8">8</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701d6b8be6570527334-9">9</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701d6b8be6570527334-10">10</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701d6b8be6570527334-11">11</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-697701d6b8be6570527334-1"><span class="crayon-st">from</span><span class="crayon-h"> </span><span class="crayon-v">scipy</span><span class="crayon-sy">.</span><span class="crayon-e">stats </span><span class="crayon-r">import</span><span class="crayon-h"> </span><span class="crayon-i">betabinom</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701d6b8be6570527334-2">&nbsp;</div><div class="crayon-line" id="urvanov-syntax-highlighter-697701d6b8be6570527334-3"><span class="crayon-v">n</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">a</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">b</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">6</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">2</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">2</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701d6b8be6570527334-4"><span class="crayon-v">k</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-e">arange</span><span class="crayon-sy">(</span><span class="crayon-v">n</span><span class="crayon-o">+</span><span class="crayon-cn">1</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-697701d6b8be6570527334-5">&nbsp;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701d6b8be6570527334-6"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">plot</span><span class="crayon-sy">(</span><span class="crayon-v">k</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">betabinom</span><span class="crayon-sy">.</span><span class="crayon-e">pmf</span><span class="crayon-sy">(</span><span class="crayon-v">k</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">n</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">a</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">b</span><span class="crayon-sy">)</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-s">'bo'</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">ms</span><span class="crayon-o">=</span><span class="crayon-cn">8</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-697701d6b8be6570527334-7"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">vlines</span><span class="crayon-sy">(</span><span class="crayon-v">k</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">0</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">betabinom</span><span class="crayon-sy">.</span><span class="crayon-e">pmf</span><span class="crayon-sy">(</span><span class="crayon-v">k</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">n</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">a</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">b</span><span class="crayon-sy">)</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">colors</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-s">'b'</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">lw</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">5</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">alpha</span><span class="crayon-o">=</span><span class="crayon-cn">0.5</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701d6b8be6570527334-8"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">title</span><span class="crayon-sy">(</span><span class="crayon-s">'Beta-binomial distribution'</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-697701d6b8be6570527334-9"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">xlabel</span><span class="crayon-sy">(</span><span class="crayon-s">'k'</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701d6b8be6570527334-10"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">ylabel</span><span class="crayon-sy">(</span><span class="crayon-s">'f(k | 6, 2, 2)'</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-697701d6b8be6570527334-11"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">show</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0006 seconds] -->
+</div>
+
+
+
+<figure class="wp-block-image size-full"><img loading="lazy" decoding="async" width="585" height="455" src="../../wp-content/uploads/2025/08/beta_binom_622.png" alt="бета-биномиальное распределение (6, 2, 2)" class="wp-image-41812" srcset="../../wp-content/uploads/2025/08/beta_binom_622.png 585w, ../../wp-content/uploads/2025/08/beta_binom_622-300x233.png 300w" sizes="auto, (max-width: 585px) 100vw, 585px" /></figure>
+
+
+
+<p>Согласно графику наиболее вероятным при таких параметрах будет $k=3$ успехам. Убедимся в этом, воспользовавшись формулой матожидания бета-биномиального распределения.</p>
+
+
+
+<p>$$ \mathbb{E} = \frac{n \alpha}{\alpha + \beta} = \frac{6 \cdot 2}{ 2 + 2} = 3 $$</p>
+
+
+
+<p>Если же речь идет о $Beta(1, 1),$ то есть непрерывном равномерном распределении, в котором все варианты $p$ равновозможны, то бета-биномиальное распределение примет вид дискретного равномерного распределения.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.9.0 -->
+
+		<div id="urvanov-syntax-highlighter-697701d6b8be8809704757" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701d6b8be8809704757-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701d6b8be8809704757-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701d6b8be8809704757-3">3</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701d6b8be8809704757-4">4</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701d6b8be8809704757-5">5</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701d6b8be8809704757-6">6</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701d6b8be8809704757-7">7</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701d6b8be8809704757-8">8</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701d6b8be8809704757-9">9</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-697701d6b8be8809704757-1"><span class="crayon-v">n</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">a</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">b</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">6</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">1</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701d6b8be8809704757-2"><span class="crayon-v">k</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-e">arange</span><span class="crayon-sy">(</span><span class="crayon-v">n</span><span class="crayon-o">+</span><span class="crayon-cn">1</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-697701d6b8be8809704757-3">&nbsp;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701d6b8be8809704757-4"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">plot</span><span class="crayon-sy">(</span><span class="crayon-v">k</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">betabinom</span><span class="crayon-sy">.</span><span class="crayon-e">pmf</span><span class="crayon-sy">(</span><span class="crayon-v">k</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">n</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">a</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">b</span><span class="crayon-sy">)</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-s">'bo'</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">ms</span><span class="crayon-o">=</span><span class="crayon-cn">8</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-697701d6b8be8809704757-5"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">vlines</span><span class="crayon-sy">(</span><span class="crayon-v">k</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">0</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">betabinom</span><span class="crayon-sy">.</span><span class="crayon-e">pmf</span><span class="crayon-sy">(</span><span class="crayon-v">k</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">n</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">a</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">b</span><span class="crayon-sy">)</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">colors</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-s">'b'</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">lw</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">5</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">alpha</span><span class="crayon-o">=</span><span class="crayon-cn">0.5</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701d6b8be8809704757-6"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">title</span><span class="crayon-sy">(</span><span class="crayon-s">'Beta-binomial distribution'</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-697701d6b8be8809704757-7"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">xlabel</span><span class="crayon-sy">(</span><span class="crayon-s">'k'</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701d6b8be8809704757-8"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">ylabel</span><span class="crayon-sy">(</span><span class="crayon-s">'f(k | 6, 1, 1)'</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-697701d6b8be8809704757-9"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">show</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0006 seconds] -->
+</div>
+
+
+
+<figure class="wp-block-image size-full"><img loading="lazy" decoding="async" width="576" height="455" src="../../wp-content/uploads/2025/08/beta_binom_611.png" alt="бета-биномиальное распределение (6, 1, 1)" class="wp-image-41813" srcset="../../wp-content/uploads/2025/08/beta_binom_611.png 576w, ../../wp-content/uploads/2025/08/beta_binom_611-300x237.png 300w" sizes="auto, (max-width: 576px) 100vw, 576px" /></figure>
+
+
+
+<p>Вернемся к формуле Байеса.</p>
+
+
+
+<p><strong>Апостериорная вероятность</strong>. Найдем апостериорную вероятность.</p>
+
+
+
+<p>$$ P ( \theta \mid X ) = \frac{ P( \theta, X ) }{ P(X) } = \frac{ \binom{n}{k} \frac{ \theta^{\alpha+k-1} (1-\theta)^{n+\beta-k-1} }{ B(\alpha, \beta) } }{ \binom{n}{k} \frac{ B(\alpha + k, n+\beta-k) }{ B(\alpha, \beta) } }, $$</p>
+
+
+
+<p>где $ B(\alpha, \beta) $ &#8212; нормализующая константа априорного распределения, а $ B(\alpha + k, n+\beta-k) $ &#8212; нормализующая константа соответственно апостериорного распределения. Упростим выражение.</p>
+
+
+
+<p>$$ \begin{align} P ( \theta \mid X ) &amp;= \frac{ \theta^{\alpha+k-1} (1-\theta)^{n+\beta-k-1} }{ B(\alpha + k, n+\beta-k) } \\ &amp;= \frac{ \theta^{\alpha&#8217;-1} (1-\theta)^{\beta&#8217;-1} }{ B(\alpha&#8217;, \beta&#8217;) } = Beta(\alpha&#8217;, \beta&#8217;) \end{align} $$</p>
+
+
+
+<h3 class="wp-block-heading">Распространенность заболевания</h3>
+
+
+
+<p>Вернемся к примеру с медицинскими тестами и распространенностью заболевания. Возможно уже в самом начале вам хотелось посчитать не вероятность заболевания при условии положительного теста, а его распространенность (априорное знание) с учетом того, сколько человек из выборки заболели (данные).</p>
+
+
+
+<p>Раньше нам не удавалось этого сделать, так как априорная случайная величина была дискретной. Теперь, зная о сопряженности бета- и биномиального распределений, эта задача вполне выполнима.</p>
+
+
+
+<p>Предположим, что больным оказался один человек из десяти, а о распространенности заболевания у нас нет никакой предварительной информации (в этом случае еще говорят об объективной или неинформативной априорной оценке). Тогда,</p>
+
+
+
+<p>$$ P (X \mid \theta) = \binom{10}{1} \theta^1 (1-\theta)^9, \quad P(\theta) = Beta(1, 1) $$</p>
+
+
+
+<p>$$ \begin{align} P(\theta \mid X) =&amp; \; Beta(\alpha + k, \beta + n-k) \\[0.5ex] =&amp; \; Beta(1+1, 1+10-1) = Beta(2, 10) \end{align} $$</p>
+
+
+
+<p>Приведем график.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.9.0 -->
+
+		<div id="urvanov-syntax-highlighter-697701d6b8bed223980722" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701d6b8bed223980722-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701d6b8bed223980722-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701d6b8bed223980722-3">3</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701d6b8bed223980722-4">4</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701d6b8bed223980722-5">5</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701d6b8bed223980722-6">6</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701d6b8bed223980722-7">7</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701d6b8bed223980722-8">8</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701d6b8bed223980722-9">9</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701d6b8bed223980722-10">10</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701d6b8bed223980722-11">11</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701d6b8bed223980722-12">12</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701d6b8bed223980722-13">13</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701d6b8bed223980722-14">14</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701d6b8bed223980722-15">15</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701d6b8bed223980722-16">16</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701d6b8bed223980722-17">17</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701d6b8bed223980722-18">18</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701d6b8bed223980722-19">19</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701d6b8bed223980722-20">20</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701d6b8bed223980722-21">21</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701d6b8bed223980722-22">22</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-697701d6b8bed223980722-1"><span class="crayon-c"># сохраним параметры априорного распределения</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701d6b8bed223980722-2"><span class="crayon-v">a</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">b</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">1</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-697701d6b8bed223980722-3"><span class="crayon-c"># и биномиального испытания</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701d6b8bed223980722-4"><span class="crayon-v">k</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">n</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">10</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-697701d6b8bed223980722-5">&nbsp;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701d6b8bed223980722-6"><span class="crayon-c"># найдем априорное и апостериорное бета-распределения</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-697701d6b8bed223980722-7"><span class="crayon-v">prior</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">beta</span><span class="crayon-sy">.</span><span class="crayon-e">pdf</span><span class="crayon-sy">(</span><span class="crayon-v">theta</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">a</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">b</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701d6b8bed223980722-8"><span class="crayon-v">posterior</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">beta</span><span class="crayon-sy">.</span><span class="crayon-e">pdf</span><span class="crayon-sy">(</span><span class="crayon-v">theta</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">a</span><span class="crayon-o">+</span><span class="crayon-v">k</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">b</span><span class="crayon-o">+</span><span class="crayon-v">n</span><span class="crayon-o">-</span><span class="crayon-v">k</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-697701d6b8bed223980722-9">&nbsp;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701d6b8bed223980722-10"><span class="crayon-c"># выведем эти распределения</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-697701d6b8bed223980722-11"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">plot</span><span class="crayon-sy">(</span><span class="crayon-v">theta</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">prior</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">label</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-s">'prior, Beta(1,1)'</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701d6b8bed223980722-12"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">plot</span><span class="crayon-sy">(</span><span class="crayon-v">theta</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">posterior</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">label</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-s">'posterior, Beta(2,10)'</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-697701d6b8bed223980722-13">&nbsp;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701d6b8bed223980722-14"><span class="crayon-c"># найдем апостериорный максимум</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-697701d6b8bed223980722-15"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">vlines</span><span class="crayon-sy">(</span><span class="crayon-v">x</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">k</span><span class="crayon-o">/</span><span class="crayon-v">n</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">ymin</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">0</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">ymax</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">4.23</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">colors</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-s">'r'</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">label</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-i">r</span><span class="crayon-s">'$\theta_{MAP}$'</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701d6b8bed223980722-16">&nbsp;</div><div class="crayon-line" id="urvanov-syntax-highlighter-697701d6b8bed223980722-17"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">title</span><span class="crayon-sy">(</span><span class="crayon-s">'Beta prior and posterior distributions'</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701d6b8bed223980722-18"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">xlabel</span><span class="crayon-sy">(</span><span class="crayon-i">r</span><span class="crayon-s">'$\theta$'</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-697701d6b8bed223980722-19"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">ylabel</span><span class="crayon-sy">(</span><span class="crayon-i">r</span><span class="crayon-s">'$f(\theta)$'</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701d6b8bed223980722-20">&nbsp;</div><div class="crayon-line" id="urvanov-syntax-highlighter-697701d6b8bed223980722-21"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">legend</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701d6b8bed223980722-22"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">show</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0007 seconds] -->
+</div>
+
+
+
+<figure class="wp-block-image size-full"><img loading="lazy" decoding="async" width="556" height="456" src="../../wp-content/uploads/2025/08/beta_disease.png" alt="сопряженность бета- и биномиального распределений: распространенность заболевания" class="wp-image-41815" srcset="../../wp-content/uploads/2025/08/beta_disease.png 556w, ../../wp-content/uploads/2025/08/beta_disease-300x246.png 300w" sizes="auto, (max-width: 556px) 100vw, 556px" /></figure>
+
+
+
+<p>Обратите внимание, что апостериорный максимум $\theta_{MAP}$ мы нашли через формулу максимального правдоподобия биномиального распределения $\theta_{MLE} = \frac{k}{n}.$ Посмотрим, как быть, если априорное распределение неравномерно.</p>
+
+
+
+<h3 class="wp-block-heading">Мода априорного и апостериорного распределений</h3>
+
+
+
+<p>Априорным и апостериорным максимумом будут моды соответствующих распределений. Тогда априорный максимум бета-распределения можно найти по формуле</p>
+
+
+
+<p>$$ Beta(\alpha, \beta)_{mode} = \frac{(\alpha-1)}{(\alpha-1)+(\beta-1)} $$</p>
+
+
+
+<p>Апостриорный максимум в этом случае находится по формуле</p>
+
+
+
+<p>$$ \begin{align} \theta_{MAP} =&amp; Beta(k+\alpha, n-k+\beta)_{mode} \\ =&amp; \frac{k+\alpha-1}{(k+\alpha-1)+(n-k+\beta-1)} \\ =&amp; \frac{k+(\alpha-1)}{n+(\alpha-1)+(\beta-1)} \end{align} $$</p>
+
+
+
+<p>Разберем формулу апостериорного максимума более внимательно. Преобразуем выражение.</p>
+
+
+
+<p>$$ \theta_{MAP} = \frac{k}{n+(\alpha-1)+(\beta-1)} + \frac{\alpha-1}{n+(\alpha-1)+(\beta-1)} $$</p>
+
+
+
+<p>Умножим первое слагаемое на $\frac{n}{n},$ а второе на $\frac{(\alpha-1)+(\beta-1)}{(\alpha-1)+(\beta-1)}.$ Тогда,</p>
+
+
+
+<p>$$ \begin{align} \theta_{MAP} =&amp; \underbrace{ \frac{k}{n \vphantom{()}} }_{ \theta_{MLE} } \cdot \underbrace { \frac{n}{n+(\alpha-1)+(\beta-1)} }_{w_1 (\alpha, \beta, n)} \\ &amp; \; \; + \underbrace{ \frac{\alpha-1}{(\alpha-1)+(\beta-1)} }_{ Beta(\alpha, \beta){mode} } \cdot \underbrace { \frac{(\alpha-1)+(\beta-1)}{n+(\alpha-1)+(\beta-1)}}_{w_2 (\alpha, \beta, n)} \end{align} $$</p>
+
+
+
+<p>Как мы видим, апостериорный максимум $\theta_{MAP}$ представляет собой средневзвешенное значение максимального правдоподобия $\theta_{MLE}$ и априорного максимума $Beta(\alpha, \beta)_{mode}.$ Веса при этом зависят от $\alpha, \beta, n,$</p>
+
+
+
+<ul class="wp-block-list">
+<li>чем больше $\alpha, \beta,$ то есть чем больше наша уверенность в априорном знании, тем больше числитель и вся дробь $w_2$ и тем меньше дробь $w_1,$ а значит больше значимость априорного распределения; и наоборот</li>
+
+
+
+<li>чем больше $n,$ то есть чем больше собрано данных, тем больше $w_1$ и тем меньше $w_2,$ а значит больше значимость правдоподобия.</li>
+</ul>
+
+
+
+<p>Аналогичное утверждение справедливо для матожидания апостериорного распределения.</p>
+
+
+
+<p>$$\mathbb{E} (\theta \mid X) = \frac{k+\alpha}{n+\alpha+\beta} = \frac{ k }{ n+\alpha+\beta } + \frac{ \alpha }{ n+\alpha+\beta }$$</p>
+
+
+
+<p>Умножим первое слагаемое на $\frac{n}{n},$ а второе на $\frac{\alpha+\beta}{\alpha+\beta}.$ Тогда,</p>
+
+
+
+<p>$$ \mathbb{E} (\theta \mid X) = \underbrace{ \frac{k}{n\vphantom{()}} }_{ \theta_{MLE} } \cdot \underbrace { \frac{n}{ n+\alpha+\beta } }_{w_1 (\alpha, \beta, n)} + \underbrace{ \frac{ \alpha }{ \alpha+\beta } }_{ \mathbb{E} (\theta) } \cdot \underbrace{ \frac{ \alpha+\beta }{ n+\alpha+\beta } }_{w_2 (\alpha, \beta, n)} $$</p>
+
+
+
+<p>Закрепим на примере. Вновь вычислим распространенность заболевания, но уже с априорным распределением $Beta(2,2).$</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.9.0 -->
+
+		<div id="urvanov-syntax-highlighter-697701d6b8bf2113108207" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701d6b8bf2113108207-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701d6b8bf2113108207-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701d6b8bf2113108207-3">3</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701d6b8bf2113108207-4">4</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701d6b8bf2113108207-5">5</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701d6b8bf2113108207-6">6</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701d6b8bf2113108207-7">7</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701d6b8bf2113108207-8">8</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701d6b8bf2113108207-9">9</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701d6b8bf2113108207-10">10</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701d6b8bf2113108207-11">11</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701d6b8bf2113108207-12">12</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701d6b8bf2113108207-13">13</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701d6b8bf2113108207-14">14</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701d6b8bf2113108207-15">15</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701d6b8bf2113108207-16">16</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-697701d6b8bf2113108207-1"><span class="crayon-c"># импортируем функцию для расчета биномиального коэффициента</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701d6b8bf2113108207-2"><span class="crayon-st">from</span><span class="crayon-h"> </span><span class="crayon-k ">math</span><span class="crayon-h"> </span><span class="crayon-r">import</span><span class="crayon-h"> </span><span class="crayon-i">comb</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-697701d6b8bf2113108207-3">&nbsp;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701d6b8bf2113108207-4"><span class="crayon-c"># сохраним параметры априорного распределения</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-697701d6b8bf2113108207-5"><span class="crayon-v">a</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">b</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">2</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">2</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701d6b8bf2113108207-6"><span class="crayon-c"># и биномиального испытания</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-697701d6b8bf2113108207-7"><span class="crayon-v">k</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">n</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">10</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701d6b8bf2113108207-8">&nbsp;</div><div class="crayon-line" id="urvanov-syntax-highlighter-697701d6b8bf2113108207-9"><span class="crayon-c"># найдем априорный максимум,</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701d6b8bf2113108207-10"><span class="crayon-v">theta_max_prior</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-v">a</span><span class="crayon-o">-</span><span class="crayon-cn">1</span><span class="crayon-sy">)</span><span class="crayon-o">/</span><span class="crayon-sy">(</span><span class="crayon-sy">(</span><span class="crayon-v">a</span><span class="crayon-o">-</span><span class="crayon-cn">1</span><span class="crayon-sy">)</span><span class="crayon-o">+</span><span class="crayon-sy">(</span><span class="crayon-v">b</span><span class="crayon-o">-</span><span class="crayon-cn">1</span><span class="crayon-sy">)</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-697701d6b8bf2113108207-11"><span class="crayon-c"># максимальное правдоподобие и</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701d6b8bf2113108207-12"><span class="crayon-v">max_likelihood</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">k</span><span class="crayon-o">/</span><span class="crayon-i">n</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-697701d6b8bf2113108207-13"><span class="crayon-c"># апостериорный максимум</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701d6b8bf2113108207-14"><span class="crayon-v">theta_max_posterior</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-v">k</span><span class="crayon-o">+</span><span class="crayon-sy">(</span><span class="crayon-v">a</span><span class="crayon-o">-</span><span class="crayon-cn">1</span><span class="crayon-sy">)</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-o">/</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-v">n</span><span class="crayon-o">+</span><span class="crayon-sy">(</span><span class="crayon-v">a</span><span class="crayon-o">-</span><span class="crayon-cn">1</span><span class="crayon-sy">)</span><span class="crayon-o">+</span><span class="crayon-sy">(</span><span class="crayon-v">b</span><span class="crayon-o">-</span><span class="crayon-cn">1</span><span class="crayon-sy">)</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-697701d6b8bf2113108207-15">&nbsp;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701d6b8bf2113108207-16"><span class="crayon-v">theta_max_prior</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">max_likelihood</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">theta_max_posterior</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0005 seconds] -->
+</div>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.9.0 -->
+
+		<div id="urvanov-syntax-highlighter-697701d6b8bf8823899634" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701d6b8bf8823899634-1">1</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-697701d6b8bf8823899634-1">(0.5, 0.1, 0.16666666666666666)</div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0000 seconds] -->
+</div>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.9.0 -->
+
+		<div id="urvanov-syntax-highlighter-697701d6b8bfa595968004" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701d6b8bfa595968004-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701d6b8bfa595968004-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701d6b8bfa595968004-3">3</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701d6b8bfa595968004-4">4</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701d6b8bfa595968004-5">5</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701d6b8bfa595968004-6">6</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701d6b8bfa595968004-7">7</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701d6b8bfa595968004-8">8</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701d6b8bfa595968004-9">9</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701d6b8bfa595968004-10">10</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701d6b8bfa595968004-11">11</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701d6b8bfa595968004-12">12</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701d6b8bfa595968004-13">13</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701d6b8bfa595968004-14">14</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701d6b8bfa595968004-15">15</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701d6b8bfa595968004-16">16</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701d6b8bfa595968004-17">17</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701d6b8bfa595968004-18">18</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701d6b8bfa595968004-19">19</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701d6b8bfa595968004-20">20</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701d6b8bfa595968004-21">21</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701d6b8bfa595968004-22">22</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-697701d6b8bfa595968004-1"><span class="crayon-c"># создадим априорное и апостериорное бета-распределения, а также</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701d6b8bfa595968004-2"><span class="crayon-c"># функцию правдоподобия</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-697701d6b8bfa595968004-3"><span class="crayon-v">prior</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">beta</span><span class="crayon-sy">.</span><span class="crayon-e">pdf</span><span class="crayon-sy">(</span><span class="crayon-v">theta</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">a</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">b</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701d6b8bfa595968004-4"><span class="crayon-v">posterior</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">beta</span><span class="crayon-sy">.</span><span class="crayon-e">pdf</span><span class="crayon-sy">(</span><span class="crayon-v">theta</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">a</span><span class="crayon-o">+</span><span class="crayon-v">k</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">b</span><span class="crayon-o">+</span><span class="crayon-v">n</span><span class="crayon-o">-</span><span class="crayon-v">k</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-697701d6b8bfa595968004-5"><span class="crayon-v">likelihood</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-e">comb</span><span class="crayon-sy">(</span><span class="crayon-cn">10</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-o">*</span><span class="crayon-h"> </span><span class="crayon-v">theta</span><span class="crayon-o">*</span><span class="crayon-o">*</span><span class="crayon-v">k</span><span class="crayon-h"> </span><span class="crayon-o">*</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-cn">1</span><span class="crayon-o">-</span><span class="crayon-v">theta</span><span class="crayon-sy">)</span><span class="crayon-o">*</span><span class="crayon-o">*</span><span class="crayon-sy">(</span><span class="crayon-v">n</span><span class="crayon-o">-</span><span class="crayon-v">k</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701d6b8bfa595968004-6">&nbsp;</div><div class="crayon-line" id="urvanov-syntax-highlighter-697701d6b8bfa595968004-7"><span class="crayon-c"># выведем эти распределения</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701d6b8bfa595968004-8"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">plot</span><span class="crayon-sy">(</span><span class="crayon-v">theta</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">prior</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">label</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-s">'prior, Beta(2,2)'</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-697701d6b8bfa595968004-9"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">plot</span><span class="crayon-sy">(</span><span class="crayon-v">theta</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">posterior</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">label</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-s">'posterior, Beta(2,10)'</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701d6b8bfa595968004-10"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">plot</span><span class="crayon-sy">(</span><span class="crayon-v">theta</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">likelihood</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">label</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-s">'likelihood, Binom(10,1)'</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-697701d6b8bfa595968004-11">&nbsp;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701d6b8bfa595968004-12"><span class="crayon-c"># найдем апостериорный максимум</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-697701d6b8bfa595968004-13"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">vlines</span><span class="crayon-sy">(</span><span class="crayon-v">x</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">theta_max_prior</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">ymin</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">0</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">ymax</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">1.5</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">colors</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-s">'k'</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">label</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-i">r</span><span class="crayon-s">'$\theta_{MAP prior}$'</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701d6b8bfa595968004-14"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">vlines</span><span class="crayon-sy">(</span><span class="crayon-v">x</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">theta_max_posterior</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">ymin</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">0</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">ymax</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">3.83</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">colors</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-s">'r'</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">label</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-i">r</span><span class="crayon-s">'$\theta_{MAP posterior}$'</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-697701d6b8bfa595968004-15"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">vlines</span><span class="crayon-sy">(</span><span class="crayon-v">x</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">max_likelihood</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">ymin</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">0</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">ymax</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">0.4</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">colors</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-s">'g'</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">linestyles</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-s">'--'</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">lw</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">2</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">label</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-i">r</span><span class="crayon-s">'$\theta_{MLE}$'</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701d6b8bfa595968004-16">&nbsp;</div><div class="crayon-line" id="urvanov-syntax-highlighter-697701d6b8bfa595968004-17"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">title</span><span class="crayon-sy">(</span><span class="crayon-s">'Beta prior and posterior distributions'</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701d6b8bfa595968004-18"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">xlabel</span><span class="crayon-sy">(</span><span class="crayon-i">r</span><span class="crayon-s">'$\theta$'</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-697701d6b8bfa595968004-19"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">ylabel</span><span class="crayon-sy">(</span><span class="crayon-i">r</span><span class="crayon-s">'$f(\theta)$'</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701d6b8bfa595968004-20">&nbsp;</div><div class="crayon-line" id="urvanov-syntax-highlighter-697701d6b8bfa595968004-21"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">legend</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701d6b8bfa595968004-22"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">show</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0012 seconds] -->
+</div>
+
+
+
+<figure class="wp-block-image size-full"><img loading="lazy" decoding="async" width="569" height="456" src="../../wp-content/uploads/2025/08/beta_posterior_mean_mode.png" alt="мода априорного и апостериорного распределений" class="wp-image-41818" srcset="../../wp-content/uploads/2025/08/beta_posterior_mean_mode.png 569w, ../../wp-content/uploads/2025/08/beta_posterior_mean_mode-300x240.png 300w" sizes="auto, (max-width: 569px) 100vw, 569px" /></figure>
+
+
+
+<p>И действительно, как мы видим, мода апостериорного распределения оказалась между модой априорного распределения и максимальным правдоподобием. Так как данных собрано относительно много, правдоподобие &#171;перевесило&#187; априорные убеждения.</p>
+
+
+
+<h3 class="wp-block-heading">Априорное предсказательное распределение</h3>
+
+
+
+<p>Как мы сказали ранее, априорное распределение является нашим представлением о распределении параметра $\theta$ до того, как мы собрали данные.</p>
+
+
+
+<p>Возникает вопрос, можем ли мы предположить, <em>каким будет распределение данных $X$ до того, как мы их получили</em>. Такое предположение называется <strong>априорным предсказательным распределением</strong> (prior predictive distribution).</p>
+
+
+
+<p>Можно также сказать, что это ожидаемое (совместное) распределение данных с учетом всех возможных значений $\theta \in \Theta ,$ оно же формула полной вероятности или знаменатель формулы Байеса $P(X).$</p>
+
+
+
+<p>$$ P(X) = \int_{\theta \in \Theta} P(X, \theta) d \theta = \int_{\theta \in \Theta} P(X \mid \theta) \cdot P(\theta) d \theta $$</p>
+
+
+
+<p>Как мы помним, у сопряженных априорного бета-распределения и биномиального правдоподобия знаменатель представляет собой бета-биномиальное распределение, которое как раз и является распределением $X$ с учетом всех возможных значений $\theta \in [0,1]$ и априорного знания о $\theta$ через параметры $\alpha, \beta.$</p>
+
+
+
+<p>$$ P(X) = BetaBinom(k \mid n, \alpha, \beta) = \binom{n}{k} \frac{ B(\alpha + k, n+\beta-k) }{ B(\alpha, \beta) } $$</p>
+
+
+
+<p>Построим бета-биномиальное распределение для примера распространенности заболевания с априорным распределением $Beta(2,2)$ и ожидаемым количеством обследованных людей $n=10.$</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.9.0 -->
+
+		<div id="urvanov-syntax-highlighter-697701d6b8bfc926338721" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701d6b8bfc926338721-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701d6b8bfc926338721-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701d6b8bfc926338721-3">3</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701d6b8bfc926338721-4">4</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701d6b8bfc926338721-5">5</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701d6b8bfc926338721-6">6</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701d6b8bfc926338721-7">7</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701d6b8bfc926338721-8">8</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701d6b8bfc926338721-9">9</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-697701d6b8bfc926338721-1"><span class="crayon-v">n</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">a</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">b</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">10</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">2</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">2</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701d6b8bfc926338721-2"><span class="crayon-v">k</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-e">arange</span><span class="crayon-sy">(</span><span class="crayon-v">n</span><span class="crayon-o">+</span><span class="crayon-cn">1</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-697701d6b8bfc926338721-3">&nbsp;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701d6b8bfc926338721-4"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">plot</span><span class="crayon-sy">(</span><span class="crayon-v">k</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">betabinom</span><span class="crayon-sy">.</span><span class="crayon-e">pmf</span><span class="crayon-sy">(</span><span class="crayon-v">k</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">n</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">a</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">b</span><span class="crayon-sy">)</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-s">'bo'</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">ms</span><span class="crayon-o">=</span><span class="crayon-cn">8</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-697701d6b8bfc926338721-5"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">vlines</span><span class="crayon-sy">(</span><span class="crayon-v">k</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">0</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">betabinom</span><span class="crayon-sy">.</span><span class="crayon-e">pmf</span><span class="crayon-sy">(</span><span class="crayon-v">k</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">n</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">a</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">b</span><span class="crayon-sy">)</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">colors</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-s">'b'</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">lw</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">5</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">alpha</span><span class="crayon-o">=</span><span class="crayon-cn">0.5</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701d6b8bfc926338721-6"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">title</span><span class="crayon-sy">(</span><span class="crayon-s">'Prior predictive distribution'</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-697701d6b8bfc926338721-7"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">xlabel</span><span class="crayon-sy">(</span><span class="crayon-s">'k'</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701d6b8bfc926338721-8"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">ylabel</span><span class="crayon-sy">(</span><span class="crayon-s">'f(k | 10, 2, 2)'</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-697701d6b8bfc926338721-9"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">show</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0006 seconds] -->
+</div>
+
+
+
+<figure class="wp-block-image size-full"><img loading="lazy" decoding="async" width="576" height="455" src="../../wp-content/uploads/2025/08/betabinom_prior_predictive.png" alt="априорное предсказательное распределение" class="wp-image-41826" srcset="../../wp-content/uploads/2025/08/betabinom_prior_predictive.png 576w, ../../wp-content/uploads/2025/08/betabinom_prior_predictive-300x237.png 300w" sizes="auto, (max-width: 576px) 100vw, 576px" /></figure>
+
+
+
+<p>Поясним. Изначально мы считали, что распространенность составляет около 50-ти процентов, что отражено в распределении $Beta(2,2).$ Как следствие, мы ожидаем, что с наибольшей вероятностью мы обнаружим заболевшими пять человек из десяти.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.9.0 -->
+
+		<div id="urvanov-syntax-highlighter-697701d6b8c03632407463" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701d6b8c03632407463-1">1</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-697701d6b8c03632407463-1"><span class="crayon-v">betabinom</span><span class="crayon-sy">.</span><span class="crayon-e">mean</span><span class="crayon-sy">(</span><span class="crayon-v">n</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">a</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">b</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0001 seconds] -->
+</div>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.9.0 -->
+
+		<div id="urvanov-syntax-highlighter-697701d6b8c06393650915" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701d6b8c06393650915-1">1</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-697701d6b8c06393650915-1">5.0</div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0000 seconds] -->
+</div>
+
+
+
+<p>Конечно, так как в данном случае мы выбрали не вполне точное априорное распределение, полученное априорное предсказательное распределение далеко от фактически собранных данных. Напомню, что в выборке заболевшим был только один человек из десяти, в предсказательном же распределении вероятность того, что заболело не более одного человека равна лишь примерно 11-ти процентам.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.9.0 -->
+
+		<div id="urvanov-syntax-highlighter-697701d6b8c08275053926" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701d6b8c08275053926-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701d6b8c08275053926-2">2</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-697701d6b8c08275053926-1"><span class="crayon-c"># вероятность того, что заболело не более одного человека</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701d6b8c08275053926-2"><span class="crayon-v">betabinom</span><span class="crayon-sy">.</span><span class="crayon-e">cdf</span><span class="crayon-sy">(</span><span class="crayon-cn">1</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">n</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">a</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">b</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0001 seconds] -->
+</div>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.9.0 -->
+
+		<div id="urvanov-syntax-highlighter-697701d6b8c0a741390789" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701d6b8c0a741390789-1">1</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-697701d6b8c0a741390789-1">0.10839160839160839</div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0000 seconds] -->
+</div>
+
+
+
+<h3 class="wp-block-heading">Апостериорное предсказательное распределение</h3>
+
+
+
+<p>Аналогичным образом мы можем сделать предположение относительно того, каким будет распределение новых еще не знакомых нам данных $X&#8217;$ после того, как мы высказали наше априорное предположение $P(\theta)$ и учли правдоподобие $P(X \mid \theta)$ уже собранных данных $X.$</p>
+
+
+
+<p>Обозначим такое распределение через $ P(X&#8217; \mid X) $ и назовем <strong>апостериорным предсказательным распределением</strong> (posterior predictive distribution).</p>
+
+
+
+<p>$$ P(X&#8217; \mid X) = \int_{\theta \in \Theta} P(X&#8217;, \theta \mid X) d \theta = \int_{\theta \in \Theta} P(X&#8217; \mid \theta, X) \cdot P(\theta \mid X) d \theta $$</p>
+
+
+
+<p>Здесь $ P(\theta \mid X) $ представляет собой апостериорное (новое априорное) распределение. В случае же $ P(X&#8217; \mid \theta, X) $ вспомним, что правдоподобие данных $X&#8217;$ зависит только от $\theta,$ но никак не от $X.$ Тогда,</p>
+
+
+
+<p>$$ P(X&#8217; \mid \theta, X) = P(X&#8217; \mid \theta) $$</p>
+
+
+
+<p>$$ P(X&#8217; \mid X) = \int_{\theta \in \Theta} P(X&#8217; \mid \theta) \cdot P(\theta \mid X) d \theta $$</p>
+
+
+
+<p>Для сопряженных бета- и биномиального распределений, если ввести новые параметры $\alpha&#8217; = \alpha+k$ и $\beta&#8217; = n+\beta-k,$ а новые испытания и успехи в этих испытаниях обозначить $n^{\ast} $ и $k^{\ast} $ соответственно, то</p>
+
+
+
+<p>$$ \begin{align} P(X&#8217; \mid X) =&amp; \; BetaBinom(k^{\ast} \mid n^{\ast}, \alpha&#8217;, \beta&#8217;) \\[1ex] =&amp; \; \binom{n^{\ast}}{k^{\ast}} \frac{ B(\alpha&#8217; + k^{\ast}, n^{\ast}+\beta&#8217;-k^{\ast}) }{ B(\alpha&#8217;, \beta&#8217;) } \\[1ex] =&amp; \; \binom{n^{\ast}}{k^{\ast}} \frac{ B(\alpha+k + k^{\ast}, n^{\ast}+n+\beta-k-k^{\ast}) }{ B(\alpha+k, n+\beta-k) } \end{align} $$</p>
+
+
+
+<p>Посмотрим, каким будет апостериорное предсказательное распределение данных в нашем примере.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.9.0 -->
+
+		<div id="urvanov-syntax-highlighter-697701d6b8c0c877131562" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701d6b8c0c877131562-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701d6b8c0c877131562-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701d6b8c0c877131562-3">3</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701d6b8c0c877131562-4">4</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701d6b8c0c877131562-5">5</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701d6b8c0c877131562-6">6</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701d6b8c0c877131562-7">7</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701d6b8c0c877131562-8">8</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701d6b8c0c877131562-9">9</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701d6b8c0c877131562-10">10</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701d6b8c0c877131562-11">11</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701d6b8c0c877131562-12">12</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701d6b8c0c877131562-13">13</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701d6b8c0c877131562-14">14</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701d6b8c0c877131562-15">15</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701d6b8c0c877131562-16">16</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-697701d6b8c0c877131562-1"><span class="crayon-c"># изначальные параметры (a, b)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701d6b8c0c877131562-2"><span class="crayon-v">a</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">b</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">2</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">2</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-697701d6b8c0c877131562-3"><span class="crayon-c"># изначальные данные (X)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701d6b8c0c877131562-4"><span class="crayon-v">n</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">k</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">10</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">1</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-697701d6b8c0c877131562-5"><span class="crayon-c"># новые параметры (a', b')</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701d6b8c0c877131562-6"><span class="crayon-v">a_prime</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">b_prime</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">a</span><span class="crayon-h"> </span><span class="crayon-o">+</span><span class="crayon-h"> </span><span class="crayon-v">k</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">n</span><span class="crayon-h"> </span><span class="crayon-o">+</span><span class="crayon-h"> </span><span class="crayon-v">b</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-h"> </span><span class="crayon-i">k</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-697701d6b8c0c877131562-7"><span class="crayon-c"># новые данные (X')</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701d6b8c0c877131562-8"><span class="crayon-v">n_ast</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">10</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-697701d6b8c0c877131562-9"><span class="crayon-v">k_ast</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-e">arange</span><span class="crayon-sy">(</span><span class="crayon-v">n_ast</span><span class="crayon-o">+</span><span class="crayon-cn">1</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701d6b8c0c877131562-10">&nbsp;</div><div class="crayon-line" id="urvanov-syntax-highlighter-697701d6b8c0c877131562-11"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">plot</span><span class="crayon-sy">(</span><span class="crayon-v">k_ast</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">betabinom</span><span class="crayon-sy">.</span><span class="crayon-e">pmf</span><span class="crayon-sy">(</span><span class="crayon-v">k_ast</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">n_ast</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">a_prime</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">b_prime</span><span class="crayon-sy">)</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-s">'bo'</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">ms</span><span class="crayon-o">=</span><span class="crayon-cn">8</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701d6b8c0c877131562-12"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">vlines</span><span class="crayon-sy">(</span><span class="crayon-v">k_ast</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">0</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">betabinom</span><span class="crayon-sy">.</span><span class="crayon-e">pmf</span><span class="crayon-sy">(</span><span class="crayon-v">k_ast</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">n_ast</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">a_prime</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">b_prime</span><span class="crayon-sy">)</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">colors</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-s">'b'</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">lw</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">5</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">alpha</span><span class="crayon-o">=</span><span class="crayon-cn">0.5</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-697701d6b8c0c877131562-13"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">title</span><span class="crayon-sy">(</span><span class="crayon-s">'Posterior predictive distribution'</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701d6b8c0c877131562-14"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">xlabel</span><span class="crayon-sy">(</span><span class="crayon-i">r</span><span class="crayon-s">'$k^{\ast}$'</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-697701d6b8c0c877131562-15"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">ylabel</span><span class="crayon-sy">(</span><span class="crayon-i">r</span><span class="crayon-s">'$f(k^{\ast} \mid 10, 10 + 2, 10 + 2 - 1)$'</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701d6b8c0c877131562-16"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">show</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0008 seconds] -->
+</div>
+
+
+
+<figure class="wp-block-image size-full"><img loading="lazy" decoding="async" width="580" height="457" src="../../wp-content/uploads/2025/08/betabinom_posterior_predictive.png" alt="апостериорное предсказательное распределение" class="wp-image-41827" srcset="../../wp-content/uploads/2025/08/betabinom_posterior_predictive.png 580w, ../../wp-content/uploads/2025/08/betabinom_posterior_predictive-300x236.png 300w" sizes="auto, (max-width: 580px) 100vw, 580px" /></figure>
+
+
+
+<p>Ожидаемо, после того как мы учли уже собранные данные $X,$ предсказательное распределение новых данных $X&#8217;$ сильно изменилось.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.9.0 -->
+
+		<div id="urvanov-syntax-highlighter-697701d6b8c11826532882" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701d6b8c11826532882-1">1</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-697701d6b8c11826532882-1"><span class="crayon-v">betabinom</span><span class="crayon-sy">.</span><span class="crayon-e">mean</span><span class="crayon-sy">(</span><span class="crayon-v">n_ast</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">a_prime</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">b_prime</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0001 seconds] -->
+</div>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.9.0 -->
+
+		<div id="urvanov-syntax-highlighter-697701d6b8c14225620947" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701d6b8c14225620947-1">1</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-697701d6b8c14225620947-1">2.142857142857143</div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0000 seconds] -->
+</div>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.9.0 -->
+
+		<div id="urvanov-syntax-highlighter-697701d6b8c17808341410" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701d6b8c17808341410-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697701d6b8c17808341410-2">2</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-697701d6b8c17808341410-1"><span class="crayon-c"># вероятность того, что заболело не более одного человека</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697701d6b8c17808341410-2"><span class="crayon-v">betabinom</span><span class="crayon-sy">.</span><span class="crayon-e">cdf</span><span class="crayon-sy">(</span><span class="crayon-cn">1</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">n_ast</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">a_prime</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">b_prime</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0001 seconds] -->
+</div>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.9.0 -->
+
+		<div id="urvanov-syntax-highlighter-697701d6b8c1a170256703" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-697701d6b8c1a170256703-1">1</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-697701d6b8c1a170256703-1">0.4037267080745346</div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0000 seconds] -->
+</div>
+
+			</div> <!-- .content -->
+
+			
+		</div> <!-- .post -->
+
+					<footer class="site-footer section-inner">
+
+				<p class="copyright">&copy; 2026 <a href="../../index.html" class="site-name"><!--Дмитрий Макаров-->Дмитрий Макаров</a></p>
+
+			</footer> <!-- footer -->
+
+		</main>
+		
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript" >
+   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+   m[i].l=1*new Date();
+   for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+   k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+   (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+   ym(100123342, "init", {
+        clickmap:true,
+        trackLinks:true,
+        accurateTrackBounce:true
+   });
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/100123342" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+
+		<script type="speculationrules">
+{"prefetch":[{"source":"document","where":{"and":[{"href_matches":"/*"},{"not":{"href_matches":["/wp-*.php","/wp-admin/*","/wp-content/uploads/*","/wp-content/*","/wp-content/plugins/*","/wp-content/themes/mcluhan/*","/*\\?(.+)"]}},{"not":{"selector_matches":"a[rel~=\"nofollow\"]"}},{"not":{"selector_matches":".no-prefetch, .no-prefetch a"}}]},"eagerness":"conservative"}]}
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js?ver=6.9" id="mathjax-js"></script>
+<script type="text/javascript" src="../../wp-includes/js/imagesloaded.min.js@ver=5.0.0" id="imagesloaded-js"></script>
+<script type="text/javascript" src="../../wp-includes/js/masonry.min.js@ver=4.2.2" id="masonry-js"></script>
+<script type="text/javascript" id="mcluhan_global-js-extra">
+/* <![CDATA[ */
+var mcluhan_ajaxpagination = {"ajaxurl":"https://www.dmitrymakarov.ru/wp-admin/admin-ajax.php","query_vars":"{\"page\":\"\",\"pagename\":\"bayesian\\/binom\"}"};
+//# sourceURL=mcluhan_global-js-extra
+/* ]]> */
+</script>
+<script type="text/javascript" src="../../wp-content/themes/mcluhan/assets/js/global.js@ver=2.1.1" id="mcluhan_global-js"></script>
+<script id="wp-emoji-settings" type="application/json">
+{"baseUrl":"https://s.w.org/images/core/emoji/17.0.2/72x72/","ext":".png","svgUrl":"https://s.w.org/images/core/emoji/17.0.2/svg/","svgExt":".svg","source":{"concatemoji":"https://www.dmitrymakarov.ru/wp-includes/js/wp-emoji-release.min.js?ver=6.9"}}
+</script>
+<script type="module">
+/* <![CDATA[ */
+/*! This file is auto-generated */
+const a=JSON.parse(document.getElementById("wp-emoji-settings").textContent),o=(window._wpemojiSettings=a,"wpEmojiSettingsSupports"),s=["flag","emoji"];function i(e){try{var t={supportTests:e,timestamp:(new Date).valueOf()};sessionStorage.setItem(o,JSON.stringify(t))}catch(e){}}function c(e,t,n){e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(t,0,0);t=new Uint32Array(e.getImageData(0,0,e.canvas.width,e.canvas.height).data);e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(n,0,0);const a=new Uint32Array(e.getImageData(0,0,e.canvas.width,e.canvas.height).data);return t.every((e,t)=>e===a[t])}function p(e,t){e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(t,0,0);var n=e.getImageData(16,16,1,1);for(let e=0;e<n.data.length;e++)if(0!==n.data[e])return!1;return!0}function u(e,t,n,a){switch(t){case"flag":return n(e,"\ud83c\udff3\ufe0f\u200d\u26a7\ufe0f","\ud83c\udff3\ufe0f\u200b\u26a7\ufe0f")?!1:!n(e,"\ud83c\udde8\ud83c\uddf6","\ud83c\udde8\u200b\ud83c\uddf6")&&!n(e,"\ud83c\udff4\udb40\udc67\udb40\udc62\udb40\udc65\udb40\udc6e\udb40\udc67\udb40\udc7f","\ud83c\udff4\u200b\udb40\udc67\u200b\udb40\udc62\u200b\udb40\udc65\u200b\udb40\udc6e\u200b\udb40\udc67\u200b\udb40\udc7f");case"emoji":return!a(e,"\ud83e\u1fac8")}return!1}function f(e,t,n,a){let r;const o=(r="undefined"!=typeof WorkerGlobalScope&&self instanceof WorkerGlobalScope?new OffscreenCanvas(300,150):document.createElement("canvas")).getContext("2d",{willReadFrequently:!0}),s=(o.textBaseline="top",o.font="600 32px Arial",{});return e.forEach(e=>{s[e]=t(o,e,n,a)}),s}function r(e){var t=document.createElement("script");t.src=e,t.defer=!0,document.head.appendChild(t)}a.supports={everything:!0,everythingExceptFlag:!0},new Promise(t=>{let n=function(){try{var e=JSON.parse(sessionStorage.getItem(o));if("object"==typeof e&&"number"==typeof e.timestamp&&(new Date).valueOf()<e.timestamp+604800&&"object"==typeof e.supportTests)return e.supportTests}catch(e){}return null}();if(!n){if("undefined"!=typeof Worker&&"undefined"!=typeof OffscreenCanvas&&"undefined"!=typeof URL&&URL.createObjectURL&&"undefined"!=typeof Blob)try{var e="postMessage("+f.toString()+"("+[JSON.stringify(s),u.toString(),c.toString(),p.toString()].join(",")+"));",a=new Blob([e],{type:"text/javascript"});const r=new Worker(URL.createObjectURL(a),{name:"wpTestEmojiSupports"});return void(r.onmessage=e=>{i(n=e.data),r.terminate(),t(n)})}catch(e){}i(n=f(s,u,c,p))}t(n)}).then(e=>{for(const n in e)a.supports[n]=e[n],a.supports.everything=a.supports.everything&&a.supports[n],"flag"!==n&&(a.supports.everythingExceptFlag=a.supports.everythingExceptFlag&&a.supports[n]);var t;a.supports.everythingExceptFlag=a.supports.everythingExceptFlag&&!a.supports.flag,a.supports.everything||((t=a.source||{}).concatemoji?r(t.concatemoji):t.wpemoji&&t.twemoji&&(r(t.twemoji),r(t.wpemoji)))});
+//# sourceURL=https://www.dmitrymakarov.ru/wp-includes/js/wp-emoji-loader.min.js
+/* ]]> */
+</script>
+			
+	</body>
+</html>
+
+
+<!-- Page supported by LiteSpeed Cache 7.7 on 2026-01-26 08:55:34 -->
