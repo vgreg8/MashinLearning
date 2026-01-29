@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+
+<html class="no-js" lang="ru-RU">
+
+	<head>
+
+		<meta http-equiv="content-type" content="text/html" charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" >
+
+		<link rel="profile" href="http://gmpg.org/xfn/11">
+
+		<meta name='robots' content='index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' />
+
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$','$'],['\\(','\\)']], 
+    processEscapes: true
+  },
+  options: {
+    ignoreHtmlClass: 'tex2jax_ignore|editor-rich-text'
+  }
+};
+
+</script>
+
+	<!-- This site is optimized with the Yoast SEO plugin v26.8 - https://yoast.com/product/yoast-seo-wordpress/ -->
+	<title>Метод опорных векторов. Часть 2</title>
+	<meta name="description" content="Во второй части позволим алгоритму SVM ошибаться на обучающей выборке и создадим метод опорных векторов с мягким зазором." />
+	<link rel="canonical" href="index.html" />
+	<meta property="og:locale" content="ru_RU" />
+	<meta property="og:type" content="article" />
+	<meta property="og:title" content="Метод опорных векторов. Часть 2" />
+	<meta property="og:description" content="Во второй части позволим алгоритму SVM ошибаться на обучающей выборке и создадим метод опорных векторов с мягким зазором." />
+	<meta property="og:url" content="https://www.dmitrymakarov.ru/learning/svm-02/" />
+	<meta property="og:site_name" content="Дмитрий Макаров" />
+	<meta property="article:modified_time" content="2025-06-22T10:21:08+00:00" />
+	<meta property="og:image" content="https://www.dmitrymakarov.ru/wp-content/uploads/2025/04/image-4.png" />
+	<meta property="og:image:width" content="1480" />
+	<meta property="og:image:height" content="320" />
+	<meta property="og:image:type" content="image/png" />
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:label1" content="Примерное время для чтения" />
+	<meta name="twitter:data1" content="8 минут" />
+	<script type="application/ld+json" class="yoast-schema-graph">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.dmitrymakarov.ru/learning/svm-02/","url":"https://www.dmitrymakarov.ru/learning/svm-02/","name":"Метод опорных векторов. Часть 2","isPartOf":{"@id":"https://www.dmitrymakarov.ru/#website"},"primaryImageOfPage":{"@id":"https://www.dmitrymakarov.ru/learning/svm-02/#primaryimage"},"image":{"@id":"https://www.dmitrymakarov.ru/learning/svm-02/#primaryimage"},"thumbnailUrl":"https://www.dmitrymakarov.ru/wp-content/uploads/2025/04/image-4-1024x221.png","datePublished":"2025-05-12T11:16:44+00:00","dateModified":"2025-06-22T10:21:08+00:00","description":"Во второй части позволим алгоритму SVM ошибаться на обучающей выборке и создадим метод опорных векторов с мягким зазором.","breadcrumb":{"@id":"https://www.dmitrymakarov.ru/learning/svm-02/#breadcrumb"},"inLanguage":"ru-RU","potentialAction":[{"@type":"ReadAction","target":["https://www.dmitrymakarov.ru/learning/svm-02/"]}]},{"@type":"ImageObject","inLanguage":"ru-RU","@id":"https://www.dmitrymakarov.ru/learning/svm-02/#primaryimage","url":"https://www.dmitrymakarov.ru/wp-content/uploads/2025/04/image-4.png","contentUrl":"https://www.dmitrymakarov.ru/wp-content/uploads/2025/04/image-4.png","width":1480,"height":320},{"@type":"BreadcrumbList","@id":"https://www.dmitrymakarov.ru/learning/svm-02/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная страница","item":"https://www.dmitrymakarov.ru/"},{"@type":"ListItem","position":2,"name":"Обучение модели","item":"https://www.dmitrymakarov.ru/learning/"},{"@type":"ListItem","position":3,"name":"Метод опорных векторов. Часть 2"}]},{"@type":"WebSite","@id":"https://www.dmitrymakarov.ru/#website","url":"https://www.dmitrymakarov.ru/","name":"Машинное обучение","description":"","publisher":{"@id":"https://www.dmitrymakarov.ru/#/schema/person/3fc221e2d391cc5cfd9d31c9c251c2a4"},"potentialAction":[{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://www.dmitrymakarov.ru/?s={search_term_string}"},"query-input":{"@type":"PropertyValueSpecification","valueRequired":true,"valueName":"search_term_string"}}],"inLanguage":"ru-RU"},{"@type":["Person","Organization"],"@id":"https://www.dmitrymakarov.ru/#/schema/person/3fc221e2d391cc5cfd9d31c9c251c2a4","name":"DmitryMakarov","image":{"@type":"ImageObject","inLanguage":"ru-RU","@id":"https://www.dmitrymakarov.ru/#/schema/person/image/","url":"https://secure.gravatar.com/avatar/17fb646123c8fccd118e1f2da611da3de8d8e72250637fb08b246e33d4c95395?s=96&d=mm&r=g","contentUrl":"https://secure.gravatar.com/avatar/17fb646123c8fccd118e1f2da611da3de8d8e72250637fb08b246e33d4c95395?s=96&d=mm&r=g","caption":"DmitryMakarov"},"logo":{"@id":"https://www.dmitrymakarov.ru/#/schema/person/image/"}}]}</script>
+	<!-- / Yoast SEO plugin. -->
+
+
+<link rel='dns-prefetch' href='https://cdn.jsdelivr.net/' />
+<link rel="alternate" type="application/rss+xml" title="Дмитрий Макаров &raquo; Лента" href="../../feed/index.html" />
+<link rel="alternate" type="application/rss+xml" title="Дмитрий Макаров &raquo; Лента комментариев" href="../../comments/feed/index.html" />
+<style id='wp-img-auto-sizes-contain-inline-css' type='text/css'>
+img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
+/*# sourceURL=wp-img-auto-sizes-contain-inline-css */
+</style>
+
+<link rel='stylesheet' id='urvanov_syntax_highlighter-css' href='../../wp-content/plugins/urvanov-syntax-highlighter/css/min/urvanov_syntax_highlighter.min.css@ver=2.9.0.css' type='text/css' media='all' />
+<link rel='stylesheet' id='crayon-theme-familiar-my-copy-css' href='../../wp-content/uploads/urvanov-syntax-highlighter/themes/familiar-my-copy/familiar-my-copy.css@ver=2.9.0.css' type='text/css' media='all' />
+<link rel='stylesheet' id='crayon-font-consolas-css' href='../../wp-content/plugins/urvanov-syntax-highlighter/fonts/consolas.css@ver=2.9.0.css' type='text/css' media='all' />
+<style id='wp-emoji-styles-inline-css' type='text/css'>
+
+	img.wp-smiley, img.emoji {
+		display: inline !important;
+		border: none !important;
+		box-shadow: none !important;
+		height: 1em !important;
+		width: 1em !important;
+		margin: 0 0.07em !important;
+		vertical-align: -0.1em !important;
+		background: none !important;
+		padding: 0 !important;
+	}
+/*# sourceURL=wp-emoji-styles-inline-css */
+</style>
+<link rel='stylesheet' id='wp-block-library-css' href='../../wp-includes/css/dist/block-library/style.min.css@ver=6.9.css' type='text/css' media='all' />
+<style id='wp-block-heading-inline-css' type='text/css'>
+h1:where(.wp-block-heading).has-background,h2:where(.wp-block-heading).has-background,h3:where(.wp-block-heading).has-background,h4:where(.wp-block-heading).has-background,h5:where(.wp-block-heading).has-background,h6:where(.wp-block-heading).has-background{padding:1.25em 2.375em}h1.has-text-align-left[style*=writing-mode]:where([style*=vertical-lr]),h1.has-text-align-right[style*=writing-mode]:where([style*=vertical-rl]),h2.has-text-align-left[style*=writing-mode]:where([style*=vertical-lr]),h2.has-text-align-right[style*=writing-mode]:where([style*=vertical-rl]),h3.has-text-align-left[style*=writing-mode]:where([style*=vertical-lr]),h3.has-text-align-right[style*=writing-mode]:where([style*=vertical-rl]),h4.has-text-align-left[style*=writing-mode]:where([style*=vertical-lr]),h4.has-text-align-right[style*=writing-mode]:where([style*=vertical-rl]),h5.has-text-align-left[style*=writing-mode]:where([style*=vertical-lr]),h5.has-text-align-right[style*=writing-mode]:where([style*=vertical-rl]),h6.has-text-align-left[style*=writing-mode]:where([style*=vertical-lr]),h6.has-text-align-right[style*=writing-mode]:where([style*=vertical-rl]){rotate:180deg}
+/*# sourceURL=https://www.dmitrymakarov.ru/wp-includes/blocks/heading/style.min.css */
+</style>
+<style id='wp-block-image-inline-css' type='text/css'>
+.wp-block-image>a,.wp-block-image>figure>a{display:inline-block}.wp-block-image img{box-sizing:border-box;height:auto;max-width:100%;vertical-align:bottom}@media not (prefers-reduced-motion){.wp-block-image img.hide{visibility:hidden}.wp-block-image img.show{animation:show-content-image .4s}}.wp-block-image[style*=border-radius] img,.wp-block-image[style*=border-radius]>a{border-radius:inherit}.wp-block-image.has-custom-border img{box-sizing:border-box}.wp-block-image.aligncenter{text-align:center}.wp-block-image.alignfull>a,.wp-block-image.alignwide>a{width:100%}.wp-block-image.alignfull img,.wp-block-image.alignwide img{height:auto;width:100%}.wp-block-image .aligncenter,.wp-block-image .alignleft,.wp-block-image .alignright,.wp-block-image.aligncenter,.wp-block-image.alignleft,.wp-block-image.alignright{display:table}.wp-block-image .aligncenter>figcaption,.wp-block-image .alignleft>figcaption,.wp-block-image .alignright>figcaption,.wp-block-image.aligncenter>figcaption,.wp-block-image.alignleft>figcaption,.wp-block-image.alignright>figcaption{caption-side:bottom;display:table-caption}.wp-block-image .alignleft{float:left;margin:.5em 1em .5em 0}.wp-block-image .alignright{float:right;margin:.5em 0 .5em 1em}.wp-block-image .aligncenter{margin-left:auto;margin-right:auto}.wp-block-image :where(figcaption){margin-bottom:1em;margin-top:.5em}.wp-block-image.is-style-circle-mask img{border-radius:9999px}@supports ((-webkit-mask-image:none) or (mask-image:none)) or (-webkit-mask-image:none){.wp-block-image.is-style-circle-mask img{border-radius:0;-webkit-mask-image:url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="50"/></svg>');mask-image:url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="50"/></svg>');mask-mode:alpha;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-size:contain;mask-size:contain}}:root :where(.wp-block-image.is-style-rounded img,.wp-block-image .is-style-rounded img){border-radius:9999px}.wp-block-image figure{margin:0}.wp-lightbox-container{display:flex;flex-direction:column;position:relative}.wp-lightbox-container img{cursor:zoom-in}.wp-lightbox-container img:hover+button{opacity:1}.wp-lightbox-container button{align-items:center;backdrop-filter:blur(16px) saturate(180%);background-color:#5a5a5a40;border:none;border-radius:4px;cursor:zoom-in;display:flex;height:20px;justify-content:center;opacity:0;padding:0;position:absolute;right:16px;text-align:center;top:16px;width:20px;z-index:100}@media not (prefers-reduced-motion){.wp-lightbox-container button{transition:opacity .2s ease}}.wp-lightbox-container button:focus-visible{outline:3px auto #5a5a5a40;outline:3px auto -webkit-focus-ring-color;outline-offset:3px}.wp-lightbox-container button:hover{cursor:pointer;opacity:1}.wp-lightbox-container button:focus{opacity:1}.wp-lightbox-container button:focus,.wp-lightbox-container button:hover,.wp-lightbox-container button:not(:hover):not(:active):not(.has-background){background-color:#5a5a5a40;border:none}.wp-lightbox-overlay{box-sizing:border-box;cursor:zoom-out;height:100vh;left:0;overflow:hidden;position:fixed;top:0;visibility:hidden;width:100%;z-index:100000}.wp-lightbox-overlay .close-button{align-items:center;cursor:pointer;display:flex;justify-content:center;min-height:40px;min-width:40px;padding:0;position:absolute;right:calc(env(safe-area-inset-right) + 16px);top:calc(env(safe-area-inset-top) + 16px);z-index:5000000}.wp-lightbox-overlay .close-button:focus,.wp-lightbox-overlay .close-button:hover,.wp-lightbox-overlay .close-button:not(:hover):not(:active):not(.has-background){background:none;border:none}.wp-lightbox-overlay .lightbox-image-container{height:var(--wp--lightbox-container-height);left:50%;overflow:hidden;position:absolute;top:50%;transform:translate(-50%,-50%);transform-origin:top left;width:var(--wp--lightbox-container-width);z-index:9999999999}.wp-lightbox-overlay .wp-block-image{align-items:center;box-sizing:border-box;display:flex;height:100%;justify-content:center;margin:0;position:relative;transform-origin:0 0;width:100%;z-index:3000000}.wp-lightbox-overlay .wp-block-image img{height:var(--wp--lightbox-image-height);min-height:var(--wp--lightbox-image-height);min-width:var(--wp--lightbox-image-width);width:var(--wp--lightbox-image-width)}.wp-lightbox-overlay .wp-block-image figcaption{display:none}.wp-lightbox-overlay button{background:none;border:none}.wp-lightbox-overlay .scrim{background-color:#fff;height:100%;opacity:.9;position:absolute;width:100%;z-index:2000000}.wp-lightbox-overlay.active{visibility:visible}@media not (prefers-reduced-motion){.wp-lightbox-overlay.active{animation:turn-on-visibility .25s both}.wp-lightbox-overlay.active img{animation:turn-on-visibility .35s both}.wp-lightbox-overlay.show-closing-animation:not(.active){animation:turn-off-visibility .35s both}.wp-lightbox-overlay.show-closing-animation:not(.active) img{animation:turn-off-visibility .25s both}.wp-lightbox-overlay.zoom.active{animation:none;opacity:1;visibility:visible}.wp-lightbox-overlay.zoom.active .lightbox-image-container{animation:lightbox-zoom-in .4s}.wp-lightbox-overlay.zoom.active .lightbox-image-container img{animation:none}.wp-lightbox-overlay.zoom.active .scrim{animation:turn-on-visibility .4s forwards}.wp-lightbox-overlay.zoom.show-closing-animation:not(.active){animation:none}.wp-lightbox-overlay.zoom.show-closing-animation:not(.active) .lightbox-image-container{animation:lightbox-zoom-out .4s}.wp-lightbox-overlay.zoom.show-closing-animation:not(.active) .lightbox-image-container img{animation:none}.wp-lightbox-overlay.zoom.show-closing-animation:not(.active) .scrim{animation:turn-off-visibility .4s forwards}}@keyframes show-content-image{0%{visibility:hidden}99%{visibility:hidden}to{visibility:visible}}@keyframes turn-on-visibility{0%{opacity:0}to{opacity:1}}@keyframes turn-off-visibility{0%{opacity:1;visibility:visible}99%{opacity:0;visibility:visible}to{opacity:0;visibility:hidden}}@keyframes lightbox-zoom-in{0%{transform:translate(calc((-100vw + var(--wp--lightbox-scrollbar-width))/2 + var(--wp--lightbox-initial-left-position)),calc(-50vh + var(--wp--lightbox-initial-top-position))) scale(var(--wp--lightbox-scale))}to{transform:translate(-50%,-50%) scale(1)}}@keyframes lightbox-zoom-out{0%{transform:translate(-50%,-50%) scale(1);visibility:visible}99%{visibility:visible}to{transform:translate(calc((-100vw + var(--wp--lightbox-scrollbar-width))/2 + var(--wp--lightbox-initial-left-position)),calc(-50vh + var(--wp--lightbox-initial-top-position))) scale(var(--wp--lightbox-scale));visibility:hidden}}
+/*# sourceURL=https://www.dmitrymakarov.ru/wp-includes/blocks/image/style.min.css */
+</style>
+<style id='wp-block-list-inline-css' type='text/css'>
+ol,ul{box-sizing:border-box}:root :where(.wp-block-list.has-background){padding:1.25em 2.375em}
+/*# sourceURL=https://www.dmitrymakarov.ru/wp-includes/blocks/list/style.min.css */
+</style>
+<style id='wp-block-paragraph-inline-css' type='text/css'>
+.is-small-text{font-size:.875em}.is-regular-text{font-size:1em}.is-large-text{font-size:2.25em}.is-larger-text{font-size:3em}.has-drop-cap:not(:focus):first-letter{float:left;font-size:8.4em;font-style:normal;font-weight:100;line-height:.68;margin:.05em .1em 0 0;text-transform:uppercase}body.rtl .has-drop-cap:not(:focus):first-letter{float:none;margin-left:.1em}p.has-drop-cap.has-background{overflow:hidden}:root :where(p.has-background){padding:1.25em 2.375em}:where(p.has-text-color:not(.has-link-color)) a{color:inherit}p.has-text-align-left[style*="writing-mode:vertical-lr"],p.has-text-align-right[style*="writing-mode:vertical-rl"]{rotate:180deg}
+/*# sourceURL=https://www.dmitrymakarov.ru/wp-includes/blocks/paragraph/style.min.css */
+</style>
+<style id='global-styles-inline-css' type='text/css'>
+:root{--wp--preset--aspect-ratio--square: 1;--wp--preset--aspect-ratio--4-3: 4/3;--wp--preset--aspect-ratio--3-4: 3/4;--wp--preset--aspect-ratio--3-2: 3/2;--wp--preset--aspect-ratio--2-3: 2/3;--wp--preset--aspect-ratio--16-9: 16/9;--wp--preset--aspect-ratio--9-16: 9/16;--wp--preset--color--black: #121212;--wp--preset--color--cyan-bluish-gray: #abb8c3;--wp--preset--color--white: #fff;--wp--preset--color--pale-pink: #f78da7;--wp--preset--color--vivid-red: #cf2e2e;--wp--preset--color--luminous-vivid-orange: #ff6900;--wp--preset--color--luminous-vivid-amber: #fcb900;--wp--preset--color--light-green-cyan: #7bdcb5;--wp--preset--color--vivid-green-cyan: #00d084;--wp--preset--color--pale-cyan-blue: #8ed1fc;--wp--preset--color--vivid-cyan-blue: #0693e3;--wp--preset--color--vivid-purple: #9b51e0;--wp--preset--color--dark-gray: #333;--wp--preset--color--medium-gray: #555;--wp--preset--color--light-gray: #777;--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg,rgb(6,147,227) 0%,rgb(155,81,224) 100%);--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg,rgb(122,220,180) 0%,rgb(0,208,130) 100%);--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg,rgb(252,185,0) 0%,rgb(255,105,0) 100%);--wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg,rgb(255,105,0) 0%,rgb(207,46,46) 100%);--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg,rgb(238,238,238) 0%,rgb(169,184,195) 100%);--wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg,rgb(74,234,220) 0%,rgb(151,120,209) 20%,rgb(207,42,186) 40%,rgb(238,44,130) 60%,rgb(251,105,98) 80%,rgb(254,248,76) 100%);--wp--preset--gradient--blush-light-purple: linear-gradient(135deg,rgb(255,206,236) 0%,rgb(152,150,240) 100%);--wp--preset--gradient--blush-bordeaux: linear-gradient(135deg,rgb(254,205,165) 0%,rgb(254,45,45) 50%,rgb(107,0,62) 100%);--wp--preset--gradient--luminous-dusk: linear-gradient(135deg,rgb(255,203,112) 0%,rgb(199,81,192) 50%,rgb(65,88,208) 100%);--wp--preset--gradient--pale-ocean: linear-gradient(135deg,rgb(255,245,203) 0%,rgb(182,227,212) 50%,rgb(51,167,181) 100%);--wp--preset--gradient--electric-grass: linear-gradient(135deg,rgb(202,248,128) 0%,rgb(113,206,126) 100%);--wp--preset--gradient--midnight: linear-gradient(135deg,rgb(2,3,129) 0%,rgb(40,116,252) 100%);--wp--preset--font-size--small: 16px;--wp--preset--font-size--medium: 20px;--wp--preset--font-size--large: 24px;--wp--preset--font-size--x-large: 42px;--wp--preset--font-size--normal: 18px;--wp--preset--font-size--larger: 28px;--wp--preset--spacing--20: 0.44rem;--wp--preset--spacing--30: 0.67rem;--wp--preset--spacing--40: 1rem;--wp--preset--spacing--50: 1.5rem;--wp--preset--spacing--60: 2.25rem;--wp--preset--spacing--70: 3.38rem;--wp--preset--spacing--80: 5.06rem;--wp--preset--shadow--natural: 6px 6px 9px rgba(0, 0, 0, 0.2);--wp--preset--shadow--deep: 12px 12px 50px rgba(0, 0, 0, 0.4);--wp--preset--shadow--sharp: 6px 6px 0px rgba(0, 0, 0, 0.2);--wp--preset--shadow--outlined: 6px 6px 0px -3px rgb(255, 255, 255), 6px 6px rgb(0, 0, 0);--wp--preset--shadow--crisp: 6px 6px 0px rgb(0, 0, 0);}:where(.is-layout-flex){gap: 0.5em;}:where(.is-layout-grid){gap: 0.5em;}body .is-layout-flex{display: flex;}.is-layout-flex{flex-wrap: wrap;align-items: center;}.is-layout-flex > :is(*, div){margin: 0;}body .is-layout-grid{display: grid;}.is-layout-grid > :is(*, div){margin: 0;}:where(.wp-block-columns.is-layout-flex){gap: 2em;}:where(.wp-block-columns.is-layout-grid){gap: 2em;}:where(.wp-block-post-template.is-layout-flex){gap: 1.25em;}:where(.wp-block-post-template.is-layout-grid){gap: 1.25em;}.has-black-color{color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-color{color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-color{color: var(--wp--preset--color--white) !important;}.has-pale-pink-color{color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-color{color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-color{color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-color{color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-color{color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-color{color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-color{color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-color{color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-color{color: var(--wp--preset--color--vivid-purple) !important;}.has-black-background-color{background-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-background-color{background-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-background-color{background-color: var(--wp--preset--color--white) !important;}.has-pale-pink-background-color{background-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-background-color{background-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-background-color{background-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-background-color{background-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-background-color{background-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-background-color{background-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-background-color{background-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-background-color{background-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-background-color{background-color: var(--wp--preset--color--vivid-purple) !important;}.has-black-border-color{border-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-border-color{border-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-border-color{border-color: var(--wp--preset--color--white) !important;}.has-pale-pink-border-color{border-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-border-color{border-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-border-color{border-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-border-color{border-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-border-color{border-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-border-color{border-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-border-color{border-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-border-color{border-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-border-color{border-color: var(--wp--preset--color--vivid-purple) !important;}.has-vivid-cyan-blue-to-vivid-purple-gradient-background{background: var(--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple) !important;}.has-light-green-cyan-to-vivid-green-cyan-gradient-background{background: var(--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan) !important;}.has-luminous-vivid-amber-to-luminous-vivid-orange-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange) !important;}.has-luminous-vivid-orange-to-vivid-red-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-orange-to-vivid-red) !important;}.has-very-light-gray-to-cyan-bluish-gray-gradient-background{background: var(--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray) !important;}.has-cool-to-warm-spectrum-gradient-background{background: var(--wp--preset--gradient--cool-to-warm-spectrum) !important;}.has-blush-light-purple-gradient-background{background: var(--wp--preset--gradient--blush-light-purple) !important;}.has-blush-bordeaux-gradient-background{background: var(--wp--preset--gradient--blush-bordeaux) !important;}.has-luminous-dusk-gradient-background{background: var(--wp--preset--gradient--luminous-dusk) !important;}.has-pale-ocean-gradient-background{background: var(--wp--preset--gradient--pale-ocean) !important;}.has-electric-grass-gradient-background{background: var(--wp--preset--gradient--electric-grass) !important;}.has-midnight-gradient-background{background: var(--wp--preset--gradient--midnight) !important;}.has-small-font-size{font-size: var(--wp--preset--font-size--small) !important;}.has-medium-font-size{font-size: var(--wp--preset--font-size--medium) !important;}.has-large-font-size{font-size: var(--wp--preset--font-size--large) !important;}.has-x-large-font-size{font-size: var(--wp--preset--font-size--x-large) !important;}
+/*# sourceURL=global-styles-inline-css */
+</style>
+
+<style id='classic-theme-styles-inline-css' type='text/css'>
+/*! This file is auto-generated */
+.wp-block-button__link{color:#fff;background-color:#32373c;border-radius:9999px;box-shadow:none;text-decoration:none;padding:calc(.667em + 2px) calc(1.333em + 2px);font-size:1.125em}.wp-block-file__button{background:#32373c;color:#fff;text-decoration:none}
+/*# sourceURL=/wp-includes/css/classic-themes.min.css */
+</style>
+<link rel='stylesheet' id='mcluhan-fonts-css' href='../../wp-content/themes/mcluhan/assets/css/fonts.css@ver=6.9.css' type='text/css' media='all' />
+<link rel='stylesheet' id='fontawesome-css' href='../../wp-content/themes/mcluhan/assets/css/font-awesome.css@ver=6.9.css' type='text/css' media='all' />
+<link rel='stylesheet' id='mcluhan-style-css' href='../../wp-content/themes/mcluhan/style.css@ver=2.1.1.css' type='text/css' media='all' />
+<script type="text/javascript" src="../../wp-includes/js/jquery/jquery.min.js@ver=3.7.1" id="jquery-core-js"></script>
+<script type="text/javascript" src="../../wp-includes/js/jquery/jquery-migrate.min.js@ver=3.4.1" id="jquery-migrate-js"></script>
+<script type="text/javascript" id="urvanov_syntax_highlighter_js-js-extra">
+/* <![CDATA[ */
+var UrvanovSyntaxHighlighterSyntaxSettings = {"version":"2.9.0","is_admin":"0","ajaxurl":"https://www.dmitrymakarov.ru/wp-admin/admin-ajax.php","prefix":"urvanov-syntax-highlighter-","setting":"urvanov-syntax-highlighter-setting","selected":"urvanov-syntax-highlighter-setting-selected","changed":"urvanov-syntax-highlighter-setting-changed","special":"urvanov-syntax-highlighter-setting-special","orig_value":"data-orig-value","debug":""};
+var UrvanovSyntaxHighlighterSyntaxStrings = {"copy":"Copied to the clipboard","minimize":"Click To Expand Code"};
+//# sourceURL=urvanov_syntax_highlighter_js-js-extra
+/* ]]> */
+</script>
+<script type="text/javascript" src="../../wp-content/plugins/urvanov-syntax-highlighter/js/min/urvanov_syntax_highlighter.min.js@ver=2.9.0" id="urvanov_syntax_highlighter_js-js"></script>
+
+			<!-- Customizer CSS -->
+
+			<style type="text/css">
+
+				body .site-header { background-color:#004235; }.social-menu.desktop { background-color:#004235; }.social-menu a:hover { color:#004235; }.social-menu a.active { color:#004235; }.mobile-menu-wrapper { background-color:#004235; }.social-menu.mobile { background-color:#004235; }.mobile-search.active { background-color:#004235; }
+			</style>
+
+			<!-- /Customizer CSS -->
+
+					<script>jQuery( 'html' ).removeClass( 'no-js' ).addClass( 'js' );</script>
+		<style type="text/css" id="custom-background-css">
+body.custom-background { background-color: #fff9ef; }
+</style>
+	<link rel="icon" href="../../wp-content/uploads/2021/08/cropped-wp-favicon-512-32x32.png" sizes="32x32" />
+<link rel="icon" href="../../wp-content/uploads/2021/08/cropped-wp-favicon-512-192x192.png" sizes="192x192" />
+<link rel="apple-touch-icon" href="../../wp-content/uploads/2021/08/cropped-wp-favicon-512-180x180.png" />
+<meta name="msapplication-TileImage" content="https://www.dmitrymakarov.ru/wp-content/uploads/2021/08/cropped-wp-favicon-512-270x270.png" />
+
+	</head>
+
+	<body class="wp-singular page-template page-template-full-width-page-template page-template-full-width-page-template-php page page-id-38956 page-child parent-pageid-5658 custom-background wp-theme-mcluhan full-width-template">
+
+		
+		<a class="skip-link button" href="index.html#site-content">Перейти к содержимому</a>
+
+		<header class="site-header group">
+
+			
+			<p class="site-title"><a href="../../index.html" class="site-name">Дмитрий Макаров</a></p>
+
+			
+			<div class="nav-toggle">
+				<div class="bar"></div>
+				<div class="bar"></div>
+			</div>
+
+			<div class="menu-wrapper">
+
+				<ul class="main-menu desktop">
+
+					<li id="menu-item-36690" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home menu-item-36690"><a href="../../index.html">Материалы</a></li>
+<li id="menu-item-36691" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-36691"><a href="../../about/index.html">Об авторе</a></li>
+				</ul>
+
+			</div><!-- .menu-wrapper -->
+
+			
+				<div class="social-menu desktop">
+
+					<ul class="social-menu-inner">
+
+						<li class="social-search-wrapper"><a href="../../index.html@s=.html"></a></li>
+
+						
+					</ul><!-- .social-menu-inner -->
+
+				</div><!-- .social-menu -->
+
+			
+		</header><!-- header -->
+
+		<div class="mobile-menu-wrapper">
+
+			<ul class="main-menu mobile">
+				<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home menu-item-36690"><a href="../../index.html">Материалы</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-36691"><a href="../../about/index.html">Об авторе</a></li>
+					<li class="toggle-mobile-search-wrapper"><a href="index.html#" class="toggle-mobile-search">Поиск</a></li>
+							</ul><!-- .main-menu.mobile -->
+
+			
+		</div><!-- .mobile-menu-wrapper -->
+
+		
+			<div class="mobile-search">
+
+				<div class="untoggle-mobile-search"></div>
+
+				
+<form role="search" method="get" class="search-form" action="../../index.html">
+	<label class="screen-reader-text" for="search-form-697702587ce75">Поиск:</label>
+	<input type="search" id="search-form-697702587ce75" class="search-field" placeholder="Введите запрос" value="" name="s" autocomplete="off" />
+	</button>
+</form>
+
+				<div class="mobile-results">
+
+					<div class="results-wrapper"></div>
+
+				</div>
+
+			</div><!-- .mobile-search -->
+
+			<div class="search-overlay">
+
+				
+<form role="search" method="get" class="search-form" action="../../index.html">
+	<label class="screen-reader-text" for="search-form-697702587ceef">Поиск:</label>
+	<input type="search" id="search-form-697702587ceef" class="search-field" placeholder="Введите запрос" value="" name="s" autocomplete="off" />
+	</button>
+</form>
+
+			</div><!-- .search-overlay -->
+
+		
+		<main class="site-content" id="site-content">
+		<article class="post-38956 page type-page status-publish hentry missing-thumbnail">
+
+			
+			<header class="entry-header section-inner">
+
+				<h1 class="entry-title">Метод опорных векторов. Часть 2</h1>
+			</header><!-- .entry-header -->
+
+			<div class="entry-content section-inner">
+
+				
+<p class="has-light-gray-color has-text-color"><a href="../../index.html">Материалы</a> &gt; <a href="../index.html">Обучение модели</a></p>
+
+
+
+<h2 class="wp-block-heading">SVM с мягким зазором</h2>
+
+
+
+<h3 class="wp-block-heading">Основная идея</h3>
+
+
+
+<p>Вернемся к примеру с единственным признаком, однако теперь представим, что в данных присутствуют выбросы и из-за этого они <strong>линейно неразделимы</strong> (linearly non-separable).</p>
+
+
+<div class="wp-block-image">
+<figure class="aligncenter size-large is-resized"><img fetchpriority="high" decoding="async" width="1024" height="221" src="../../wp-content/uploads/2025/04/image-4-1024x221.png" alt="выбросы в данных" class="wp-image-38429" style="width:500px;height:auto" srcset="../../wp-content/uploads/2025/04/image-4-1024x221.png 1024w, ../../wp-content/uploads/2025/04/image-4-300x65.png 300w, ../../wp-content/uploads/2025/04/image-4-768x166.png 768w, ../../wp-content/uploads/2025/04/image-4-1200x259.png 1200w, ../../wp-content/uploads/2025/04/image-4-600x130.png 600w, ../../wp-content/uploads/2025/04/image-4.png 1480w" sizes="(max-width: 1024px) 100vw, 1024px" /></figure>
+</div>
+
+
+<p>При этом если позволить алгоритму ошибиться с классификацией одного наблюдения, мы получим модель, которая (возможно) будет хорошо предсказывать новые данные.</p>
+
+
+<div class="wp-block-image">
+<figure class="aligncenter size-large is-resized"><img decoding="async" width="1024" height="222" src="../../wp-content/uploads/2025/04/image-6-1024x222.png" alt="линейно неразделимая выборка" class="wp-image-38430" style="width:494px;height:auto" srcset="../../wp-content/uploads/2025/04/image-6-1024x222.png 1024w, ../../wp-content/uploads/2025/04/image-6-300x65.png 300w, ../../wp-content/uploads/2025/04/image-6-768x167.png 768w, ../../wp-content/uploads/2025/04/image-6-1200x261.png 1200w, ../../wp-content/uploads/2025/04/image-6-600x130.png 600w, ../../wp-content/uploads/2025/04/image-6.png 1492w" sizes="(max-width: 1024px) 100vw, 1024px" /></figure>
+</div>
+
+
+<p class="has-background" style="background-color:#ffe8c4">Такой алгоритм называется <strong>методом опорных векторов с мягким зазором</strong> (soft-margin SVM).</p>
+
+
+
+<p>Допуская большее или меньшее количество ошибочно классифицируемых наблюдений мы можем либо увеличивать точность алгоритма на обучающей выборке, либо повышать его обобщающую способность.</p>
+
+
+
+<p>Можно сказать, что таким образом обеспечивается <a href="../reg/index.html">компромисс между смещением и разбросом</a> (bias-variance tradeoff).</p>
+
+
+
+<h3 class="wp-block-heading">Оценка ошибочной классификации</h3>
+
+
+
+<p>Для того чтобы обучить такой алгоритм для <em>каждого</em> наблюдения введем <strong>переменные</strong> $\xi_i, $ где $i = 1, \ldots, n$ (slack variable)</p>
+
+
+
+<p>$$ \xi_i = 1-y_i(\mathbf w^\top \mathbf x_i + b), \quad \xi_i \geq 0, $$</p>
+
+
+
+<p>которые показывают, насколько алгоритм ошибся при классификации объекта.</p>
+
+
+<div class="wp-block-image">
+<figure class="aligncenter size-large is-resized"><img decoding="async" width="1024" height="883" src="../../wp-content/uploads/2025/04/image-9-1024x883.png" alt="оценка ошибочной классификации" class="wp-image-38434" style="width:457px;height:auto" srcset="../../wp-content/uploads/2025/04/image-9-1024x883.png 1024w, ../../wp-content/uploads/2025/04/image-9-300x259.png 300w, ../../wp-content/uploads/2025/04/image-9-768x662.png 768w, ../../wp-content/uploads/2025/04/image-9-1200x1035.png 1200w, ../../wp-content/uploads/2025/04/image-9-600x517.png 600w, ../../wp-content/uploads/2025/04/image-9.png 1497w" sizes="(max-width: 1024px) 100vw, 1024px" /></figure>
+</div>
+
+
+<p>На схеме выше для положительных объектов:</p>
+
+
+
+<ul class="wp-block-list">
+<li>если наблюдение находится на &#171;своей&#187; стороне или непосредственно на &#171;своем&#187; зазоре $H_+,$ то $\xi,$ и, в частности, $\xi_1$ и $\xi_4$ равны нулю;</li>
+
+
+
+<li>если объект находится между $H$ и $H_+,$ то, например, $0 &lt; \xi_3 &lt; 1;$</li>
+
+
+
+<li>если наблюдение оказывается на &#171;неправильной&#187; стороне, то $\xi_2 &gt; 1.$</li>
+</ul>
+
+
+
+<p>Аналогичное рассуждение можно провести и для отрицательных объектов.</p>
+
+
+
+<p>Таким образом, просуммировав все $\xi_i$ мы получим оценку того, какое количество объектов было классифицировано неправильно $\xi_i &gt; 1$ или не идеально $0 &lt; \xi_i &lt; 1.$</p>
+
+
+
+<p>Это количество нам бы хотелось минимизировать.</p>
+
+
+
+<h3 class="wp-block-heading">Задача оптимизации</h3>
+
+
+
+<h4 class="wp-block-heading">Основная задача</h4>
+
+
+
+<p>Сформулируем основную задачу оптимизации.</p>
+
+
+
+<p>$$ \begin{gather} \min_{\mathbf w,\mathbf b, \xi}\; \left( \frac{1}{2}||\mathbf w||^2 + C \sum_{i=1}^n \xi_i \right) \\ y_i \left(\mathbf w^\top \mathbf x_i + b \right) \geq 1-\xi_i, \quad \xi_i \geq 0 \end{gather} $$</p>
+
+
+
+<p>Обратим внимание на два момента:</p>
+
+
+
+<ul class="wp-block-list">
+<li>во-первых, $1-\xi_i$ будет меньше единицы только в том случае, если классификатор ошибается (а также допускает объекты между гиперплоскостью и &#171;своим&#187; зазором);</li>
+
+
+
+<li>кроме того, гиперпараметр $C$ определяет значимость такой ошибки, $C \xi_i:$</li>
+</ul>
+
+
+
+<p>Примечание. Слагаемое $C \sum_{i=1}^n \xi_i$ можно считать <a href="../reg/index.html">L1-регуляризатором</a> функции потерь.</p>
+
+
+
+<h4 class="wp-block-heading">Двойственная задача</h4>
+
+
+
+<p>Введем <strong>функцию Лагранжа</strong>.</p>
+
+
+
+<p>$$ \begin{gather} \begin{array}{rl} \mathcal{L} (\mathbf w, b, \boldsymbol \xi, \boldsymbol \alpha, \boldsymbol \beta) =&amp; \frac{1}{2} \mathbf w^\top \mathbf w + C \sum_{i=1}^N \xi_i \\ &amp;-\sum^N_{i=1} \alpha_i[y_i(\mathbf w^\top \mathbf x_i + b)-1+\xi_i]-\sum^N_{i=1} \beta_i \xi_i \;, \end{array} \end{gather} $$</p>
+
+
+
+<p>где $\boldsymbol \alpha, \boldsymbol \beta$ &#8212; множители Лагранжа, и поставим задачу ее <strong>максимизации</strong></p>
+
+
+
+<p>$$ \max_{\boldsymbol \alpha, \boldsymbol \beta : \boldsymbol \alpha \geq 0, \boldsymbol \beta \geq 0} \mathcal{L} (\mathbf w, b, \boldsymbol \xi, \boldsymbol \alpha, \boldsymbol \beta) $$</p>
+
+
+
+<p>Найдем производные относительно $\mathbf w, b, \boldsymbol \xi$ и приравняем их к нулю.</p>
+
+
+
+<p>$$ \begin{gather} \begin{array}{rl} \frac{\partial \mathcal{L}}{\partial \mathbf w} &amp;=&amp; \mathbf w-\sum_{i=1}^N \alpha_i y_i \mathbf x_i = 0 \\ \mathbf w &amp;=&amp; \sum_{i=1}^N \alpha_i y_i \mathbf x_i \end{array} \end{gather} $$</p>
+
+
+
+<p>$$ \begin{split} \begin{array}{rl} \frac{\partial \mathcal{L}}{\partial b} = -\sum_{i=1}^N \alpha_i y_i &amp;=&amp; 0 \\ \sum_{i=1}^N \alpha_i y_i &amp;=&amp; 0 \end{array} \end{split} $$</p>
+
+
+
+<p>$$ \begin{split} \begin{array}{cc} \frac{\partial \mathcal{L}}{\partial \boldsymbol \xi} = C-\alpha_i-\beta_i = 0 \\ \beta_i = C-\alpha_i \end{array} \end{split} $$</p>
+
+
+
+<p>Выразим ограничения для множителей $\alpha_i, \beta_i$ через ограничение для $\alpha_i.$</p>
+
+
+
+<p>$$ \begin{split} \begin{array}{cc} \beta_i \geq 0 \implies C-\alpha_i \geq 0 \implies \alpha_i \leq C \\ \alpha_i \geq 0, \alpha_i \leq C \implies 0 \leq \alpha_i \leq C \end{array} \end{split} $$</p>
+
+
+
+<p>Подставив полученные значения обратно в $\mathcal{L}$ и преобразав выражение, получим</p>
+
+
+
+<p>$$ \begin{gather} \begin{array}{rl} \mathcal{L} (\mathbf{w}, b, \boldsymbol{\alpha}) &amp;=&amp; \frac{1}{2} \sum_{i=1}^N \sum_{j=1}^N \alpha_i \alpha_j y_i y_j \mathbf{x}_i^\top \mathbf{x}_j + C \sum_{i=1}^N \xi_i \\ &amp;&amp; + \sum_{i=1}^N \alpha_i-\sum_{i=1}^N \alpha_i \xi_i \\ &amp;&amp;-\sum_{i=1}^N \sum_{j=1}^N \alpha_i \alpha_j y_i y_j \mathbf{x}_i^\top \mathbf{x}_j-b \sum_{i=1}^N \alpha_i y_i \\ &amp;&amp;-C \sum_{i=1}^N \xi_i + \sum_{i=1}^N \alpha_i \xi_i \\ &amp;=&amp; \sum_{i=1}^N \alpha_i-\frac{1}{2} \sum_{i=1}^N \sum_{j=1}^N \alpha_i \alpha_j y_i y_j \mathbf{x}_i^\top \mathbf{x}_j \end{array} \end{gather} $$</p>
+
+
+
+<p>$$ \max_{\boldsymbol \alpha} \mathcal{L} (\mathbf{w}, b, \boldsymbol{\alpha}) $$</p>
+
+
+
+<p>с ограничениями $ \sum_{i=1}^N \alpha_i y_i = 0 $ и $ 0 \leq \alpha_i \leq C. $</p>
+
+
+
+<p>Отдельно рассмотрим <strong>условия дополняющей нежесткости</strong>.</p>
+
+
+
+<p>$$ \begin{gather} \begin{array}{rrl} \alpha_i^* [ y_i (\mathbf w^{*\top} \mathbf x_i + b^*)-1+\xi_i^* ] &amp;=&amp; 0 \\ \beta_i^* \xi_i^* &amp;=&amp; 0 \end{array} \end{gather} $$</p>
+
+
+
+<p>Исходя из первого условия, если $\alpha_i^* \gt 0, $ то для того, чтобы произведение было равно нулю, $y_i (\mathbf w^{*\top} \mathbf x_i + b^*)-1+\xi_i^*$ должно быть равно нулю. Как следствие, так как $\xi_i^* \geq 0,$</p>
+
+
+
+<p>$$ y_i (\mathbf w^{*\top} \mathbf x_i + b^*)-1 \leq 0 $$</p>
+
+
+
+<p>Одновременно, если $\beta_i^* \gt 0$ или, что то же самое, $ \alpha_i^* \lt C, $ в силу $\alpha_i^* + \beta_i^* = C,$ то $\xi_i^* = 0$ и, поскольку по основному условию осуществимости $y_i (\mathbf w^{*\top} \mathbf x_i + b^*) \geq 1-\xi_i^*,$ получаем</p>
+
+
+
+<p>$$ y_i (\mathbf w^{*\top} \mathbf x_i + b^*)-1 \geq 0 $$</p>
+
+
+
+<p>Таким образом,</p>
+
+
+
+<p>$$ \begin{split} \begin{array}{ll} \alpha_i^* &lt; C &amp;\implies &amp; y_i (\mathbf w^{*\top} \mathbf x_i + b^*)-1 \geq 0 \\ \alpha_i^* \gt 0 &amp;\implies&amp; y_i (\mathbf w^{*\top} \mathbf x_i + b^*)-1 \leq 0 \end{array} \end{split} $$</p>
+
+
+
+<p>Или, что то же самое,</p>
+
+
+
+<p>$$ \begin{split} \begin{array}{ll} \alpha_i^* = 0 &amp; \implies &amp; y_i (\mathbf w^{*\top} \mathbf x_i + b^*)-1 \geq 0 \\ 0 \lt \alpha_i^* \lt C &amp; \implies &amp; y_i (\mathbf w^{*\top} \mathbf x_i + b^*)-1 = 0 \\ \alpha_i^* = C &amp; \implies &amp; y_i (\mathbf w^{*\top} \mathbf x_i + b^*)-1 \leq 0 \end{array} \end{split} $$</p>
+
+
+
+<p>Другими словами, в методе опорных векторов с мягким зазором наблюдения с $\alpha_i^* \neq 0$ будут включать как опорные объекты, так и ошибочно классифицированные наблюдения, для которых $\xi_i &gt; 0.$</p>
+
+
+
+<p>Таким образом, задача сводится к <strong>минимизации</strong> (выпуклого) квадратичного функционала</p>
+
+
+
+<p>$$ \min_{\boldsymbol \alpha} \left( \frac{1}{2} \boldsymbol \alpha^\top H \boldsymbol \alpha-\mathbf 1^\top \boldsymbol \alpha \right) $$</p>
+
+
+
+<p>с ограничениями</p>
+
+
+
+<p>$$ \begin{array}{ll} \mathbf 0 \leq -\boldsymbol \alpha \leq \mathbf C \\ \mathbf y^\top \boldsymbol \alpha = 0, \end{array} $$</p>
+
+
+
+<p>где единственным отличием от метода опорных векторов с жестким зазором будет дополнительное ограничение $-\boldsymbol \alpha \leq \mathbf C.$</p>
+
+
+
+<h3 class="wp-block-heading">Код на Питоне</h3>
+
+
+
+<h4 class="wp-block-heading">Библиотека CVXOPT</h4>
+
+
+
+<p>С точки зрения формата библиотеки CVXOPT нам необходимо внести измерения в матрицу $G$ и вектор $h.$ Новая матрица $G_{2n \times n}$ будет состоять из двух вертикально соединенных диагональных матриц размерности $n \times n $ со значениями $-1$ и $1$ на главных диагоналях соответственно.</p>
+
+
+
+<p>К вектору $h_{2n \times 1}$ мы добавим $n$ значений $C.$ Для $n=2$ $G$ и $h$ примут вид</p>
+
+
+
+<p>$$ G = \begin{bmatrix} -1 &amp; 0 \\ 0 &amp; -1 \\ 1 &amp; 0 \\ 0 &amp; 1\end{bmatrix}, \quad h = \begin{bmatrix} 0 \\ 0 \\ C \\ C \end{bmatrix} $$</p>
+
+
+
+<h4 class="wp-block-heading">Класс SoftSVM</h4>
+
+
+
+<p class="has-text-align-center has-white-color has-text-color has-background" style="background-color:#004235"><a href="https://colab.research.google.com/drive/1-5ONtDTfQ7IateuDt0JxKyvoYNd1M3df?usp=sharing" target="_blank" rel="noreferrer noopener">Продолжим в том же блокноте</a>⧉</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.9.0 -->
+
+		<div id="urvanov-syntax-highlighter-6977025874314943712212" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-6977025874314943712212-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-6977025874314943712212-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-6977025874314943712212-3">3</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-6977025874314943712212-4">4</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-6977025874314943712212-5">5</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-6977025874314943712212-6">6</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-6977025874314943712212-7">7</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-6977025874314943712212-8">8</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-6977025874314943712212-9">9</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-6977025874314943712212-10">10</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-6977025874314943712212-11">11</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-6977025874314943712212-12">12</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-6977025874314943712212-13">13</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-6977025874314943712212-14">14</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-6977025874314943712212-15">15</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-6977025874314943712212-16">16</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-6977025874314943712212-17">17</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-6977025874314943712212-18">18</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-6977025874314943712212-19">19</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-6977025874314943712212-20">20</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-6977025874314943712212-21">21</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-6977025874314943712212-22">22</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-6977025874314943712212-23">23</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-6977025874314943712212-24">24</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-6977025874314943712212-25">25</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-6977025874314943712212-26">26</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-6977025874314943712212-27">27</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-6977025874314943712212-28">28</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-6977025874314943712212-29">29</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-6977025874314943712212-30">30</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-6977025874314943712212-31">31</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-6977025874314943712212-32">32</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-6977025874314943712212-33">33</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-6977025874314943712212-34">34</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-6977025874314943712212-35">35</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-6977025874314943712212-36">36</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-6977025874314943712212-37">37</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-6977025874314943712212-38">38</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-6977025874314943712212-39">39</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-6977025874314943712212-40">40</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-6977025874314943712212-41">41</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-6977025874314943712212-42">42</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-6977025874314943712212-43">43</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-6977025874314943712212-44">44</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-6977025874314943712212-45">45</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-6977025874314943712212-46">46</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-6977025874314943712212-47">47</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-6977025874314943712212-48">48</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-6977025874314943712212-49">49</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-6977025874314943712212-50">50</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-6977025874314943712212-1"><span class="crayon-t">class</span><span class="crayon-h"> </span><span class="crayon-v">SoftSVM</span><span class="crayon-o">:</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-6977025874314943712212-2">&nbsp;</div><div class="crayon-line" id="urvanov-syntax-highlighter-6977025874314943712212-3"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-r">def</span><span class="crayon-h"> </span><span class="crayon-e">__init__</span><span class="crayon-sy">(</span><span class="crayon-r">self</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">C</span><span class="crayon-o">=</span><span class="crayon-t">None</span><span class="crayon-sy">)</span><span class="crayon-o">:</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-6977025874314943712212-4"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-r">self</span><span class="crayon-sy">.</span><span class="crayon-v">support_alphas</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-t">None</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-6977025874314943712212-5"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-r">self</span><span class="crayon-sy">.</span><span class="crayon-v">support_vectors</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-t">None</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-6977025874314943712212-6"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-r">self</span><span class="crayon-sy">.</span><span class="crayon-v">support_vector_labels</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-t">None</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-6977025874314943712212-7"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-r">self</span><span class="crayon-sy">.</span><span class="crayon-k ">W</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-t">None</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-6977025874314943712212-8"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-r">self</span><span class="crayon-sy">.</span><span class="crayon-v">intercept</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-t">None</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-6977025874314943712212-9"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-r">self</span><span class="crayon-sy">.</span><span class="crayon-v">C</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-i">C</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-6977025874314943712212-10">&nbsp;</div><div class="crayon-line" id="urvanov-syntax-highlighter-6977025874314943712212-11"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-r">def</span><span class="crayon-h"> </span><span class="crayon-e">fit</span><span class="crayon-sy">(</span><span class="crayon-r">self</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">X</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">y</span><span class="crayon-sy">)</span><span class="crayon-o">:</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-6977025874314943712212-12"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">n_samples</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">n_features</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-e">shape</span><span class="crayon-sy">(</span><span class="crayon-v">X</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-6977025874314943712212-13">&nbsp;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-6977025874314943712212-14"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">K</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-e">zeros</span><span class="crayon-sy">(</span><span class="crayon-sy">(</span><span class="crayon-v">n_samples</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">n_samples</span><span class="crayon-sy">)</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-6977025874314943712212-15"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-st">for</span><span class="crayon-h"> </span><span class="crayon-i">i</span><span class="crayon-h"> </span><span class="crayon-st">in</span><span class="crayon-h"> </span><span class="crayon-k ">range</span><span class="crayon-sy">(</span><span class="crayon-v">n_samples</span><span class="crayon-sy">)</span><span class="crayon-o">:</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-6977025874314943712212-16"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-st">for</span><span class="crayon-h"> </span><span class="crayon-i">j</span><span class="crayon-h"> </span><span class="crayon-st">in</span><span class="crayon-h"> </span><span class="crayon-k ">range</span><span class="crayon-sy">(</span><span class="crayon-v">n_samples</span><span class="crayon-sy">)</span><span class="crayon-o">:</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-6977025874314943712212-17"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">K</span><span class="crayon-sy">[</span><span class="crayon-v">i</span><span class="crayon-sy">,</span><span class="crayon-v">j</span><span class="crayon-sy">]</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-e">dot</span><span class="crayon-sy">(</span><span class="crayon-v">X</span><span class="crayon-sy">[</span><span class="crayon-v">i</span><span class="crayon-sy">]</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">X</span><span class="crayon-sy">[</span><span class="crayon-v">j</span><span class="crayon-sy">]</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-6977025874314943712212-18">&nbsp;</div><div class="crayon-line" id="urvanov-syntax-highlighter-6977025874314943712212-19"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">P</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">cvxopt</span><span class="crayon-sy">.</span><span class="crayon-e">matrix</span><span class="crayon-sy">(</span><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-e">outer</span><span class="crayon-sy">(</span><span class="crayon-v">y</span><span class="crayon-sy">,</span><span class="crayon-v">y</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-o">*</span><span class="crayon-h"> </span><span class="crayon-v">K</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-6977025874314943712212-20"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">q</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">cvxopt</span><span class="crayon-sy">.</span><span class="crayon-e">matrix</span><span class="crayon-sy">(</span><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-e">ones</span><span class="crayon-sy">(</span><span class="crayon-v">n_samples</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-o">*</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-cn">1</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-6977025874314943712212-21"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">A</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">cvxopt</span><span class="crayon-sy">.</span><span class="crayon-e">matrix</span><span class="crayon-sy">(</span><span class="crayon-v">y</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-cn">1</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">n_samples</span><span class="crayon-sy">)</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">tc</span><span class="crayon-o">=</span><span class="crayon-s">'d'</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-6977025874314943712212-22"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">b</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">cvxopt</span><span class="crayon-sy">.</span><span class="crayon-e">matrix</span><span class="crayon-sy">(</span><span class="crayon-cn">0.0</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-6977025874314943712212-23">&nbsp;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-6977025874314943712212-24"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-st">if</span><span class="crayon-h"> </span><span class="crayon-st">not</span><span class="crayon-h"> </span><span class="crayon-r">self</span><span class="crayon-sy">.</span><span class="crayon-v">C</span><span class="crayon-o">:</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-6977025874314943712212-25"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">G</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">cvxopt</span><span class="crayon-sy">.</span><span class="crayon-e">matrix</span><span class="crayon-sy">(</span><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-e">identity</span><span class="crayon-sy">(</span><span class="crayon-v">n_samples</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-o">*</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-cn">1</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-6977025874314943712212-26"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">h</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">cvxopt</span><span class="crayon-sy">.</span><span class="crayon-e">matrix</span><span class="crayon-sy">(</span><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-e">zeros</span><span class="crayon-sy">(</span><span class="crayon-v">n_samples</span><span class="crayon-sy">)</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-6977025874314943712212-27"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-st">else</span><span class="crayon-o">:</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-6977025874314943712212-28"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">G_max</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-e">identity</span><span class="crayon-sy">(</span><span class="crayon-v">n_samples</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-o">*</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-cn">1</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-6977025874314943712212-29"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">G_min</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-e">identity</span><span class="crayon-sy">(</span><span class="crayon-v">n_samples</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-6977025874314943712212-30"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">G</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">cvxopt</span><span class="crayon-sy">.</span><span class="crayon-e">matrix</span><span class="crayon-sy">(</span><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-e">vstack</span><span class="crayon-sy">(</span><span class="crayon-sy">(</span><span class="crayon-v">G_max</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">G_min</span><span class="crayon-sy">)</span><span class="crayon-sy">)</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-6977025874314943712212-31"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">h_max</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">cvxopt</span><span class="crayon-sy">.</span><span class="crayon-e">matrix</span><span class="crayon-sy">(</span><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-e">zeros</span><span class="crayon-sy">(</span><span class="crayon-v">n_samples</span><span class="crayon-sy">)</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-6977025874314943712212-32"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">h_min</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">cvxopt</span><span class="crayon-sy">.</span><span class="crayon-e">matrix</span><span class="crayon-sy">(</span><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-e">ones</span><span class="crayon-sy">(</span><span class="crayon-v">n_samples</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-o">*</span><span class="crayon-h"> </span><span class="crayon-r">self</span><span class="crayon-sy">.</span><span class="crayon-v">C</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-6977025874314943712212-33"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">h</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">cvxopt</span><span class="crayon-sy">.</span><span class="crayon-e">matrix</span><span class="crayon-sy">(</span><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-e">vstack</span><span class="crayon-sy">(</span><span class="crayon-sy">(</span><span class="crayon-v">h_max</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">h_min</span><span class="crayon-sy">)</span><span class="crayon-sy">)</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-6977025874314943712212-34">&nbsp;</div><div class="crayon-line" id="urvanov-syntax-highlighter-6977025874314943712212-35"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">solution</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">cvxopt</span><span class="crayon-sy">.</span><span class="crayon-v">solvers</span><span class="crayon-sy">.</span><span class="crayon-e">qp</span><span class="crayon-sy">(</span><span class="crayon-v">P</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">q</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">G</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">h</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">A</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">b</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-6977025874314943712212-36"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">alphas</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-e">ravel</span><span class="crayon-sy">(</span><span class="crayon-v">solution</span><span class="crayon-sy">[</span><span class="crayon-s">'x'</span><span class="crayon-sy">]</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-6977025874314943712212-37">&nbsp;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-6977025874314943712212-38"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">idx</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">alphas</span><span class="crayon-h"> </span><span class="crayon-o">&gt;</span><span class="crayon-h"> </span><span class="crayon-cn">1e</span><span class="crayon-o">-</span><span class="crayon-cn">5</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-6977025874314943712212-39"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-r">self</span><span class="crayon-sy">.</span><span class="crayon-v">support_alphas</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">alphas</span><span class="crayon-sy">[</span><span class="crayon-v">idx</span><span class="crayon-sy">]</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-6977025874314943712212-40"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-r">self</span><span class="crayon-sy">.</span><span class="crayon-v">support_vectors</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">X</span><span class="crayon-sy">[</span><span class="crayon-v">idx</span><span class="crayon-sy">]</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-6977025874314943712212-41"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-r">self</span><span class="crayon-sy">.</span><span class="crayon-v">support_vector_labels</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">y</span><span class="crayon-sy">[</span><span class="crayon-v">idx</span><span class="crayon-sy">]</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-6977025874314943712212-42">&nbsp;</div><div class="crayon-line" id="urvanov-syntax-highlighter-6977025874314943712212-43"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-r">self</span><span class="crayon-sy">.</span><span class="crayon-k ">W</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-e">dot</span><span class="crayon-sy">(</span><span class="crayon-sy">(</span><span class="crayon-r">self</span><span class="crayon-sy">.</span><span class="crayon-v">support_vector_labels</span><span class="crayon-h"> </span><span class="crayon-o">*</span><span class="crayon-h"> </span><span class="crayon-r">self</span><span class="crayon-sy">.</span><span class="crayon-v">support_alphas</span><span class="crayon-sy">)</span><span class="crayon-sy">.</span><span class="crayon-v">T</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-r">self</span><span class="crayon-sy">.</span><span class="crayon-v">support_vectors</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-6977025874314943712212-44"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-r">self</span><span class="crayon-sy">.</span><span class="crayon-v">intercept</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-e">mean</span><span class="crayon-sy">(</span><span class="crayon-r">self</span><span class="crayon-sy">.</span><span class="crayon-v">support_vector_labels</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-h"> </span><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-e">dot</span><span class="crayon-sy">(</span><span class="crayon-r">self</span><span class="crayon-sy">.</span><span class="crayon-v">support_vectors</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-r">self</span><span class="crayon-sy">.</span><span class="crayon-k ">W</span><span class="crayon-sy">)</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-6977025874314943712212-45">&nbsp;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-6977025874314943712212-46"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-st">return</span><span class="crayon-h"> </span><span class="crayon-r">self</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-6977025874314943712212-47">&nbsp;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-6977025874314943712212-48"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-r">def</span><span class="crayon-h"> </span><span class="crayon-e">predict</span><span class="crayon-sy">(</span><span class="crayon-r">self</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">X</span><span class="crayon-sy">)</span><span class="crayon-o">:</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-6977025874314943712212-49">&nbsp;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-6977025874314943712212-50"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-st">return</span><span class="crayon-h"> </span><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-e">sign</span><span class="crayon-sy">(</span><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-e">dot</span><span class="crayon-sy">(</span><span class="crayon-v">X</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-r">self</span><span class="crayon-sy">.</span><span class="crayon-k ">W</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-o">+</span><span class="crayon-h"> </span><span class="crayon-r">self</span><span class="crayon-sy">.</span><span class="crayon-v">intercept</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0031 seconds] -->
+</div>
+
+
+
+<h4 class="wp-block-heading">Линейно неразделимые данные</h4>
+
+
+
+<p>Изменим класс <em>одного</em> наблюдения в данных, чтобы сделать их линейно неразделимыми.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.9.0 -->
+
+		<div id="urvanov-syntax-highlighter-6977025874329840046973" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-6977025874329840046973-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-6977025874329840046973-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-6977025874329840046973-3">3</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-6977025874329840046973-4">4</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-6977025874329840046973-5">5</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-6977025874329840046973-6">6</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-6977025874329840046973-7">7</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-6977025874329840046973-8">8</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-6977025874329840046973-9">9</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-6977025874329840046973-1"><span class="crayon-r">def</span><span class="crayon-h"> </span><span class="crayon-e">get_non_separable_data</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span><span class="crayon-o">:</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-6977025874329840046973-2"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-v">X_train</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-k ">array</span><span class="crayon-sy">(</span><span class="crayon-sy">[</span><span class="crayon-sy">[</span><span class="crayon-o">-</span><span class="crayon-cn">3.5</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-cn">1</span><span class="crayon-sy">]</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-sy">[</span><span class="crayon-o">-</span><span class="crayon-cn">3</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">0</span><span class="crayon-sy">]</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-sy">[</span><span class="crayon-o">-</span><span class="crayon-cn">3</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-sy">]</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-sy">[</span><span class="crayon-o">-</span><span class="crayon-cn">2.7</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-cn">1.3</span><span class="crayon-sy">]</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-sy">[</span><span class="crayon-o">-</span><span class="crayon-cn">2</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-cn">1</span><span class="crayon-sy">]</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-sy">[</span><span class="crayon-o">-</span><span class="crayon-cn">2</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-cn">2.7</span><span class="crayon-sy">]</span><span class="crayon-sy">,</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-6977025874329840046973-3"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">[</span><span class="crayon-o">-</span><span class="crayon-cn">1</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-cn">2.5</span><span class="crayon-sy">]</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-sy">[</span><span class="crayon-cn">0</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-cn">3</span><span class="crayon-sy">]</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-sy">[</span><span class="crayon-cn">0</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-sy">]</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-sy">[</span><span class="crayon-cn">0</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">2.5</span><span class="crayon-sy">]</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-sy">[</span><span class="crayon-cn">1</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">2</span><span class="crayon-sy">]</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-sy">[</span><span class="crayon-cn">0.7</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">3.8</span><span class="crayon-sy">]</span><span class="crayon-sy">,</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-6977025874329840046973-4"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">[</span><span class="crayon-cn">2.1</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">0.2</span><span class="crayon-sy">]</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-sy">[</span><span class="crayon-cn">2.3</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-sy">]</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-sy">[</span><span class="crayon-cn">2.8</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">1.8</span><span class="crayon-sy">]</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-sy">[</span><span class="crayon-cn">2.2</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">2.8</span><span class="crayon-sy">]</span><span class="crayon-sy">]</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-6977025874329840046973-5"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-v">y_train</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-k ">array</span><span class="crayon-sy">(</span><span class="crayon-sy">[</span><span class="crayon-o">-</span><span class="crayon-cn">1</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-cn">1</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-cn">1</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-cn">1</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-cn">1</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-cn">1</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-cn">1</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-cn">1</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-cn">1</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-sy">]</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-6977025874329840046973-6"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-v">X_test</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-k ">array</span><span class="crayon-sy">(</span><span class="crayon-sy">[</span><span class="crayon-sy">[</span><span class="crayon-cn">0</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">0</span><span class="crayon-sy">]</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-sy">[</span><span class="crayon-cn">1</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-cn">3</span><span class="crayon-sy">]</span><span class="crayon-sy">]</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-6977025874329840046973-7"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-v">y_test</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-k ">array</span><span class="crayon-sy">(</span><span class="crayon-sy">[</span><span class="crayon-cn">1</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-cn">1</span><span class="crayon-sy">]</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-6977025874329840046973-8"><span class="crayon-h">&nbsp;&nbsp;</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-6977025874329840046973-9"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-st">return</span><span class="crayon-h"> </span><span class="crayon-v">X_train</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">y_train</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">X_test</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">y_test</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0013 seconds] -->
+</div>
+
+
+
+<p>Создадим обучающую выборку.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.9.0 -->
+
+		<div id="urvanov-syntax-highlighter-697702587432d770643985" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-697702587432d770643985-1">1</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-697702587432d770643985-1"><span class="crayon-v">X_train</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">y_train</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">_</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">_</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-e">get_non_separable_data</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0001 seconds] -->
+</div>
+
+
+
+<h4 class="wp-block-heading">Обучение модели</h4>
+
+
+
+<p>Вначале обучим модель с параметром $C=0{,}1.$</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.9.0 -->
+
+		<div id="urvanov-syntax-highlighter-6977025874330865043216" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-6977025874330865043216-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-6977025874330865043216-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-6977025874330865043216-3">3</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-6977025874330865043216-1"><span class="crayon-v">soft_svm</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-e">SoftSVM</span><span class="crayon-sy">(</span><span class="crayon-v">C</span><span class="crayon-o">=</span><span class="crayon-cn">0.1</span><span class="crayon-sy">)</span><span class="crayon-sy">.</span><span class="crayon-e">fit</span><span class="crayon-sy">(</span><span class="crayon-v">X_train</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">y_train</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-6977025874330865043216-2"><span class="crayon-e">plot_data</span><span class="crayon-sy">(</span><span class="crayon-v">X_train</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">y_train</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">title</span><span class="crayon-o">=</span><span class="crayon-s">'Soft-margin SVM, C=0.1'</span><span class="crayon-sy">,</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-6977025874330865043216-3"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-k ">w</span><span class="crayon-o">=</span><span class="crayon-v">soft_svm</span><span class="crayon-sy">.</span><span class="crayon-k ">W</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">b</span><span class="crayon-o">=</span><span class="crayon-v">soft_svm</span><span class="crayon-sy">.</span><span class="crayon-v">intercept</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0003 seconds] -->
+</div>
+
+
+
+<figure class="wp-block-image size-full"><img loading="lazy" decoding="async" width="461" height="470" src="../../wp-content/uploads/2025/05/SVM_C_0.1.png" alt="метод опорных векторов с мягким зазором, C = 0,1" class="wp-image-38594" srcset="../../wp-content/uploads/2025/05/SVM_C_0.1.png 461w, ../../wp-content/uploads/2025/05/SVM_C_0.1-294x300.png 294w" sizes="auto, (max-width: 461px) 100vw, 461px" /></figure>
+
+
+
+<p>Теперь изменим параметр на $C=100.$</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.9.0 -->
+
+		<div id="urvanov-syntax-highlighter-6977025874333819088243" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-6977025874333819088243-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-6977025874333819088243-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-6977025874333819088243-3">3</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-6977025874333819088243-1"><span class="crayon-v">soft_svm</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-e">SoftSVM</span><span class="crayon-sy">(</span><span class="crayon-v">C</span><span class="crayon-o">=</span><span class="crayon-cn">100</span><span class="crayon-sy">)</span><span class="crayon-sy">.</span><span class="crayon-e">fit</span><span class="crayon-sy">(</span><span class="crayon-v">X_train</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">y_train</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-6977025874333819088243-2"><span class="crayon-e">plot_data</span><span class="crayon-sy">(</span><span class="crayon-v">X_train</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">y_train</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">title</span><span class="crayon-o">=</span><span class="crayon-s">'Soft-margin SVM, C=100'</span><span class="crayon-sy">,</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-6977025874333819088243-3"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-k ">w</span><span class="crayon-o">=</span><span class="crayon-v">soft_svm</span><span class="crayon-sy">.</span><span class="crayon-k ">W</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">b</span><span class="crayon-o">=</span><span class="crayon-v">soft_svm</span><span class="crayon-sy">.</span><span class="crayon-v">intercept</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0003 seconds] -->
+</div>
+
+
+
+<figure class="wp-block-image size-full"><img loading="lazy" decoding="async" width="461" height="470" src="../../wp-content/uploads/2025/05/SVM_C_100.png" alt="метод опорных векторов с мягким зазором, C = 100" class="wp-image-38595" srcset="../../wp-content/uploads/2025/05/SVM_C_100.png 461w, ../../wp-content/uploads/2025/05/SVM_C_100-294x300.png 294w" sizes="auto, (max-width: 461px) 100vw, 461px" /></figure>
+
+
+
+<p>Ожидаемо, с ростом значимости слагаемого регуляризации алгоритм старается не допустить ошибочной классификации.</p>
+
+
+
+<h2 class="wp-block-heading">SVM и метод градиентного спуска</h2>
+
+
+
+<h3 class="wp-block-heading">Hinge loss</h3>
+
+
+
+<p>Обратим внимание, что данное выше определение $\xi_i$</p>
+
+
+
+<p>$$ \xi_i = 1-y_i(\mathbf w^\top \mathbf x_i + b), \quad \xi_i \geq 0 $$</p>
+
+
+
+<p>можно записать и так</p>
+
+
+
+<p>$$ \xi_i = \max \left( \left( 1-y_i (\mathbf w^\top \mathbf x_i + b) \right), 0 \right), $$</p>
+
+
+
+<p>т.е. представить в виде функции hinge loss</p>
+
+
+<div class="wp-block-image">
+<figure class="aligncenter size-large is-resized"><img loading="lazy" decoding="async" width="1024" height="624" src="../../wp-content/uploads/2025/05/hinge_loss-1024x624.jpg" alt="hinge loss в методе SVM" class="wp-image-38696" style="width:609px;height:auto" srcset="../../wp-content/uploads/2025/05/hinge_loss-1024x624.jpg 1024w, ../../wp-content/uploads/2025/05/hinge_loss-300x183.jpg 300w, ../../wp-content/uploads/2025/05/hinge_loss-768x468.jpg 768w, ../../wp-content/uploads/2025/05/hinge_loss-1536x936.jpg 1536w, ../../wp-content/uploads/2025/05/hinge_loss-1200x731.jpg 1200w, ../../wp-content/uploads/2025/05/hinge_loss-600x366.jpg 600w, ../../wp-content/uploads/2025/05/hinge_loss.jpg 1832w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure>
+</div>
+
+
+<p>Тогда общую функцию потерь можно записать как</p>
+
+
+
+<p>$$ \min_{\mathbf w, b} \left( \frac{1}{N} \sum_{i=1}^N \underbrace{ \vphantom{\frac{1}{1}} \max \left( \left( 1-y_i (\mathbf w^\top \mathbf x_i + b) \right), 0 \right) }_{\text{hinge loss}} + \underbrace{\frac{\lambda}{2}||\mathbf w||^2}_{\text{regularizer}} \right), $$</p>
+
+
+
+<p>где, по сравнению с решаемой через квадратичное программирование задачей, мы поменяли местами слагаемые и теперь:</p>
+
+
+
+<ul class="wp-block-list">
+<li>hinge loss является основной функцией потерь; а</li>
+
+
+
+<li>слагаемое $||\mathbf w||^2$ &#8212; L2 регуляризатор с коэффициентом $\frac{\lambda}{2}.$</li>
+</ul>
+
+
+
+<h3 class="wp-block-heading">Субградиентный спуск</h3>
+
+
+
+<p>Найдем градиент функции hinge loss. Вначале для удобства внесем коэффициент $b$ в вектор параметров $\mathbf w,$ добавив в данные столбец из единиц.</p>
+
+
+
+<p>Теперь разложим функцию потерь $J(\mathbf w)$ на два возможных сценария.</p>
+
+
+
+<p>$$ \begin{cases} J(\mathbf w) = \frac{\lambda}{2} || \mathbf w ||^2 &amp; \text{если } \; y_i (\mathbf w^\top \mathbf x_i) \geq 1 \\ J(\mathbf w) = \frac{\lambda}{2} || \mathbf w ||^2 + 1-y_i(\mathbf w^\top \mathbf x_i) &amp; \text{если } \; y_i (\mathbf w^\top \mathbf x_i) \lt 1 \end{cases} $$</p>
+
+
+
+<p>Примечание. Поскольку в точке $ y_i (\mathbf w^\top \mathbf x_i) = 1 $ градиент не определен, используем один из возможных субградиентов.</p>
+
+
+
+<p>Найдем (суб)градиент для каждого из сценариев.</p>
+
+
+
+<p>$$ \begin{cases} \frac{\partial J}{\partial \mathbf w} = \lambda \mathbf w \\ \frac{\partial J}{\partial \mathbf w} = \lambda \mathbf w-y_i \mathbf x_i \end{cases} $$</p>
+
+
+
+<p>При этом гиперпараметры $\lambda$ и $C$ связаны следующим отношением</p>
+
+
+
+<p>$$ C = \frac{1}{\lambda N} \quad \implies \quad \lambda = \frac{1}{CN} $$</p>
+
+
+
+<h3 class="wp-block-heading">Код на Питоне</h3>
+
+
+
+<p>Приведем код на Питоне. Будем использовать <a href="../sgd/index.html">стохастический градиентный спуск</a>, то есть обновлять веса на основе одного объекта.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.9.0 -->
+
+		<div id="urvanov-syntax-highlighter-6977025874336623450184" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-6977025874336623450184-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-6977025874336623450184-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-6977025874336623450184-3">3</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-6977025874336623450184-4">4</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-6977025874336623450184-5">5</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-6977025874336623450184-6">6</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-6977025874336623450184-7">7</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-6977025874336623450184-8">8</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-6977025874336623450184-9">9</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-6977025874336623450184-10">10</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-6977025874336623450184-11">11</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-6977025874336623450184-12">12</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-6977025874336623450184-13">13</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-6977025874336623450184-14">14</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-6977025874336623450184-15">15</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-6977025874336623450184-16">16</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-6977025874336623450184-17">17</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-6977025874336623450184-18">18</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-6977025874336623450184-19">19</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-6977025874336623450184-20">20</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-6977025874336623450184-21">21</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-6977025874336623450184-22">22</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-6977025874336623450184-23">23</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-6977025874336623450184-24">24</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-6977025874336623450184-25">25</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-6977025874336623450184-26">26</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-6977025874336623450184-27">27</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-6977025874336623450184-28">28</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-6977025874336623450184-29">29</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-6977025874336623450184-30">30</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-6977025874336623450184-31">31</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-6977025874336623450184-32">32</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-6977025874336623450184-33">33</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-6977025874336623450184-34">34</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-6977025874336623450184-35">35</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-6977025874336623450184-36">36</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-6977025874336623450184-37">37</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-6977025874336623450184-38">38</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-6977025874336623450184-39">39</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-6977025874336623450184-40">40</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-6977025874336623450184-41">41</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-6977025874336623450184-42">42</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-6977025874336623450184-43">43</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-6977025874336623450184-44">44</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-6977025874336623450184-45">45</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-6977025874336623450184-46">46</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-6977025874336623450184-47">47</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-6977025874336623450184-48">48</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-6977025874336623450184-49">49</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-6977025874336623450184-1"><span class="crayon-t">class</span><span class="crayon-h"> </span><span class="crayon-v">GradientSVM</span><span class="crayon-o">:</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-6977025874336623450184-2">&nbsp;</div><div class="crayon-line" id="urvanov-syntax-highlighter-6977025874336623450184-3"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-r">def</span><span class="crayon-h"> </span><span class="crayon-e">__init__</span><span class="crayon-sy">(</span><span class="crayon-r">self</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">learning_rate</span><span class="crayon-o">=</span><span class="crayon-cn">1e</span><span class="crayon-o">-</span><span class="crayon-cn">3</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">lambda_param</span><span class="crayon-o">=</span><span class="crayon-cn">1e</span><span class="crayon-o">-</span><span class="crayon-cn">2</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">epochs</span><span class="crayon-o">=</span><span class="crayon-cn">100000</span><span class="crayon-sy">)</span><span class="crayon-o">:</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-6977025874336623450184-4"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-r">self</span><span class="crayon-sy">.</span><span class="crayon-v">lr</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-e">learning_rate</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-6977025874336623450184-5"><span class="crayon-e">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-r">self</span><span class="crayon-sy">.</span><span class="crayon-v">lambda_param</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-e">lambda_param</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-6977025874336623450184-6"><span class="crayon-e">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-r">self</span><span class="crayon-sy">.</span><span class="crayon-v">epochs</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-e">epochs</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-6977025874336623450184-7"><span class="crayon-e">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-r">self</span><span class="crayon-sy">.</span><span class="crayon-k ">W</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-t">None</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-6977025874336623450184-8"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-r">self</span><span class="crayon-sy">.</span><span class="crayon-v">loss_history</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-sy">[</span><span class="crayon-sy">]</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-6977025874336623450184-9">&nbsp;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-6977025874336623450184-10"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-r">def</span><span class="crayon-h"> </span><span class="crayon-e">_compute_hinge_loss</span><span class="crayon-sy">(</span><span class="crayon-r">self</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">x</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">y</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">idx</span><span class="crayon-sy">)</span><span class="crayon-o">:</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-6977025874336623450184-11">&nbsp;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-6977025874336623450184-12"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-st">return</span><span class="crayon-h"> </span><span class="crayon-k ">max</span><span class="crayon-sy">(</span><span class="crayon-cn">0</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-o">-</span><span class="crayon-sy">(</span><span class="crayon-v">y</span><span class="crayon-sy">[</span><span class="crayon-v">idx</span><span class="crayon-sy">]</span><span class="crayon-h"> </span><span class="crayon-o">*</span><span class="crayon-h"> </span><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-e">dot</span><span class="crayon-sy">(</span><span class="crayon-v">x</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-r">self</span><span class="crayon-sy">.</span><span class="crayon-k ">W</span><span class="crayon-sy">)</span><span class="crayon-sy">)</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-6977025874336623450184-13">&nbsp;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-6977025874336623450184-14"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-r">def</span><span class="crayon-h"> </span><span class="crayon-e">_compute_gradients</span><span class="crayon-sy">(</span><span class="crayon-r">self</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">x</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">y</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">idx</span><span class="crayon-sy">)</span><span class="crayon-o">:</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-6977025874336623450184-15"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-c"># найдем градиенты для каждого сценария</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-6977025874336623450184-16"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-st">if</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-v">y</span><span class="crayon-sy">[</span><span class="crayon-v">idx</span><span class="crayon-sy">]</span><span class="crayon-h"> </span><span class="crayon-o">*</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-e">dot</span><span class="crayon-sy">(</span><span class="crayon-v">x</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-r">self</span><span class="crayon-sy">.</span><span class="crayon-k ">W</span><span class="crayon-sy">)</span><span class="crayon-sy">)</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-o">&gt;=</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-o">:</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-6977025874336623450184-17"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">dw</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-r">self</span><span class="crayon-sy">.</span><span class="crayon-v">lambda_param</span><span class="crayon-h"> </span><span class="crayon-o">*</span><span class="crayon-h"> </span><span class="crayon-r">self</span><span class="crayon-sy">.</span><span class="crayon-k ">W</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-6977025874336623450184-18"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-st">else</span><span class="crayon-o">:</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-6977025874336623450184-19"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">dw</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-r">self</span><span class="crayon-sy">.</span><span class="crayon-v">lambda_param</span><span class="crayon-h"> </span><span class="crayon-o">*</span><span class="crayon-h"> </span><span class="crayon-r">self</span><span class="crayon-sy">.</span><span class="crayon-k ">W</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-h"> </span><span class="crayon-v">y</span><span class="crayon-sy">[</span><span class="crayon-v">idx</span><span class="crayon-sy">]</span><span class="crayon-h"> </span><span class="crayon-o">*</span><span class="crayon-h"> </span><span class="crayon-i">x</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-6977025874336623450184-20">&nbsp;</div><div class="crayon-line" id="urvanov-syntax-highlighter-6977025874336623450184-21"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-st">return</span><span class="crayon-h"> </span><span class="crayon-e">dw</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-6977025874336623450184-22">&nbsp;</div><div class="crayon-line" id="urvanov-syntax-highlighter-6977025874336623450184-23"><span class="crayon-e">&nbsp;&nbsp;</span><span class="crayon-r">def</span><span class="crayon-h"> </span><span class="crayon-e">fit</span><span class="crayon-sy">(</span><span class="crayon-r">self</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">X</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">y</span><span class="crayon-sy">)</span><span class="crayon-o">:</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-6977025874336623450184-24"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-c"># добавим столбец из единиц</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-6977025874336623450184-25"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">X</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-v">c_</span><span class="crayon-sy">[</span><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-e">ones</span><span class="crayon-sy">(</span><span class="crayon-sy">(</span><span class="crayon-k ">len</span><span class="crayon-sy">(</span><span class="crayon-v">X</span><span class="crayon-sy">)</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-sy">)</span><span class="crayon-sy">)</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">X</span><span class="crayon-sy">]</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-6977025874336623450184-26"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-c"># инициализируем веса с учетом дополнительного признака</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-6977025874336623450184-27"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-r">self</span><span class="crayon-sy">.</span><span class="crayon-k ">W</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-e">zeros</span><span class="crayon-sy">(</span><span class="crayon-v">X</span><span class="crayon-sy">.</span><span class="crayon-v">shape</span><span class="crayon-sy">[</span><span class="crayon-cn">1</span><span class="crayon-sy">]</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-6977025874336623450184-28">&nbsp;</div><div class="crayon-line" id="urvanov-syntax-highlighter-6977025874336623450184-29"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-c"># на каждой эпохе</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-6977025874336623450184-30"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-st">for</span><span class="crayon-h"> </span><span class="crayon-i">_</span><span class="crayon-h"> </span><span class="crayon-st">in</span><span class="crayon-h"> </span><span class="crayon-k ">range</span><span class="crayon-sy">(</span><span class="crayon-r">self</span><span class="crayon-sy">.</span><span class="crayon-v">epochs</span><span class="crayon-sy">)</span><span class="crayon-o">:</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-6977025874336623450184-31"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">loss</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">0</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-6977025874336623450184-32"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-c"># для каждого объекта</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-6977025874336623450184-33"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-st">for</span><span class="crayon-h"> </span><span class="crayon-v">idx</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-i">x</span><span class="crayon-h"> </span><span class="crayon-st">in</span><span class="crayon-h"> </span><span class="crayon-k ">enumerate</span><span class="crayon-sy">(</span><span class="crayon-v">X</span><span class="crayon-sy">)</span><span class="crayon-o">:</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-6977025874336623450184-34"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-c"># рассчитаем и учтем уровень ошибки</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-6977025874336623450184-35"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">loss</span><span class="crayon-h"> </span><span class="crayon-o">+=</span><span class="crayon-h"> </span><span class="crayon-r">self</span><span class="crayon-sy">.</span><span class="crayon-e">_compute_hinge_loss</span><span class="crayon-sy">(</span><span class="crayon-v">x</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">y</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">idx</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-6977025874336623450184-36"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-c"># найдем градиент</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-6977025874336623450184-37"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">dw</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-r">self</span><span class="crayon-sy">.</span><span class="crayon-e">_compute_gradients</span><span class="crayon-sy">(</span><span class="crayon-v">x</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">y</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">idx</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-6977025874336623450184-38"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-c"># обновим веса</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-6977025874336623450184-39"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-r">self</span><span class="crayon-sy">.</span><span class="crayon-k ">W</span><span class="crayon-h"> </span><span class="crayon-o">-=</span><span class="crayon-h"> </span><span class="crayon-r">self</span><span class="crayon-sy">.</span><span class="crayon-v">lr</span><span class="crayon-h"> </span><span class="crayon-o">*</span><span class="crayon-h"> </span><span class="crayon-i">dw</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-6977025874336623450184-40"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-c"># для каждой эпохи рассчитаем и </span></div><div class="crayon-line" id="urvanov-syntax-highlighter-6977025874336623450184-41"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-c"># запишем средний уровень ошибки</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-6977025874336623450184-42"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-r">self</span><span class="crayon-sy">.</span><span class="crayon-v">loss_history</span><span class="crayon-sy">.</span><span class="crayon-e">append</span><span class="crayon-sy">(</span><span class="crayon-v">loss</span><span class="crayon-o">/</span><span class="crayon-k ">len</span><span class="crayon-sy">(</span><span class="crayon-v">X</span><span class="crayon-sy">)</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-6977025874336623450184-43">&nbsp;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-6977025874336623450184-44"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-st">return</span><span class="crayon-h"> </span><span class="crayon-r">self</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-6977025874336623450184-45">&nbsp;</div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-6977025874336623450184-46"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-r">def</span><span class="crayon-h"> </span><span class="crayon-e">predict</span><span class="crayon-sy">(</span><span class="crayon-r">self</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">X</span><span class="crayon-sy">)</span><span class="crayon-o">:</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-6977025874336623450184-47"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">X</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-v">c_</span><span class="crayon-sy">[</span><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-e">ones</span><span class="crayon-sy">(</span><span class="crayon-sy">(</span><span class="crayon-k ">len</span><span class="crayon-sy">(</span><span class="crayon-v">X</span><span class="crayon-sy">)</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-sy">)</span><span class="crayon-sy">)</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">X</span><span class="crayon-sy">]</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-6977025874336623450184-48">&nbsp;</div><div class="crayon-line" id="urvanov-syntax-highlighter-6977025874336623450184-49"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-st">return</span><span class="crayon-h"> </span><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-e">sign</span><span class="crayon-sy">(</span><span class="crayon-v">np</span><span class="crayon-sy">.</span><span class="crayon-e">dot</span><span class="crayon-sy">(</span><span class="crayon-v">X</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-r">self</span><span class="crayon-sy">.</span><span class="crayon-k ">W</span><span class="crayon-sy">)</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0023 seconds] -->
+</div>
+
+
+
+<p>Вначале обучим алгоритм с параметром $C=0{,}1$ или $\lambda = \frac{1}{0{,}1 \cdot 16} = 0{,}625.$</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.9.0 -->
+
+		<div id="urvanov-syntax-highlighter-697702587433a912181162" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-697702587433a912181162-1">1</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-697702587433a912181162-1"><span class="crayon-v">X_train</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">y_train</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">X_test</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">y_test</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-e">get_non_separable_data</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0001 seconds] -->
+</div>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.9.0 -->
+
+		<div id="urvanov-syntax-highlighter-697702587433d434345329" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-697702587433d434345329-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697702587433d434345329-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697702587433d434345329-3">3</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-697702587433d434345329-1"><span class="crayon-v">C1</span><span class="crayon-o">=</span><span class="crayon-sy">.</span><span class="crayon-cn">1</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697702587433d434345329-2"><span class="crayon-v">lambda1</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-o">/</span><span class="crayon-sy">(</span><span class="crayon-cn">2</span><span class="crayon-h"> </span><span class="crayon-o">*</span><span class="crayon-h"> </span><span class="crayon-v">C1</span><span class="crayon-h"> </span><span class="crayon-o">*</span><span class="crayon-h"> </span><span class="crayon-v">X_train</span><span class="crayon-sy">.</span><span class="crayon-v">shape</span><span class="crayon-sy">[</span><span class="crayon-cn">0</span><span class="crayon-sy">]</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-697702587433d434345329-3"><span class="crayon-v">grad_svm</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-e">GradientSVM</span><span class="crayon-sy">(</span><span class="crayon-v">lambda_param</span><span class="crayon-o">=</span><span class="crayon-v">lambda1</span><span class="crayon-sy">)</span><span class="crayon-sy">.</span><span class="crayon-e">fit</span><span class="crayon-sy">(</span><span class="crayon-v">X_train</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">y_train</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0003 seconds] -->
+</div>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.9.0 -->
+
+		<div id="urvanov-syntax-highlighter-697702587433f816662964" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-697702587433f816662964-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697702587433f816662964-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697702587433f816662964-3">3</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-697702587433f816662964-4">4</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-697702587433f816662964-5">5</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-697702587433f816662964-1"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">plot</span><span class="crayon-sy">(</span><span class="crayon-v">grad_svm</span><span class="crayon-sy">.</span><span class="crayon-v">loss_history</span><span class="crayon-sy">[</span><span class="crayon-o">:</span><span class="crayon-cn">100</span><span class="crayon-sy">]</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697702587433f816662964-2"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">title</span><span class="crayon-sy">(</span><span class="crayon-s">'Gradient SVM Loss History'</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-697702587433f816662964-3"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">xlabel</span><span class="crayon-sy">(</span><span class="crayon-s">'iterations'</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-697702587433f816662964-4"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">ylabel</span><span class="crayon-sy">(</span><span class="crayon-s">'loss'</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-697702587433f816662964-5"><span class="crayon-v">plt</span><span class="crayon-sy">.</span><span class="crayon-e">show</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0002 seconds] -->
+</div>
+
+
+
+<figure class="wp-block-image size-full is-resized"><img loading="lazy" decoding="async" width="567" height="455" src="../../wp-content/uploads/2025/05/grad_SVM_loss_history.png" alt="метод опорных векторов с SGD, изменение уровня ошибки" class="wp-image-38679" style="width:516px;height:auto" srcset="../../wp-content/uploads/2025/05/grad_SVM_loss_history.png 567w, ../../wp-content/uploads/2025/05/grad_SVM_loss_history-300x241.png 300w" sizes="auto, (max-width: 567px) 100vw, 567px" /></figure>
+
+
+
+<p>Посмотрим на гиперплоскость.</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.9.0 -->
+
+		<div id="urvanov-syntax-highlighter-6977025874342572419332" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-6977025874342572419332-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-6977025874342572419332-2">2</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-6977025874342572419332-1"><span class="crayon-e">plot_data</span><span class="crayon-sy">(</span><span class="crayon-v">X_train</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">y_train</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">title</span><span class="crayon-o">=</span><span class="crayon-s">'Gradient SVM, C = 0.1'</span><span class="crayon-sy">,</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-6977025874342572419332-2"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-k ">w</span><span class="crayon-o">=</span><span class="crayon-v">grad_svm</span><span class="crayon-sy">.</span><span class="crayon-k ">W</span><span class="crayon-sy">[</span><span class="crayon-cn">1</span><span class="crayon-o">:</span><span class="crayon-sy">]</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">b</span><span class="crayon-o">=</span><span class="crayon-v">grad_svm</span><span class="crayon-sy">.</span><span class="crayon-k ">W</span><span class="crayon-sy">[</span><span class="crayon-cn">0</span><span class="crayon-sy">]</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0002 seconds] -->
+</div>
+
+
+
+<figure class="wp-block-image size-full"><img loading="lazy" decoding="async" width="461" height="470" src="../../wp-content/uploads/2025/05/grad_SVM_C_0.1.png" alt="метод опорных векторов с SGD, C=0,1" class="wp-image-38693" srcset="../../wp-content/uploads/2025/05/grad_SVM_C_0.1.png 461w, ../../wp-content/uploads/2025/05/grad_SVM_C_0.1-294x300.png 294w" sizes="auto, (max-width: 461px) 100vw, 461px" /></figure>
+
+
+
+<p>Теперь обучим модель с параметром $C=100$ или $\lambda = \frac{1}{100 \cdot 16} = 0{,}000625.$</p>
+
+
+
+<div class="wp-block-urvanov-syntax-highlighter-code-block"><!-- Urvanov Syntax Highlighter v2.9.0 -->
+
+		<div id="urvanov-syntax-highlighter-6977025874345394223993" class="urvanov-syntax-highlighter-syntax crayon-theme-familiar-my-copy urvanov-syntax-highlighter-font-consolas urvanov-syntax-highlighter-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" margin-top: 15px; margin-bottom: 15px; margin-left: 15px; margin-right: 15px; font-size: 16px !important; line-height: 22px !important;">
+		
+			<div class="urvanov-syntax-highlighter-plain-wrap"></div>
+			<div class="urvanov-syntax-highlighter-main" style="">
+				<table class="crayon-table">
+					<tr class="urvanov-syntax-highlighter-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="urvanov-syntax-highlighter-nums-content" style="font-size: 16px !important; line-height: 22px !important;"><div class="crayon-num" data-line="urvanov-syntax-highlighter-6977025874345394223993-1">1</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-6977025874345394223993-2">2</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-6977025874345394223993-3">3</div><div class="crayon-num crayon-striped-num" data-line="urvanov-syntax-highlighter-6977025874345394223993-4">4</div><div class="crayon-num" data-line="urvanov-syntax-highlighter-6977025874345394223993-5">5</div></div>
+				</td>
+						<td class="urvanov-syntax-highlighter-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 22px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="urvanov-syntax-highlighter-6977025874345394223993-1"><span class="crayon-v">C2</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">100</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-6977025874345394223993-2"><span class="crayon-v">lambda2</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-o">/</span><span class="crayon-sy">(</span><span class="crayon-cn">2</span><span class="crayon-h"> </span><span class="crayon-o">*</span><span class="crayon-h"> </span><span class="crayon-v">C2</span><span class="crayon-h"> </span><span class="crayon-o">*</span><span class="crayon-h"> </span><span class="crayon-v">X_train</span><span class="crayon-sy">.</span><span class="crayon-v">shape</span><span class="crayon-sy">[</span><span class="crayon-cn">0</span><span class="crayon-sy">]</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-6977025874345394223993-3"><span class="crayon-v">grad_svm2</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-e">GradientSVM</span><span class="crayon-sy">(</span><span class="crayon-v">lambda_param</span><span class="crayon-o">=</span><span class="crayon-v">lambda2</span><span class="crayon-sy">)</span><span class="crayon-sy">.</span><span class="crayon-e">fit</span><span class="crayon-sy">(</span><span class="crayon-v">X_train</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">y_train</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="urvanov-syntax-highlighter-6977025874345394223993-4"><span class="crayon-e">plot_data</span><span class="crayon-sy">(</span><span class="crayon-v">X_train</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">y_train</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">title</span><span class="crayon-o">=</span><span class="crayon-s">'Gradient SVM, C = 100'</span><span class="crayon-sy">,</span></div><div class="crayon-line" id="urvanov-syntax-highlighter-6977025874345394223993-5"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-k ">w</span><span class="crayon-o">=</span><span class="crayon-v">grad_svm2</span><span class="crayon-sy">.</span><span class="crayon-k ">W</span><span class="crayon-sy">[</span><span class="crayon-cn">1</span><span class="crayon-o">:</span><span class="crayon-sy">]</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">b</span><span class="crayon-o">=</span><span class="crayon-v">grad_svm2</span><span class="crayon-sy">.</span><span class="crayon-k ">W</span><span class="crayon-sy">[</span><span class="crayon-cn">0</span><span class="crayon-sy">]</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0005 seconds] -->
+</div>
+
+
+
+<figure class="wp-block-image size-full"><img loading="lazy" decoding="async" width="461" height="470" src="https://www.dmitrymakarov.ru/wp-content/uploads/2025/05/grad_SVM_С_100.png" alt="метод опорных векторов с SGD, C=100" class="wp-image-38685" srcset="https://www.dmitrymakarov.ru/wp-content/uploads/2025/05/grad_SVM_С_100.png 461w, https://www.dmitrymakarov.ru/wp-content/uploads/2025/05/grad_SVM_С_100-294x300.png 294w" sizes="auto, (max-width: 461px) 100vw, 461px" /></figure>
+
+
+
+<p>Примечания:</p>
+
+
+
+<ul class="wp-block-list">
+<li>в библиотеке Sklearn классификатор SVM с оптимизацией методом градиентного спуска реализован в классе <a href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.SGDClassifier.html" target="_blank" rel="noreferrer noopener">SGDClassifier</a>⧉ с параметром loss = &#8216;hinge&#8217;;</li>
+
+
+
+<li>для оптимизации SVM методом субградиентного спуска с <a href="../sgd-02/index.html">уменьшающимся размером шага</a> предложен алгоритм <a href="https://home.ttic.edu/~nati/Publications/PegasosMPB.pdf" target="_blank" rel="noreferrer noopener">Pegasos</a>⧉.</li>
+</ul>
+
+			</div> <!-- .content -->
+
+			
+		</div> <!-- .post -->
+
+					<footer class="site-footer section-inner">
+
+				<p class="copyright">&copy; 2026 <a href="../../index.html" class="site-name"><!--Дмитрий Макаров-->Дмитрий Макаров</a></p>
+
+			</footer> <!-- footer -->
+
+		</main>
+		
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript" >
+   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+   m[i].l=1*new Date();
+   for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+   k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+   (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+   ym(100123342, "init", {
+        clickmap:true,
+        trackLinks:true,
+        accurateTrackBounce:true
+   });
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/100123342" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+
+		<script type="speculationrules">
+{"prefetch":[{"source":"document","where":{"and":[{"href_matches":"/*"},{"not":{"href_matches":["/wp-*.php","/wp-admin/*","/wp-content/uploads/*","/wp-content/*","/wp-content/plugins/*","/wp-content/themes/mcluhan/*","/*\\?(.+)"]}},{"not":{"selector_matches":"a[rel~=\"nofollow\"]"}},{"not":{"selector_matches":".no-prefetch, .no-prefetch a"}}]},"eagerness":"conservative"}]}
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js?ver=6.9" id="mathjax-js"></script>
+<script type="text/javascript" src="../../wp-includes/js/imagesloaded.min.js@ver=5.0.0" id="imagesloaded-js"></script>
+<script type="text/javascript" src="../../wp-includes/js/masonry.min.js@ver=4.2.2" id="masonry-js"></script>
+<script type="text/javascript" id="mcluhan_global-js-extra">
+/* <![CDATA[ */
+var mcluhan_ajaxpagination = {"ajaxurl":"https://www.dmitrymakarov.ru/wp-admin/admin-ajax.php","query_vars":"{\"page\":\"\",\"pagename\":\"learning\\/svm-02\"}"};
+//# sourceURL=mcluhan_global-js-extra
+/* ]]> */
+</script>
+<script type="text/javascript" src="../../wp-content/themes/mcluhan/assets/js/global.js@ver=2.1.1" id="mcluhan_global-js"></script>
+<script id="wp-emoji-settings" type="application/json">
+{"baseUrl":"https://s.w.org/images/core/emoji/17.0.2/72x72/","ext":".png","svgUrl":"https://s.w.org/images/core/emoji/17.0.2/svg/","svgExt":".svg","source":{"concatemoji":"https://www.dmitrymakarov.ru/wp-includes/js/wp-emoji-release.min.js?ver=6.9"}}
+</script>
+<script type="module">
+/* <![CDATA[ */
+/*! This file is auto-generated */
+const a=JSON.parse(document.getElementById("wp-emoji-settings").textContent),o=(window._wpemojiSettings=a,"wpEmojiSettingsSupports"),s=["flag","emoji"];function i(e){try{var t={supportTests:e,timestamp:(new Date).valueOf()};sessionStorage.setItem(o,JSON.stringify(t))}catch(e){}}function c(e,t,n){e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(t,0,0);t=new Uint32Array(e.getImageData(0,0,e.canvas.width,e.canvas.height).data);e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(n,0,0);const a=new Uint32Array(e.getImageData(0,0,e.canvas.width,e.canvas.height).data);return t.every((e,t)=>e===a[t])}function p(e,t){e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(t,0,0);var n=e.getImageData(16,16,1,1);for(let e=0;e<n.data.length;e++)if(0!==n.data[e])return!1;return!0}function u(e,t,n,a){switch(t){case"flag":return n(e,"\ud83c\udff3\ufe0f\u200d\u26a7\ufe0f","\ud83c\udff3\ufe0f\u200b\u26a7\ufe0f")?!1:!n(e,"\ud83c\udde8\ud83c\uddf6","\ud83c\udde8\u200b\ud83c\uddf6")&&!n(e,"\ud83c\udff4\udb40\udc67\udb40\udc62\udb40\udc65\udb40\udc6e\udb40\udc67\udb40\udc7f","\ud83c\udff4\u200b\udb40\udc67\u200b\udb40\udc62\u200b\udb40\udc65\u200b\udb40\udc6e\u200b\udb40\udc67\u200b\udb40\udc7f");case"emoji":return!a(e,"\ud83e\u1fac8")}return!1}function f(e,t,n,a){let r;const o=(r="undefined"!=typeof WorkerGlobalScope&&self instanceof WorkerGlobalScope?new OffscreenCanvas(300,150):document.createElement("canvas")).getContext("2d",{willReadFrequently:!0}),s=(o.textBaseline="top",o.font="600 32px Arial",{});return e.forEach(e=>{s[e]=t(o,e,n,a)}),s}function r(e){var t=document.createElement("script");t.src=e,t.defer=!0,document.head.appendChild(t)}a.supports={everything:!0,everythingExceptFlag:!0},new Promise(t=>{let n=function(){try{var e=JSON.parse(sessionStorage.getItem(o));if("object"==typeof e&&"number"==typeof e.timestamp&&(new Date).valueOf()<e.timestamp+604800&&"object"==typeof e.supportTests)return e.supportTests}catch(e){}return null}();if(!n){if("undefined"!=typeof Worker&&"undefined"!=typeof OffscreenCanvas&&"undefined"!=typeof URL&&URL.createObjectURL&&"undefined"!=typeof Blob)try{var e="postMessage("+f.toString()+"("+[JSON.stringify(s),u.toString(),c.toString(),p.toString()].join(",")+"));",a=new Blob([e],{type:"text/javascript"});const r=new Worker(URL.createObjectURL(a),{name:"wpTestEmojiSupports"});return void(r.onmessage=e=>{i(n=e.data),r.terminate(),t(n)})}catch(e){}i(n=f(s,u,c,p))}t(n)}).then(e=>{for(const n in e)a.supports[n]=e[n],a.supports.everything=a.supports.everything&&a.supports[n],"flag"!==n&&(a.supports.everythingExceptFlag=a.supports.everythingExceptFlag&&a.supports[n]);var t;a.supports.everythingExceptFlag=a.supports.everythingExceptFlag&&!a.supports.flag,a.supports.everything||((t=a.source||{}).concatemoji?r(t.concatemoji):t.wpemoji&&t.twemoji&&(r(t.twemoji),r(t.wpemoji)))});
+//# sourceURL=https://www.dmitrymakarov.ru/wp-includes/js/wp-emoji-loader.min.js
+/* ]]> */
+</script>
+			
+	</body>
+</html>
+
+
+<!-- Page supported by LiteSpeed Cache 7.7 on 2026-01-26 08:57:44 -->
